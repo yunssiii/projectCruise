@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.TemplateMapper">
+<!-- TemplateMapper 지우고 자기 매퍼이름을 기입해주세요 -->
+
+<!--    id에는 MapperInterface의 메소드 이름을 기입합니다.-->
+<!--    resultType에는 그 메소드의 반환값 타입을 입력해줍니다.-->
+    <select id="selectMethod" resultType="int">
+--         여기에 select SQL문을 작성
+        select count(*) from Table
+    </select>
+
+    <insert id="insertMethod" parameterType="com.cruise.project_cruise.dto.TemplateDTO">
+--         insert SQL문 작성
+        insert into TempTable (column1, column2, column3) values (#{column1}, #{column2}, #{column3})
+    </insert>
+</mapper>
