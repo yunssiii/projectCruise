@@ -4,7 +4,9 @@ import com.cruise.project_cruise.dto.TemplateDTO;
 import com.cruise.project_cruise.mapper.TemplateMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TemplateServiceImpl implements TemplateService {
 
     @Autowired
