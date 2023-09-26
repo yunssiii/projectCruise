@@ -1,0 +1,275 @@
+@CHARSET "UTF-8";
+
+* {
+    font-family: 'NanumSquare', 'sans-serif';
+    font-size: 15pt;
+    margin: 0;
+
+}
+
+/*div {*/
+/*    background-color: lightgrey;*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*}*/
+
+.all {
+    display: flex;
+    justify-content: space-around;
+}
+
+.all_container {
+    background-color: #0C0CCA;
+    display: grid;
+    height: 100vh;
+    gap: 10px;
+    grid-template-rows: 0.5fr 1.2fr 1fr;
+    grid-template-areas:
+    "header"
+    "crew"
+    "summary"
+;
+}
+.header {
+    grid-area: header;
+}
+
+.crew {
+    grid-area: crew;
+    padding: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.crew .box {
+    /*margin-top: 100px;*/
+    background-color: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 10px 10px 15px 0 rgba(0,0,0,0.3);
+}
+
+.crew .box .infobox {
+    /*background-color: lightcyan;*/
+}
+
+.crew .box .infobox .top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.crew .box .infobox .top .subject{
+    /*background-color: lightgrey;*/
+    margin: 5px;
+    font-size: 20pt;
+}
+
+.crew .box .infobox .top .quit {
+    font-size: 10pt;
+    color: grey;
+}
+
+.crew .box .infobox .account{
+    /*background-color: lightcyan;*/
+    margin: 5px 5px 5px 5px;
+    font-size: 12pt;
+    color: grey;
+}
+
+.crew .box .infobox .info{
+    /*background-color: lightyellow;*/
+    height: 30px;
+    margin-top: 10px;
+    padding: 5px;
+
+    color: grey;
+    font-size: 12pt;
+
+}
+
+.crew .box .achieve {
+    /*background-color: lightcoral;*/
+    display: grid;
+    grid-template-columns: 10fr 1fr;
+    grid-template-rows: 2fr 0.5fr;
+    grid-template-areas:
+    "money  percentNum"
+    "percent percentNum";
+    /*padding: 10px;*/
+}
+
+
+.crew .box .achieve .money {
+    /*background-color: lightgrey;*/
+    grid-area: money;
+    display: flex;
+    align-items: end;
+    margin-bottom: 5px;
+}
+
+.crew .box .achieve .money .achieveMoney {
+    /*background-color: bisque;*/
+    font-family: 'NanumSquareExtraBold', sans-serif;
+    font-size: 40pt;
+}
+
+.crew .box .achieve .money .goal {
+    /*background-color: bisque;*/
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 15pt;
+}
+
+.crew .box .achieve .percent {
+    /*background-color: darkkhaki;*/
+    grid-area: percent;
+    display: flex;
+    align-items: end;
+
+}
+
+.crew .box .achieve .percent .percentBox {
+    background-color: lightgrey;
+    width: 95%;
+    margin-bottom: 5px;
+    height: 15px;
+}
+
+.crew .box .achieve .percent .achieveBox {
+    background-color: #FFD966;
+    height: 15px;
+}
+
+
+.crew .box .achieve .percentNum {
+    /*background-color: green;*/
+    grid-area: percentNum;
+    text-align: right;
+    padding-top: 55px;
+    margin: 0;
+    font-size: 30pt;
+}
+
+
+
+.summary {
+    grid-area: summary;
+    background-color: white;
+    padding: 30px 30px 10px 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.summary .box {
+    display: flex;
+    /*justify-content: space-between;*/
+}
+
+.summary .box .item {
+    width: 300px;
+    margin: 0 10px 0 10px;
+    /*background-color: lightyellow;*/
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.summary .box .item .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.summary .box .item .title .subject{
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+.summary .box .item .title .more {
+    font-size: 10pt;
+}
+
+.summary .box .item .contents {
+    background-color: #F2F2F2;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.summary .box .item .contents .content{
+    background-color: #FBFBFB;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.summary .box .item .contents .content .title{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.summary .box .item .contents .content .title .subject {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 12pt;
+}
+
+.summary .box .item .contents .content .title .date {
+    font-size: 10pt;
+}
+
+.summary .box .item .contents .content .text {
+    font-size: 11pt;
+}
+
+.summary .box .item .contents .content .text b{
+    font-size: 11pt;
+}
+
+.summary .box .item .contents .schedule {
+    background-color: #FBFBFB;
+    margin: 5px;
+    padding: 10px;
+    height: 140px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.summary .box .item .contents .schedule .subject {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 12pt;
+}
+
+.summary .box .item .contents .schedule .timeloca {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 10pt;
+}
+
+.summary .box .item .contents .schedule .timeloca div {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 10pt;
+    align-content: center;
+}
+
+.summary .box .item .contents .schedule .memo {
+    font-size: 10pt;
+}
+
+.summary .box .item button {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    border: 0;
+    border-radius: 10px;
+    background-color: #0C0CCA;
+    margin: 5px;
+    padding: 10px;
+    color: white;
+    /*box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.5);*/
+}
+
+.summary .box .item button:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+    box-shadow: 0px 0px 15px 0 rgb(255, 207, 60);
+}
