@@ -11,6 +11,8 @@
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
 
+
+
 </head>
 <body>
     <div class="header">여기 헤더</div>
@@ -21,17 +23,35 @@
 
     <div class="all_container">
         <div class="alert_bar_con">
-            <div class="bar_title">9월 25일의 소식</div>
-            <div class="alert_bar">
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Clapping%20Hands.png" alt="Clapping Hands" />
+            <div class="bar_top">
+                <div class="bar_title">
+                    9월 25일의 소식
                 </div>
-                <div class="animated_msg">
-                    <div class="line"><b>[새 멤버 가입]</b> 새로운 선원 김은지님을 환영해주세요! </div>
-                    <div class="line"><b>[새 멤버 가입]</b> 새로운 선원 서미진님을 환영해주세요! </div>
-                    <div class="line"><b>[크루 일정 알림]</b> 일정 [윤하 생일..]이 6일 남았습니다. </div>
+                <div> 납입일까지 <b>0일</b> 남았습니다. </div>
+            </div>
+            <div class="alert_bar" onmouseover="alertBarHover()" onmouseout="alertBarUnhover()">
+                <div id="animated_msg" class="visible">
                     <div class="line"><b>[납입일]</b> 오늘은 납입일 입니다. </div>
-                    <div class="line"><b>[새 멤버 가입]</b> 새로운 선원 한두혁님을 환영해주세요! </div>
+                    <div class="line"><b>[새 멤버 가입]</b> 3건 </div>
+                    <div class="line"><b>[크루 일정 알림]</b> 1건 </div>
+                </div>
+                <!-- 마우스 가져대대면 보이는 알림창 부분-->
+                <div id="msg" class="hidden">
+                    <div class="new_memAlert">
+                        <div class="ma_title"> 새 멤버 가입 </div>
+                        <div> 9월 20일에 가입한 새로운 선원, <b>김은지</b>님! </div>
+                        <div> 9월 19일에 가입한 새로운 선원, <b>서미진</b>님! </div>
+                        <div> 9월 17일에 가입한 새로운 선원, <b>한두혁</b>님! </div>
+                    </div>
+                    <div class="crew_scheAlert">
+                        <div class="cs_title"> 크루 일정 알림</div>
+                        <div> 일정 <b>[윤하 생일]</b> 이 6일 남았습니다. </div>
+                    </div>
+<!--                    <div><b>[새 멤버 가입]</b> 새로운 선원 김은지님을 환영해주세요! </div>-->
+<!--                    <div><b>[새 멤버 가입]</b> 새로운 선원 서미진님을 환영해주세요! </div>-->
+<!--                    <div><b>[크루 일정 알림]</b> 일정 [윤하 생일..]이 6일 남았습니다. </div>-->
+<!--                    <div><b>[납입일]</b> 오늘은 납입일 입니다. </div>-->
+<!--                    <div><b>[새 멤버 가입]</b> 새로운 선원 한두혁님을 환영해주세요! </div>-->
                 </div>
             </div>
         </div>
@@ -39,7 +59,7 @@
 
         <div class="bankbook_top">
             <div class="crewname">앙큼불여우단</div>
-            <div class="crewexit1"><a href="">크루 관리</a></div>
+            <div class="crewmanage"><a href="">크루 관리</a></div>
             <div class="crewexit2"><a href="">크루 탈퇴</a></div>
             <div class="dotline1"></div>
             <div class="accnum_sub">계좌번호</div>
@@ -77,13 +97,12 @@
         </div>
         <div class="bankbook_bottom">
             <div class="top">
-<!--                <div class="crewname">앙큼불여우단 계좌내역조회</div>-->
-                <div class="crewname">앙큼불여우단 회비내역조회</div>
-<!--                <button class="tap"> 회비내역 조회</button>-->
-                <button id="tap"> 계좌내역 조회</button>
+                <div id="crewname">앙큼불여우단 거래내역조회</div>
+                <button id="tap" onclick="toggleBtnOnClick('앙큼불여우단')"> 회비내역 조회</button>
             </div>
             <div class="dotline"></div>
-            <div id="fee_history">
+            <!-- 회비내역 조회 DIV -->
+            <div id="fee_history" style="display: none">
                 <div class="line0"></div>
                 <div class="title">
                     <select>
@@ -130,92 +149,94 @@
                 </div>
                 <div class="line3"></div>
             </div>
-<!--        <div id="account_history">-->
-<!--            <table>-->
-<!--                <tr>-->
-<!--                    <th>거래일자</th>-->
-<!--                    <th>구분</th>-->
-<!--                    <th>내용</th>-->
-<!--                    <th>입금액</th>-->
-<!--                    <th>출금액</th>-->
-<!--                    <th>잔액</th>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.25</td>-->
-<!--                    <td>OP이체</td>-->
-<!--                    <td>토스 김은지</td>-->
-<!--                    <td></td>-->
-<!--                    <td>57,530</td>-->
-<!--                    <td>218</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.25</td>-->
-<!--                    <td>타행FB</td>-->
-<!--                    <td>김은지</td>-->
-<!--                    <td>2,000</td>-->
-<!--                    <td></td>-->
-<!--                    <td>57,748</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.25</td>-->
-<!--                    <td>타행MB</td>-->
-<!--                    <td>김은지</td>-->
-<!--                    <td>5,248</td>-->
-<!--                    <td></td>-->
-<!--                    <td>55,748</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.24</td>-->
-<!--                    <td>타행PC</td>-->
-<!--                    <td>쿠팡</td>-->
-<!--                    <td>60,500</td>-->
-<!--                    <td></td>-->
-<!--                    <td>60,500</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.22</td>-->
-<!--                    <td>OP이체</td>-->
-<!--                    <td>토뱅 김은지</td>-->
-<!--                    <td></td>-->
-<!--                    <td>5941</td>-->
-<!--                    <td>0</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.21</td>-->
-<!--                    <td>FB이체</td>-->
-<!--                    <td>쿠팡</td>-->
-<!--                    <td></td>-->
-<!--                    <td>100,000</td>-->
-<!--                    <td>5,941</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.21</td>-->
-<!--                    <td>타행FB</td>-->
-<!--                    <td>김은지</td>-->
-<!--                    <td>100,000</td>-->
-<!--                    <td></td>-->
-<!--                    <td>105,941</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.21</td>-->
-<!--                    <td>FB통신</td>-->
-<!--                    <td>KT2242531409</td>-->
-<!--                    <td></td>-->
-<!--                    <td>9,900</td>-->
-<!--                    <td>5,941</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>23.09.21</td>-->
-<!--                    <td>OP이체</td>-->
-<!--                    <td>토스 김은지</td>-->
-<!--                    <td></td>-->
-<!--                    <td>12,000</td>-->
-<!--                    <td>15,841</td>-->
-<!--                </tr>-->
-<!--            </table>-->
-<!--        </div>-->
+            <!-- 거래내역 조회 DIV -->
+            <div id="account_history">
+                <table>
+                    <tr>
+                        <th>거래일자</th>
+                        <th>구분</th>
+                        <th>내용</th>
+                        <th>입금액</th>
+                        <th>출금액</th>
+                        <th>잔액</th>
+                    </tr>
+                    <tr>
+                        <td>23.09.25</td>
+                        <td>OP이체</td>
+                        <td>토스 김은지</td>
+                        <td></td>
+                        <td>57,530</td>
+                        <td>218</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.25</td>
+                        <td>타행FB</td>
+                        <td>김은지</td>
+                        <td>2,000</td>
+                        <td></td>
+                        <td>57,748</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.25</td>
+                        <td>타행MB</td>
+                        <td>김은지</td>
+                        <td>5,248</td>
+                        <td></td>
+                        <td>55,748</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.24</td>
+                        <td>타행PC</td>
+                        <td>쿠팡</td>
+                        <td>60,500</td>
+                        <td></td>
+                        <td>60,500</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.22</td>
+                        <td>OP이체</td>
+                        <td>토뱅 김은지</td>
+                        <td></td>
+                        <td>5941</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.21</td>
+                        <td>FB이체</td>
+                        <td>쿠팡</td>
+                        <td></td>
+                        <td>100,000</td>
+                        <td>5,941</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.21</td>
+                        <td>타행FB</td>
+                        <td>김은지</td>
+                        <td>100,000</td>
+                        <td></td>
+                        <td>105,941</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.21</td>
+                        <td>FB통신</td>
+                        <td>KT2242531409</td>
+                        <td></td>
+                        <td>9,900</td>
+                        <td>5,941</td>
+                    </tr>
+                    <tr>
+                        <td>23.09.21</td>
+                        <td>OP이체</td>
+                        <td>토스 김은지</td>
+                        <td></td>
+                        <td>12,000</td>
+                        <td>15,841</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="cal_receipt">
+            <div class="detail_href"><a href="">자세히보기 ▶</a></div>
             <div class="title">크루 일정</div>
             <div class="line1"></div>
             <div class="content">
@@ -228,36 +249,45 @@
             <div class="title">회비 납입하기</div>
             <div class="line1"></div>
             <div class="content">
-                <div class="name"> 김은지 선원님! </div>
                 <div class="wrap">
-                    <div> 선원님의 의무납입횟수는 <b>5회</b> 입니다.</div>
-                    <div> 선원님은 현재 <b>4회</b> 납입하였습니다.</div>
+                    <div> <b>김은지</b> 선원님의 의무납입횟수는 <b><p id="mustpaycount">5</p>회</b> 입니다.</div>
+                    <div> <b>김은지</b> 선원님은 현재 <b><p id="realpaycount">4</p>회</b> 납입하였습니다.</div>
                 </div>
+                <div class="thinDashline"></div>
                 <div class="out_money">
-                    <div id="up">▲</div>
-                    <div class="wrap"><div id="num"> 1 </div> 회 납입하기</div>
-                    <div id="down">▼</div>
+                    <div id="up" onclick="clickUpArrow(20000)">▲</div>
+                    <div class="wrap"><input type="text" id="num" disabled/> 회 납입하기</div>
+                    <div id="down" onclick="clickDownArrow(20000)">▼</div>
                 </div>
                 <div class="select_wrap">
-                    <select id="selectAccount">
-                        <option selected disabled> <p> 계좌 선택하기</p> </option>
-                        <option>[ 신한 쏠입출금통장 ] 신한 110518404677</option>
-                        <option>[ 하나 네이버페이통장 ] 하나 44091059901207</option>
-                        <option>[ 카카오 입출금통장 ] 카카오 3333012081898</option>
+                    <select id="selectAccount" onchange="selectAccountOnChange()">
+                        <option selected disabled> --- 계좌 선택하기 --- </option>
+                        <option value="신한은행 110518404677">[ 신한 쏠편한 입출금통장 ] 신한 110518404677</option>
+                        <option value="하나은행 44091059901207">[ 하나 네이버페이통장 ] 하나 44091059901207</option>
+                        <option value="카카오뱅크 3333012081898">[ 카카오 입출금통장 ] 카카오 3333012081898</option>
                     </select>
                     <img src="./image/free-icon-down-arrow.png" class="select_arrow_img"
                          id="selectAccount_arrow">
                 </div>
+                <div class="thinDashline"></div>
                 <div class="account_result">
-                    <div class="result"> 아래 계좌에서 <b>20,000원</b>을 이체합니다. </div>
+                    <div class="result"> 아래 계좌에서 <b><p id="payMoney">0</p>원</b>을 이체합니다. </div>
                     <div class="account">
-                        <b>신한은행</b> 110518404677
+                        <b id="bank">계좌를 선택해주세요.</b> <p id="account"></p>
                     </div>
                 </div>
-                <button>납입하기</button>
+                <button onclick="payButtonClick()">납입하기</button>
             </div>
             <div class="line2"></div>
         </div>
     </div>
 </body>
+
+<script type="text/javascript" src="./crewmain.js"></script>
+<script>
+    /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.
+     * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
+     * 이 HTML이 처음로딩 되었을 때 payMoney에 불러오는 용도 */
+    payMoney.textContent = String((20000 * num.value).toLocaleString("ko-KR"));
+</script>
 </html>
