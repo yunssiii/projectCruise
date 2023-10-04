@@ -1,31 +1,83 @@
 
-// 알림창 호버
+// 알림창 -----------------------------------------------------------------
 
-    function alertBarHover() {
+    // 알림창 상단 현재 날짜 불러오기
+        let today = new Date(); // 현재 날짜와 시간을 가지는 객체를 리턴한다.
 
-        var aniMsgDiv = document.getElementById("animated_msg");
-        var msgDiv = document.getElementById("msg");
+        let year = today.getFullYear(); // 연도
+        let month = today.getMonth() + 1 ; // 월
+        let date = today.getDate(); // 날짜
+        let day = today.getDay(); // 요일
+        let dayStr = "";
 
-        if (msgDiv.classList.contains("hidden")){
-            msgDiv.classList.remove("hidden");
-            msgDiv.classList.add("visible_detailBox");
-            aniMsgDiv.classList.remove("visible_bar");
-            aniMsgDiv.classList.add("hidden");
+        switch (day) {
+
+            case 0:
+                dayStr = "일";
+                break;
+
+            case 1:
+                dayStr = "월";
+                break;
+                
+            case 2: 
+                dayStr = "화";
+                break;
+                
+            case 3:
+                dayStr = "수";
+                break;
+                
+            case 4:
+                dayStr = "목";
+                break;
+                
+            case 5:
+                dayStr = "금";
+                break;
+                
+            case 6:
+                dayStr = "토";
+                break;
+                
         }
-    }
 
-    function alertBarUnhover() {
+        var todayStr = year + "년 " + month + "월 " + date + "일 (" + dayStr + ") ";
+        var todayDiv = document.getElementById('todayDiv');
 
-        var aniMsgDiv = document.getElementById("animated_msg");
-        var msgDiv = document.getElementById("msg");
+        todayDiv.textContent = todayStr;
 
-        if (msgDiv.classList.contains("visible_detailBox")){
-            msgDiv.classList.remove("visible_detailBox");
-            msgDiv.classList.add("hidden");
-            aniMsgDiv.classList.remove("hidden");
-            aniMsgDiv.classList.add("visible_bar");
+
+
+
+
+    // 알림창 호버
+
+        function alertBarHover() {
+
+            var aniMsgDiv = document.getElementById("animated_msg");
+            var msgDiv = document.getElementById("msg");
+
+            if (msgDiv.classList.contains("hidden")){
+                msgDiv.classList.remove("hidden");
+                msgDiv.classList.add("visible_detailBox");
+                aniMsgDiv.classList.remove("visible_bar");
+                aniMsgDiv.classList.add("hidden");
+            }
         }
-    }
+
+        function alertBarUnhover() {
+
+            var aniMsgDiv = document.getElementById("animated_msg");
+            var msgDiv = document.getElementById("msg");
+
+            if (msgDiv.classList.contains("visible_detailBox")){
+                msgDiv.classList.remove("visible_detailBox");
+                msgDiv.classList.add("hidden");
+                aniMsgDiv.classList.remove("hidden");
+                aniMsgDiv.classList.add("visible_bar");
+            }
+        }
 
 
 
@@ -108,7 +160,7 @@
 
 
     // 계좌 선택했을 때
-    /* TODO
+    /* TODO [계좌선택]
      *  1. 선택한 은행의 값이 id="bank"로 들어가게 하기
      *  2. 선택한 계좌의 값이 id="account"로 들어가게 하기
      */
@@ -163,7 +215,7 @@
         }
 
 
-        // TODO 납입 처리하는 가는 링크 넣어야함
+        // FIXME 납입 처리하러 가는 링크 넣어야함
 
     }
 
@@ -175,7 +227,7 @@
 
 // 회비내역 조회 -----------------------------------------------------------------
     /*
-        TODO 토글 버튼 만들기
+        TODO [토글 버튼 만들기]
          1. button의 값이 바뀌어야 한다.
             - 계좌내역 조회, 회비내역 조회
          2. id=crewname이 바뀌어야 한다.
@@ -219,7 +271,117 @@
         }
     }
 
+// 크루 탈퇴 -----------------------------------------------------------------
 
+    /*
+        TODO
+         - '크루 탈퇴' 누르면 탈퇴 모달창 띄위지게 하기
+         - '예' 누르면 choiceYN가 hidden, exitYesResult div가 보여지게
+         - '아니오' 누르면 choiceYN가 hidden, exitNoResult div가 보여지게
+         - exitYesResult 에서 확인 누르면 모달창 hidden 후 마이페이지로 이동
+         - exitNoResult 에서 확인 누르면 모달창만 hidden
+     */
+
+    // 크루 탈퇴 누르면 모달창 보이게 하기
+    function crewExitClick() {
+        var exitModalDiv = document.getElementById("exitModal");
+        var choiceYNDiv = document.getElementById("choiceYN");
+        var exitNoResultDiv = document.getElementById("exitNoResult");
+        var exitYesResultDiv = document.getElementById("exitYesResult");
+
+        if(exitModalDiv.classList.contains("exitHidden")){
+            exitModalDiv.classList.remove("exitHidden");
+            exitModalDiv.classList.add("exitVisible");
+        }
+
+        // 크루탈퇴 처음 실행 시
+        // choiceYNDiv에서 '아니오'를 눌렀다가 다시 크루탈퇴를 하려 할 때,
+        // choiceYNDiv가 뜨지 않고 exitNoResultDiv 또는 exitYesResultDiv 가 뜨는 현상을
+        // 막기 위함
+        if(choiceYNDiv.classList.contains("exitHidden")) {
+            choiceYNDiv.classList.remove("exitHidden");
+            choiceYNDiv.classList.add("exitVisible");
+        }
+
+
+        if(exitNoResultDiv.classList.contains("exitVisible")){
+            exitNoResultDiv.classList.remove("exitVisible");
+            exitNoResultDiv.classList.add("exitHidden");
+        }
+
+        if(exitYesResultDiv.classList.contains("exitVisible")){
+            exitYesResultDiv.classList.remove("exitVisible");
+            exitYesResultDiv.classList.add("exitHidden");
+        }
+
+    }
+
+    function crewExitCloseXClick() {
+        var exitModalDiv = document.getElementById("exitModal");
+
+        if(exitModalDiv.classList.contains("exitVisible")){
+            exitModalDiv.classList.remove("exitVisible");
+            exitModalDiv.classList.add("exitHidden");
+        }
+    }
+
+    // 크루 탈퇴 모달에서 "예" 누르면 exitYesResult 보이게 하기
+    function exitYesClick() {
+        // FIXME 탈퇴처리하기
+        exitCompleteModal();
+    }
+
+    function exitCompleteModal() {
+        var exitYesResultDiv = document.getElementById("exitYesResult");
+        var choiceYNDiv = document.getElementById("choiceYN");
+
+        if(choiceYNDiv.classList.contains("exitVisible")){
+            choiceYNDiv.classList.remove("exitVisible");
+            choiceYNDiv.classList.add("exitHidden");
+            exitYesResultDiv.classList.remove("exitHidden");
+            exitYesResultDiv.classList.add("exitVisible");
+        }
+    }
+    
+
+    function exitYesOkClick() {
+
+        var exitModalDiv = document.getElementById("exitModal");
+
+        exitModalDiv.classList.remove("exitVisible");
+        exitModalDiv.classList.add("exitHidden");
+       
+        /*
+            FIXME
+             위는 임시방편 자바스크립트이므로,
+             위 스크립트를 지우고 마이페이지로 돌아가게 하기
+         */
+    
+    }
+    
+
+    // 크루 탈퇴 모달에서 "아니오" 누르면 exitNoResult 보이게하기
+    function exitNoClick() {
+
+        var exitNoResultDiv = document.getElementById("exitNoResult");
+        var choiceYNDiv = document.getElementById("choiceYN");
+        var exitNoOKBtn = document.getElementById("exitNoOKBtn");
+
+        if(choiceYNDiv.classList.contains("exitVisible")){
+            choiceYNDiv.classList.remove("exitVisible");
+            choiceYNDiv.classList.add("exitHidden");
+            exitNoResultDiv.classList.remove("exitHidden");
+            exitNoResultDiv.classList.add("exitVisible");
+        }
+    }
+
+    function exitNoOkClick() {
+        var exitModalDiv = document.getElementById("exitModal");
+
+        exitModalDiv.classList.remove("exitVisible");
+        exitModalDiv.classList.add("exitHidden");
+
+    }
 
 
 

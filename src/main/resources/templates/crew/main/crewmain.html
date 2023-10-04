@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>앙큼불여우단</title>
+        <!-- FIXME - CREWMAIN 크루의 이름이 불러와지도록 고치기 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="crewmain.css"/>
+    <link rel="stylesheet" type="text/css" href="crewExit.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
     <script
             src="https://code.jquery.com/jquery-3.7.1.js"
@@ -15,6 +17,7 @@
 
 </head>
 <body>
+    <!-- FIXME 헤더 삽입 -->
     <div class="header">여기 헤더</div>
 
     <div class="background">
@@ -25,7 +28,7 @@
         <div class="alert_bar_con">
             <div class="bar_top">
                 <div class="bar_title">
-                    9월 25일의 소식
+                    <div id="todayDiv">현재 날짜</div>&nbsp;소식
                 </div>
                 <div> 납입일까지 <b>0일</b> 남았습니다. </div>
             </div>
@@ -39,13 +42,13 @@
                 <div id="msg" class="hidden">
                     <div class="new_memAlert">
                         <div class="ma_title"> 새 멤버 가입 </div>
-                        <div> 9월 20일에 가입한 새로운 선원, <b>김은지</b>님! </div>
-                        <div> 9월 19일에 가입한 새로운 선원, <b>서미진</b>님! </div>
-                        <div> 9월 17일에 가입한 새로운 선원, <b>한두혁</b>님! </div>
+                        <div> <b>김은지</b>님이 9월 20일에 가입하셨습니다.</div>
+                        <div> <b>서미진</b>님이 9월 19일에 가입하셨습니다.</div>
+                        <div> <b>한두혁</b>님이 9월 17일에 가입하셨습니다.</div>
                     </div>
                     <div class="crew_scheAlert">
                         <div class="cs_title"> 크루 일정 알림</div>
-                        <div> 일정 <b>[윤하 생일]</b> 이 6일 남았습니다. </div>
+                        <div> 일정 <b>[윤하 생일..]</b> 이 6일 남았습니다. </div>
                     </div>
 <!--                    <div><b>[새 멤버 가입]</b> 새로운 선원 김은지님을 환영해주세요! </div>-->
 <!--                    <div><b>[새 멤버 가입]</b> 새로운 선원 서미진님을 환영해주세요! </div>-->
@@ -58,9 +61,9 @@
 
 
         <div class="bankbook_top">
-            <div class="crewname">앙큼불여우단</div>
-            <div class="crewmanage"><a href="">크루 관리</a></div>
-            <div class="crewexit2"><a href="">크루 탈퇴</a></div>
+            <div class="crewname">앙큼불여우단</div> <!-- FIXME - CREWMAIN 크루의 이름이 불러와지도록 고치기 -->
+            <div class="crewmanage"><a href="">크루 관리</a></div> <!-- FIXME 크루 관리자에게만 해당 DIV가 보이도록 -->
+            <div id="crewexit"><a onclick="crewExitClick()">크루 탈퇴</a></div>
             <div class="dotline1"></div>
             <div class="accnum_sub">계좌번호</div>
             <div class="account_num">신한 110-511-818677</div>
@@ -281,6 +284,45 @@
             <div class="line2"></div>
         </div>
     </div>
+
+    <div id="exitModal" class="exitHidden">
+        <div id="choiceYN" class="exitVisible">
+            <div class="closeX" onclick="crewExitCloseXClick()">×</div>
+            <div class="exitTitle">
+                [ 앙큼불여우단 ] 크루에서 정말 탈퇴하시겠습니까?
+            </div>
+            <div class="warning">
+                <b> [ 안내사항 ] </b> <br><br>
+                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
+                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
+                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
+                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
+            </div>
+            <div class="btnWrapper">
+                <button id="exitYes" onclick="exitYesClick()">예</button>
+                <button id="exitNo" onclick="exitNoClick()">아니오</button>
+            </div>
+        </div>
+        <div id="exitYesResult" class="exitHidden">
+            <div class="exitResultTitle">탈퇴가 완료되었습니다.</div>
+            <div class="exitResultInfo">[ 앙큼불여우단 ] 크루와의 항해를 종료합니다. </div>
+            <button class="exitOK" onclick="exitYesOkClick()">확인</button>
+        </div>
+        <div id="exitNoResult" class="exitHidden">
+            <div class="exitResultTitle">탈퇴를 취소합니다.</div>
+            <div class="exitResultInfo">[ 앙큼불여우단 ] 크루와의 항해가 계속됩니다 </div>
+            <button class="exitOK" onclick="exitNoOkClick()">확인</button>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
 </body>
 
 <script type="text/javascript" src="./crewmain.js"></script>
