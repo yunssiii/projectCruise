@@ -226,6 +226,10 @@
             case "informationSet" :
                 crewSettingTitleDiv.textContent = "크루 정보수정";
                 break;
+
+            case "crewDelete" :
+                crewSettingTitleDiv.textContent = "항해 중단하기";
+                break;
         }
 
         tapDivs.forEach(function(tapDiv){
