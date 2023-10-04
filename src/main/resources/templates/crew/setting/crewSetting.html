@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>앙큼불여우단 크루 관리</title>
+        <!--    FIXME 크루이름을 불러와서 넣을 수 있도록 하기 -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="crewSetting.css"/>
+    <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">여기 헤더</div>
+
+    <div class="background">
+        <div class="wave"><div id="blue" class="hidden"></div></div>
+    </div>
+
+    <div class="visibleContainer">
+        <div class="crewTitle">앙큼불여우단 크루 관리</div>
+        <div class="menuContainer">
+            <div class="menuCard" onclick="selectCrewSetting()">
+                <div class="menuImgContainer">
+                    <i class="fa-solid fa-people-roof fa-5x" style="color: rgb(105, 89, 78);"></i>
+                </div>
+                <div class="menuTitle">크루관리</div>
+                <div class="menuSummary">
+                    크루 일정 관리<br>
+                    크루 정보 수정<br>
+                </div>
+            </div>
+            <div class="menuCard" onclick="selectMemberSetting()">
+                <div class="menuImgContainer">
+                    <i class="fa-solid fa-sailboat fa-5x" style="color: rgb(105, 89, 78);"></i>
+                </div>
+                <div class="menuTitle">선원관리</div>
+                <div class="menuSummary">
+                    월별 회비 조회<br>
+                    선원 회비 요청<br>
+                    선원 강퇴
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="settingDetailContainer" class="hidden">
+        <div class="topContainer">
+            <div id="crewTap" class="hidden">
+                <div class="tap select" onclick="setCrewTapClick('scheduleSet')">크루 일정 관리</div>
+                <div class="tap" onclick="setCrewTapClick('informationSet')">크루 정보 수정</div>
+            </div>
+            <div id="memberTap" class="hidden">
+                <div class="tap select" onclick="setMemTapClick('monthPayView')">월별 회비 조회</div>
+                <div class="tap" onclick="setMemTapClick('payRequest')">선원 회비 요청</div>
+                <div class="tap" onclick="setMemTapClick('memberBan')">선원 강퇴</div>
+            </div>
+            <div id="up"> 위로 ▲ </div>
+        </div>
+
+        <div id="crewSettingBox" class="hidden">
+            <div id="scrollPoint1"></div>
+            <div id="crewSettingTitle">크루 일정관리</div>
+            <div id="crewSettingContent">
+                <div id="scheduleSet" class="visibleSettings"> 일정관리 </div>
+                <div id="informationSet" class="hidden"> 정보수정 </div>
+            </div>
+        </div>
+        <div id="memberSettingBox" class="hidden">
+            <div id="scrollPoint2"></div>
+            <div id="memSettingTitle">월별 회비 조회</div>
+            <div id="memSettingContent">
+                <div id="monthPayView" class="visibleSettings"> 월별 회비 조회 </div>
+                <div id="payRequest" class="hidden"> 선원 회비 요청 </div>
+                <div id="memberBan" class="hidden"> 선원 강퇴 </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+<script type="text/javascript" src="./crewSetting.js"></script>
+</html>
