@@ -6,6 +6,7 @@
         <!--    FIXME 크루이름을 불러와서 넣을 수 있도록 하기 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="crewSetting.css"/>
+    <link rel="stylesheet" type="text/css" href="crewInfoUpdate.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -42,6 +43,7 @@
         </div>
     </div>
     <div id="settingDetailContainer" class="hidden">
+        <div id="scrollPoint"></div>
         <div class="topContainer">
             <div id="crewTap" class="hidden">
                 <div class="tap select" onclick="setCrewTapClick('scheduleSet')">크루 일정 관리</div>
@@ -57,16 +59,56 @@
         </div>
 
         <div id="crewSettingBox" class="hidden">
-            <div id="scrollPoint1"></div>
             <div id="crewSettingTitle">크루 일정관리</div>
             <div id="crewSettingContent">
                 <div id="scheduleSet" class="visibleSettings"> 일정관리 </div>
-                <div id="informationSet" class="hidden"> 정보수정 </div>
+                <div id="informationSet" class="hidden">
+                    <div class="information">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Writing%20Hand.png"
+                             alt="Writing Hand" width="100" height="100" />
+                        <div class="crewTitle">앙큼불여우단</div>
+                            <!-- FIXME 크루 이름 여기에 불러오기-->
+                        <hr>
+                        <div class="crewInfoSummary">
+                            <div class="captainName">선장 황윤하</div>
+                            <div class="account">
+                                <div class="accountBank">신한은행</div>
+                                <div class="accountNum">110-518-4074-01</div>
+                            </div>
+                            <div class="crewCreated"><b>2023-09-01</b>&nbsp; 부터 항해 시작</div>
+                        <div class="crewSailing">항해&nbsp; <b>32일</b>&nbsp;째</div>
+                        </div>
+                    </div>
+                    <form name="myForm" method="post" action="">
+                        <div class="content">
+                            <div class="title">크루 소개</div>
+                            <div class="info">* 50자 까지만 작성 가능합니다.</div>
+                            <textarea id="crewInfo" name="crewInfo"></textarea>
+                        </div>
+                        <div class="content">
+                            <div class="moneyContents">
+                                <div class="moneyContent">
+                                    <div class="title">납입 일자 및 납입 액수</div>
+                                    <div class="inputContainer">
+                                        매월 <input type="number" name="payDate" id="payDate" value="1"/> 일에
+                                        <input type="text" name="payMoney" id="payMoney" value="20000">원씩 납입
+                                    </div>
+                                </div>
+                                <div class="moneyContent">
+                                    <div class="title">목표 금액</div>
+                                    <div class="inputContainer">
+                                        <input type="text" name="goal" id="goalMoney" value="1000000">원
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button onsubmit="crewInfoUpdateSubmit()">수정하기</button>
+                    </form>
+                </div>
                 <div id="crewDelete" class="hidden"> 크루 삭제(항해중단) </div>
             </div>
         </div>
         <div id="memberSettingBox" class="hidden">
-            <div id="scrollPoint2"></div>
             <div id="memSettingTitle">월별 회비 조회</div>
             <div id="memSettingContent">
                 <div id="monthPayView" class="visibleSettings"> 월별 회비 조회 </div>
@@ -83,4 +125,5 @@
 </body>
 
 <script type="text/javascript" src="./crewSetting.js"></script>
+<script type="text/javascript" src="./crewInfoUpdate.js"></script>
 </html>

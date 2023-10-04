@@ -98,7 +98,7 @@
 
 
     function selectCrewSetting() {
-        var scrollPoint1 = document.getElementById('scrollPoint1');
+        var scrollPoint = document.getElementById('scrollPoint');
         var crewBoxDiv = document.getElementById('crewSettingBox');
         var memberBoxDiv = document.getElementById('memberSettingBox');
         var crewTapDiv = document.getElementById('crewTap');
@@ -126,7 +126,7 @@
             memberTapDiv.classList.add('hidden')
         }
 
-        scrollPoint1.scrollIntoView({behavior:'smooth'});
+        scrollPoint.scrollIntoView({behavior:'smooth'});
 
         // 선원 관리 탭에 들어갔다가 다시 크루 관리 탭에 들어왔을 때,
         // 가장 첫 번째 탭에 select 클래스가 설정되어 있지 않은 현상을 해결하기 위함
@@ -137,7 +137,7 @@
     }
 
     function selectMemberSetting() {
-        var scrollPoint2 = document.getElementById('scrollPoint2');
+        var scrollPoint = document.getElementById('scrollPoint');
         var crewBoxDiv = document.getElementById('crewSettingBox');
         var memberBoxDiv = document.getElementById('memberSettingBox');
         var crewTapDiv = document.getElementById('crewTap');
@@ -166,7 +166,7 @@
             crewTapDiv.classList.add('hidden')
         }
 
-        scrollPoint2.scrollIntoView({behavior:'smooth'});
+        scrollPoint.scrollIntoView({behavior:'smooth'});
 
         // 크루 관리 탭에 들어갔다가 다시 선원 관리 탭에 들어왔을 때,
         // 가장 첫 번째 탭에 select 클래스가 설정되어 있지 않은 현상을 해결하기 위함
@@ -217,6 +217,8 @@
         var crewSettingTitleDiv = document.getElementById("crewSettingTitle");
         var crewSettingContentDiv = document.getElementById("crewSettingContent");
         var tapDivs = crewSettingContentDiv.querySelectorAll("div");
+        var selectedTap = document.getElementById(setMenuName);
+        var selectTapDivs = selectedTap.querySelectorAll("div");
 
         switch (setMenuName) {
             case "scheduleSet" :
@@ -242,6 +244,10 @@
             }
         })
 
+        for(var i=0;i<selectTapDivs.length;i++) {
+            selectTapDivs[i].classList.remove('hidden');
+        }
+
     }
 
     function setMemTapClick(setMenuName) {
@@ -249,6 +255,8 @@
         var memSettingTitle = document.getElementById("memSettingTitle");
         var memSettingContent = document.getElementById("memSettingContent");
         var tapDivs = memSettingContent.querySelectorAll("div");
+        var selectedTap = document.getElementById(setMenuName);
+        var selectTapDivs = selectedTap.querySelectorAll("div");
 
         switch (setMenuName) {
             case "monthPayView" :
@@ -274,5 +282,8 @@
             }
         })
 
+        for(var i=0;i<selectTapDivs.length;i++) {
+            selectTapDivs[i].classList.remove('hidden');
+        }
     }
 
