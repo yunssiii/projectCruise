@@ -160,13 +160,15 @@ a:hover {
     height: 100%;
     padding-top: 20px;
     text-align: center;
-    /*align-items: center;*/
-    /*justify-content: center;*/
+    align-items: center;
 }
 
 
 .visible_detailBox .new_memAlert {
     grid-area: new_memAlert;
+    border-right: 1px solid white;
+    height: 250px;
+    align-content: center;
 }
 
 .visible_detailBox .new_memAlert .ma_title {
@@ -181,6 +183,7 @@ a:hover {
 
 .visible_detailBox .crew_scheAlert {
     grid-area: crew_scheAlert;
+    height: 250px;
 }
 
 .visible_detailBox .crew_scheAlert div {
@@ -270,9 +273,13 @@ a:hover {
     font-size: 18pt;
 }
 
-.bankbook_top .crewmanage, .crewexit2 {
+.bankbook_top .crewmanage, #crewexit {
     font-size: 10pt;
     text-align: right;
+}
+
+#crewexit a{
+    cursor: pointer;
 }
 
 
@@ -1042,7 +1049,6 @@ a:hover {
     margin-bottom: 50px;
     width: 90%;
 }
-
 
 
 
