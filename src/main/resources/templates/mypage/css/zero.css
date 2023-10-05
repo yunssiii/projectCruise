@@ -4,7 +4,7 @@ hr{width: 50%;margin-top: 25px;}
 .container_zero {
     display: flex;
     justify-content: space-around;
-    background-image: url('../mypageimage/water.jpg');
+    background-image: url('../image/water.jpg');
     background-size: 100%;
 }
 
@@ -23,7 +23,7 @@ hr{width: 50%;margin-top: 25px;}
     margin-left: 50px;
     margin-right: 50px;
     text-align: center;
-    font-family: 나눔스퀘어라운드OTF;
+    font-family: NanumSquareExtraBold;
     font-weight: 900;
     font-size: 30pt;
     color: white;
@@ -39,12 +39,12 @@ hr{width: 50%;margin-top: 25px;}
     text-align: center;
     font-family: 나눔스퀘어라운드OTF;
     font-size: 15pt;
-    font-weight: 400;
-    color: white;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
 }
 
 .start-btn {
-    background:  #06064e;
+    background:  #050549f6;
     padding: 3% 8%;
     text-align: center;
     border-radius: 10px;
@@ -59,6 +59,6 @@ hr{width: 50%;margin-top: 25px;}
 }
 
 .start-btn:hover{
-    background: #ecb611;
+    background: #ffc20cef;
 }
 

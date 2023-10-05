@@ -1,0 +1,150 @@
+/* reset */
+p {
+    margin: 0;
+}
+
+/* 모달창 */
+.account-modal {
+    display: none; /* 디폴트 none */
+    position: fixed; /* 위치 고정 */
+    z-index: 1; /* 맨 앞 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경색 */
+    backdrop-filter: blur(10px);
+}
+
+/* 모달창 내용 */
+.modal-content {
+    background-color: #ffffff; /* 모달창 배경 */
+    margin: 5% auto; 
+    padding: 20px 15px 20px 20px;
+    /* border: 1px solid #888; */
+    width: 30%;
+    height: 72%; 
+    border-radius: 10px 10px 0px 0px;
+    font-family: NanumSquare;
+}
+
+.modal-container {
+    /* border: 1px solid black; */
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 10px 0px 10px 10px;
+    gap: 10px;
+}
+
+.open-aname {
+    /* background-color: #888; */
+    font-family: NanumSquareExtraBold;
+    font-size: 20pt;
+    text-align: center;
+}
+
+.open-account{
+    /* background-color: #ffd8d8; */
+    font-family: NanumSquareBold;
+    text-align: center;
+}
+
+.openuse-balance {
+    /* background-color: #afff64; */
+    font-family: NanumSquareBold;
+    font-size: 25pt;
+    margin-top: 25px;
+    text-align: center;
+    /* margin-bottom: 10px; */
+}
+
+.line {
+    border: 2px dotted #0C0CCA;
+}
+
+.select-cover {
+    /* border: 1px solid black; */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+}
+
+
+.openuse-input-search {
+    /* border: 1px solid black; */
+    width: 68%;
+    height: 30px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    padding-left: 10px;
+    color: rgb(70, 70, 70);
+}
+
+.openuse-searchBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.openuse-box {
+    /* border: 1px solid black; */
+    height: 265px;
+    overflow: auto;
+}
+
+.openuse-box::-webkit-scrollbar {
+    background-color: rgb(214, 214, 214);
+    width: 15px;
+}
+
+.openuse-box::-webkit-scrollbar-thumb {
+    background-color: #43439e;
+}
+
+.openuse-cover {
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.openuse-cover:last-child {
+    border-bottom: none;
+}
+
+.openuse-cover:hover {
+    background-color: rgb(221, 221, 221);
+}
+
+.openuse-date {
+    /* background-color: #bdc7ff; */
+}
+
+.openuse-content {
+    /* background-color: #e72fff; */
+}
+
+.openuse-money {
+    /* background-color: #c50000; */
+}
+
+/* 닫기 버튼 */
+.closeBtn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,.closeBtn:focus {
+    color: rgb(56, 44, 44);
+    text-decoration: none;
+    cursor: pointer;
+}
