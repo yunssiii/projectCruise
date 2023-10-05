@@ -105,6 +105,56 @@ button {
     display: inline-block;
 }
 
+#deleteYNModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#deleteYNModal img {
+    margin: 20px 10px 10px 10px;
+}
+
+#deleteYNTitle {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+#deleteYNMsg {
+    margin: 5px 0 0 0 ;
+    font-size: 10pt;
+}
+
+.deleteYNBtn button {
+    width: auto;
+    padding: 5px 20px 0px 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#deleteYesBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#deleteYesBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#deleteYesBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+
 
 #cannotDeleteModal {
 
@@ -134,6 +184,76 @@ button {
     margin: 10px 10px 10px 10px;
 }
 
+#crewDeleteCancelModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 10px;
+    width: 350px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#crewDeleteCancelModal img {
+    margin: 20px 10px 10px 10px;
+}
+
+#cancelWarningTitle {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+
+.cancelDeleteBtn button {
+    width: auto;
+    margin-top: 30px;
+    padding: 5px 20px 0px 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#cancelDeleteBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#cancelDeleteBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#cancelDeleteBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+#turnBackCrewBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#turnBackCrewBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#turnBackCrewBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+
+
+
+
+
+
+
+
+
 #deleteWarningTitle {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
 }
@@ -153,10 +273,12 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 20px;
 }
 
 .stayPeriodWarning div{
     display: flex;
+    margin: 3px;
 }
 
 #crewDeleteComplete .title{
@@ -170,5 +292,26 @@ button {
     margin: 0 10px 0 10px;
 }
 
+#deleteCompleteDDay {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    margin: 0 10px 0 10px;
+}
 
+#crewDeleteComplete img {
+    margin: 20px;
+}
 
+#cancelDeleteCrewBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#cancelDeleteCrewBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#cancelDeleteCrewBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
