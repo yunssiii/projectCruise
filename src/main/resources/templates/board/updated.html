@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>게 시 판</title>
+
+<link rel="stylesheet" type="text/css" href="/board/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/board/css/created.css"/>
+
+<script type="text/javascript">
+
+	const sendIt=()=>{
+		
+		f = document.myForm;
+		
+		str = f.board_subject.value;
+		str = str.trim();
+		if(!str){
+			alert("\n제목을 입력하세요.");
+			f.board_subject.focus();
+			return;
+		}
+		f.board_subject.value = str;
+		
+		str = f.board_content.value;
+		str = str.trim();
+		if(!str){
+			alert("\n내용을 입력하세요.");
+			f.board_content.focus();
+			return;
+		}
+		f.board_content.value = str;
+		
+		f.action = "/board/updated_ok";
+		f.submit();
+	}
+
+</script>
+</head>
+<body>
+
+<div id="bbs">
+	<div id="bbs_title">
+		게 시 판
+	</div>
+	
+	<form action="" method="post" name="myForm">
+	<div id="bbsCreated">
+		<div class="bbsCreated_bottomLine">
+			<dl>
+				<dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>
+				<dd>
+				<input type="text" name="board_subject" size="60" maxlength="100"
+				class="boxTF" th:value="${dto.board_subject}"/>
+				</dd>
+			</dl>
+		</div>
+		<div id="bbsCreated_content">
+			<dl>
+				<dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
+				<dd>
+				<textarea rows="12" cols="63" name="board_content" class="boxTA"
+				style="resize: none; background-color: #ffffff"
+				th:text="${dto.board_content}"></textarea>
+				</dd>
+			</dl>
+		</div>
+	</div>
+<div id="bbsCreated_footer">
+	
+	<input type="hidden" name="board_num" th:value="${dto.board_num }"/>
+	<input type="hidden" name="pageNum" th:value="${pageNum }"/>
+	<input type="hidden" name="searchKey" th:value="${searchKey }"/>
+	<input type="hidden" name="searchValue" th:value="${searchValue }"/>
+	
+	<input type="button" value=" 수정하기" class="btn2" onclick="sendIt();"/>
+	</form>
+	
+</div>
+
+
+</body>
+</html>
+
+
+
