@@ -10,7 +10,7 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
 
 /* 전반적인 모달 */
 
-.modal-div2 {
+.modal-div1 {
     display: block;
     position: fixed; /* 위치 고정 */
     z-index: 1; /* 맨 앞 */
@@ -23,7 +23,7 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
     backdrop-filter: blur(3px);
 }
 
-.modal-div1, .modal-div3 {
+.modal-div2, .modal-div3 {
     display: none; /* 디폴트 none */
     position: fixed; /* 위치 고정 */
     z-index: 1; /* 맨 앞 */
@@ -64,36 +64,37 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
     cursor: pointer;
 }
 
-/* 모달1 내용 */
-
-.modal1-cover {
+.modal-cover {
     /* border: 1px solid; */
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: auto;
     width: 98%;
-    height: auto;
+    height: auto; 
 }
 
-.modal1-chk-box {
+/* 모달1 내용 */
+
+.modal-chk-box {
     /* border: 1px solid; */
     margin-top: 20px;
 }
 
 .agree-all-box {
     /* border: 1px solid; */
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 
 }
 
 .agree-select-box {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .agree-text {
     font-size: 15pt;
     line-height: 35px;
+    margin-bottom: 10px;
     border: none;
     background: none;
     cursor: pointer;
@@ -103,7 +104,7 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
     display: none;
 }
 
-.nextBtn1, .nextBtn2 {
+.nextBtn1, .nextBtn2, .addBtn {
     margin-top: 40px;
     padding: 20px 155px;
     font-size: 15pt;
@@ -116,16 +117,6 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
 }
 
 /* 모달2 내용 */
-
-.modal2-cover {
-    /* border: 1px solid; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: auto;
-    width: 98%;
-    height: auto;
-}
 
 .bank-box1, .bank-box2, .bank-box3 {
     display: flex;
@@ -149,7 +140,70 @@ textarea {width: 100%; height: 100px; overflow: auto; background-color: white; r
 .bankText {
     text-align: center;
     margin-top: 3px;
+    font-family: NanumSquareBold;
 }
+
+/* 모달3 내용 */
+
+.accountName-box {
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.account-text {
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    color: #919090;
+    margin-bottom: 10px;
+}
+
+.account-input{
+    padding: 10px;
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    width: 95%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 2px solid #bebebe;
+}
+
+.accountNum-box{
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.accountPwd-box{
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.acountPwd-input {
+    padding: 10px;
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    width: 75%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 2px solid #bebebe;
+}
+
+.acount-authBtn{
+    margin-left: 10px;
+    padding: 11px 15px;
+    font-size: 11pt;
+    font-family: NanumSquareBold;
+    border-radius: 5px;
+    border: 2px solid #bebebe;
+    cursor: pointer;
+}
+
+.acount-authBtn:hover {
+    border: 2px solid black;
+}
+
+
+
+
 
 /* 체크박스 */
 
@@ -175,7 +229,7 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
     content:"";
     background-color:#ffffff;
     border-color:#cecece;
-    background-image: url("../image/chk.png");
+    background-image: url('../image/chk.png');
     background-repeat: no-repeat;
     background-position: 50%;
 }
