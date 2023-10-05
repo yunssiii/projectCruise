@@ -111,7 +111,7 @@
                     </form>
                 </div>
                 <div id="crewDelete" class="hidden">
-                    <div id="crewDeleteYNDiv" class="hiddenDiv">
+                    <div id="crewDeleteYNDiv" >
                         <div class="title"> [ 앙큼불여우단 ] 의 항해를 중단할까요? </div>
                         <div class="deleteWarning">
                             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
@@ -133,17 +133,33 @@
                             &nbsp;&nbsp;&nbsp;악용 시 형사 처벌의 대상이 될 수 있음을 유의해주세요.<br>
                         </div>
                         <div>
-                            <button id="deleteBtn" onclick="deleteBtnClick(0, 10)"> 항해 중단하기 </button>
+                            <button id="deleteBtn" onclick="deleteBtnClick()"> 항해 중단하기 </button>
+
                         </div>
                     </div>
-                    <div id="crewDeleteComplete" class="hidden">
+                    <div id="crewDeleteComplete" class="hiddenDiv">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Person%20Rowing%20Boat%20Light%20Skin%20Tone.png"
+                             alt="Person Rowing Boat Light Skin Tone" width="200" height="200" />
                         <div class="title"> [ 앙큼불여우단 ] 의 항해가 중단되었습니다. </div>
                         <div class="stayPeriodWarning">
-                            <div>항해 중단 결정일자는 <div id="deleteRequestDate"> 2023년 10월 05일</div>이며, </div>
-                            <div>항해 중단 확정까지 <div id="deleteCompleteDDay">2일 23:59:58</div> 남았습니다.</div>
+
+                            <div>항해 중단 결정일자는 <div id="deleteRequestDate">유예시작일</div>이며, </div>
+                            <div>항해 중단 확정까지 <div id="deleteCompleteDDay">2일 23시간 59분 58초</div> 남았습니다.</div>
                         </div>
+                        <button id="cancelDeleteCrewBtn" onclick="cancelDeleteCrewBtnClick()">항해 중단 취소</button>
                     </div>
                     <div id="modalBackground" class="hiddenModal">
+                        <div id="deleteYNModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" />
+                            <div id="deleteYNTitle">선원들과의 항해를 정말로 중단할까요?</div>
+                            <div id="deleteYNMsg">크루 내의 데이터는 물론, 선원들과의 추억도 함께 사라집니다.</div>
+                            <div class="deleteYNBtn">
+                                <button onclick="modalWindowClose()">돌아가기</button>
+                                <button id="deleteYesBtn" onclick="deleteYesBtnClick(0, 1)">정말로 그만하기</button>
+                                            <!-- FIXME 계좌잔액, 남은선원수를 DB에서 불러와 넘겨주기-->
+                            </div>
+                        </div>
                         <div id="cannotDeleteModal" class="hiddenModal">
                             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
                                  alt="Warning" width="40" height="40" />
@@ -155,7 +171,18 @@
                                 <button id="gotoMemberBanBtn" onclick="gotoMemberBanBtnClick()">선원 강퇴하기</button>
                             </div>
                         </div>
+                        <div id="crewDeleteCancelModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" />
+                            <div id="cancelWarningTitle">항해를 다시 시작할까요?</div>
+                            <div class="cancelDeleteBtn">
+                                <button id="turnBackBtn" onclick="modalWindowClose()" >돌아가기</button>
+                                <button id="turnBackCrewBtn" onclick="turnBackBtnClick()" class="hidden">확인</button>
+                                <button id="cancelDeleteBtn" onclick="cancelDeleteBtnClick()">항해 다시 시작</button>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -179,4 +206,11 @@
 <script type="text/javascript" src="./crewSetting.js"></script>
 <script type="text/javascript" src="./crewInfoUpdate.js"></script>
 <script type="text/javascript" src="./crewDelete.js"></script>
+<script>
+    // 유예기간 실시간으로 보여주기 위한 스크립트
+    setInterval(function() {
+        deleteDateStrMaker('2023-10-05 09:05:00')
+    }, 1000);
+    //FIXME DB에서 불러온 유예시작일로 고치기
+</script>
 </html>
