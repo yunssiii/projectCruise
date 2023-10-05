@@ -152,7 +152,7 @@
 
         if(memberTapDiv.classList.contains('hidden')){
             memberTapDiv.classList.remove('hidden');
-            memberTapDiv.classList.add('tapVisible')
+            memberTapDiv.classList.add('tapVisible');
         }
 
 
@@ -244,6 +244,8 @@
             }
         })
 
+        // 이거 안해주면 각 Tap에 대한 div에 hidden이 제외되어도
+        // 자식 Div한테는 hidden이 남아있더라구...
         for(var i=0;i<selectTapDivs.length;i++) {
             selectTapDivs[i].classList.remove('hidden');
         }
@@ -258,6 +260,7 @@
         var selectedTap = document.getElementById(setMenuName);
         var selectTapDivs = selectedTap.querySelectorAll("div");
 
+        // 설정창 제목 설정
         switch (setMenuName) {
             case "monthPayView" :
                 memSettingTitle.textContent = "월별 회비 조회";
@@ -268,10 +271,15 @@
                 break;
 
             case "memberBan" :
-                memSettingTitle.textContent = "선원 강퇴";
+                memSettingTitle.textContent = "선원 강퇴하기";
+                break;
+
+            case "memberDivN" :
+                memSettingTitle.textContent = "잔액 1/N 하기";
                 break;
         }
 
+        // 해당하는 설정창 DIV 보이게 하기 (id가 setMenuName과 같은 Div만 보이게)
         tapDivs.forEach(function(tapDiv){
             if(tapDiv.id===setMenuName) {
                 tapDiv.classList.remove('hidden');
