@@ -7,7 +7,7 @@ body{margin: 0; overflow-x: hidden;}
     position: absolute;
     bottom: 0;
     width: 6400px;
-    height: 157px;
+    height: 257px;
     animation: wave 3s cubic-bezier(0.36,0.45,0.63,0.53) infinite;
     transform: translate3d(0,0,0);
 }
@@ -19,7 +19,7 @@ body{margin: 0; overflow-x: hidden;}
     top: 90px;
     background-color: #08086e;
     width: 100%;
-    height: 1000px;
+    height: 1300px;
 }
 
 .container_1{
@@ -84,8 +84,8 @@ body{margin: 0; overflow-x: hidden;}
     /* background-color: pink; */
     /* width: 22%; */
     margin: auto 10px;
-    width: 330px;
-    height: 350px;
+    width: 90%;
+    height: 98%;
     border-radius: 10px;
     background: linear-gradient(rgb(230, 244, 250),rgb(207, 210, 253));
     box-shadow: 3px 3px 4px 2px #969696;
@@ -133,7 +133,7 @@ body{margin: 0; overflow-x: hidden;}
 
 .crewBtn {
     background: rgb(255, 255, 255);
-    width: 300px;
+    width: 90%;
     height: 55px;
     border-radius: 10px;
     font-family: NanumSquare;

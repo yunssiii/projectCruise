@@ -1,0 +1,181 @@
+body {
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}
+
+
+textarea {width: 100%; height: 100px; overflow: auto; background-color: white; resize: none;}
+
+/* 전반적인 모달 */
+
+.modal-div2 {
+    display: block;
+    position: fixed; /* 위치 고정 */
+    z-index: 1; /* 맨 앞 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경색 */
+    backdrop-filter: blur(3px);
+}
+
+.modal-div1, .modal-div3 {
+    display: none; /* 디폴트 none */
+    position: fixed; /* 위치 고정 */
+    z-index: 1; /* 맨 앞 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경색 */
+    backdrop-filter: blur(3px);
+}
+
+.content {
+    background-color: #ffffff; /* 모달창 배경 */
+    margin: 5% auto; 
+    padding: 20px 15px 20px 20px;
+    width: 30%;
+    height: 72%; 
+    border-radius: 10px 10px 0px 0px;
+    font-family: NanumSquare;
+    overflow: auto;
+    
+}
+
+.content::-webkit-scrollbar {
+    width: 0;
+}
+
+.closeBtn1, .closeBtn2, .closeBtn3 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn1:hover,.closeBtn1:focus,.closeBtn2:hover,.closeBtn2:focus,.closeBtn3:hover,.closeBtn3:focus {
+    color: rgb(56, 44, 44);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 모달1 내용 */
+
+.modal1-cover {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 98%;
+    height: auto;
+}
+
+.modal1-chk-box {
+    /* border: 1px solid; */
+    margin-top: 20px;
+}
+
+.agree-all-box {
+    /* border: 1px solid; */
+    margin-bottom: 10px;
+
+}
+
+.agree-select-box {
+    margin-top: 10px;
+}
+
+.agree-text {
+    font-size: 15pt;
+    line-height: 35px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.agree-hide-box {
+    display: none;
+}
+
+.nextBtn1, .nextBtn2 {
+    margin-top: 40px;
+    padding: 20px 155px;
+    font-size: 15pt;
+    border: none;
+    background-color: #0c0ccad0;
+    color: #ffffff;
+    font-family: NanumSquareBold;
+    border-radius: 13px;
+    cursor: pointer;
+}
+
+/* 모달2 내용 */
+
+.modal2-cover {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 98%;
+    height: auto;
+}
+
+.bank-box1, .bank-box2, .bank-box3 {
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.bank-box2, .bank-box3 {
+    margin-top: 20px;
+}
+
+.bankBtn:hover {
+    cursor: pointer;
+    /* border: 5px solid rgb(236, 100, 8); */
+}
+
+.click {
+    border: 5px solid rgb(236, 100, 8);
+}
+
+.bankText {
+    text-align: center;
+    margin-top: 3px;
+}
+
+/* 체크박스 */
+
+input[type="checkbox"]{
+    display:none;
+}
+  
+input[type="checkbox"] + label{
+    cursor:pointer;
+}
+
+input[type="checkbox"] + label::before{ /* 클릭 전 */
+    content:"";
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border:2px solid #cecece;
+    border-radius: 4px;
+    vertical-align:middle;
+}
+
+input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
+    content:"";
+    background-color:#ffffff;
+    border-color:#cecece;
+    background-image: url("../image/chk.png");
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
