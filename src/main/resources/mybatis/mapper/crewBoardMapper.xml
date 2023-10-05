@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.CrewBoardMapper">
+
+<select id="maxNum" resultType="int" parameterType="String">
+	select nvl(max(board_num),0) from crew_board
+</select>
+
+<insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
+	insert into crew_board (crew_num, board_num, email, name, board_subject,
+	board_content, board_created, hitcount)
+	values (#{crew_num}, #{board_num}, #{email}, #{name}, #{board_subject},
+	#{board_content}, sysdate, 0)
+</insert>
+
+<select id="getLists" parameterType="hashMap" 	
+	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+	select a.*, nvl(b.comment_count, 0) as comment_count from (
+	select rownum rnum, data.* from (
+	select board_num, name, board_subject, hitCount,
+	to_char(board_created,'YYYY-MM-DD') board_created
+	from crew_board
+	where crew_num = #{crew_num} and
+	${searchKey} like '%' || #{searchValue} || '%'
+	order by board_num asc) data) a
+	left join (
+	select board_num, count(*) as comment_count from crew_comment
+	group by board_num) b
+	on a.board_num = b.board_num
+	<![CDATA[
+	where a.rnum <= #{start} and a.rnum >= #{end}
+	]]>
+	order by a.rnum desc
+</select>
+
+<select id="getDataCount" parameterType="map" resultType="int">
+	select nvl(count(*),0) from crew_board
+	where crew_num = #{crew_num} and
+	${searchKey} like '%' || #{searchValue} || '%'
+</select>
+
+<select id="getReadData" parameterType="int" 
+	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+	select board_num,name,email,board_subject,board_content,
+	hitCount,board_created from crew_board where board_num=#{board_num}
+</select>
+
+<update id="updateHitCount" parameterType="int">
+	update crew_board set hitCount=hitCount+1 where board_num=#{board_num}
+</update>
+
+<update id="updateData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
+	update crew_board set
+	board_subject=#{board_subject},board_content=#{board_content}
+	where board_num=#{board_num}
+</update>
+
+<delete id="deleteData" parameterType="int">
+	delete crew_board where board_num=#{board_num}
+</delete>
+
+</mapper>
