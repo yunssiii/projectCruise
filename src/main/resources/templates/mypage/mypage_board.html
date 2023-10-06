@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- tab bootstrap / css 우선순위로 맨 위 -->  
+    <link rel="stylesheet" href="./css/mypage_user.css"/>
+    <link rel="stylesheet" href="./css/mypage_board.css"/>
+    <!-- 폰트 -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+    <!-- 아이콘 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- tab bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 500,
+          'GRAD' 0,
+          'opsz' 224;
+          font-size: 28px;
+          color: gray;
+        }
+        </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="user-container">
+        <!-- 메뉴 -->
+        <div class="mypage-bar">
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Passenger%20Ship.png" alt="Passenger Ship" width="230" height="230"/>
+            <!-- <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Water%20Wave.png" alt="Water Wave" width="230" height="230" /> -->
+            
+            <div class="mypage-profile">
+                <p class="pro-name">황윤하</p>
+                <p class="pro-email">hyhdbsgk@naver.com</p>
+            </div>
+
+            <div class="line"></div>
+            
+            <div class="mypage-tab-box">
+                <div class="mypage-tab">
+                    <a href="#">내 프로필</a>
+                </div>
+                <div class="mypage-tab">
+                    <a href="#">내 게시글</a>
+                </div>
+            </div>
+            <div class="logout-box">
+                <button class="logout">로그아웃</button>
+                |
+                <button class="withdrawal">회원탈퇴</button>
+                <p class="logo">크루즈</p>
+            </div>
+        </div>
+
+        <!-- 게시글 관리 -->
+        <div class="board-cover">
+
+            
+            
+            <ul class="tabs">
+                <li class="tab-link current" data-tab="tab-1">내가 쓴 게시글</li>
+                <li class="tab-link" data-tab="tab-2">내가 쓴 댓글</li>
+            </ul>
+    
+            <div id="tab-1" class="tab-content current">
+                <div class="board-div">
+                    <table class="board-table">
+                        <colgroup>
+                            <col/>
+                            <col style="width: 120px;"/>
+                            <col style="width: 80px;"/>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th scope="col">제목</th>
+                                <th scope="col">작성일</th>
+                                <th scope="col">조회수</th>
+                            </tr>
+                        </thead>
+                        <!-- 반복 -->
+
+                        <!-- 게시글 없는 경우 - if -->
+
+                        <!-- <tbody>
+                            <td class="no-board" colspan="3">등록한 게시글이 없습니다.</td>
+                        </tbody> -->
+
+                        <tbody>
+                            <tr>
+                                <td class="td-article">
+                                    <input type="checkbox" id="chk-article-1" name="article-chk"/>
+                                    <label for="chk-article-1"></label>
+                                    <div class="board-num">1</div>
+                                    <div>
+                                        <span>[여우모]&nbsp;</span>
+                                        <a href="#" >부산여행 !필독!</a>
+                                    </div>
+                                </td>
+                                <td class="td-date">2023.10.04</td>
+                                <td class="td-hitcount">11</td>
+                            </tr>
+                        </tbody>
+                        <!-- 반복 -->
+                    </table>
+
+                    <div class="bottom-bar">
+                        <!-- 게시글 없는 경우 - if -->
+                        
+                        <!-- <button class="bottom-btn1"><a href="#" >글쓰기</a></button> -->
+                        
+                        <div>
+                            <input type="checkbox" id="all-article-chk"/>
+                            <label for="all-article-chk"></label>
+                            <span class="chk-text">전체 선택</span>
+                        </div>
+                        <div>
+                            <button class="bottom-btn2">삭제</button>
+                            <button class="bottom-btn2"><a href="#" >글쓰기</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-2" class="tab-content">
+                
+                <div class="board-div">
+                    <table class="board-table">
+                        
+                        <thead>
+                            <tr>
+                                <th colspan="3">댓글</th>
+                                <th>작성일</th>
+                            </tr>
+                        </thead>
+                        <!-- 반복 -->
+
+                        <!-- 댓글 없는 경우 - if -->
+
+                        <!-- <tbody>
+                            <td class="no-board" colspan="3">등록한 댓글이 없습니다.</td>
+                        </tbody> -->
+
+                        <tbody>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="comment-box">
+                                        <input type="checkbox" id="chk-comment-1" name="commentChk"/>
+                                        <label for="chk-comment-1"></label>
+                                        <div class="comment-content">
+                                            <a href="#">오키 11월 1일 부산 가보자고~</a>
+                                        </div>
+                                    </div>
+                                    <div class="comment-subject">[여우모] 부산여행 !필독!</div>
+                                </td>
+                                <td class="td-date">2023.10.04</td>
+                            </tr>
+                        </tbody>
+                        <!-- 반복 -->
+                    </table>
+
+                    <div class="bottom-bar">
+                        <!-- 댓글 없는 경우 - if -->
+                        
+                        <!-- <button class="bottom-btn1"><a href="#" >글쓰기</a></button> -->
+                        
+                        <div>
+                            <input type="checkbox" id="all-comment-chk"/>
+                            <label for="all-comment-chk"></label>
+                            <span class="chk-text">전체 선택</span>
+                        </div>
+                        <div>
+                            <button class="bottom-btn2">삭제</button>
+                            <button class="bottom-btn2"><a href="#" >글쓰기</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/mypage_board.js"></script>
+    
+</body>
+</html>
