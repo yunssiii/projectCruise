@@ -30,9 +30,9 @@
 </head>
 <body>
     
-<div class="add-div">
+<!-- <div class="add-div">
     <button>계좌등록</button>
-</div>
+</div> -->
 
 <!-- 약관동의 -->
 
@@ -169,12 +169,14 @@
             </div>
             <div class="accountNum-box">
                 <div class="account-text">계좌번호</div>
-                <input type="text" class="account-input" placeholder="계좌번호를 입력해주세요."/>
+                <input type="text" class="account-input" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                <div class="resultDiv" id="resultNum"></div>
             </div>
             <div class="accountPwd-box">
                 <div class="account-text">계좌 비밀번호</div>
-                <input type="password" class="acountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요."/>
-                <button class="acount-authBtn">인증</button>
+                <input type="password" class="accountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                <button class="account-authBtn">인증</button>
+                <div class="resultDiv" id="resultPwd"></div>
             </div>
             <div>
                 <button class="addBtn">등록</button>
@@ -186,125 +188,7 @@
 
 
 
-<script>
-
-    var addDiv = document.getElementsByClassName("add-div");
-    var modalDiv1 = document.getElementsByClassName("modal-div1");
-    var xButton1 = document.getElementsByClassName("closeBtn1");
-    var funs = []; //실행 함수를 저장하기 위한 변수
-
-    var nextBtn1 = document.getElementsByClassName("nextBtn1");
-    var modalDiv2 = document.getElementsByClassName("modal-div2");
-    var xButton2 = document.getElementsByClassName("closeBtn2");
-
-    var nextBtn2 = document.getElementsByClassName("nextBtn2");
-    var modalDiv3 = document.getElementsByClassName("modal-div3");
-    var xButton3 = document.getElementsByClassName("closeBtn3");
-    var addBtn = document.getElementsByClassName("addBtn");
-
-    function AddModal(num) {
-
-        return function() {
-
-            addDiv[num].onclick = function() {
-                modalDiv1[num].style.display = "block";
-            }
-
-            nextBtn1[num].onclick = function() {
-                modalDiv1[num].style.display = "none";
-                modalDiv2[num].style.display = "block";
-            }
-
-            xButton1[num].onclick = function() {
-                modalDiv1[num].style.display = "none";
-            }
-
-            nextBtn2[num].onclick = function() {
-                modalDiv2[num].style.display = "none";
-                modalDiv3[num].style.display = "block";
-            }
-
-            xButton2[num].onclick = function() {
-                modalDiv2[num].style.display = "none";
-            }
-
-            addBtn[num].onclick = function() {
-                modalDiv3[num].style.display = "none";
-            }
-
-            xButton3[num].onclick = function() {
-                modalDiv3[num].style.display = "none";
-            }
-
-        };
-    }
-
-    for(var i=0;i<addDiv.length;i++){
-        funs[i] = AddModal(i);
-    }
-
-    for(var j=0;j<addDiv.length;j++){
-        funs[j](); //호출
-    }
-
-
-</script>
-
-<script>
-
-    $("#agree-show").click(function() {
-        
-        if($("#agree-hide").css('display')==='none'){
-            $("#agree-hide").css('display','block');
-        }else if($("#agree-hide").css('display')==='block'){
-            $("#agree-hide").css('display','none');
-        }
-    });
-
-    $("#agree-show2").click(function() {
-        
-        if($("#agree-hide2").css('display')==='none'){
-            $("#agree-hide2").css('display','block');
-        }else if($("#agree-hide2").css('display')==='block'){
-            $("#agree-hide2").css('display','none');
-        }
-    });
-
-    $("#agree-show3").click(function() {
-        
-        if($("#agree-hide3").css('display')==='none'){
-            $("#agree-hide3").css('display','block');
-        }else if($("#agree-hide3").css('display')==='block'){
-            $("#agree-hide3").css('display','none');
-        }
-    });
-
-
-
-</script>
-
-<script>
-
-    const bankBtns = document.querySelectorAll(".bankBtn")
-
-    //click 클래스를 더하는 함수
-    function bankClick(event) {
-
-        bankBtns.forEach((e) => {
-            e.classList.remove("click");
-        });
-
-        event.target.classList.add("click");
-    } 
-
-    //bankClick함수를 호출해서 이벤트 감지 후 적용
-    bankBtns.forEach((e) => {
-        e.addEventListener("click", bankClick);
-    });
-
-    getElementsByClassName
-
-</script>
+<script src="./js/mypage_addAccount.js"></script>
 
 
 
