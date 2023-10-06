@@ -250,7 +250,7 @@ a:hover {
     padding: 30px 30px 40px 30px;
     grid-template-columns: 100px 100px 100px 100px 80px 70px;
     grid-template-areas:
-    "crewname      crewname     crewname    crewname   crewexit   crewexit"
+    "crewname      crewname     crewname    crewname   crewmanage   crewexit"
     "dotline1      dotline1     dotline1    dotline1   dotline1   dotline1"
     "accnum_sub  account_num account_num account_num    mark         mark"
     "captain_sub    captain     captain     captain     mark         mark"
@@ -268,12 +268,45 @@ a:hover {
 .bankbook_top .crewname {
     margin: 10px;
     grid-area: crewname;
+    display: flex;
     text-align: left;
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     font-size: 18pt;
 }
 
-.bankbook_top .crewmanage, #crewexit {
+.bankbook_top .gotoBoardBtn {
+    text-align: center;
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    border: 0;
+    height: 30px;
+    margin: 0 0 0 20px;
+    padding: 2px 20px 0 20px;
+    border-radius: 5px;
+    background-color: lightgrey;
+    cursor: pointer;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.bankbook_top .gotoBoardBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+.bankbook_top .gotoBoardBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+
+.bankbook_top .crewmanage {
+    grid-area: crewmanage;
+    font-size: 10pt;
+    text-align: right;
+}
+
+#crewexit {
+    grid-area: crewexit;
     font-size: 10pt;
     text-align: right;
 }
