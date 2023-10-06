@@ -1,0 +1,78 @@
+
+
+#memberPayView {
+    justify-content: center;
+    grid-template-columns: 0vw 25vw 2vw 38vw 0vw;
+    grid-template-areas:
+    ". payReceipt . rightZone .";
+}
+
+
+/***************** 영수증 모양 ******************/
+
+
+    /* 영수증 모양 */
+
+        .payReceipt {
+            grid-area: payReceipt;
+            width: 25vw;
+            height: 64vh; /* height랑 bottom의 top이랑 px 맞춰주면 됨 */
+            background-color: #f1f1f1;
+            box-shadow: 4px 0 2px -2px rgba(0,0,0,0.2);
+            min-width: 300px;
+        }
+
+    /* 영수증 내용 */
+
+    .topBottomLine {
+        margin: 20px;
+        width: 90%;
+        border: 1px solid;
+    }
+
+    .middleDotLine {
+        width: 85%;
+        margin: 20px auto;
+        color: grey;
+        border: 1px dashed;
+    }
+
+    .payReceipt .titleContainer {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .payReceipt .titleContainer .month {
+        display: flex;
+        background-color: white;
+        width: 30px;
+        height: 30px;
+        justify-content: center;
+        align-items: center;
+        margin-right: 5px;
+    }
+
+    .payReceipt .titleContainer .title {
+        font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+        font-size: 18pt;
+    }
+
+    .payReceipt .memberPayViewBox {
+        background-color: white;
+    }
+
+
+
+/********************************************/
+
+
+
+
+
+
+.rightZone {
+    grid-area: rightZone;
+    background-color: #8d7e79;
+    min-width: 300px;
+}

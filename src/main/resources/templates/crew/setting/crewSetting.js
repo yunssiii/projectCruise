@@ -45,6 +45,14 @@
             var crewSettingDivs = crewSettingContent.querySelectorAll("div");
             crewSettingDivs.forEach(function(crewSettingDiv){
                 if(crewSettingDiv.id==="scheduleSet") {
+
+                    // '위로' 눌렀다가 다시 메뉴 선택하면
+                    // 첫번째 메뉴 밑에 있는 div들에는 여전히 hidden 클래스가 덧씌워져 있는 문제 발생
+                    // 그래서 반복문으로 div 요소들의 hidden을 제거해주었다.
+                    var crewSettingContentDivs = crewSettingDiv.querySelectorAll('div');
+                    for(var i=0;i<crewSettingContentDivs.length;i++) {
+                        crewSettingContentDivs[i].classList.remove('hidden');
+                    }
                     crewSettingDiv.classList.add('visibleSettings');
                     crewSettingDiv.classList.remove('hidden');
                 } else {
@@ -55,7 +63,18 @@
 
             var memSettingDivs = memSettingContent.querySelectorAll("div");
             memSettingDivs.forEach(function(memSettingDiv){
-                if(memSettingDiv.id==="monthPayView") {
+                if(memSettingDiv.id==="memberPayView") {
+
+                    // '위로' 눌렀다가 다시 메뉴 선택하면
+                    // 첫번째 메뉴 밑에 있는 div들에는 여전히 hidden 클래스가 덧씌워져 있는 문제 발생
+                    // 그래서 반복문으로 div 요소들의 hidden을 제거해주었다.
+                    var memSettingContentDivs = memSettingDiv.querySelectorAll("div");
+                    for(var i=0;i<memSettingContentDivs.length;i++) {
+                        // alert(memSettingContentDivs[i]);
+                        memSettingContentDivs[i].classList.remove('hidden');
+                    }
+
+
                     memSettingDiv.classList.add('visibleSettings');
                     memSettingDiv.classList.remove('hidden');
                 } else {
@@ -105,6 +124,7 @@
         var crewFirstTap = crewTapDiv.querySelector("div");
         var memberTapDiv = document.getElementById('memberTap');
         selectSettingMenu();
+        setCrewTapClick("scheduleSet");
 
         if(crewBoxDiv.classList.contains('hidden')){
             crewBoxDiv.classList.remove('hidden');
@@ -144,6 +164,8 @@
         var memberTapDiv = document.getElementById('memberTap');
         var memberFirstTap = memberTapDiv.querySelector("div");
         selectSettingMenu();
+
+        setCrewTapClick("memberPayView");
 
         if(memberBoxDiv.classList.contains('hidden')){
             memberBoxDiv.classList.remove('hidden');
@@ -262,12 +284,8 @@
 
         // 설정창 제목 설정
         switch (setMenuName) {
-            case "monthPayView" :
+            case "memberPayView" :
                 memSettingTitle.textContent = "월별 회비 조회";
-                break;
-
-            case "payRequest" :
-                memSettingTitle.textContent = "선원 회비요청";
                 break;
 
             case "memberBan" :

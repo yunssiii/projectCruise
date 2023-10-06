@@ -52,6 +52,8 @@ body {
     background-color: #0C0CCA;
     width: 100%;
     height: 130vh;
+    min-width: 80vh;
+    min-height: 80vh;
 }
 
 #scrollPoint {
@@ -73,6 +75,8 @@ body {
     height: 100%;
     /*justify-content: center;*/
     align-content: center;
+    min-width: 60vh;
+    min-height: 50vh;
 }
 
 .crewTitle {
@@ -88,6 +92,8 @@ body {
     width: 600px;
     margin: auto;
     justify-content: center;
+    min-width: 60vh;
+    min-height: 50vh;
 }
 
 .menuContainer .menuCard {
@@ -144,6 +150,8 @@ body {
 
 #settingDetailContainer {
     justify-content: center;
+    min-width: 800px;
+    min-height: 500px;
     width: 100%;
     height: 95vh;
     position: absolute;
@@ -159,6 +167,8 @@ body {
     width: 70%;
     height: 95vh;
     z-index: 2;
+    min-width: 60vh;
+    min-height: 50vh;
 }
 
 .topContainer {
@@ -224,6 +234,8 @@ body {
 .visibleSettings {
     display: grid;
     height: 100%;
+    min-width: 60vh;
+    min-height: 50vh;
 }
 
 
@@ -260,5 +272,8 @@ button:active {
 
 }
 
+#memberSettingContent {
+    display: block;
+}
 
 

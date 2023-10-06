@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>연습용 HTML 페이지</title>
+</head>
+<link rel="stylesheet" type="text/css" href="practiceCSS.css"/>
+<body>
+
+<div class="practice">
+<!--    영수증 연습 -->
+    <div class="payReceiptContainer">
+        <div class="payReceipt">
+        <div class="receiptTopBorder">
+            <script>
+                for(var i=0; i<30; i++) {
+                    // 네모 하나에 11px
+                    // 거기 맞춰서 top, bottom, body width 조절해주면 됨
+                    document.write("<div class='regTriangle'></div>")
+                }
+            </script>
+        </div>
+        <div class="receiptBody"></div>
+        <div class="receiptBottomBorder">
+            <script>
+                for(var i=0; i<30; i++) {
+                    document.write("<div class='regTriangle'></div>")
+                }
+            </script>
+        </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
