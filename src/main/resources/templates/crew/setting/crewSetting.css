@@ -79,7 +79,7 @@ body {
     font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
     font-size: 25pt;
     text-align: center;
-    margin: 50px;
+    margin: 50px auto 40px auto;
 }
 
 
@@ -118,6 +118,19 @@ body {
 
 .menuContainer .menuCard .menuImgContainer {
     margin: 35px;
+}
+
+.turnBack {
+    position: fixed;
+    top: 95vh;
+    right: 1vw;
+
+}
+
+.turnBack a {
+    text-decoration: none;
+    color:white;
+    text-shadow: 2px 0 1px #0C0CCA, -2px 0 1px #0C0CCA, 0 2px 1px #0C0CCA, 0 -2px 1px #0C0CCA;
 }
 
 
