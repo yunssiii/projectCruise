@@ -1,4 +1,7 @@
 
+//-- 계좌 등록 ----------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
+
 //모달 이동 버튼 
 var funs = []; //모달 이동 함수를 저장하기 위한 변수
 
@@ -35,6 +38,7 @@ function AddModal(num) {
 
         addDiv[num].onclick = function() {
             modalDiv1[num].style.display = "block";
+            document.body.style.overflow = "hidden";
         }
 
         //-- 모달1 -> 모달2, 전체 동의했는지도 같이 확인------------
@@ -55,6 +59,8 @@ function AddModal(num) {
 
         xButton1[num].onclick = function() {
             modalDiv1[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
         }
 
         //-- 모달2 -> 모달3, 계좌 선택했는지도 확인----------
@@ -74,10 +80,14 @@ function AddModal(num) {
 
         xButton2[num].onclick = function() {
             modalDiv2[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
         }
 
         xButton3[num].onclick = function() {
             modalDiv3[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
         }
     };
 }
@@ -85,7 +95,6 @@ function AddModal(num) {
 funs[0] = AddModal(0);
 
 funs[0]();
-
 
 //-- 모달1 약관 숨기기--------------------------------------------
 
@@ -279,6 +288,8 @@ function accountAuth (event) {
 
         addBtn[0].onclick = function() {    
             modalDiv3[0].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
         }
     }else {
         alert("인증실패");
@@ -298,12 +309,79 @@ function accountAuth (event) {
 authBtns[0].addEventListener("click",accountAuth);
 
 
+// -- 계좌 상세 보기 ----------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 
+/*
+    계좌 상세 모달
+    계좌 별칭 수정
+    계좌 삭제 (아직 안 함)
+*/
 
+var funcs1 = [];  
 
+//계좌 상세 모달
+var modals = document.getElementsByClassName("account-modal"); //모달div를 감싸는 최상위 class
+var boxs = document.getElementsByClassName("select-modal-div"); //선택할 div class
+var btns = document.getElementsByClassName("closeBtn"); //닫기 버튼이 있는 div class
 
+// 계좌 별칭 수정
+var accUpdateBtn = document.getElementsByClassName("account-update");
+var okUpdateBtn = document.getElementsByClassName("account-update-ok");
+var pAlias = document.getElementsByClassName("account-alias");
+var inputAlias = document.getElementsByClassName("account-alias2");
 
+// Modal을 띄우고 닫는 클릭 이벤트를 정의한 함수
+function Modal(num) {
 
+    //수정
+    accUpdateBtn[num].onclick = function() {
+        pAlias[num].classList.add("hidden");
+        inputAlias[num].classList.remove("hidden");
 
+        accUpdateBtn[num].classList.add("hidden");
+        okUpdateBtn[num].classList.remove("hidden");
+    };
 
+    okUpdateBtn[num].onclick = function() {
+        pAlias[num].classList.remove("hidden");
+        inputAlias[num].classList.add("hidden");
+
+        accUpdateBtn[num].classList.remove("hidden");
+        okUpdateBtn[num].classList.add("hidden");
+    };
+
+    //모달
+    return function() {
+
+        boxs[num].onclick =  function() {
+            modals[num].style.display = "block";
+            document.body.style.overflow = "hidden";
+        };
+    
+        btns[num].onclick = function() {
+            modals[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
+        };
+
+    };
+}
+
+for(var i = 0; i < boxs.length; i++) {
+    funcs1[i] = Modal(i); //함수 담기
+}
+
+for(var j = 0; j < boxs.length; j++) {
+    funcs1[j](); //함수 호출
+}
+
+// Modal 영역 밖을 클릭하면 Modal 닫음
+window.onclick = function(event) {
+    if (event.target.className == "account-modal") {
+        event.target.style.display = "none";
+        document.body.style.overflow = "auto";
+        document.body.style.overflowX = "hidden";
+    }
+};
 
