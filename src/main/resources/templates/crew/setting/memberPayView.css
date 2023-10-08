@@ -1,8 +1,11 @@
 
 
 #memberPayView {
+    min-width: 1080px;
     justify-content: center;
-    grid-template-columns: 0vw 25vw 2vw 38vw 0vw;
+    grid-template-columns:
+            minmax(37px,0vw) minmax(384px,25vw) minmax(37px,2vw) minmax(583px,38vw) minmax(37px,0vw);
+            /*0vw 25vw 2vw 38vw 0vw;*/
     grid-template-areas:
     ". payReceipt . rightZone .";
 }
@@ -13,14 +16,15 @@
 
     /* 영수증 모양 */
 
-        .payReceipt {
-            grid-area: payReceipt;
-            width: 25vw;
-            height: 64vh; /* height랑 bottom의 top이랑 px 맞춰주면 됨 */
-            background-color: #f1f1f1;
-            box-shadow: 4px 0 2px -2px rgba(0,0,0,0.2);
-            min-width: 300px;
-        }
+    .payReceipt {
+        grid-area: payReceipt;
+        /*width: 25vw;*/
+        min-width: 380px;
+        height: 64vh;
+        min-height: 452px;
+        background-color: #f1f1f1;
+        box-shadow: 4px 0 2px -2px rgba(0,0,0,0.2);
+    }
 
     /* 영수증 내용 */
 
@@ -39,17 +43,24 @@
 
     .payReceipt .titleContainer {
         display: flex;
+        flex-wrap: wrap;
+        /*height: 50px;*/
         justify-content: center;
-        align-content: center;
+        align-items: center;
+        position: relative;
+        /*화살표 위치 절대고정 하기 위해서*/
     }
+
 
     .payReceipt .titleContainer .month {
         display: flex;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 13pt;
         background-color: white;
-        width: 30px;
-        height: 30px;
+        width: 50px;
+        height: 40px;
         justify-content: center;
-        align-items: center;
+        text-align: center;
         margin-right: 5px;
     }
 
@@ -58,9 +69,95 @@
         font-size: 18pt;
     }
 
-    .payReceipt .memberPayViewBox {
+
+    /* 내용 나타나는 부분 */
+    .payReceipt #memberPayViewBox {
         background-color: white;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        padding: 3%;
+        margin: auto;
     }
+
+    .payReceipt #memberPayViewBox .oneLineContainer{
+        display: flex;
+        justify-content: space-between;
+        padding: 2%;
+    }
+
+    /* 납부하지 않은 사람 표시 */
+    .redName{
+        font-weight: bold;
+        color: red;
+        cursor: pointer;
+    }
+
+    /* 납부하지 않은사람 - 마우스 대면 하이라이팅 */
+    .highlighter {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .highlighter:before {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 0;
+        width: 0;
+        height: 25px;
+        background-color: rgba(255, 207, 60, 0.33);
+        z-index: 0;
+    }
+
+    .highlighter:hover:before {
+        width: 100%;
+        transition: all ease-out 0.5s;
+    }
+
+    /* 납부요청 메시지를 받는 사람*/
+
+    .msgReceiverContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #msgReceiver {
+        font-weight: bold;
+    }
+
+    .sendMsgContainer button {
+        width: 150px;
+        margin: 10px 5px 5px 5px;
+    }
+
+    .hiddenContainer {
+        display: none;
+        height: 0;
+    }
+
+    .nonSelected {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nonSelected .wrap{
+        font-size: 15pt;
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .payTotal {
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
 
 
 
@@ -74,5 +171,6 @@
 .rightZone {
     grid-area: rightZone;
     background-color: #8d7e79;
-    min-width: 300px;
+    min-width: 580px;
+    min-height: 452px;
 }
