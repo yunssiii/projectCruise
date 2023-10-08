@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="crewSetting.css"/>
     <link rel="stylesheet" type="text/css" href="crewInfoUpdate.css"/>
     <link rel="stylesheet" type="text/css" href="crewDelete.css"/>
+    <link rel="stylesheet" type="text/css" href="memberPayView.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -18,32 +19,36 @@
     </div>
 
     <div class="visibleContainer">
-        <div class="crewTitle">앙큼불여우단 크루 관리</div>
-        <div class="menuContainer">
-            <div class="menuCard" onclick="selectCrewSetting()">
-                <div class="menuImgContainer">
-                    <i class="fa-solid fa-people-roof fa-5x" style="color: rgb(105, 89, 78);"></i>
-                </div>
-                <div class="menuTitle">크루관리</div>
-                <div class="menuSummary">
-                    크루 일정 관리<br>
-                    크루 정보 수정<br>
-                    항해 중단하기
+        <div class="minSizeContainer">
+            <div class="crewTitle">앙큼불여우단 크루 관리</div>
+                <div class="menuContainer">
+                    <div class="menuCard" onclick="selectCrewSetting()">
+                        <div class="menuImgContainer">
+                            <i class="fa-solid fa-people-roof fa-5x" style="color: rgb(105, 89, 78);"></i>
+                        </div>
+                        <div class="menuTitle">크루관리</div>
+                        <div class="menuSummary">
+                            크루 일정 관리<br>
+                            크루 정보 수정<br>
+                            항해 중단하기
+                        </div>
+                    </div>
+                    <div class="menuCard" onclick="selectMemberSetting()">
+                        <div class="menuImgContainer">
+                            <i class="fa-solid fa-sailboat fa-5x" style="color: rgb(105, 89, 78);"></i>
+                        </div>
+                        <div class="menuTitle">선원관리</div>
+                        <div class="menuSummary">
+                            월별 회비 조회<br>
+                            선원 강퇴하기<br>
+                            잔액 1/N 하기
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="menuCard" onclick="selectMemberSetting()">
-                <div class="menuImgContainer">
-                    <i class="fa-solid fa-sailboat fa-5x" style="color: rgb(105, 89, 78);"></i>
-                </div>
-                <div class="menuTitle">선원관리</div>
-                <div class="menuSummary">
-                    월별 회비 조회<br>
-                    선원 회비 요청<br>
-                    선원 강퇴하기<br>
-                    잔액 1/N 하기
-                </div>
-            </div>
-        </div>
+    </div>
+    <div class="turnBack">
+        <a href="http://localhost:63342/project_cruise/src/main/resources/templates/crew/main/crewmain.html"> ▶ 크루로 돌아가기 </a>
     </div>
     <div id="settingDetailContainer" class="hidden">
         <div id="scrollPoint"></div>
@@ -54,8 +59,7 @@
                 <div class="tap" onclick="setCrewTapClick('crewDelete')">항해 중단하기</div>
             </div>
             <div id="memberTap" class="hidden">
-                <div class="tap select" onclick="setMemTapClick('monthPayView')">월별 회비 조회</div>
-                <div class="tap" onclick="setMemTapClick('payRequest')">선원 회비 요청</div>
+                <div class="tap select" onclick="setMemTapClick('memberPayView')">월별 회비 조회</div>
                 <div class="tap" onclick="setMemTapClick('memberBan')">선원 강퇴하기</div>
                 <div class="tap" onclick="setMemTapClick('memberDivN')">잔액 1/N 하기</div>
             </div>
@@ -189,8 +193,46 @@
         <div id="memberSettingBox" class="hidden">
             <div id="memSettingTitle">월별 회비 조회</div>
             <div id="memSettingContent">
-                <div id="monthPayView" class="visibleSettings"> 월별 회비 조회 </div>
-                <div id="payRequest" class="hidden"> 선원 회비 요청 </div>
+                <div id="memberPayView" class="visibleSettings">
+                    <div class="payReceipt">
+                        <hr class="topBottomLine">
+                        <div class="titleContainer">
+                            <select class="month" name="payViewMonth">
+                                <!-- FIXME 월수만큼 불러오기 -->
+                                <script>
+                                    /* 크루 월별회비조회 select부분 월 불러오기*/
+                                    var nowFullDate = new Date();
+                                    var nowMonth = nowFullDate.getMonth() + 1;
+
+                                    var crewCreated = '2023-08-08 21:59:03'
+                                    var crewCreatedMonth = crewCreated.substring(5,7);
+                                    crewCreatedMonth = parseInt(crewCreatedMonth)
+
+                                    for(var i=nowMonth;i>=crewCreatedMonth;i--) {
+                                        document.write('<option>' + i + '</option>');
+                                    }
+
+                                </script>
+                            </select>
+                            <div class="title">월 회비 조회</div>
+                        </div>
+                        <hr class="middleDotLine">
+                        <div id="memberPayViewBox">여기 내역이 작성됩니다.</div>
+                        <hr class="middleDotLine">
+                        <div id="nonSelected" class="nonSelected">
+                            <div class="wrap"> 총 <div class="payTotal"></div></div>
+                        </div>
+                        <div class="sendMsgContainer hiddenContainer">
+                            <div class="msgReceiverContainer">
+                                <div id="msgReceiver">수신자이름</div>님 에게,
+                            </div>
+                            <button>카카오톡 보내기</button>
+                            <button>알림으로 보내기</button>
+                        </div>
+                        <hr class="topBottomLine">
+                    </div>
+                    <div class="rightZone"></div>
+                </div>
                 <div id="memberBan" class="hidden"> 선원 강퇴 </div>
                 <div id="memberDivN" class="hidden"> 잔액 1/N 하기 </div>
             </div>
@@ -198,19 +240,20 @@
     </div>
 
 
-
-
-
 </body>
 
-<script type="text/javascript" src="./crewSetting.js"></script>
-<script type="text/javascript" src="./crewInfoUpdate.js"></script>
-<script type="text/javascript" src="./crewDelete.js"></script>
-<script>
-    // 유예기간 실시간으로 보여주기 위한 스크립트
-    setInterval(function() {
-        deleteDateStrMaker('2023-10-05 09:05:00')
-    }, 1000);
-    //FIXME DB에서 불러온 유예시작일로 고치기
-</script>
+    <script type="text/javascript" src="./crewSetting.js"></script>
+    <script type="text/javascript" src="./crewInfoUpdate.js"></script>
+    <script type="text/javascript" src="./crewDelete.js"></script>
+    <script type="text/javascript" src="./memberPayView.js"></script>
+    <script>
+        // 유예기간 실시간으로 보여주기 위한 스크립트
+        setInterval(function() {
+            deleteDateStrMaker('2023-10-05 09:05:00')
+        }, 1000);
+        //FIXME DB에서 불러온 유예시작일로 고치기
+
+
+
+    </script>
 </html>
