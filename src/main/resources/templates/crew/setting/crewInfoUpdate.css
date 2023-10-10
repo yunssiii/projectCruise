@@ -8,21 +8,35 @@
 
 #informationSet .information{
     grid-area: information;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     text-align: center;
     align-items: center;
+    justify-content: center;
+}
+
+.information img {
+    margin-bottom: 5vh;
 }
 
 .information hr {
     width: 50px;
     rotate: -45deg;
-    margin: 60px auto 60px auto;
+    margin: 10vh auto 10vh auto;
 }
 
+.information .crewTitle {
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 25pt;
+    text-align: center;
+    margin: 0;
+}
 
 .crewInfoSummary {
     width: 70%;
-    margin: auto;
     text-align: left;
+    padding-bottom: 15vh;
 }
 
 .crewInfoSummary .captainName {
@@ -52,7 +66,12 @@
 
 #informationSet form {
     grid-area: form;
-    height: 100%;
+    padding-right: 5vw;
+    height: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
@@ -60,7 +79,7 @@
     display: inline-block;
     justify-content: left;
     margin: 10px 10px 10px 10px;
-    width: 90%;
+    width: 100%;
 }
 
 #informationSet .content .title {

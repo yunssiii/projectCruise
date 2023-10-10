@@ -3,13 +3,18 @@
 #crewDelete .title {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     font-size: 18pt;
-    margin: 5px;
 }
 
 #crewDelete .deleteWarning {
     margin: 10px 60px 10px 60px;
     font-size: 10pt;
     color: grey;
+}
+.visibleDiv {
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 1vh;
 }
 
 
@@ -42,7 +47,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
-    margin-top: 20px;
+    margin-top: 1vh;
     width: 150px;
     height: 40px;
     background-color: #0C0CCA;

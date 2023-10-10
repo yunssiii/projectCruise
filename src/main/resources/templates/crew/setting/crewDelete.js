@@ -1,4 +1,16 @@
 
+// 모달 숨기기, 보이기 함수
+function hiddenModalFunction(modalDOM) {
+    modalDOM.classList.remove('visibleModal');
+    modalDOM.classList.add('hiddenModal');
+}
+
+function visibleModalFunction(modalDOM) {
+    modalDOM.classList.remove('hiddenModal');
+    modalDOM.classList.add('visibleModal');
+}
+
+
 
 
 // 크루 삭제할지말지 결정하는 창 ========================================================================
@@ -11,12 +23,8 @@ var modalBack = document.getElementById('modalBackground');
     var deleteYNModal = document.getElementById('deleteYNModal')
 
     function deleteBtnClick() {
-
-        modalBack.classList.remove('hiddenModal');
-        deleteYNModal.classList.remove('hiddenModal');
-        modalBack.classList.add('visibleModal');
-        deleteYNModal.classList.add('visibleModal');
-
+        visibleModalFunction(modalBack);
+        visibleModalFunction(deleteYNModal);
     }
 
 
@@ -42,16 +50,13 @@ var modalBack = document.getElementById('modalBackground');
              3. if문을 다 넘긴 후에는 유예기간 3일
          */
 
-        deleteYNModal.classList.add('hiddenModal');
-        deleteYNModal.classList.remove('visibleModal');
-        modalBack.classList.remove('visibleModal');
-        modalBack.classList.add('hiddenModal');
+        hiddenModalFunction(deleteYNModal);
+        hiddenModalFunction(modalBack);
 
         if(accountBalance!==0) {
-            cannotDeleteModal.classList.remove('hiddenModal');
-            cannotDeleteModal.classList.add('visibleModal');
-            modalBack.classList.remove('hiddenModal');
-            modalBack.classList.add('visibleModal');
+
+            visibleModalFunction(cannotDeleteModal);
+            visibleModalFunction(modalBack);
 
             deleteWarningTitle.textContent = "대표계좌에 잔액이 남아있어요.";
             deleteWarningMsg.textContent = "대표계좌의 잔액을 0원으로 만들어주세요."
@@ -63,10 +68,9 @@ var modalBack = document.getElementById('modalBackground');
         }
 
         if((crewMemNum-1)!==0) {
-            cannotDeleteModal.classList.remove('hiddenModal');
-            cannotDeleteModal.classList.add('visibleModal');
-            modalBack.classList.remove('hiddenModal');
-            modalBack.classList.add('visibleModal');
+
+            visibleModalFunction(cannotDeleteModal);
+            visibleModalFunction(modalBack);
 
             deleteWarningTitle.textContent = "크루에 아직 선원이 남아있어요.";
             deleteWarningMsg.textContent = "크루의 선원들을 내보내주세요."
@@ -81,16 +85,16 @@ var modalBack = document.getElementById('modalBackground');
         var crewDeleteYNDiv = document.getElementById('crewDeleteYNDiv');
         var crewDeleteCompleteDiv = document.getElementById('crewDeleteComplete');
 
-        crewDeleteYNDiv.classList.add('hiddenDiv');
-        crewDeleteCompleteDiv.classList.remove('hiddenDiv');
+
+        hiddenModalFunction(crewDeleteYNDiv);
+        visibleModalFunction(crewDeleteCompleteDiv);
 
 
     }
 
 
     function modalWindowClose() {
-        modalBack.classList.add('hiddenModal');
-        modalBack.classList.remove('visibleModal');
+        hiddenModalFunction(modalBack);
     }
 
 
@@ -105,6 +109,8 @@ var modalBack = document.getElementById('modalBackground');
 
         // 1. 모달 창 꺼주고
         modalWindowClose();
+        hiddenModalFunction(cannotDeleteModal);
+        hiddenModalFunction(modalBack);
 
         // 2. 선원관리 Div 보여주고
         memberBoxDiv.classList.remove('hidden');
@@ -119,7 +125,7 @@ var modalBack = document.getElementById('modalBackground');
 
         // 3. 선원관리 - 선원관리하기 탭에 select 클래스 적용하고
             // 선원관리하기 탭이 div 4개중 3번째에 해당하므로 [2]에 해당함
-        memberBanTap[2].classList.add('select');
+        memberBanTap[1].classList.add('select');
 
         // 4. 선원관리 Div를 보여주기
         setMemTapClick('memberBan');
@@ -138,6 +144,8 @@ var modalBack = document.getElementById('modalBackground');
 
         // 1. 모달 창 꺼주고
         modalWindowClose();
+        hiddenModalFunction(cannotDeleteModal);
+        hiddenModalFunction(modalBack);
 
         // 2. 선원관리 Div 보여주고
         memberBoxDiv.classList.remove('hidden');
@@ -152,7 +160,7 @@ var modalBack = document.getElementById('modalBackground');
 
         // 3. 선원관리 - 잔액 1/N 하기 탭에 select 클래스 적용하고
         // 선원관리하기 탭이 div 4개중 4번째에 해당하므로 [3]에 해당함
-        memberBanTap[3].classList.add('select');
+        memberBanTap[2].classList.add('select');
 
         // 4. 선원관리 Div를 보여주기
         setMemTapClick('memberDivN');
@@ -209,11 +217,8 @@ var modalBack = document.getElementById('modalBackground');
 
     var crewDeleteCancelModal = document.getElementById("crewDeleteCancelModal")
     function cancelDeleteCrewBtnClick() {
-        crewDeleteCancelModal.classList.remove('hiddenModal');
-        crewDeleteCancelModal.classList.add('visibleModal');
-        modalBack.classList.remove('hiddenModal');
-        modalBack.classList.add('visibleModal');
-
+        visibleModalFunction(crewDeleteCancelModal);
+        visibleModalFunction(modalBack);
     }
 
     // 항해 다시 시작 버튼을 눌렀을 때
