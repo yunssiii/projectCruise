@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/mypage_user.css"/>
+    <link rel="stylesheet" href="./css/mypage_userOut.css"/>
     <link rel="stylesheet" href="./css/mypage_userTab.css"/>
     <!-- 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
@@ -66,7 +67,7 @@
                     기본 정보
                 </p>
                 이름 <input type="text" class="user-name" value="황윤하"/>
-                이메일 <input type="text" class="user-email" value="hchdbsgk@naver.com"/>
+                이메일 <input type="text" class="user-email" value="hchdbsgk@naver.com" disabled/>
                 전화번호 <input type="text" class="user-tel" value="010-5036-6733"/>
             </div>
             <div class="user-cover2">
@@ -90,20 +91,22 @@
                     비밀번호 변경
                 </p>
                 <p>비밀번호</p>
-                <input type="password" class="password" placeholder="현재 비밀번호"/>
-                <!-- 확인 누르면 새 비밀번호창 show -->
+                <input type="password" class="password" placeholder="현재 비밀번호" onkeypress="enterkey(event)"/>
                 <button class="passwordBtn" id="show">확인</button>
+                <div class="resultDiv" id="resultUserPwd"></div>
             </div>
 
             <!-- 기본 hide -->
-            <div class="user-cover4" id="hide"> 
+            <div class="user-cover4" style="display: none;"> 
                 <div class="newPwd-box1">
                     새 비밀번호
                     <input type="password" class="newPwd" placeholder="새 비밀번호"/>
+                    <div class="resultDiv" id="resultNewPwd"></div>
                 </div>
                 <div class="newPwd-box2">
                     새 비밀번호 확인
-                    <input type="password" class="chk-newPwd" placeholder="새 비밀번호 확인"/>
+                    <input type="password" class="chk-newPwd" placeholder="새 비밀번호 확인" onkeypress="updateEnterkey(event)"/>
+                    <div class="resultDiv" id="resultNewPwd-chk"></div>
                 </div>
             </div>
             
@@ -113,17 +116,61 @@
         </div>
     </div>
 
+    <!-- "회원정보 수정" 모달 -->
+    <div class="userUpdatemodal-div">
+        <div class="userUpdate-content">
+            <div class="userUpdate-box">
+                <div class="userUpdate-title">회원정보를 수정하겠습니까?</div>
+                <div class="yesno-box">
+                    <button class="yesBtn">예</button>
+                    <button class="noBtn">아니오</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- "회원 탈퇴" 모달 -->
+     <div class="userOutmodal-div">
+        <div class="userOutmodal-content">
+            <div class="userOut-box">
+                <h2 class="userOut-title">회원 탈퇴하시겠습니까?</h2>
+                <div class="userOut-content">
+                <b> [ 안내사항 ] </b> <br/>
+                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
+                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
+                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
+                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
+                </div>
+                <div class="yn-box">
+                    <button class="yBtn">예</button>
+                    <button class="nBtn">아니오</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- "회원 탈퇴" 확인 모달 -->
+    <div class="y-div">
+        <div class="y-content">
+            <div class="y-box">
+                탈퇴되었습니다.
+            </div>
+            <button class="yes">확인</button>
+        </div>
+    </div>
+    
+    <div class="n-div">
+        <div class="n-content">
+            <div class="n-box">
+                계속 항해를 이어갑니다.
+            </div>
+            <button class="no">확인</button>
+        </div>
+    </div>
 
 
-
-    <script>
-
-        $("#show").click(function() {
-            $("#hide").show();
-            $("#hide").css('display','flex');
-        });
-
-    </script>
+    <script src="./js/mypage_user.js"></script>
+    <script src="./js/mypage_userOut.js"></script>
 
 
 </body>

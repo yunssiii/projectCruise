@@ -197,24 +197,6 @@ body{margin: 0; overflow-x: hidden;}
     box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.content::-webkit-scrollbar {
-    width: 0;
-}
-
-.crewDelModal-closeBtn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-.crewDelModal-closeBtn:hover {
-    color: rgb(56, 44, 44);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-
-
 .crewDel-box {
     /* border: 1px solid; */
     display: flex;

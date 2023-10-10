@@ -10,7 +10,6 @@ var functions = []; //함수 저장 변수
 //모달창 클릭, 모달창
 var outBtn = document.getElementsByClassName("user-out");
 var crewdelDiv = document.getElementsByClassName("crewDelmodal-div");
-var xBtn = document.getElementsByClassName("crewDelModal-closeBtn");
 
 //예스버튼 클릭, 모달창
 var yBtns = document.getElementsByClassName("yBtn");
@@ -28,15 +27,10 @@ function DelModal(num) {
             document.body.style.overflow = "hidden";
         }
 
-        xBtn[num].onclick = function() {
-            crewdelDiv[num].style.display = "none";
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-        }
-
         yBtns[num].onclick = function() {
             crewdelDiv[num].style.display = "none";
             ymodal[num].style.display = "block";
+
         }
 
         nBtns[num].onclick = function() {
@@ -46,12 +40,14 @@ function DelModal(num) {
 
         okBtn1[num].onclick = function() {
             ymodal[num].style.display = "none";
+
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
         }
 
         okBtn2[num].onclick = function() {
             nmodal[num].style.display = "none";
+
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
         }

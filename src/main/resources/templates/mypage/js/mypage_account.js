@@ -190,7 +190,9 @@ function bankClick(event) {
 } 
 
 function colorchange() {
-    nextBtn2[0].style.backgroundColor = "#0c0ccad0"
+    nextBtn2[0].style.backgroundColor = "#0c0ccad0";
+    nextBtn2[0].style.cursor = "pointer";
+    
 }
 
 bankBtns.forEach((e) => {
@@ -285,6 +287,7 @@ function accountAuth (event) {
     if(accounPwds[0].value == 1234 && accounNums[1].value != "" && accounNums[1].value.length >= 10 && accounNums[1].value.length <= 14){
         alert("인증성공");
         addBtn[0].style.backgroundColor = "#0c0ccad0";
+        addBtn[0].style.cursor = "pointer";
 
         addBtn[0].onclick = function() {    
             modalDiv3[0].style.display = "none";
@@ -315,7 +318,7 @@ authBtns[0].addEventListener("click",accountAuth);
 /*
     계좌 상세 모달
     계좌 별칭 수정
-    계좌 삭제 (아직 안 함)
+    계좌 삭제 
 */
 
 var funcs1 = [];  
@@ -385,3 +388,43 @@ window.onclick = function(event) {
     }
 };
 
+// -- 계좌 삭제 예/아니오---------------------------------------------------------------
+var accountFunc = []; //함수 저장 변수
+
+//모달창 클릭, 모달창
+var accDelBtn = document.getElementsByClassName("account-delete");
+var accountdelDiv = document.getElementsByClassName("accountDelmodal-div");
+
+//예스버튼 클릭
+var yesBtns = document.getElementsByClassName("yesBtn");
+var noBtns = document.getElementsByClassName("noBtn");
+
+function accountDelModal(num) {
+    return function() {
+
+        accDelBtn[num].onclick = function() {
+            accountdelDiv[num].style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+
+        yesBtns[num].onclick = function() {
+            accountdelDiv[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
+        }
+
+        noBtns[num].onclick = function() {
+            accountdelDiv[num].style.display = "none";
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
+        }
+    }
+}
+
+for(var i = 0; i < accDelBtn.length; i++) {
+    accountFunc[i] = accountDelModal(i); //함수 담기
+}
+
+for(var j = 0; j < accDelBtn.length; j++) {
+    accountFunc[j](); //함수 호출
+}
