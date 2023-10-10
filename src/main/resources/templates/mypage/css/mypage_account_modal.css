@@ -220,6 +220,84 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
     background-position: 50%;
 }
 
+/* -- 계좌 삭제 안내 모달 -------------------------------------------------------------------------------- */
+
+.accountDelmodal-div {
+    display: none; /* 디폴트 none */
+    position: fixed; /* 위치 고정 */
+    z-index: 1; /* 맨 앞 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경색 */
+    backdrop-filter: blur(3px);
+}
+
+.accountDel-content {
+    background-color: rgba(255,255,255,0.8); /* 모달창 배경 */
+    margin: 15% auto; 
+    padding: 40px 15px 40px 20px;
+    width: 30%;
+    height: auto; 
+    border-radius: 10px;
+    font-family: NanumSquare;
+    overflow: auto;
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.accountDelModal-closeBtn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.accountDelModal-closeBtn:hover {
+    color: rgb(56, 44, 44);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.accountDel-box {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 98%;
+    height: auto; 
+    /* margin: 20px; */
+}
+
+.accountDel-title {
+    font-size: 16pt;
+    font-family: NanumSquareExtraBold;
+    margin-bottom: 50px;
+}
+
+.yesBtn, .noBtn {
+    font-family: NanumSquareBold;
+    padding: 8px 30px 8px 30px;
+    background: white;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 5px;
+    margin-right: 24px;
+}
+
+.noBtn {
+    padding: 8px 20px 8px 20px;
+    margin-right: 0px;
+}
+
+.yesBtn:hover, .noBtn:hover {
+    background-color: #0C0CCA;
+    transition: 0.2s;
+    color: white;
+    cursor: pointer;
+}
+
 /* -- 계좌 상세 모달 ------------------------------------------------------------------------------------ */
 
 /* 계좌 상세 모달창 */

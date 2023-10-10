@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- tab bootstrap / css 우선순위로 맨 위 -->  
     <link rel="stylesheet" href="./css/mypage_userTab.css"/>
+    <link rel="stylesheet" href="./css/mypage_userOut.css"/>
     <link rel="stylesheet" href="./css/mypage_board.css"/>
     <!-- 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
@@ -189,7 +190,47 @@
         </div>
     </div>
 
+    <!-- "회원 탈퇴" 모달 -->
+    <div class="userOutmodal-div">
+        <div class="userOutmodal-content">
+            <div class="userOut-box">
+                <h2 class="userOut-title">회원 탈퇴하시겠습니까?</h2>
+                <div class="userOut-content">
+                <b> [ 안내사항 ] </b> <br/>
+                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
+                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
+                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
+                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
+                </div>
+                <div class="yn-box">
+                    <button class="yBtn">예</button>
+                    <button class="nBtn">아니오</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- "회원 탈퇴" 확인 모달 -->
+    <div class="y-div">
+        <div class="y-content">
+            <div class="y-box">
+                탈퇴되었습니다.
+            </div>
+            <button class="yes">확인</button>
+        </div>
+    </div>
+    
+    <div class="n-div">
+        <div class="n-content">
+            <div class="n-box">
+                계속 항해를 이어갑니다.
+            </div>
+            <button class="no">확인</button>
+        </div>
+    </div>
+
     <script src="./js/mypage_board.js"></script>
+    <script src="./js/mypage_userOut.js"></script>
     
 </body>
 </html>

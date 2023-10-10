@@ -191,3 +191,78 @@
     background-color: rgba(250, 211, 96, 0.726);
 }
 
+/* -- 비밀번호 변경 ------------------------------------------------------ */
+.resultDiv {/* 계좌 등록 입력창 알림 */
+    margin-top: 5px;
+    padding-left: 2px;
+    color: red;
+    font-size: 9pt;
+    font-family: NanumSquare;
+    font-weight: 600;
+}
+
+/* -- 회원정보 수정 모달 -------------------------------------------------------------------------------- */
+
+.userUpdatemodal-div {
+    display: none; /* 디폴트 none */
+    position: fixed; /* 위치 고정 */
+    z-index: 1; /* 맨 앞 */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* 뒷 배경색 */
+    backdrop-filter: blur(3px);
+}
+
+.userUpdate-content {
+    background-color: rgba(255,255,255,0.8); /* 모달창 배경 */
+    margin: 15% auto; 
+    padding: 40px 15px 40px 20px;
+    width: 30%;
+    height: auto; 
+    border-radius: 10px;
+    font-family: NanumSquare;
+    overflow: auto;
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.userUpdate-box {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 98%;
+    height: auto; 
+    /* margin: 20px; */
+}
+
+.userUpdate-title {
+    font-size: 16pt;
+    font-family: NanumSquareExtraBold;
+    margin-bottom: 50px;
+}
+
+.yesBtn, .noBtn {
+    font-family: NanumSquareBold;
+    padding: 8px 30px 8px 30px;
+    background: white;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 5px;
+    margin-right: 24px;
+}
+
+.noBtn {
+    padding: 8px 20px 8px 20px;
+    margin-right: 0px;
+}
+
+.yesBtn:hover, .noBtn:hover {
+    background-color: #0C0CCA;
+    transition: 0.2s;
+    color: white;
+    cursor: pointer;
+}
