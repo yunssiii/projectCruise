@@ -21,7 +21,7 @@ body{margin: 0; overflow-x: hidden;}
     top: 90px;
     background-color: #08086e;
     width: 100%;
-    height: 1300px;
+    height: 700%;
 }
 
 .container_1{
@@ -33,6 +33,8 @@ body{margin: 0; overflow-x: hidden;}
     height: 100vh;
     margin-left: 10%;
     margin-right: 10%;
+    margin-top: -3%;
+    margin-bottom: 10%;
 }
 
 .crew-titlebox{
@@ -187,7 +189,7 @@ body{margin: 0; overflow-x: hidden;}
 
 .crewDel-content {
     background-color: rgba(255,255,255,0.8); /* 모달창 배경 */
-    margin: 5% auto; 
+    margin: 10% auto; 
     padding: 20px 15px 20px 20px;
     width: 30%;
     height: auto; 
@@ -263,7 +265,7 @@ body{margin: 0; overflow-x: hidden;}
 
 .y-content, .n-content {
     background-color: rgba(255,255,255,0.8);
-    margin: 5% auto; 
+    margin: 15% auto; 
     /* margin-top: 20%; */
     padding: 20px 15px 20px 20px;
     width: 30%;
