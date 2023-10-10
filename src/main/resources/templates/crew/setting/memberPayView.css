@@ -7,7 +7,22 @@
             minmax(37px,0vw) minmax(384px,25vw) minmax(37px,2vw) minmax(583px,38vw) minmax(37px,0vw);
             /*0vw 25vw 2vw 38vw 0vw;*/
     grid-template-areas:
-    ". payReceipt . rightZone .";
+    ". payReceipt . rightContainer .";
+}
+
+/* 선 */
+
+.topBottomLine {
+    margin: 2vh auto;
+    width: 90%;
+    border: 1px solid;
+}
+
+.middleDotLine {
+    width: 85%;
+    margin: 2vh auto;
+    color: grey;
+    border: 1px dashed;
 }
 
 
@@ -18,28 +33,23 @@
 
     .payReceipt {
         grid-area: payReceipt;
-        /*width: 25vw;*/
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        /* 세로 중앙정렬 */
+        justify-content: space-between;
         min-width: 380px;
         height: 64vh;
         min-height: 452px;
         background-color: #f1f1f1;
         box-shadow: 4px 0 2px -2px rgba(0,0,0,0.2);
+        row-gap: 0.7vh;
     }
 
     /* 영수증 내용 */
 
-    .topBottomLine {
-        margin: 20px;
-        width: 90%;
-        border: 1px solid;
-    }
 
-    .middleDotLine {
-        width: 85%;
-        margin: 20px auto;
-        color: grey;
-        border: 1px dashed;
-    }
 
     .payReceipt .titleContainer {
         display: flex;
@@ -71,13 +81,26 @@
 
 
     /* 내용 나타나는 부분 */
+    /* 멤버들의 납부 내역 */
     .payReceipt #memberPayViewBox {
         background-color: white;
-        justify-content: center;
-        align-items: center;
         width: 80%;
+        height: 23.5vh;
         padding: 3%;
-        margin: auto;
+        overflow-y: auto;
+        /* 멤버수가 많아지면 스크롤이 생깁니다 */
+    }
+
+    .payReceipt #memberPayViewBox::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 10px;
+        background-color: #d2d2e5;
+    }
+
+    .payReceipt #memberPayViewBox::-webkit-scrollbar-thumb {
+        height: auto;
+        background-color: #0C0CCA;
+        border-radius: 10px;
     }
 
     .payReceipt #memberPayViewBox .oneLineContainer{
@@ -127,9 +150,13 @@
         font-weight: bold;
     }
 
+    .sendMsgContainer {
+        margin: 0;
+    }
+
     .sendMsgContainer button {
         width: 150px;
-        margin: 10px 5px 5px 5px;
+        margin: 1.2vh 5px 1vh 5px;
     }
 
     .hiddenContainer {
@@ -139,7 +166,7 @@
 
     .nonSelected {
         width: 100%;
-        height: 15%;
+        height: 7vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -163,14 +190,75 @@
 
 /********************************************/
 
+/***************** 오른쪽 부분 ******************/
+    .rightContainer {
+        /*background-color: #8d7e79;*/
+        /* 영역 확인용 백그라운드 */
+        grid-area: rightContainer;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        /* 세로방향 중앙 정렬 */
+        align-items: center;
+        /* 가로방향 중앙 정렬*/
+        min-width: 580px;
+        height: 64vh;
+        min-height: 452px;
+    }
+
+    /* 아무것도 선택하지 않았을 때의 화면 */
+    #defaultViewContainer .defaultMessage {
+        margin-top: 10px;
+        color: grey;
+    }
+
+    .rightContainer .hiddenBox {
+        display: none;
+        height: 0;
+    }
+
+    .rightContainer .visibleRight {
+        display: flex;
+        flex-wrap: wrap;
+        width: 85%;
+        height: 54vh;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
 
+    /* 카카오톡 보내기 */
 
+    #kakaoTalkContainer {
+        row-gap: 2vh;
+        align-items: center;
+    }
 
+    #alertContainer {
+        row-gap: 2vh;
+        align-items: center;
+    }
 
-.rightZone {
-    grid-area: rightZone;
-    background-color: #8d7e79;
-    min-width: 580px;
-    min-height: 452px;
-}
+    #kakaoTalkContainer img {
+    }
+
+    .receiverContainer {
+        display: flex;
+    }
+
+    .receiverContainer .receiverName {
+        font-weight: bold;
+    }
+
+    .writeMsgContainer {
+        width: 100%;
+        text-align: left;
+        /*margin-top: 5vh;*/
+    }
+    .writeMsgContainer textarea {
+        width: 100%;
+        height: 10vh;
+        resize: none;
+        margin-top: 10px;
+    }

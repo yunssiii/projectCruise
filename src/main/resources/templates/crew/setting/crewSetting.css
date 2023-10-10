@@ -86,7 +86,8 @@ body {
     font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
     font-size: 25pt;
     text-align: center;
-    margin: 50px auto 40px auto;
+    margin: 15vh auto 40px auto;
+    /*margin-top: min(50px);*/
 }
 
 .minSizeContainer {
@@ -172,9 +173,8 @@ body {
     background-color: white;
     border-radius: 0 10px 10px 10px;
     box-shadow: 3px 3px 2px 0 rgba(0,0,0,0.3);
-    width: 70%;
-
-    height: 95vh;
+    width: 1080px;
+    height: 80vh;
     z-index: 2;
     min-width: 1080px;
     min-height: 591px;
@@ -182,7 +182,7 @@ body {
 
 .topContainer {
     display: flex;
-    width: 70%;
+    width: 1080px;
     min-width: 1080px;
     justify-content: space-between;
 }
@@ -230,6 +230,10 @@ body {
     padding-bottom: 10px;
     text-align: left;
     border-bottom: 1px solid lightgrey;
+}
+
+#crewSettingContent {
+    height: 80%;
 }
 
 #memSettingTitle {

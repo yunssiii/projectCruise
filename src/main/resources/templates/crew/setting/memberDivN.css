@@ -1,0 +1,271 @@
+
+#memberDivN {
+    min-width: 1080px;
+    height: 64vh;
+    min-height: 452px;
+    justify-content: center;
+        /* 가로 중앙 */
+    align-items: center;
+        /* 세로 중앙*/
+    grid-template-columns: minmax(37px,1fr) minmax(800px,2fr) minmax(37px,1fr);
+    grid-template-areas:
+        ". . ."
+        ". memberDivNTop ."
+        ". . ."
+        ". memberDivideZone ."
+        ". divideBtnContainer ."
+        ". . .";
+    gap: 2vh;
+}
+
+/* 총액 표시구간 */
+.memberDivNTop {
+    grid-area: memberDivNTop;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    row-gap: 1vh;
+}
+
+.memberDivNTop div {
+    display: flex;
+    justify-content: center;
+}
+
+.memberDivNTop #crewName {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+.totalResult {
+    font-size: 18pt;
+}
+
+.totalResult #crewTotalMoney {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+
+/* 분담금액 표시구간 */
+
+.memberDivideZone {
+    grid-area: memberDivideZone;
+    background-color: #efefef;
+    height: 40vh;
+}
+
+.memberDivideZone table {
+    width: 100%;
+    text-align: center;
+    border-collapse : collapse;
+}
+
+.memberDivideZone table tr {
+    height: 7vh;
+    text-align: center;
+}
+
+.memberDivideZone table tr:hover {
+    background-color: #ebebf3;
+    font-weight: bold;
+}
+
+.memberDivideZone .divTableHead tr th{
+    background-color: #dadae8;
+}
+
+/* 테이블 본문부분 설정 */
+.divTableBody {
+    height: 32vh;
+    overflow-y: auto;
+    margin-top: 1vh;
+}
+
+.memberDivideZone table tr th:first-child, td:first-child {
+    /*순번*/
+    width: 3vw;
+}
+
+
+.memberDivideZone table tr th:nth-child(2), td:nth-child(2) {
+    /*구분*/
+    width: 3vw;
+}
+
+.memberDivideZone table tr th:nth-child(3), td:nth-child(3) {
+    /* 선원이름 */
+    width: 8vw;
+}
+
+.memberDivideZone table tr th:nth-child(4), td:nth-child(4) {
+    /* 납입횟수 */
+    width: 5vw;
+}
+
+.memberDivideZone table tr th:nth-child(5), td:nth-child(5) {
+    /* 분담 금액 */
+    width: 6vw;
+}
+
+.memberDivideZone table tr td:nth-child(5) {
+    /* 분담 금액 */
+    text-align: right;
+}
+
+.memberDivideZone table tr th:nth-child(6), td:nth-child(6) {
+    /* 계좌 선택 */
+    width: 15vw;
+}
+
+.memberDivideZone table tr  td:nth-child(6) {
+    /* 계좌 선택 */
+    text-align: right;
+}
+
+.divTableBody::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+    background-color: #d2d2e5;
+}
+
+.divTableBody::-webkit-scrollbar-thumb {
+    height: auto;
+    background-color: #0C0CCA;
+    border-radius: 10px;
+}
+
+/* select 부분 */
+.divTableBody select {
+    width: 80%;
+    height: 4vh;
+    margin-right: 10px;
+}
+
+
+
+/* 분담 버튼 */
+.divideBtnContainer {
+    grid-area: divideBtnContainer;
+}
+
+
+/* 모달 */
+    /* 모달 배경 */
+    #divideModalBg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(3px);
+    }
+
+    #divideModalBg .visibleModal {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        row-gap: 3vh;
+    }
+
+    #divideConfirmModal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        border-radius: 10px;
+        width: 500px;
+        height: 550px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+
+
+
+    #memberBanYNModal img {
+        margin: 15px 20px 20px 0;
+    }
+
+
+
+    .divideConfirmTitle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 15pt;
+    }
+
+    .divideConfirmZone {
+        background-color: #ffffff;
+        width: 80%;
+        height: 250px;
+        padding: 20px 20px 0 20px;
+        overflow-y: auto;
+    }
+
+    .divideConfirmZone::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 10px;
+        background-color: #d2d2e5;
+    }
+
+    .divideConfirmZone::-webkit-scrollbar-thumb {
+        height: auto;
+        background-color: #0C0CCA;
+        border-radius: 10px;
+    }
+
+    .divideConfirmZone .divideOneLine {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 2vh 0;
+    }
+
+    .divideConfirmZone .divideOneLine div{
+        display: flex;
+        column-gap: 5px;
+        /*justify-content: space-between;*/
+    }
+
+    .divideMemAccount, .divideMemName, .divideMemMoney{
+        font-weight: bold;
+    }
+
+    #divideYes {
+        width: 100px;
+        background-color: #0C0CCA;
+        color: white;
+        margin: 0 10px 0 0;
+    }
+
+    #divideNo {
+        width: 100px;
+    }
+
+    /* 잔액나누기 완료 */
+    #divideCompleteModal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        border-radius: 10px;
+        width: 500px;
+        height: 250px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    #divideOKBtn {
+        margin: 10px 0;
+    }
+
+
+
+
+
+
+

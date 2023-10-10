@@ -289,7 +289,7 @@
                 break;
 
             case "memberBan" :
-                memSettingTitle.textContent = "선원 강퇴하기";
+                memSettingTitle.textContent = "선원 관리하기";
                 break;
 
             case "memberDivN" :
