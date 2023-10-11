@@ -1,10 +1,16 @@
 package com.cruise.project_cruise.controller.crew;
 
+import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RequestMapping(value="/crew")
 @RestController
@@ -20,10 +26,53 @@ public class CrewController {
     private CrewDetailService crewDetailService;
 
     @RequestMapping(value="")
-    public ModelAndView crewMain() throws Exception {
+    public ModelAndView crewMain(HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
 
-        // FIXME Post 방식으로 CrewNum을 넘겨받기
+        /**
+         * TODO
+         * 0. 내가 크루 원일 때만 해당 페이지에 들어올 수 있게 하기
+         * 1. crewNum에 해당하는 크루의 데이터를 가지고오기
+         */
+
+        // TODO 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
+
+        // TODO 알림 데이터
+
+        // TODO 크루 정보관련
+        // 1. 크루 데이터 가지고오기
+        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
+        // 2. 선장 이름 데이터 가지고오기
+        String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
+
+        // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
+        String fullCreatedDate = dto.getCrew_created();
+        String[] createdDate = new String[3];
+
+        createdDate[0] = fullCreatedDate.substring(0,4);
+        createdDate[1] = fullCreatedDate.substring(5,7);
+        createdDate[2] = fullCreatedDate.substring(8,10);
+
+        // 4-1. 오픈뱅킹 대용 테이블에서 계좌 잔액 가지고오기
+        int crewAccountBalance = crewDetailService.getAccountBalance(dto.getCrew_accountid());
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
+
+        // 4-2. 목표금액, 달성율
+        int achievePer = (crewAccountBalance/dto.getCrew_goal())*100;
+//        int achievePer = 50;
+        String crewGoal = decimalFormat.format(dto.getCrew_goal());
+
+
+        // 데이터 넘겨주기
+        mav.addObject("dto",dto);
+        mav.addObject("captainName",captainName);
+        mav.addObject("createdDate",createdDate);
+        mav.addObject("crewAccountBalance", crewAccountBalanceStr);
+        mav.addObject("achievePer", achievePer);
+        mav.addObject("crewGoal", crewGoal);
 
         mav.setViewName("crew/crewmain");
 

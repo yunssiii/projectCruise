@@ -1,5 +1,8 @@
 package com.cruise.project_cruise.dto;
 
+import lombok.Data;
+
+@Data
 public class CrewDTO {
 
     /* 만들어야 할 컬럼들
@@ -21,6 +24,7 @@ public class CrewDTO {
     private String crew_info;
     private String captain_email;
     private String crew_created; // 크루 생성일자
+    private String crew_bank; // 크루 생성일자
     private String crew_accountid; // 크루 대표 계좌번호
     private int crew_paydate; // 크루 납입일자
     private int crew_paymoney; // 크루 납입액

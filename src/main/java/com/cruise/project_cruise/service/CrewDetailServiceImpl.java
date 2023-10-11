@@ -1,5 +1,6 @@
 package com.cruise.project_cruise.service;
 
+import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.TemplateDTO;
 import com.cruise.project_cruise.mapper.CrewDetailMapper;
 import com.cruise.project_cruise.mapper.TemplateMapper;
@@ -15,10 +16,23 @@ public class CrewDetailServiceImpl implements CrewDetailService {
 
     @Override
     public void deleteCrewMember
-            (@Param("memberEmail") String cmemEmail, @Param("crewNum") int crewNum) throws Exception {
-
+            (String cmemEmail, int crewNum) throws Exception {
         crewDetailMapper.deleteCrewMember(cmemEmail, crewNum);
-    };
+    }
+
+    @Override
+    public CrewDTO getCrewData(int crewNum) throws Exception {
+        return crewDetailMapper.getCrewData(crewNum);
+    }
+
+    @Override
+    public String getCaptainName(String captainEmail) throws Exception {
+        return crewDetailMapper.getCaptainName(captainEmail);
+    }
+    @Override
+    public int getAccountBalance(String crewAccount) throws Exception {
+        return crewDetailMapper.getAccountBalance(crewAccount);
+    }
 
     // Mapper Interface를 그대로 가져와주기.
 
