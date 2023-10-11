@@ -1,0 +1,64 @@
+body{margin: 0; background-image: url('/images/mypage/water.jpg');}
+hr{width: 50%;margin-top: 25px;}
+
+.container_zero {
+    display: flex;
+    justify-content: space-around;
+    
+    background-size: 100%;
+}
+
+.main_zero {
+    /* background: #FFD966; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vh;
+}
+
+.start-message {
+    /* border: 1px solid black; */
+    background-color: hsl(0,0,0,0);
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+    font-family: NanumSquareExtraBold;
+    font-weight: 900;
+    font-size: 30pt;
+    color: white;
+}
+
+.start-message2 {
+    /* border: 1px solid black; */
+
+    background-color: hsl(0,0,0,0);
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    text-align: center;
+    font-family: 나눔스퀘어라운드OTF;
+    font-size: 15pt;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+}
+
+.start-btn {
+    background:  #050549f6;
+    padding: 3% 8%;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    font-family: 나눔스퀘어라운드OTF;
+    font-size: 17pt;
+    margin-top: 70px;
+    margin-left: 150px;
+    margin-right: 150px;
+    cursor: pointer;
+}
+
+.start-btn:hover{
+    background: #ffc20cef;
+}
+
