@@ -52,6 +52,14 @@ public class MypageController {
 
         String email = "hchdbsgk@naver.com";
 
+//        String[] crewNumArray = crewNum.split(",");
+//
+//        int[] crewRealNum = new int[crewNumArray.length];
+//
+//        for (int i=0;i<crewNumArray.length;i++){
+//            crewRealNum[i] = Integer.parseInt(crewNumArray[i]);
+//        }
+
         int crewRealNum = Integer.parseInt(crewNum);
 
         mypageService.deleteCrew(email,crewRealNum);
