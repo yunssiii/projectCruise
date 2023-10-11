@@ -30,7 +30,6 @@ function DelModal(num) {
         yBtns[num].onclick = function() {
             crewdelDiv[num].style.display = "none";
             ymodal[num].style.display = "block";
-
         }
 
         nBtns[num].onclick = function() {
