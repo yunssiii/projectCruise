@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.MypageMapper">
+
+    <!-- 내 모임 상세 정보 select문 -->
+    <select id="getCrews" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewDTO">
+        select crew_name, crew_accountid, crew_info, crew_num from crew
+        where crew_num in (select crew_num from crew_member where cmem_email=#{cmem_email})
+    </select>
+    
+    <delete id="deleteCrew" parameterType="map">
+        delete crew_member where crew_num=#{crew_num} and cmem_email = #{cmem_email}
+    </delete>
+
+
+</mapper>
