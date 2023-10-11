@@ -602,7 +602,7 @@ a:hover {
     background-image: linear-gradient(
             rgba(247, 233, 224, 0.5),
             rgba(247, 233, 224, 0.5)
-    ), url('./image/white-crumpled-paper-texture-for-background.jpg');
+    ), url('/images/crewDetail/white-crumpled-paper-texture-for-background.jpg');
     box-shadow: -2px 2px 3px 0 rgba(0, 0, 0, 0.2);
     background-size: cover;
     padding: 0px;

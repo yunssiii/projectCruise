@@ -243,7 +243,7 @@ var modalBack = document.getElementById('modalBackground');
         // FIXME 유예시작일을 없애는 메소드를 실행하는 링크로 이동
         // FIXME 그 후에 크루로 돌아가도록 하기
 
-        window.location.href = 'http://localhost:63342/project_cruise/src/main/resources/templates/crew/main/crewmain.html'
+        window.location.href = '../../../templates/crew/crewmain.html'
 
     }
 
