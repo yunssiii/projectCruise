@@ -103,6 +103,13 @@ h2::after{
     text-align: center;  
 }
  
+.top a{background-color: transparent;
+  	border:2px solid white;
+  	padding: 5px 15px;
+  	border-radius: 3px;
+  	margin-right: 2px;
+  	font-size: 2rem;
+}
 
 button{
 	background-color: transparent;

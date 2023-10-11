@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -145,11 +146,7 @@ public class SignupController {
         return "signup/signupForm"; // 보여주려는 Thymeleaf 템플릿의 경로
     }
 
-    @RestController
-    public class EmailController {
 
-        @Autowired
-        private UserService userService;  // 사용자 서비스에 대한 의존성 주입
 
         @PostMapping("/checkEmail")
         public ResponseEntity<Map<String, Boolean>> checkEmail(@RequestParam String email) throws Exception {
@@ -168,4 +165,4 @@ public class SignupController {
         }
     }
 
-}
+

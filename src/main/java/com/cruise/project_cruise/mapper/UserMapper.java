@@ -1,5 +1,6 @@
 package com.cruise.project_cruise.mapper;
 
+
 import com.cruise.project_cruise.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,5 +18,7 @@ public interface UserMapper {
     public UserDTO selectSocialInfo(String provider_id) throws Exception;
 
    public void updateUser(UserDTO dto) throws Exception;
+
+
 
 }
