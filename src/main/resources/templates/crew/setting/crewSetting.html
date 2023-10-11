@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>앙큼불여우단 크루 관리</title>
+        <!--    FIXME 크루이름을 불러와서 넣을 수 있도록 하기 -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="crewSetting.css"/>
+    <link rel="stylesheet" type="text/css" href="crewInfoUpdate.css"/>
+    <link rel="stylesheet" type="text/css" href="crewDelete.css"/>
+    <link rel="stylesheet" type="text/css" href="memberPayView.css"/>
+    <link rel="stylesheet" type="text/css" href="memberBan.css"/>
+    <link rel="stylesheet" type="text/css" href="memberDivN.css"/>
+    <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="header">여기 헤더</div>
+
+    <div class="background">
+        <div class="wave"><div id="blue" class="hidden"></div></div>
+    </div>
+
+    <div class="visibleContainer">
+        <div class="minSizeContainer">
+            <div class="crewTitle">앙큼불여우단 크루 관리</div>
+                <div class="menuContainer">
+                    <div class="menuCard" onclick="selectCrewSetting()">
+                        <div class="menuImgContainer">
+                            <i class="fa-solid fa-people-roof fa-5x" style="color: rgb(105, 89, 78);"></i>
+                        </div>
+                        <div class="menuTitle">크루관리</div>
+                        <div class="menuSummary">
+                            크루 일정 관리<br>
+                            크루 정보 수정<br>
+                            항해 중단하기
+                        </div>
+                    </div>
+                    <div class="menuCard" onclick="selectMemberSetting()">
+                        <div class="menuImgContainer">
+                            <i class="fa-solid fa-sailboat fa-5x" style="color: rgb(105, 89, 78);"></i>
+                        </div>
+                        <div class="menuTitle">선원관리</div>
+                        <div class="menuSummary">
+                            월별 회비 조회<br>
+                            선원 관리하기<br>
+                            잔액 1/N 하기
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="turnBack">
+        <a href="http://localhost:63342/project_cruise/src/main/resources/templates/crew/main/crewmain.html"> ▶ 크루로 돌아가기 </a>
+    </div>
+    <div id="settingDetailContainer" class="hidden">
+        <div id="scrollPoint"></div>
+        <div class="topContainer">
+            <div id="crewTap" class="hidden">
+                <div class="tap select" onclick="setCrewTapClick('scheduleSet')">크루 일정 관리</div>
+                <div class="tap" onclick="setCrewTapClick('informationSet')">크루 정보 수정</div>
+                <div class="tap" onclick="setCrewTapClick('crewDelete')">항해 중단하기</div>
+            </div>
+            <div id="memberTap" class="hidden">
+                <div class="tap select" onclick="setMemTapClick('memberPayView')">월별 회비 조회</div>
+                <div class="tap" onclick="setMemTapClick('memberBan')">선원 관리하기</div>
+                <div class="tap" onclick="setMemTapClick('memberDivN')">잔액 1/N 하기</div>
+            </div>
+            <div id="up"> 위로 ▲ </div>
+        </div>
+
+        <div id="crewSettingBox" class="hidden">
+            <div id="crewSettingTitle">크루 일정관리</div>
+            <div id="crewSettingContent">
+                <div id="scheduleSet" class="visibleSettings"> 일정관리 </div>
+                <div id="informationSet" class="hidden">
+                    <div class="information">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Writing%20Hand.png"
+                             alt="Writing Hand" width="100" height="100" />
+                        <div class="crewTitle">앙큼불여우단</div>
+                            <!-- FIXME 크루 이름 여기에 불러오기-->
+                        <hr>
+                        <div class="crewInfoSummary">
+                            <div class="captainName">선장 황윤하</div>
+                            <div class="account">
+                                <div class="accountBank">신한은행</div>
+                                <div class="accountNum">110-518-4074-01</div>
+                            </div>
+                            <div class="crewCreated"><b>2023-09-01</b>&nbsp; 부터 항해 시작</div>
+                        <div class="crewSailing">항해&nbsp; <b>32일</b>&nbsp;째</div>
+                        </div>
+                    </div>
+                    <form name="myForm" method="post" action="">
+                        <div class="content">
+                            <div class="title">크루 소개</div>
+                            <div class="info">* 50자 까지만 작성 가능합니다.</div>
+                            <textarea id="crewInfo" name="crewInfo"></textarea>
+                        </div>
+                        <div class="content">
+                            <div class="moneyContents">
+                                <div class="moneyContent">
+                                    <div class="title">납입 일자 및 납입 액수</div>
+                                    <div class="info">* 29, 30, 31일이 없는 달의 경우 매월 말일이 납입일로 설정됩니다.</div>
+                                    <div class="inputContainer">
+                                        매월 <input type="number" name="payDate" id="payDate" value="1"/> 일에
+                                        <input type="text" name="payMoney" id="payMoney" value="20000">원씩 납입
+                                    </div>
+                                </div>
+                                <div class="moneyContent">
+                                    <div class="title">목표 금액</div>
+                                    <div class="inputContainer">
+                                        <input type="text" name="goal" id="goalMoney" value="1000000">원
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="updateBtn" onclick="crewUpdateBtnClick()">수정하기</button>
+                    </form>
+                </div>
+                <div id="crewDelete" class="hidden">
+                    <div id="crewDeleteYNDiv" class="visibleDiv" >
+                        <div class="title"> [ 앙큼불여우단 ] 의 항해를 중단할까요? </div>
+                        <div class="deleteWarning">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" /> <br><br>
+                            항해 중단 결정 이후 3일 동안의 유예기간이 주어지며,
+                            유예기간 동안에는 이 페이지를 통해 결정을 취소할 수 있습니다.<br>
+                            유예기간 이후에는 항해 중단이 최종적으로 결정됩니다.
+                            크루 데이터 및 크루 내의 모든 게시글과 댓글이 삭제되며, 이는 복구가 불가능합니다.
+                        </div>
+                        <div class="cannotDelete">
+                            <div class="cannotDeleteTitle">[ 항해 중단이 불가능한 경우 ]</div>
+                            <b>1. 크루 계좌의 잔액이 0원이 아닌 경우, 항해 중단이 불가능합니다.</b><br>
+                            &nbsp;&nbsp;&nbsp;선원들과의 합의를 통해 계좌의 잔액이 남지 않도록 해주세요.<br>
+                            &nbsp;&nbsp;&nbsp;크루 계좌의 남은 잔액을 선원들과의 합의 없이 개인적인 용도로 사용할 경우,
+                               형사처벌의 대상이 될 수 있습니다.<br><br>
+
+                            <b>2. 크루에 선장을 제외한 선원이 1명 이상 남아있는 경우, 항해 중단이 불가능합니다.</b><br>
+                            &nbsp;&nbsp;&nbsp;선원들과의 합의를 통해 선장을 제외하고 남은 선원이 0명이 되도록 해주세요.<br>
+                            &nbsp;&nbsp;&nbsp;악용 시 형사 처벌의 대상이 될 수 있음을 유의해주세요.<br>
+                        </div>
+                        <div>
+                            <button id="deleteBtn" onclick="deleteBtnClick()"> 항해 중단하기 </button>
+                        </div>
+                    </div>
+                    <div id="crewDeleteComplete" class="hiddenDiv">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Person%20Rowing%20Boat%20Light%20Skin%20Tone.png"
+                             alt="Person Rowing Boat Light Skin Tone" width="200" height="200" />
+                        <div class="title"> [ 앙큼불여우단 ] 의 항해가 중단되었습니다. </div>
+                        <div class="stayPeriodWarning">
+
+                            <div>항해 중단 결정일자는 <div id="deleteRequestDate">유예시작일</div>이며, </div>
+                            <div>항해 중단 확정까지 <div id="deleteCompleteDDay">2일 23시간 59분 58초</div> 남았습니다.</div>
+                        </div>
+                        <button id="cancelDeleteCrewBtn" onclick="cancelDeleteCrewBtnClick()">항해 중단 취소</button>
+                    </div>
+                    <div id="modalBackground" class="hiddenModal">
+                        <div id="deleteYNModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" />
+                            <div id="deleteYNTitle">선원들과의 항해를 정말로 중단할까요?</div>
+                            <div id="deleteYNMsg">크루 내의 데이터는 물론, 선원들과의 추억도 함께 사라집니다.</div>
+                            <div class="deleteYNBtn">
+                                <button onclick="modalWindowClose()">돌아가기</button>
+                                <button id="deleteYesBtn" onclick="deleteYesBtnClick(0, 2)">정말로 그만하기</button>
+                                            <!-- FIXME 계좌잔액, 남은선원수를 DB에서 불러와 넘겨주기-->
+                            </div>
+                        </div>
+                        <div id="cannotDeleteModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" />
+                            <div id="deleteWarningTitle">대표계좌의 잔액이 0원이 아닙니다.</div>
+                            <div id="deleteWarningMsg">대표계좌의 잔액을 0원으로 만들어주세요.</div>
+                            <div class="cannotDeleteBtn">
+                                <button onclick="modalWindowClose()">돌아가기</button>
+                                <button id="memberDivNBtn" onclick="memberDivNBtnClick()">잔액 1/n하기</button>
+                                <button id="gotoMemberBanBtn" onclick="gotoMemberBanBtnClick()">선원 강퇴하기</button>
+                            </div>
+                        </div>
+                        <div id="crewDeleteCancelModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                                 alt="Warning" width="40" height="40" />
+                            <div id="cancelWarningTitle">항해를 다시 시작할까요?</div>
+                            <div class="cancelDeleteBtn">
+                                <button id="turnBackBtn" onclick="modalWindowClose()" >돌아가기</button>
+                                <button id="turnBackCrewBtn" onclick="turnBackBtnClick()" class="hidden">확인</button>
+                                <button id="cancelDeleteBtn" onclick="cancelDeleteBtnClick()">항해 다시 시작</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="memberSettingBox" class="hidden">
+            <div id="memSettingTitle">월별 회비 조회</div>
+
+            <div id="memSettingContent">
+
+                <!-- 월별 회비조회 -->
+                <div id="memberPayView" class="visibleSettings">
+                    <div class="payReceipt">
+                        <hr class="topBottomLine">
+                        <div class="titleContainer">
+                            <select class="month" name="payViewMonth">
+                                <!-- FIXME 월수만큼 불러오기 -->
+                                <script>
+                                    /* 크루 월별회비조회 select부분 월 불러오기*/
+                                    var nowFullDate = new Date();
+                                    var nowMonth = nowFullDate.getMonth() + 1;
+
+                                    var crewCreated = '2023-08-08 21:59:03'
+                                    var crewCreatedMonth = crewCreated.substring(5,7);
+                                    crewCreatedMonth = parseInt(crewCreatedMonth)
+
+                                    for(var i=nowMonth;i>=crewCreatedMonth;i--) {
+                                        document.write('<option>' + i + '</option>');
+                                    }
+
+                                </script>
+                            </select>
+                            <div class="title">월 회비 조회</div>
+                        </div>
+                        <hr class="middleDotLine">
+                        <div id="memberPayViewBox">여기 내역이 작성됩니다.</div>
+                        <hr class="middleDotLine">
+                        <div id="nonSelected" class="nonSelected">
+                            <div class="wrap"> 총 <div class="payTotal"></div></div>
+                        </div>
+                        <div class="sendMsgContainer hiddenContainer">
+                            <div class="msgReceiverContainer">
+                                <div id="msgReceiver">수신자이름</div>님 에게,
+                            </div>
+                            <button id="sendKaKao" onclick="sendSettingBtnClick('kakao')">카카오톡 보내기</button>
+                            <button id="sendAlert" onclick="sendSettingBtnClick('alert')">알림으로 보내기</button>
+                        </div>
+                        <hr class="topBottomLine">
+                    </div>
+                    <div class="rightContainer">
+                        <hr class="topBottomLine">
+                        <div id="defaultViewContainer">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Money%20with%20Wings.png"
+                                 alt="Money with Wings" width="100" height="100" />
+                            <div class="defaultMessage">
+                                선원들의 납입현황을 확인해보세요!
+                            </div>
+                        </div>
+                        <div id="kakaoTalkContainer" class="hiddenBox">
+                            <div class="sendMsgTop">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Speech%20Balloon.png"
+                                     alt="Speech Balloon" width="150" height="150" />
+                                <div class="receiverContainer">
+                                    <div id="talkReceiverName" class="receiverName">이름</div>님 에게 카카오톡 보내기
+                                    <input type="hidden" name="name">
+                                    <!-- FIXME 데이터 컬럼명에 맞게 고치기 -->
+                                </div>
+                            </div>
+                            <div class="writeMsgContainer">
+                                <b>카카오톡 메시지 입력하기</b>
+                                <textarea name="kakaoTalkMsg" placeholder="메시지를 입력하세요."></textarea>
+                            </div>
+                            <button id="kakaoTalkSend">메시지 공유하기</button>
+                        </div>
+                        <div id="alertContainer" class="hiddenBox">
+                            <div class="sendMsgTop">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bell.png"
+                                     alt="Bell" width="150" height="150" />
+                                <div class="receiverContainer">
+                                    <div id="alertReceiverName" class="receiverName">이름</div>님 에게 알림 보내기
+                                    <input type="hidden" name="name">
+                                    <!-- FIXME 데이터 컬럼명에 맞게 고치기 -->
+                                </div>
+                            </div>
+                            <div class="writeMsgContainer">
+                                <b>알림 메시지 입력하기</b>
+                                <textarea name="alertMsg" placeholder="메시지를 입력하세요."></textarea>
+                            </div>
+                            <button id="alertSend">알림 보내기</button>
+                        </div>
+                        <hr class="topBottomLine">
+                    </div>
+                </div>
+
+                <!-- 선원 강퇴하기 -->
+                <div id="memberBan" class="hidden">
+                    <div class="memTableContainer">
+                        <table class="memTableHead">
+                            <tr>
+                               <th>순번</th>
+                               <th>구분</th>
+                               <th>선원 이름</th>
+                               <th>선원 이메일</th>
+                               <th>크루가입일자</th>
+                               <th>총납입액</th>
+                               <th>납입횟수</th>
+                               <th>미납횟수</th>
+                               <th>관리</th>
+                            </tr>
+                        </table>
+                        <div class="memTableBody">
+                            <table>
+                                <script>
+                                    for(var i=0;i<20;i++) {
+
+                                        if(i%2===0) {
+                                            document.write('<tr>')
+                                            document.write('<td>' + (i+1) + '</td>');
+                                            document.write('<td>선원</td>');
+                                            document.write('<td>김은지</td>');
+                                            document.write('<td>eunzzzzz1@kakao.com</td>');
+                                            document.write('<td>2023-09-20</td>');
+                                            document.write('<td>40,000원</td>');
+                                            document.write('<td>2</td>');
+                                            document.write('<td>0</td>');
+                                            document.write("<td><button class='memBanBtn' onclick='memBanBtnClick(" + (i+1) + ")'>강퇴</button></td>")
+                                            document.write('</tr>')
+                                        } else {
+                                            document.write('<tr>')
+                                            document.write('<td>' + (i+1) + '</td>');
+                                            document.write('<td>선원</td>');
+                                            document.write('<td>황윤하</td>');
+                                            document.write('<td>eunzzzzz1@kakao.com</td>');
+                                            document.write('<td>2023-09-20</td>');
+                                            document.write('<td>40,000원</td>');
+                                            document.write('<td>2</td>');
+                                            document.write('<td>0</td>');
+                                            document.write("<td><button class='memBanBtn' onclick='memBanBtnClick(" + (i+1) + ")'>강퇴</button></td>")
+                                            document.write('</tr>')
+                                        }
+
+                                    }
+                                </script>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="memberBanModalBg" class="hiddenModal">
+                        <div id="memberBanYNModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand%20Light%20Skin%20Tone.png"
+                                 alt="Waving Hand Light Skin Tone" width="100" height="100" />
+                            <div class="memberBanYNModaltitle">
+                                <div id="banMemNameYN">이름</div>님을 정말 내보낼까요?
+                            </div>
+                            <button id="banYes">네</button>
+                            <button id="banNo">아니오</button>
+                        </div>
+                        <div id="memberBanCompleteModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Sad%20but%20Relieved%20Face.png"
+                                 alt="Sad but Relieved Face" width="100" height="100" />
+                            <div class="memberBanComplete">
+                                    <div id="banMemNameCom">이름</div>님의 강퇴가 완료되었습니다.
+                            </div>
+                            <button id="backMemBanSettingBtn"> 확인 </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 잔액 1/N 하기 -->
+                <div id="memberDivN" class="hidden">
+                    <div class="memberDivNTop">
+                        <div><div id="crewName">크루이름</div>의 납입금액은</div>
+                        <div class="totalResult">총&nbsp;<div id="crewTotalMoney">400,000원</div>&nbsp;입니다.</div>
+                    </div>
+                    <div class="memberDivideZone">
+                        <table class="divTableHead">
+                            <tr>
+                                <th>순번</th>
+                                <th>구분</th>
+                                <th>선원 이름</th>
+                                <th>총 납입횟수</th>
+                                <th>분담 금액</th>
+                                <th>계좌선택</th>
+                            </tr>
+                        </table>
+                        <div class="divTableBody">
+                            <table>
+                                <script>
+                                    for(var i=0;i<10;i++) {
+
+                                        // 임시 계좌번호 html
+                                        // FIXME 해당 선원의 계좌를 불러와야 함
+                                        var selectHtml = "<select>"
+                                            + "<option> 신한 110518407401 </option>"
+                                            + "<option> 국민 110518407401 </option>"
+                                            + "<option> 카카오 110518407401 </option>"
+                                            + "</select>"
+
+                                        if(i%2===0) {
+                                            document.write('<tr>')
+                                            document.write('<td>' + (i+1) + '</td>');
+                                            document.write('<td>선원</td>');
+                                            document.write('<td>김은지</td>');
+                                            document.write('<td>2</td>');
+                                            document.write('<td>40,000원</td>');
+                                            document.write("<td>" + selectHtml +"</td>")
+                                            document.write('</tr>')
+                                        } else {
+                                            document.write('<tr>')
+                                            document.write('<td>' + (i+1) + '</td>');
+                                            document.write('<td>선원</td>');
+                                            document.write('<td>황윤하</td>');
+                                            document.write('<td>2</td>');
+                                            document.write('<td>40,000원</td>');
+                                            document.write("<td>" + selectHtml + "</td>")
+                                            document.write('</tr>')
+                                        }
+                                    }
+                                </script>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="divideBtnContainer">
+                        <button id="divideNBtn"> 1/N하기 </button>
+                    </div>
+                    <div id="divideModalBg" class="hiddenModal">
+                        <div id="divideConfirmModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
+                                 alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
+                            <div class="divideConfirmTitle"> 다음과 같이 잔액을 나눕니다. </div>
+                            <div class="divideConfirmZone">
+                                <div class="divideOneLine">
+                                <div>
+                                    <div class="divideMemAccount">신한 110518407401</div>
+                                    <div class="divideMemName">(김은지)</div> 에게
+                                    </div>
+                                <div><div class="divideMemMoney">40,000원</div>입금</div>
+                                </div>
+                                <div class="divideOneLine">
+                                <div>
+                                    <div class="divideMemAccount">신한 110518407401</div>
+                                    <div class="divideMemName">(황윤하)</div> 에게
+                                    </div>
+                                <div><div class="divideMemMoney">40,000원</div>입금</div>
+                                </div>
+                                <script>
+                                    // 테스트용
+                                    // var html = "";
+                                    //
+                                    // html = '<div class="divideOneLine">' +
+                                    //         '<div>' +
+                                    //             '<div class="divideMemAccount">신한 110518407401</div>' +
+                                    //             '<div class="divideMemName">(김은지)</div> 에게' +
+                                    //         '</div>' +
+                                    //         '<div><div class="divideMemMoney">40,000원</div>입금</div>' +
+                                    //     '</div>' +
+                                    //     '<div class="divideOneLine">' +
+                                    //         '<div>' +
+                                    //             '<div class="divideMemAccount">신한 110518407401</div>' +
+                                    //             '<div class="divideMemName">(황윤하)</div> 에게' +
+                                    //         '</div>' +
+                                    //         '<div><div class="divideMemMoney">40,000원</div>입금</div>' +
+                                    //     '</div>'
+                                    //
+                                    // for (var i=0; i<10; i++){
+                                    //     document.write(html);
+                                    // }
+                                </script>
+                            </div>
+                            <div class="divideBtnContainer">
+                                <button id="divideYes">네</button>
+                                <button id="divideNo">아니오</button>
+                            </div>
+                        </div>
+                        <div id="divideCompleteModal" class="hiddenModal">
+                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
+                                 alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
+                            <div class="divideConfirmTitle"> 잔액 나누기가 완료되었습니다. </div>
+                            <div class="divideBtnContainer">
+                                <button id="divideOKBtn">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+    <script type="text/javascript" src="./crewSetting.js"></script>
+    <script type="text/javascript" src="./crewInfoUpdate.js"></script>
+    <script type="text/javascript" src="./crewDelete.js"></script>
+    <script type="text/javascript" src="./memberPayView.js"></script>
+    <script type="text/javascript" src="./memberBan.js"></script>
+    <script type="text/javascript" src="./memberDivN.js"></script>
+    <script>
+        // 유예기간 실시간으로 보여주기 위한 스크립트
+        setInterval(function() {
+            deleteDateStrMaker('2023-10-05 09:05:00')
+        }, 1000);
+        //FIXME DB에서 불러온 유예시작일로 고치기
+
+
+
+    </script>
+</html>

@@ -1,0 +1,294 @@
+@font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.header {
+    background-color: white;
+    height: 80px;
+}
+
+body {
+    font-family: 'NanumSquare', 'sans-serif';
+    font-size: 12pt;
+    margin: 0;
+    background-image: url(data:image/png;base64,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);
+    background-color: #fff5ee;
+    overflow-x: hidden;
+    min-width: 1080px;
+    /*min-height: 700px;*/
+
+
+    /* 복사방지 */
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+
+
+}
+
+/* 스크롤바 숨기기 */
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.wave{
+    z-index: -1;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='157'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='50%25' x2='50%25' y1='-10.959%25' y2='100%25'%3E%3Cstop stop-color='%230C0CCA' stop-opacity='1' offset='0%25'/%3E%3Cstop stop-color='%230C0CCA' offset='100%25'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23a)' fill-rule='evenodd' d='M.005 80C311 80 409.898-.25 811 0c400 0 500 80 789 80v77H0s.005-48 .005-77z' transform='matrix(-1 0 0 1 1600 0)'/%3E%3C/svg%3E") repeat-x;
+    position: absolute;
+    bottom: 0;
+    width: 6400px;
+    min-width: 1080px;
+    height: 107px;
+    animation: wave 3s cubic-bezier(0.36,0.45,0.63,0.53) infinite;
+    transform: translate3d(0,0,0);
+}
+@keyframes wave{0% {margin-left: -1600px;}100% {margin-left:0px;}}
+
+#blue {
+    z-index: -1;
+    position: relative;
+    top: 100px;
+    background-color: #0C0CCA;
+    width: 100%;
+    height: 130vh;
+    min-width: 800px;
+    min-height: 920px;
+}
+
+#scrollPoint {
+   padding: 20px;
+}
+
+.hidden {
+    display: none;
+    height: 0;
+}
+
+.visibleBlue{
+    display: block;
+}
+
+.visibleContainer{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    /*justify-content: center;*/
+    align-content: center;
+    min-width: 60vh;
+    min-height: 50vh;
+}
+
+.crewTitle {
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 25pt;
+    text-align: center;
+    margin: 15vh auto 40px auto;
+    /*margin-top: min(50px);*/
+}
+
+.minSizeContainer {
+/*    상단 최소크기 고정용 컨테이너 */
+    min-width: 1536px;
+    /*min-height: 400px;*/
+}
+
+.menuContainer {
+    display: flex;
+    width: 600px;
+    min-width: 600px;
+    /*min-height: 100vh;*/
+    margin: auto;
+    justify-content: center;
+}
+
+.menuContainer .menuCard {
+
+    width: 250px;
+    height: 300px;
+    margin: 0 20px 20px 20px;
+    border-radius: 10px;
+    background-color: rgb(201, 183, 171);
+    box-shadow: 2px 2px 5px 0 rgb(0, 0, 0, 0.3);
+    text-align: center;
+    transition: .3s;
+    cursor: pointer;
+
+}
+
+.menuContainer:hover > :not(:hover) {
+    opacity: 0.5;
+}
+
+.menuContainer .menuCard .menuTitle{
+
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 20pt;
+    color: rgb(105, 89, 78);
+    margin: 15px;
+}
+
+.menuContainer .menuCard .menuImgContainer {
+    margin: 35px;
+}
+
+.turnBack {
+    position: fixed;
+    top: 95vh;
+    right: 1vw;
+
+}
+
+.turnBack a {
+    text-decoration: none;
+    color:white;
+    text-shadow: 2px 0 1px #0C0CCA, -2px 0 1px #0C0CCA, 0 2px 1px #0C0CCA, 0 -2px 1px #0C0CCA;
+}
+
+
+/* 세팅창 */
+.settingDetailConVisible {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#settingDetailContainer {
+    justify-content: center;
+    min-width: 1536px;
+    min-height: 500px;
+    width: 100%;
+    height: 95vh;
+    position: absolute;
+    top: 110%;
+    z-index: 2;
+}
+
+.visibleBox {
+    display: block;
+    background-color: white;
+    border-radius: 0 10px 10px 10px;
+    box-shadow: 3px 3px 2px 0 rgba(0,0,0,0.3);
+    width: 1080px;
+    height: 80vh;
+    z-index: 2;
+    min-width: 1080px;
+    min-height: 591px;
+}
+
+.topContainer {
+    display: flex;
+    width: 1080px;
+    min-width: 1080px;
+    justify-content: space-between;
+}
+
+.topContainer .tapVisible{
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.topContainer .tap {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    margin-right: 10px;
+    background-color: #aeaed2;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.topContainer .tap.select {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    background-color: white;
+    cursor: default;
+}
+
+
+
+#up {
+    color: white;
+    margin-bottom: 10px;
+    text-align: right;
+    align-self: end;
+    cursor: pointer;
+}
+
+#crewSettingTitle {
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 20pt;
+    margin: 30px;
+    padding-bottom: 10px;
+    text-align: left;
+    border-bottom: 1px solid lightgrey;
+}
+
+#crewSettingContent {
+    height: 80%;
+}
+
+#memSettingTitle {
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 20pt;
+    margin: 30px;
+    padding-bottom: 10px;
+    text-align: left;
+    border-bottom: 1px solid lightgrey;
+}
+
+.visibleSettings {
+    display: grid;
+    height: 100%;
+    width: 1080px;
+    min-width: 1080px;
+    min-height: 50vh;
+}
+
+
+button {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 12pt;
+    text-align: center;
+    padding-top: 5px;
+    align-self: center;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    width: 150px;
+    height: 40px;
+    background-color: lightgrey;
+    color: rgb(0, 0, 0);
+}
+
+button:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+button:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+
+#settingDetailContainer .memberSettingBox {
+
+}
+
+#memberSettingContent {
+    display: block;
+}
+
+

@@ -1,0 +1,146 @@
+
+.exitHidden {
+    display: none;
+    height: 0;
+    /*transition: 0.2s;*/
+}
+
+.exitVisible {
+    display: inline-block;
+    height: auto;
+    /*transition: 0.2s;*/
+}
+
+
+#exitModal {
+
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 500px;
+    height: auto;
+    text-align: center;
+    border-radius: 10px;
+    align-content: center;
+    margin: 20px;
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    font-size: 15pt;
+
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    /* 이 Modal이 모든 요소들 중 가장 위에 뜨게 하기 위해서 */
+
+}
+
+#exitModal .closeX {
+    text-align: right;
+    margin-top: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+
+#exitModal .exitTitle {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    margin-top: 20px;
+}
+
+#exitModal .warning {
+
+    font-size: 9pt;
+    color: grey;
+    margin: 20px;
+    padding: 20px;
+    text-align: left;
+    background-color: rgba(255,255,255,0.8);
+
+}
+
+#exitModal .btnWrapper {
+    margin-bottom: 50px;
+}
+
+#exitModal .btnWrapper button {
+
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 12pt;
+    text-align: center;
+    padding-top: 3px;
+    width: 100px;
+    margin: 10px;
+    margin-top: 0;
+    align-self: center;
+    border: 0;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    cursor: pointer;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+
+}
+
+#exitModal .btnWrapper button:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#exitModal .btnWrapper button:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+#exitModal .btnWrapper #exitYes {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#exitModal .btnWrapper #exitYes:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#exitModal .btnWrapper #exitYes:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+#exitModal .exitResultTitle {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    margin-top: 40px;
+}
+
+#exitModal .exitResultInfo {
+    font-size: 12pt;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+#exitModal .exitOK {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 12pt;
+    text-align: center;
+    padding-top: 3px;
+    width: 100px;
+    margin: 30px;
+    margin-top: 0;
+    align-self: center;
+    border: 0;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #0C0CCA;
+    color: white;
+    cursor: pointer;
+    box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+#exitModal .exitOK:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#exitModal .exitOK:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
