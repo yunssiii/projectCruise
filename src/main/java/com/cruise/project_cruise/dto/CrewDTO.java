@@ -1,5 +1,8 @@
 package com.cruise.project_cruise.dto;
 
+import lombok.Data;
+
+@Data
 public class CrewDTO {
 
     /* 만들어야 할 컬럼들

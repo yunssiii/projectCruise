@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -106,70 +106,18 @@
                 <div class="swiper-wrapper">
 
                     <!-- 반복문으로 돌리기 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:if="${#crewLists.size(crewLists)} > 0" th:each="dto:${crewLists}">
                         <div class="crew-box">
                             <div class="crew-detail-box">
-                                <p class="crew-name">우리는 여우모</p>
-                                <p class="crew-account">3333-33-******2</p>
+                                <p class="crew-name" th:text="${dto.crew_name}"></p>
+                                <p class="crew-account" th:text="${dto.crew_accountid}">3333-33-******2</p>
                             </div>
-                            <div class="crew-content">
-                                20대 여자 우정이 최고다. 돈 모아서 실컷 놀자 !
-                            </div>
+                            <div class="crew-content" th:text="${dto.crew_info}"></div>
                             <div class="crewBtn-box">
-                                <button class="crewBtn" onclick="javascript:location.href='/crew'">크루 보기</button>
+                                <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum='" + th:text="${dto.crew_num}">크루 보기</button>
                             </div>
-                            <div class="user-out">탈퇴하기</div>
-                        </div>
-                    </div> 
-
-                    <div class="swiper-slide">
-                        <div class="crew-box">
-                            <div class="crew-detail-box">
-                                <p class="crew-name">우리는 여우모2</p>
-                                <p class="crew-account">3333-33-******2</p>
-                            </div>
-                            <div class="crew-content">
-                                <!-- 소개글 줄바꿈 처리 필요? -->
-                                20대 여자 우정이 최고다. 돈 모아서 실컷 놀자 !
-                            </div>
-                            <div class="crewBtn-box">
-                                <button class="crewBtn">크루 보기</button>
-                            </div>
-                            <div class="user-out">탈퇴하기</div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="crew-box">
-                            <div class="crew-detail-box">
-                                <p class="crew-name">우리는 여우모3</p>
-                                <p class="crew-account">3333-33-******2</p>
-                            </div>
-                            <div class="crew-content">
-                                <!-- 소개글 줄바꿈 처리 필요? -->
-                                20대 여자 우정이 최고다. 돈 모아서 실컷 놀자 !
-                            </div>
-                            <div class="crewBtn-box">
-                                <button class="crewBtn">크루 보기</button>
-                            </div>
-                            <div class="user-out">탈퇴하기</div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="crew-box">
-                            <div class="crew-detail-box">
-                                <p class="crew-name">우리는 여우모4</p>
-                                <p class="crew-account">3333-33-******2</p>
-                            </div>
-                            <div class="crew-content">
-                                <!-- 소개글 줄바꿈 처리 필요? -->
-                                20대 여자 우정이 최고다. 돈 모아서 실컷 놀자 !
-                            </div>
-                            <div class="crewBtn-box">
-                                <button class="crewBtn">크루 보기</button>
-                            </div>
-                            <div class="user-out">탈퇴하기</div>
+                            <div class="user-out" onclick="javascript:location.href='/mypage/mypage_all">탈퇴하기</div>
+                            <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/>
                         </div>
                     </div>
 
