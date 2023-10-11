@@ -31,7 +31,7 @@ public class PrincipalDetailsService implements UserDetailsService {
             userDTO.setEmail(userService.selectEmail(username));
             if (userDTO.getEmail() != null) {
                 userDTO.setUser_password(userService.selectPassWord(username));
-                System.out.println(userDTO);
+                System.out.println("PrincipalDetailsService: " + userDTO);
 
                 return new PrincipalDetails(userDTO);
             }

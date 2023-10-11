@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -20,10 +20,18 @@
             <div class="top">
                         <h1>크 루 즈</h1>
                         <strong style="font-size: 3rem;">크루즈에서 모임 통장을 시작하세요</strong>
-                        <div class="btn_box">
-                            <button type="button" onclick="">Log in</button>
-                            <button type="button" onclick="">Sign up</button>
-                        </div>
+                <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
+                    <div class="btn_box">
+                    <a th:href="@{/login}">Log in</a>
+                    <a th:href="@{/signup}">Sign up</a>
+                    </div>
+                </th:block>
+
+                <th:block th:if="${#authorization.expression('isAuthenticated()')}">
+                    <div class="btn_box"></div>
+                    <a th:href="@{/logout}">Log out</a>
+
+                </th:block>
                     </div>
            
             <div class="bottom">

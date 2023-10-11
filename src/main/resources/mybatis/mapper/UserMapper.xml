@@ -32,4 +32,7 @@
     <update id="updateUser" parameterType="com.cruise.project_cruise.dto.UserDTO">
         update users set user_name=#{user_name}, tel=#{tel}, address1=#{address1}, address2=#{address2} where email=#{email}
     </update>
+
+    <!-- 여기 아래는 user관련 mapper는 아니지만 다른팀원과 충돌날 우려가 있어서 일단 여기에 만들겠음 -->
+
 </mapper>

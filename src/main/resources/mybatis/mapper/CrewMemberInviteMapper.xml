@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.CrewMemberInviteMapper">
+
+    <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
+        insert into crew_member (crew_num,cmem_email,joindate) values (#{crew_num}, #{cmem_email},sysdate)
+    </insert>
+
+    <select id="selectCaptain" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO" resultType="java.lang.String">
+        select captain_YN from crew_member where crew_num=#{crew_num} and cmem_email=#{cmem_email}
+    </select>
+
+</mapper>
