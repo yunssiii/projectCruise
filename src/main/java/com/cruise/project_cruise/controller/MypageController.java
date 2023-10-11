@@ -6,10 +6,7 @@ import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -51,12 +48,13 @@ public class MypageController {
     }
 
     @PostMapping("/mypage/mypage_all")
-    public ModelAndView delCrew(HttpServletRequest request) throws  Exception {
+    public ModelAndView delCrew(HttpServletRequest request, @RequestParam("crewNum") String crewNum) throws  Exception {
 
         String email = "hchdbsgk@naver.com";
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 
-        mypageService.deleteCrew(email,crewNum);
+        int crewRealNum = Integer.parseInt(crewNum);
+
+        mypageService.deleteCrew(email,crewRealNum);
 
         ModelAndView mav = new ModelAndView();
 

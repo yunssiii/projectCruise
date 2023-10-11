@@ -106,7 +106,7 @@
                 <div class="swiper-wrapper">
 
                     <!-- 반복문으로 돌리기 -->
-                    <div class="swiper-slide" th:if="${#crewLists.size(crewLists)} > 0" th:each="dto:${crewLists}">
+                    <div class="swiper-slide" th:each="dto:${crewLists}">
                         <div class="crew-box">
                             <div class="crew-detail-box">
                                 <p class="crew-name" th:text="${dto.crew_name}"></p>
@@ -114,10 +114,11 @@
                             </div>
                             <div class="crew-content" th:text="${dto.crew_info}"></div>
                             <div class="crewBtn-box">
-                                <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum='" + th:text="${dto.crew_num}">크루 보기</button>
+                                <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum=${dto.crew_num}">크루 보기</button>
                             </div>
-                            <div class="user-out" onclick="javascript:location.href='/mypage/mypage_all">탈퇴하기</div>
-                            <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/>
+                            <form method="post">
+                            <div class="user-out" onsubmit="javascript:location.href='/mypage/mypage_all">탈퇴하기</div>
+                            <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/></form>
                         </div>
                     </div>
 
