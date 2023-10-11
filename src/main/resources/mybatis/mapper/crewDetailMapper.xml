@@ -6,6 +6,26 @@
 <mapper namespace="com.cruise.project_cruise.mapper.CrewDetailMapper">
 <!-- TemplateMapper 지우고 자기 매퍼이름을 기입해주세요 -->
 
+    <!-- 특정 크루 데이터를 select 하는 쿼리 -->
+    <select id="getCrewData" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewDTO">
+        select
+        CREW_NUM, CREW_NAME, CREW_INFO, CAPTAIN_EMAIL, CREW_CREATED,
+        CREW_BANK, CREW_ACCOUNTID, CREW_PAYDATE, CREW_PAYMONEY, CREW_GOAL
+        from CREW
+        where CREW_NUM=#{crewNum}
+    </select>
+
+    <!-- 선장이름을 가지고오는 쿼리 -->
+    <select id="getCaptainName" parameterType="java.lang.String" resultType="java.lang.String">
+        select USER_NAME from USERS where EMAIL=#{captain_Email}
+    </select>
+
+    <!-- 오픈뱅킹 테이블에서 계좌잔액 가지고오기 -->
+    <select id="getAccountBalance" parameterType="java.lang.String" resultType="int">
+        select OPEN_BALANCE from OPENBANK
+        where OPEN_ACCOUNT=#{crewAccount}
+    </select>
+
     <!--  크루 탈퇴 시 crewMember 테이블에서 해당 선원을 삭제합니다.  -->
     <delete id="deleteCrewMember" parameterType="hashMap">
         delete crew_member where cmem_email=#{cmemEmail} and crew_num=#{crewNum}

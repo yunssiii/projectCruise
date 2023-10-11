@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>앙큼불여우단</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title th:text="${dto.crew_name}">크루 이름이 들어갑니다.</title>
         <!-- FIXME - CREWMAIN 크루의 이름이 불러와지도록 고치기 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewmain.css"/>
@@ -12,9 +12,6 @@
             src="https://code.jquery.com/jquery-3.7.1.js"
             integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
             crossorigin="anonymous"></script>
-
-
-
 </head>
 <body>
     <!-- FIXME 헤더 삽입 -->
@@ -56,9 +53,11 @@
 
 
         <div class="bankbook_top">
-            <div class="crewname">앙큼불여우단<!-- FIXME - CREWMAIN 크루의 이름이 불러와지도록 고치기 -->
-            <button class="gotoBoardBtn"
-                onclick="location='http://localhost:8080/board/list'">소통게시판</button></div>
+            <div class="crewname">
+                <div th:text="${dto.crew_name}"></div>
+                <button class="gotoBoardBtn"
+                    onclick="location='http://localhost:8082/board/list'">소통게시판</button>
+            </div>
                 <!-- FIXME crewNum을 넘겨주기 -->
             <div class="crewmanage"><a href="http://localhost:8080/crew/setting">크루 관리</a></div>
                 <!-- FIXME 크루 관리자에게만 해당 DIV가 보이도록 하기 -->
@@ -66,7 +65,7 @@
             <div id="crewexit"><a onclick="crewExitClick()">크루 탈퇴</a></div>
             <div class="dotline1"></div>
             <div class="accnum_sub">계좌번호</div>
-            <div class="account_num">신한 110-511-818677</div>
+            <div class="account_num" th:text="|${dto.crew_bank} ${dto.crew_accountid}|">신한 110-511-818677</div>
             <div class="mark">
                 <div class="title">도장 또는 서명</div>
                 <div class="content">
@@ -74,28 +73,28 @@
                 </div>
             </div>
             <div class="captain_sub">선장</div>
-            <div class="captain">황윤하 님</div>
+            <div class="captain" th:text="|${captainName} 님|">황윤하 님</div>
             <div class="created_sub">크루 개설일</div>
-            <div class="created">2023년 9월 25일</div>
+            <div class="created" th:text="|${createdDate[0]}년 ${createdDate[1]}월 ${createdDate[2]}일|">2023년 9월 25일</div>
             <div class="info_sub">크루 소개</div>
             <div class="info">
-                <div>
-                    크루소개 크루소개 크루소개 크루소개 크루소개 크루소개 크루소개 크루소개
+                <div th:text="${dto.crew_info}">
+                    크루소개
                 </div>
             </div>
             <div class="dotline2"></div>
             <div class="goal_sub">목표금액</div>
             <div class="achieve">
-                <div class="achieve_money">900,000</div>
-                <div class="goal_money">원 / 1,800,000원</div>
+                <div class="achieve_money" th:text="${crewAccountBalance}">900,000</div>
+                <div class="goal_money">원 / [[${crewGoal}]] 원</div>
             </div>
             <div class="per">
-                <div class="achieve_per" style="width: 50%;">
+                <div class="achieve_per" th:style="'width: ' + ${achievePer} + '%'">
                     <div class="ani"></div>
                 </div>
             </div>
             <div class="percent">
-                50<div>%</div>
+                [[${achievePer}]]<div>%</div>
             </div>
         </div>
         <div class="bankbook_bottom">
