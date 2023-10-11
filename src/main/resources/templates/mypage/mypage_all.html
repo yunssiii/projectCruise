@@ -100,31 +100,34 @@
                 </button>
             </div>
         </div>
-        <section class="sectionbox">
 
-            <div class="swiper"> 
-                <div class="swiper-wrapper">
+        <form method="post" action="/mypage/mypage_all">
+            <section class="sectionbox">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
 
-                    <!-- 반복문으로 돌리기 -->
-                    <div class="swiper-slide" th:each="dto:${crewLists}">
-                        <div class="crew-box">
-                            <div class="crew-detail-box">
-                                <p class="crew-name" th:text="${dto.crew_name}"></p>
-                                <p class="crew-account" th:text="${dto.crew_accountid}">3333-33-******2</p>
+                        <!-- 반복문으로 돌리기 -->
+                        <!-- 크루넘이 1,2,3,4 배열로 담긴다....난 한 개만 필요한데...ㅜㅠㅜ -->
+
+                        <div class="swiper-slide" th:each="dto:${crewLists}">
+                            <div class="crew-box">
+                                <div class="crew-detail-box">
+                                    <p class="crew-name" th:text="${dto.crew_name}"></p>
+                                    <p class="crew-account" th:text="${dto.crew_accountid}">3333-33-******2</p>
+                                </div>
+                                <div class="crew-content" th:text="${dto.crew_info}"></div>
+                                <div class="crewBtn-box">
+                                    <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum=${dto.crew_num}">크루 보기</button>
+                                </div>
+                                <button class="user-out" type="submit">탈퇴하기</button>
+                                <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/>
                             </div>
-                            <div class="crew-content" th:text="${dto.crew_info}"></div>
-                            <div class="crewBtn-box">
-                                <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum=${dto.crew_num}">크루 보기</button>
-                            </div>
-                            <form method="post">
-                            <div class="user-out" onsubmit="javascript:location.href='/mypage/mypage_all">탈퇴하기</div>
-                            <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/></form>
                         </div>
                     </div>
-
                 </div>
-            </div>
-        </section>
+            </section>
+        </form>
+
 
         <!-- 크스롤 -->
         <div class="crew-scroll-box">
