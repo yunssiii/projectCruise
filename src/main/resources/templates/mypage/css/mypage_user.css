@@ -124,6 +124,7 @@
     border-radius: 5px;
     cursor: pointer;
     font-family: NanumSquare;
+    font-weight: 600;
 }   
 
 .passwordBtn:hover {
@@ -182,7 +183,7 @@
     padding: 15px;
     border-radius: 10px;
     font-family: NanumSquare;
-    font-size: 10pt;
+    font-weight: 600;
     border: none;
     cursor: pointer;
 }
