@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>앙큼불여우단 크루 관리</title>
         <!--    FIXME 크루이름을 불러와서 넣을 수 있도록 하기 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="crewSetting.css"/>
-    <link rel="stylesheet" type="text/css" href="crewInfoUpdate.css"/>
-    <link rel="stylesheet" type="text/css" href="crewDelete.css"/>
-    <link rel="stylesheet" type="text/css" href="memberPayView.css"/>
-    <link rel="stylesheet" type="text/css" href="memberBan.css"/>
-    <link rel="stylesheet" type="text/css" href="memberDivN.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewSetting.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewInfoUpdate.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewDelete.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberPayView.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberBan.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberDivN.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -50,7 +50,9 @@
             </div>
     </div>
     <div class="turnBack">
-        <a href="http://localhost:63342/project_cruise/src/main/resources/templates/crew/main/crewmain.html"> ▶ 크루로 돌아가기 </a>
+        <a href="http://localhost:8080/crew"> ▶ 크루로 돌아가기 </a>
+        <!-- FIXME GET 방식 또는 POST 방식으로 CrewNum 넘겨주기  -->
+        <!-- FIXME 최종적으로 localhost 대신 서버 IP로 고쳐주기  -->
     </div>
     <div id="settingDetailContainer" class="hidden">
         <div id="scrollPoint"></div>
@@ -477,12 +479,12 @@
 
 </body>
 
-    <script type="text/javascript" src="./crewSetting.js"></script>
-    <script type="text/javascript" src="./crewInfoUpdate.js"></script>
-    <script type="text/javascript" src="./crewDelete.js"></script>
-    <script type="text/javascript" src="./memberPayView.js"></script>
-    <script type="text/javascript" src="./memberBan.js"></script>
-    <script type="text/javascript" src="./memberDivN.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/crewSetting.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/crewInfoUpdate.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/crewDelete.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/memberPayView.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/memberBan.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/memberDivN.js"></script>
     <script>
         // 유예기간 실시간으로 보여주기 위한 스크립트
         setInterval(function() {

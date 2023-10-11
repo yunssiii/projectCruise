@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.CrewDetailMapper">
+<!-- TemplateMapper 지우고 자기 매퍼이름을 기입해주세요 -->
+
+    <!--  크루 탈퇴 시 crewMember 테이블에서 해당 선원을 삭제합니다.  -->
+    <delete id="deleteCrewMember" parameterType="hashMap">
+        delete crew_member where cmem_email=#{cmemEmail} and crew_num=#{crewNum}
+    </delete>
+</mapper>
