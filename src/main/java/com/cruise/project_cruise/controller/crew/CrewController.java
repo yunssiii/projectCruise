@@ -27,44 +27,56 @@ public class CrewController {
 
     @RequestMapping(value="")
     public ModelAndView crewMain(HttpServletRequest request) throws Exception {
+        // 크루 상세페이지 메인화면
         ModelAndView mav = new ModelAndView();
-
         /**
          * TODO
          * 0. 내가 크루 원일 때만 해당 페이지에 들어올 수 있게 하기
-         * 1. crewNum에 해당하는 크루의 데이터를 가지고오기
+         * 1. 크루 소식조회
+         * 2. crewNum에 해당하는 크루 기본정보 데이터
+         * 3. 거래내역 조회
+         * 4. 회비내역 조회
+         * 5. 납입기능
+         * 6. 일정 간편조회
          */
 
         // TODO 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
 
-        // TODO 알림 데이터
+        // TODO 크루 소식조회
 
-        // TODO 크루 정보관련
-        // 1. 크루 데이터 가지고오기
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
-        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+        // 크루 기본정보 데이터 - 완료
+            // 1. 크루 데이터 가지고오기
+            int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+            CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        // 2. 선장 이름 데이터 가지고오기
-        String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
+            // 2. 선장 이름 데이터 가지고오기
+            String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
 
-        // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
-        String fullCreatedDate = dto.getCrew_created();
-        String[] createdDate = new String[3];
+            // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
+            String fullCreatedDate = dto.getCrew_created();
+            String[] createdDate = new String[3];
 
-        createdDate[0] = fullCreatedDate.substring(0,4);
-        createdDate[1] = fullCreatedDate.substring(5,7);
-        createdDate[2] = fullCreatedDate.substring(8,10);
+            createdDate[0] = fullCreatedDate.substring(0,4);
+            createdDate[1] = fullCreatedDate.substring(5,7);
+            createdDate[2] = fullCreatedDate.substring(8,10);
 
-        // 4-1. 오픈뱅킹 대용 테이블에서 계좌 잔액 가지고오기
-        int crewAccountBalance = crewDetailService.getAccountBalance(dto.getCrew_accountid());
-        DecimalFormat decimalFormat = new DecimalFormat("###,###");
-        String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
+            // 4-1. 오픈뱅킹 대용 테이블에서 계좌 잔액 가지고오기
+            int crewAccountBalance = crewDetailService.getAccountBalance(dto.getCrew_accountid());
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
+            String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
 
-        // 4-2. 목표금액, 달성율
-        int achievePer = (crewAccountBalance/dto.getCrew_goal())*100;
-//        int achievePer = 50;
-        String crewGoal = decimalFormat.format(dto.getCrew_goal());
+            // 4-2. 목표금액, 달성율
+            int achievePer = (crewAccountBalance/dto.getCrew_goal())*100;
+            String crewGoal = decimalFormat.format(dto.getCrew_goal());
 
+
+        // TODO 거래내역 조회
+
+        // TODO 회비내역 조회
+
+        // TODO 납입기능 양식 출력
+
+        // TODO 일정 간편조회
 
         // 데이터 넘겨주기
         mav.addObject("dto",dto);
