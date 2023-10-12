@@ -77,11 +77,7 @@
                 <button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
             </div>
         </div>
-
     </nav>
-
-
-
 
     <!-- 모임 페이지 -->
     <div class="container_1">
@@ -101,7 +97,7 @@
             </div>
         </div>
 
-        <form method="post" action="/mypage/mypage_all">
+        <form method="post" action="/mypage/mypage_all" name="goForm" >
             <section class="sectionbox">
                 <div class="swiper">
                     <div class="swiper-wrapper">
@@ -113,14 +109,13 @@
                             <div class="crew-box">
                                 <div class="crew-detail-box">
                                     <p class="crew-name" th:text="${dto.crew_name}"></p>
-                                    <p class="crew-account" th:text="${dto.crew_accountid}">3333-33-******2</p>
+                                    <p class="crew-account" th:text="${dto.crew_accountid}"></p>
                                 </div>
                                 <div class="crew-content" th:text="${dto.crew_info}"></div>
                                 <div class="crewBtn-box">
                                     <button class="crewBtn" onclick="javascript:location.href='/crew?crewNum=${dto.crew_num}">크루 보기</button>
                                 </div>
-                                <button class="user-out" type="submit">탈퇴하기</button>
-                                <input type="hidden" th:value="${dto.crew_num}" name="crewNum"/>
+                                <button th:id="${dto.crew_num}" class="user-out" type="button" >탈퇴하기</button>
                             </div>
                         </div>
                     </div>
@@ -143,152 +138,39 @@
 
 
     <!-- 크루 탈퇴 안내 모달창 -->
-    <!-- 반복문..! -->
-    <div class="crewDelmodal-div">
-        <div class="crewDel-content">
-            <div class="crewDel-box">
-                <h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>
-                <div class="creDel-content">
-                <b> [ 안내사항 ] </b> <br/>
-                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
-                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
-                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
-                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
-                </div>
-                <div class="yn-box">
-                    <button class="yBtn">예</button>
-                    <button class="nBtn">아니오</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="crewDelmodal-div">
-        <div class="crewDel-content">
-            <div class="crewDel-box">
-                <h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>
-                <div class="creDel-content">
-                <b> [ 안내사항 ] </b> <br/>
-                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
-                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
-                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
-                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
-                </div>
-                <div class="yn-box">
-                    <button class="yBtn">예</button>
-                    <button class="nBtn">아니오</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="crewDelmodal-div">
-        <div class="crewDel-content">
-            <div class="crewDel-box">
-                <h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>
-                <div class="creDel-content">
-                <b> [ 안내사항 ] </b> <br/>
-                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
-                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
-                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
-                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
-                </div>
-                <div class="yn-box">
-                    <button class="yBtn">예</button>
-                    <button class="nBtn">아니오</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="crewDelmodal-div">
-        <div class="crewDel-content">
-            <div class="crewDel-box">
-                <h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>
-                <div class="creDel-content">
-                <b> [ 안내사항 ] </b> <br/>
-                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
-                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
-                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
-                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
-                </div>
-                <div class="yn-box">
-                    <button class="yBtn">예</button>
-                    <button class="nBtn">아니오</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- 크루 탈퇴 예, 아니오 모달 -->
-    <!-- 크루 수만큼 반복문 -->
-    <div class="y-div">
-        <div class="y-content">
-            <div class="y-box">
-                탈퇴되었습니다.
-            </div>
-            <button class="yes">확인</button>
-        </div>
-    </div>
-    
-    <div class="n-div">
-        <div class="n-content">
-            <div class="n-box">
-                계속 항해를 이어갑니다.
-            </div>
-            <button class="no">확인</button>
-        </div>
-    </div>
-    <div class="y-div">
-        <div class="y-content">
-            <div class="y-box">
-                탈퇴되었습니다.
-            </div>
-            <button class="yes">확인</button>
-        </div>
-    </div>
-    
-    <div class="n-div">
-        <div class="n-content">
-            <div class="n-box">
-                계속 항해를 이어갑니다.
-            </div>
-            <button class="no">확인</button>
-        </div>
-    </div>
-    <div class="y-div">
-        <div class="y-content">
-            <div class="y-box">
-                탈퇴되었습니다.
-            </div>
-            <button class="yes">확인</button>
-        </div>
-    </div>
-    
-    <div class="n-div">
-        <div class="n-content">
-            <div class="n-box">
-                계속 항해를 이어갑니다.
-            </div>
-            <button class="no">확인</button>
-        </div>
-    </div>
-    <div class="y-div">
-        <div class="y-content">
-            <div class="y-box">
-                탈퇴되었습니다.
-            </div>
-            <button class="yes">확인</button>
-        </div>
-    </div>
-    
-    <div class="n-div">
-        <div class="n-content">
-            <div class="n-box">
-                계속 항해를 이어갑니다.
-            </div>
-            <button class="no">확인</button>
-        </div>
-    </div>
 
-    
+    <script>
+
+        var outBtn = document.getElementsByClassName("user-out");
+
+        for(var i=0;i<outBtn.length;i++){
+
+            document.write('<div class="crewDelmodal-div"><div class="crewDel-content"><div class="crewDel-box">');
+            document.write('<h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>');
+            document.write('<div class="creDel-content"><b> [ 안내사항 ] </b> <br/>' +
+            '작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다. ' +
+            '재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로 ' +
+            '삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다. ' +
+            '또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.</div>');
+            document.write('<div class="yn-box"><button class="yBtn">예</button><button class="nBtn">아니오</button></div>');
+            document.write('</div></div></div>');
+
+            document.write('<div class="y-div"><div class="y-content"><div class="y-box">');
+            document.write("탈퇴되었습니다.");
+            document.write("</div>");
+            document.write('<button class="yes" onclick="javascript:location.href=\'/mypage/mypage_all_ok?crewNum=${dto.crew_num}\'">확인</button>');
+            document.write("</div></div>");
+
+            document.write('<div class="n-div"><div class="n-content"><div class="n-box">');
+            document.write("계속 항해를 이어갑니다.");
+            document.write("</div>");
+            document.write('<button class="no">확인</button>');
+            document.write("</div></div>");
+
+        }
+
+    </script>
 
     <!-- 웨이브 배경 -->
     <div class="wave"><div class="blue"></div></div>
@@ -313,6 +195,7 @@
                 </div>
             </div>
         </div>
+
         <div class="account-slide-box"> 
             <div class="account-title">
                 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Triangular%20Flag.png" alt="Triangular Flag" width="60" height="60" />
@@ -338,7 +221,7 @@
                                 <div class="select-modal-div">
                                     <div class="account-name">
                                         <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
-                                        <img class="account-name-img" src="./image/국민은행_로고_PNG_AI_원본_다운.png"/>
+                                        <img class="account-name-img" src="/images/mypage/국민은행_로고_PNG_AI_원본_다운.png"/>
                                     </div>
                                     <div class="account-num-cover">
                                         <p class="account-num-title">계좌번호</p>
@@ -363,7 +246,7 @@
                                 <div class="select-modal-div">
                                     <div class="account-name">
                                         <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
-                                        <img class="account-name-img" src="./image/우리은행_로고_PNG_AI_원본_다운.png"/>
+                                        <img class="account-name-img" src="/images/mypage/우리은행_로고_PNG_AI_원본_다운.png"/>
                                     </div>
                                     <div class="account-num-cover">
                                         <p class="account-num-title">계좌번호</p>
@@ -388,7 +271,7 @@
                                 <div class="select-modal-div">
                                     <div class="account-name">
                                         <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
-                                        <img class="account-name-img-kakao" src="./image/kakaobank_logo.png"/>
+                                        <img class="account-name-img-kakao" src="/images/mypage/kakaobank_logo.png"/>
                                     </div>
                                     <div class="account-num-cover">
                                         <p class="account-num-title">계좌번호</p>
@@ -428,6 +311,9 @@
             </div>
         </div>
     </div>
+
+    <!-- 가상계좌 비밀번호 넘기기 -->
+
 
     <!-- 계좌 등록 모달 -->
     
@@ -482,7 +368,7 @@
     </div>
 
     <!-- 모달2 -->
-
+<form action="/mypage/mypage_all" method="post" name="accForm">
     <div class="modal-div2">
         <div class="content">
             <span class="closeBtn2">&times;</span>
@@ -566,21 +452,22 @@
                 </div>
                 <div class="accountNum-box">
                     <div class="account-text">계좌번호</div>
-                    <input type="text" class="account-input" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                    <input type="text" id="account-input1" class="account-input" name="anum" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                     <div class="resultDiv" id="resultNum"></div>
                 </div>
                 <div class="accountPwd-box">
                     <div class="account-text">계좌 비밀번호</div>
                     <input type="password" class="accountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                    <button class="account-authBtn">인증</button>
+                    <button type="button" class="account-authBtn">인증</button>
                     <div class="resultDiv" id="resultPwd"></div>
                 </div>
                 <div>
-                    <button class="addBtn">등록</button>
+                    <button class="addBtn" type="button">등록</button>
                 </div>
             </div>
         </div>
     </div>
+</form>
 
     <!-- 계좌 삭제 안내 모달창 -->
         <!-- 반복문..! -->
@@ -669,7 +556,7 @@
                     <div class="area-custom-select">
                         <div class="custom-select" tabindex="0">
                           <span class="custom-select-text">1개월</span>
-                          <img src="./image/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
+                          <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
                             <li value="selectOption1" class="custom-select-option">1개월</li>
@@ -751,7 +638,7 @@
                     <div class="area-custom-select">
                         <div class="custom-select" tabindex="0">
                           <span class="custom-select-text">1개월</span>
-                          <img src="./image/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
+                          <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
                             <li value="selectOption1" class="custom-select-option">1개월</li>
@@ -833,7 +720,7 @@
                     <div class="area-custom-select">
                         <div class="custom-select" tabindex="0">
                           <span class="custom-select-text">1개월</span>
-                          <img src="./image/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
+                          <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
                             <li value="selectOption1" class="custom-select-option">1개월</li>
@@ -935,7 +822,12 @@
     <!-- script -->
     <script src="/nav_footer/nav.js"></script>
     <script src="/js/mypage/mypage_crew.js"></script>
-    <script src="/js/mypage/mypage_account.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            var openAccPwd = /*[[${openAccPwd}]]*/;
+        /*]]*/
+    </script>
+    <script th:inline="javascript" th:src="@{/js/mypage/mypage_account.js}"></script>
     <!-- 일정 -->
     <script src="/js/mypage/scroll.js"></script>
     <script src="/js/mypage/swiper.js"></script>

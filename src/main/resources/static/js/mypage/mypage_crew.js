@@ -42,6 +42,7 @@ function DelModal(num) {
 
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
+            location.href='mypage_all_ok?crewNum=' + outBtn[num].id;
         }
 
         okBtn2[num].onclick = function() {
@@ -60,3 +61,4 @@ for(var i = 0; i < outBtn.length; i++) {
 for(var j = 0; j < outBtn.length; j++) {
     functions[j](); //함수 호출
 }
+
