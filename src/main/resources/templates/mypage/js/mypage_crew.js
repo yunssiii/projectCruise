@@ -23,6 +23,8 @@ function DelModal(num) {
     return function() {
 
         outBtn[num].onclick = function() {
+            console.log("윤하");
+            console.log(this.id);
             crewdelDiv[num].style.display = "block";
             document.body.style.overflow = "hidden";
         }
@@ -60,3 +62,4 @@ for(var i = 0; i < outBtn.length; i++) {
 for(var j = 0; j < outBtn.length; j++) {
     functions[j](); //함수 호출
 }
+

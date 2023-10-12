@@ -278,35 +278,53 @@ accounPwds[0].addEventListener("change",chkAccountPwd);
 //-- 계좌번호 인증 함수 --------------------------------------------------
 /*
     인증 버튼 누르면 함수 실행 
-    if(번호=비밀번호 && 계좌번호칸 14자리 채워져 있는지) ⇒ 인증 성공 / 등록 버튼 색변화/ 창 닫기/ insert
+    if(가상계좌 비밀번호=입력된 비밀번호 && 불러와진 이름의 가상계좌번호 = 입력된 계좌번호) ⇒ 인증 성공 / 등록 버튼 색변화/ 창 닫기/ insert
     if(번호!=비밀번호) ⇒인증 실패 / 인증 실패 알림/ 내용 지우고 cursor 계좌번호로
 */
 
 function accountAuth (event) {
 
-    if(accounPwds[0].value == 1234 && accounNums[1].value != "" && accounNums[1].value.length >= 10 && accounNums[1].value.length <= 14){
-        alert("인증성공");
-        addBtn[0].style.backgroundColor = "#0c0ccad0";
-        addBtn[0].style.cursor = "pointer";
+    //서버에서 넘긴 비밀번호,계좌번호는 html에서 받음
+    var accountPwdsValue =  accounPwds[0].value;
+    var accountNumsValue =  accounNums[1].value;
 
-        addBtn[0].onclick = function() {    
-            modalDiv3[0].style.display = "none";
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
+    for(var i=0;i<openAccPwd.length;i++){
+
+    if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
+            console.log("인증성공");
+            console.log("입력번호"+accounNums[1].value);
+            console.log('db인증성공'+openAccPwd[i].open_password + '계좌번호' + openAccPwd[i].open_account);
+            addBtn[0].style.backgroundColor = "#0c0ccad0";
+            addBtn[0].style.cursor = "pointer";
+
+            addBtn[0].onclick = function() {
+                //함수 호출
+                insertAcc();
+
+                modalDiv3[0].style.display = "none";
+                document.body.style.overflow = "auto";
+                document.body.style.overflowX = "hidden";
+            }
+        }else {
+            console.log('인증실패')
+            console.log('db인증실패'+openAccPwd[i].open_password + '계좌번호' + openAccPwd[i].open_account);
+            console.log("입력번호"+accounNums[1].value);
+            accounNums[1].value = "";
+            accounPwds[0].value = "";
+
+            document.getElementById("resultNum").innerText = "";
+            document.getElementById("resultPwd").innerText = "";
+
+            accounNums[1].style.border = "1px solid black";
+            accounNums[1].style.outline = "1px solid black";
+            accounPwds[0].style.border = "none";
+            accounPwds[0].style.outline = "1px solid black";
         }
-    }else {
-        alert("인증실패");
-        accounNums[1].value = "";
-        accounPwds[0].value = "";
 
-        document.getElementById("resultNum").innerText = "";
-        document.getElementById("resultPwd").innerText = "";
-
-        accounNums[1].style.border = "1px solid black";
-        accounNums[1].style.outline = "1px solid black";
-        accounPwds[0].style.border = "none";
-        accounPwds[0].style.outline = "1px solid black";
     }
+
+
+
 }
 
 authBtns[0].addEventListener("click",accountAuth);
@@ -427,4 +445,25 @@ for(var i = 0; i < accDelBtn.length; i++) {
 
 for(var j = 0; j < accDelBtn.length; j++) {
     accountFunc[j](); //함수 호출
+}
+
+
+function insertAcc(){
+
+    var accinsertForm = document.accForm;
+
+//    var bankBtns = document.getElementsClassName("bankBtn click");
+//    var kakao = document.getElementId("kakao");
+//
+//    if(bankBtns.id == kakao){
+//    //클릭된 은행클래스의 id가 카카오면
+//    //해당 정보를 서버로 넘기기
+//    //서버에서 그 값을 받아서 insert문에 넣기
+//
+//    }
+
+
+
+    accinsertForm.submit();
+
 }
