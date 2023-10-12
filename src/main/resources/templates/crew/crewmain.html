@@ -99,8 +99,8 @@
         </div>
         <div class="bankbook_bottom">
             <div class="top">
-                <div id="crewname">앙큼불여우단 거래내역조회</div>
-                <button id="tap" onclick="toggleBtnOnClick('앙큼불여우단')"> 회비내역 조회</button>
+                <div id="crewname">[[${dto.crew_name}]] 거래내역 조회</div>
+                <button id="tap" th:onclick="toggleBtnOnClick([[${dto.crew_name}]])"> 회비내역 조회</button>
             </div>
             <div class="dotline"></div>
             <!-- 회비내역 조회 DIV -->
