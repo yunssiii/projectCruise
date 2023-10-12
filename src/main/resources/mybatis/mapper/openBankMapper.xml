@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.DevelopOpenBankingMapper">
+    <!--    계좌 목록 가지고오기 -->
+    <select id="getAccountList" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        select OPEN_ACCOUNT, OPEN_BANK, OPEN_ANAME, OPEN_NAME, OPEN_PASSWORD, OPEN_BALANCE from OPENBANK
+    </select>
+
+    <!-- 계좌 등록하기 -->
+    <insert id="insertAccount" parameterType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        insert into openbank
+            (open_account, open_bank, open_aname, open_name, open_password, open_balance)
+        values
+            (#{open_account}, #{open_bank}, #{open_aname},#{open_name},#{open_password},#{open_balance})
+    </insert>
+
+    <!-- 계좌 정보 수정하기 -->
+    <update id="updateAccount" parameterType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        update openbank set open_bank=#{open_bank},
+                            OPEN_ANAME=#{open_aname},
+                            OPEN_NAME=#{open_name},
+                            OPEN_PASSWORD=#{open_password},
+                            OPEN_BALANCE=#{open_balance}
+        where OPEN_ACCOUNT = #{open_account}
+    </update>
+
+    <!-- 계좌 정보 삭제하기 -->
+    <delete id="deleteAccount" parameterType="java.lang.String">
+        delete OPENBANK where OPEN_ACCOUNT=#{account}
+    </delete>
+</mapper>

@@ -3,6 +3,7 @@ package com.cruise.project_cruise.service;
 import com.cruise.project_cruise.dto.TemplateDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+//@Service
 public interface TemplateService {
 
     public int selectMethod() throws Exception;
