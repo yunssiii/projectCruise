@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>계좌 CRUD 페이지</title>
+</head>
+<style>
+
+    h2 {text-align: center; margin: 100px 0 50px 0;}
+
+    table {
+        margin: auto;
+        border-bottom: 1px solid lightgray;
+        border-collapse: collapse;
+        text-align: center;
+    }
+    table tr th {background-color: lightgray;}
+    table tr th, td {padding: 10px 10px; min-width: 160px;}
+    table tr th:first-child, td:first-child {padding: 10px 20px; min-width: 50px;}
+    table tr:nth-child(even) {background-color: #f6f6f6;}
+    table tr:first-child {text-align: right;}
+
+    table tr td input {width: auto;}
+
+    .short {width: 80px; height: 20px}
+    .long {width: 140px; height: 20px}
+
+</style>
+
+<body>
+  <h2> 계좌 CRUD 페이지 </h2>
+
+  <form name="myForm" method="post">
+    <table id="accountTable">
+        <tr>
+            <td colspan="8">
+                <button id="addFormBtn" type="button">등록하기</button>
+            </td>
+        </tr>
+        <tr>
+            <th>순번</th>
+            <th>은행</th>
+            <th>계좌번호</th>
+            <th>계좌 상품이름</th>
+            <th>계좌 명의</th>
+            <th>계좌 비밀번호</th>
+            <th>계좌 잔액</th>
+            <th>관리하기</th>
+        </tr>
+        <tr th:if="${#lists.size(accountList)}>0" th:each="data, dataStat :${accountList }" th:id="${dataStat.count}">
+            <td>[[${dataStat.count}]]</td>
+            <td th:text="${data.getOpen_bank()}">신한은행</td>
+            <td th:text="${data.getOpen_account()}">111111111111</td>
+            <td th:text="${data.getOpen_aname()}">신한 쏠편한 입출금계좌</td>
+            <td th:text="${data.getOpen_name()}">김은지</td>
+            <td th:text="${data.getOpen_password()}">비밀번호</td>
+            <td th:text="${data.getOpen_balance()}">0</td>
+            <td>
+                <button type="button">내역조회</button>
+                <button type="button" th:id="|updateBtn${dataStat.count}|">수정</button>
+                <input type="hidden" th:id="|delete${dataStat.count}|" name="account" th:value="${data.getOpen_account()}">
+                <button type="button" th:name="|delete${dataStat.count}|" onclick="deleteSubmit(this)">삭제</button>
+            </td>
+        </tr>
+    </table>
+  </form>
+</body>
+<!--제이쿼리-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var form = document.myForm;
+
+    // 계좌 등록 폼 tr 추가
+    $('#addFormBtn').click(function(){
+        var num = ($('#accountTable tr').length - 1)
+        var html =
+            "<tr id='"+ num +"'>"
+            + "<td>" + num + "</td>"
+            + "<td><input type='text' class='short' name='open_bank'></td>"
+            + "<td><input type='text' class='long' name='open_account'></td>"
+            + "<td><input type='text' class='long' name='open_aname'></td>"
+            + "<td><input type='text' class='short' name='open_name'></td>"
+            + "<td><input type='text' class='short' name='open_password'></td>"
+            + "<td><input type='text' class='short' name='open_balance'></td>"
+            + "<td>"
+                + "<button id='addOK' onclick='addSubmit()'>확인</button>"
+                + "<button id='addCancel"+ num + "' type='button'>취소</button>"
+            + "</td>"
+            + "</tr>"
+
+        $('#accountTable').append(html)
+
+        $('#addCancel'+num).click(function(){
+            console.log(num);
+            $('#'+num).remove()
+        })
+    })
+
+
+    function addSubmit() {
+        form.action = "/develop/openbank/addAccount";
+        form.submit();
+    }
+
+
+    // 계좌 수정
+    // 수정 폼 나오게하기
+        for(let i=1; i<=$('#accountTable tr').length-2; i++) {
+            $('#updateBtn'+i).on('click',function() {
+                $('#accountTable tr').each(function(index, item) {
+                    if(item.id===''+i) {
+                        var td = $(item).find('td');
+                        var html
+                            =
+                            "<td>" + i + "</td>\n" +
+                            "<td><input type=\"text\" class=\"short\" name=\"open_bank\" value=\""+ $(td[1]).text() +"\"></td>\n" +
+                            "<td>"+ $(td[2]).text() +"</td>\n" +
+                            "<input type=\"hidden\" name=\"open_account\" value=\""+ $(td[2]).text() +"\">" +
+                            "<td><input type=\"text\" class=\"long\" name=\"open_aname\" value=\""+ $(td[3]).text() +"\"></td>\n" +
+                            "<td><input type=\"text\" class=\"short\" name=\"open_name\" value=\""+ $(td[4]).text() +"\"></td>\n" +
+                            "<td><input type=\"text\" class=\"short\" name=\"open_password\" value=\""+ $(td[5]).text() +"\"></td>\n" +
+                            "<td><input type=\"text\" class=\"short\" name=\"open_balance\" value=\""+ $(td[6]).text() +"\"></td>\n" +
+                            "<td>\n" +
+                            "<button type=\"button\" id=\"updateOK\" onclick='updateSubmit()'>수정</button>\n" +
+                            "<button type=\"button\" id=\"updateCancel\" onclick=\"location.href='/develop/openbank'\">취소</button>\n" +
+                            "</td>"
+
+                        $(item).find('td').remove();
+                        $(item).append(html);
+                    }
+                })
+            })
+        }
+
+    // 수정 제출 함수
+    function updateSubmit() {
+       form.action = "/develop/openbank/updateAccount";
+       form.submit();
+    }
+
+    function deleteSubmit(btn) {
+
+        var inputJQ = $(form).find('input')
+
+        for(var i=0;i<inputJQ.length;i++)
+        if($(inputJQ[i]).attr('id') !== $(btn).attr('name')){
+            $(inputJQ[i]).prop('disabled',true)
+        }
+
+        form.action = "/develop/openbank/deleteAccount";
+        form.submit();
+    }
+
+
+</script>
+</html>
