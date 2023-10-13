@@ -5,9 +5,7 @@
     <title>계좌 CRUD 페이지</title>
 </head>
 <style>
-
     h2 {text-align: center; margin: 100px 0 50px 0;}
-
     table {
         margin: auto;
         border-bottom: 1px solid lightgray;
@@ -24,7 +22,6 @@
 
     .short {width: 80px; height: 20px}
     .long {width: 140px; height: 20px}
-
 </style>
 
 <body>
@@ -56,7 +53,7 @@
             <td th:text="${data.getOpen_password()}">비밀번호</td>
             <td th:text="${data.getOpen_balance()}">0</td>
             <td>
-                <button type="button">내역조회</button>
+                <button type="button" th:id="|inquiryBtn${dataStat.count}|">내역조회</button>
                 <button type="button" th:id="|updateBtn${dataStat.count}|">수정</button>
                 <input type="hidden" th:id="|delete${dataStat.count}|" name="account" th:value="${data.getOpen_account()}">
                 <button type="button" th:name="|delete${dataStat.count}|" onclick="deleteSubmit(this)">삭제</button>
@@ -82,7 +79,7 @@
             + "<td><input type='text' class='long' name='open_aname'></td>"
             + "<td><input type='text' class='short' name='open_name'></td>"
             + "<td><input type='text' class='short' name='open_password'></td>"
-            + "<td><input type='text' class='short' name='open_balance'></td>"
+            + "<td><input type='text' class='short' name='open_balance' value='0' disabled></td>"
             + "<td>"
                 + "<button id='addOK' onclick='addSubmit()'>확인</button>"
                 + "<button id='addCancel"+ num + "' type='button'>취소</button>"
@@ -120,7 +117,8 @@
                             "<td><input type=\"text\" class=\"long\" name=\"open_aname\" value=\""+ $(td[3]).text() +"\"></td>\n" +
                             "<td><input type=\"text\" class=\"short\" name=\"open_name\" value=\""+ $(td[4]).text() +"\"></td>\n" +
                             "<td><input type=\"text\" class=\"short\" name=\"open_password\" value=\""+ $(td[5]).text() +"\"></td>\n" +
-                            "<td><input type=\"text\" class=\"short\" name=\"open_balance\" value=\""+ $(td[6]).text() +"\"></td>\n" +
+                            "<td>" + $(td[6]).text() +
+                            "<input type=\"hidden\" class=\"short\" name=\"open_balance\" value=\""+ $(td[6]).text() +"\"></td>\n" +
                             "<td>\n" +
                             "<button type=\"button\" id=\"updateOK\" onclick='updateSubmit()'>수정</button>\n" +
                             "<button type=\"button\" id=\"updateCancel\" onclick=\"location.href='/develop/openbank'\">취소</button>\n" +
@@ -139,6 +137,7 @@
        form.submit();
     }
 
+    // 삭제 함수
     function deleteSubmit(btn) {
 
         var inputJQ = $(form).find('input')
@@ -151,6 +150,23 @@
         form.action = "/develop/openbank/deleteAccount";
         form.submit();
     }
+
+    // 내역 조회 함수
+
+    for(let i=1; i<=$('#accountTable tr').length-2; i++) {
+        $('#inquiryBtn'+i).on('click',function() {
+            $('#accountTable tr').each(function(index, item) {
+                if (item.id === '' + i) {
+                    var td = $(item).find('td');
+                    var selectedAccount = td[2].textContent;
+
+                    location.href = '/develop/openbank/using?account=' + selectedAccount;
+                }
+            })
+        })
+    }
+
+
 
 
 </script>

@@ -39,7 +39,7 @@ public class OpenBankController {
         ModelAndView mav = new ModelAndView();
 
         developOpenBankingService.insertAccount(openBankDTO);
-
+        System.out.println("[Develop] 오픈뱅킹 테스트 계좌 insert : " + openBankDTO.getOpen_bank()+ " " +openBankDTO.getOpen_account());
         mav.setViewName("redirect: ");
         return mav;
     }
@@ -48,6 +48,7 @@ public class OpenBankController {
     public ModelAndView bankAccountUpdate(OpenBankDTO openBankDTO) throws Exception {
         ModelAndView mav = new ModelAndView();
         developOpenBankingService.updateAccount(openBankDTO);
+        System.out.println("[Develop] 오픈뱅킹 테스트 계좌 Update : " + openBankDTO.getOpen_bank()+ " " +openBankDTO.getOpen_account());
         mav.setViewName("redirect: ");
         return mav;
     }
@@ -55,8 +56,9 @@ public class OpenBankController {
     @PostMapping(value="/deleteAccount")
     public ModelAndView bankAccountDelete(@RequestParam String account) throws Exception {
         ModelAndView mav = new ModelAndView();
-        System.out.println(account);
+
         developOpenBankingService.deleteAccount(account);
+        System.out.println("[Develop] 오픈뱅킹 테스트 계좌 Delete : " + account);
         mav.setViewName("redirect: ");
         return mav;
     }

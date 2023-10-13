@@ -14,13 +14,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserService userService;
+
 
 
     //구글로부터 받은 userRequest 데이터에 대한  후처리되는함수
@@ -89,6 +89,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 //NewUser면 추가정보 받기전 데이터를 데이터베이스에저장
                 userService.insertSocialUser(userDTO);
             }
+
+
 
             System.out.println(userDTO);
 

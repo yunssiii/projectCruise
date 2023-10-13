@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.DevelopOpenBankUsingMapper">
+
+    <!-- 사용내역 num의 최대값 가져오기 -->
+    <select id="getUsingMaxNum" resultType="int">
+        select nvl(max(OPENUSE_NUM),0) from OPENBANK_USE
+    </select>
+
+    <!-- 해당 계좌의 maxNum 가지고오기 -->
+    <select id="getAccountMaxNum" parameterType="java.lang.String" resultType="int">
+        select nvl(max(OPENUSE_NUM),0) from OPENBANK_USE where OPEN_ACCOUNT=#{open_account}
+    </select>
+    
+    <!-- 해당 계좌의 마지막 거래일시 가지고오기 --> 
+    <select id="getLastDate" parameterType="map" resultType="java.lang.String">
+        select OPENUSE_DATE from OPENBANK_USE
+        where OPEN_ACCOUNT = #{open_account} and OPENUSE_NUM = #{openuse_num}
+    </select>
+
+    <!-- 계좌 사용내역 마지막 잔액 가지고오기 -->
+    <select id="getBalance" parameterType="map" resultType="int">
+        select OPENUSE_BALANCE
+        from OPENBANK_USE
+        where OPENUSE_NUM = #{openuse_num} and OPEN_ACCOUNT = #{open_account}
+    </select>
+
+    <!--    계좌 사용내역 목록 가지고오기 -->
+    <select id="getUsingList" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankUsingDTO">
+        select
+            OPENUSE_NUM, OPENUSE_DATE, OPENUSE_ASSORT, OPENUSE_OUTMONEY,
+            OPENUSE_INMONEY, OPENUSE_CONTENT, OPENUSE_BALANCE
+        from OPENBANK_USE
+        where OPEN_ACCOUNT = ${selectedAccount}
+        order by OPENUSE_NUM
+    </select>
+
+    <!-- 계좌 사용내역 등록하기 -->
+    <insert id="insertUsing" parameterType="com.cruise.project_cruise.dto.develop.OpenBankUsingDTO">
+        insert into OPENBANK_USE
+            (OPEN_ACCOUNT, OPENUSE_NUM, OPENUSE_DATE, OPENUSE_ASSORT, OPENUSE_OUTMONEY,
+             OPENUSE_INMONEY, OPENUSE_CONTENT, OPENUSE_BALANCE)
+        values
+            (#{open_account}, #{openuse_num}, TO_DATE(#{openuse_date},'YYYY-MM-DD HH24:MI:SS'),#{openuse_assort},
+             #{openuse_outmoney},#{openuse_inmoney},#{openuse_content},#{openuse_balance})
+    </insert>
+
+    <!-- 계좌테이블의 해당 계좌에 잔액 업데이트하기 -->
+    <update id="updateAccountTableBalance" parameterType="map">
+        update OPENBANK set OPEN_BALANCE=#{open_balance} where OPEN_ACCOUNT = #{open_account}
+    </update>
+
+<!--     계좌내역 수정하기 -->
+    <update id="updateUsing" parameterType="com.cruise.project_cruise.dto.develop.OpenBankUsingDTO">
+        update OPENBANK_USE set OPENUSE_DATE=TO_DATE(#{openuse_date},'YYYY-MM-DD HH24:MI:SS'),
+            OPENUSE_ASSORT=#{openuse_assort},
+            OPENUSE_OUTMONEY=#{openuse_outmoney},
+            OPENUSE_INMONEY=#{openuse_inmoney},
+            OPENUSE_CONTENT=#{openuse_content},
+            OPENUSE_BALANCE=#{openuse_balance}
+        where OPENUSE_NUM = #{openuse_num}
+    </update>
+
+<!--     계좌 사용내역 삭제하기 -->
+    <delete id="deleteUsing" parameterType="int">
+        delete OPENBANK_USE where OPENUSE_NUM=#{openuse_num}
+    </delete>
+</mapper>

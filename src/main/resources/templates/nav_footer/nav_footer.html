@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+	<th:block th:fragment="head">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 
-<link rel="stylesheet" type="text/css" href="./nav_footer.css"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/nav_footer/nav_footer.css}"/>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-
+</th:block>
 </head>
 <body>
 
+ <th:block th:fragment="header">
 	<nav class="navigator">
 		<div>
 			<a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
@@ -46,7 +49,12 @@
 					<a href="#" >내 정보 수정</a>
 					<a href="#" >내 게시글 관리</a> 
 					<a href="#" >내 계좌 관리</a>
-					<a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+					<th:block th:unless="${#authorization.expression('isAuthenticated()')}">
+						<a href="http://localhost:8080/login">로그인</a>
+					</th:block>
+					<th:block th:if="${#authorization.expression('isAuthenticated()')}">
+					<a href="http://localhost:8080/logout" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+					</th:block>
 				</div>
 			</div>
 			<div>
@@ -55,8 +63,10 @@
 		</div>
 
 	</nav>
+ </th:block>
 
 
+<th:block th:fragment="footer">
 	<footer>
 		<div class="footer" >
 			<div class="footer_container">
@@ -77,7 +87,9 @@
 		</div>
 
 	</footer>
-<script type="text/javascript" src="./nav.js"></script>
+	<script th:src="@{/js/nav_footer/nav.js}"></script>
+</th:block>
 
 </body>
+
 </html>
