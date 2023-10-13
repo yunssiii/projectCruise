@@ -1,6 +1,7 @@
 package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.mapper.MypageMapper;
 import com.cruise.project_cruise.mapper.TemplateMapper;
 import org.springframework.beans.factory.annotation.Autowired;

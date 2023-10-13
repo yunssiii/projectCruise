@@ -3,6 +3,7 @@ package com.cruise.project_cruise.controller;
 
 import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

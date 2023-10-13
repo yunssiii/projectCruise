@@ -23,7 +23,7 @@
 
     <!-- 가상계좌 비번과 등록 시 입력할 비번 비교를 위한 가상계좌 비번, 계좌번호 select -->
     <!-- 가상계좌번호 입력 계좌번호 비교 -->
-    <select id="getOpenAccPWd" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.OpenBankDTO">
+    <select id="getOpenAccPWd" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
         select open_password,open_account from openbank where open_name = (select user_name from users where email=#{email})
     </select>
 
