@@ -3,6 +3,7 @@ package com.cruise.project_cruise.controller;
 
 import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
+import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class MypageController {
         List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보
         List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums(email); //크루맴버의 크루번호
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(email); //가상계좌 비밀번호
+        List<OpenBankDTO> accountLists = mypageService.getAccounts(email); //가상계좌정보
+        UserDTO userName = mypageService.getUserName(email);
 
         ModelAndView mav = new ModelAndView();
 
@@ -39,10 +42,14 @@ public class MypageController {
             mav.setViewName("mypage/mypage_all");
 
             mav.addObject("crewLists",crewLists);
+            mav.addObject("userName",userName);
 
             if(openAccPwd != null){
                 mav.addObject("openAccPwd",openAccPwd);
             }
+
+            mav.addObject("accountLists",accountLists);
+
         }else {
             mav.setViewName("mypage/mypageZero");
         }
@@ -53,15 +60,15 @@ public class MypageController {
         계좌 등록 메소드
      */
     @PostMapping("/mypage/mypage_all")
-    public ModelAndView accountInsert(HttpServletRequest request) throws Exception{
+    public ModelAndView accountInsert(@RequestParam String anum) throws Exception{
 
         String email = "hchdbsgk@naver.com";
-        String myaccountAnum = "12341234123412";
 
+        System.out.println("번호 : "+ anum);
 
         ModelAndView mav = new ModelAndView();
 
-        mypageService.insertAccount(email,myaccountAnum);
+        mypageService.insertAccount(email,anum);
 
         mav.setViewName("redirect:/mypage/mypage_all");
 
@@ -86,5 +93,71 @@ public class MypageController {
         return mav;
 
     }
+
+    /*
+        크루즈웹 비밀번호 페이지
+    */
+    @GetMapping("mypage/mypage_webPassword")
+    public ModelAndView webPassword() throws Exception {
+
+        String email = "hchdbsgk@naver.com";
+
+        String webPassword = mypageService.getWebpassword(email);
+
+        ModelAndView mav = new ModelAndView();
+
+        if (webPassword == null){
+            mav.setViewName("mypage/mypage_addWebPassword");
+        }else {
+            mav.setViewName("mypage/mypage_changeWebPassword");
+        }
+
+        return mav;
+    }
+
+    @PostMapping("mypage/mypage_webPassword")
+    public ModelAndView webPassword(@RequestParam String payPwd) throws Exception {
+
+        String email = "hchdbsgk@naver.com";
+
+        ModelAndView mav = new ModelAndView();
+
+        if(payPwd !=null){
+            mypageService.updateWebpassword(payPwd,email);
+
+            mav.setViewName("redirect:/mypage/mypage_all"); //등록/변경 후 마이페이지 메인으로 이동
+        }
+
+        return mav;
+    }
+
+    @GetMapping("mypage/mypage_myInfo")
+    public ModelAndView myInfo() throws Exception {
+
+        String email = "hchdbsgk@naver.com";
+
+        UserDTO userInfo = mypageService.getUserInfo(email);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.addObject("userInfo",userInfo);
+
+        mav.setViewName("mypage/mypage_myInfo");
+
+        return mav;
+
+    }
+
+    @GetMapping("mypage/mypage_board")
+    public ModelAndView myBoard() throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("mypage/mypage_board");
+
+        return mav;
+
+    }
+
 
 }

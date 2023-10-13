@@ -41,5 +41,30 @@ public class MypageServiceImpl implements MypageService {
         mypageMapper.insertAccount(email,myaccountAnum);
     }
 
+    @Override
+    public List<OpenBankDTO> getAccounts(String email) throws Exception {
+        return mypageMapper.getAccounts(email);
+    }
+
+    @Override
+    public String getWebpassword(String email) throws Exception {
+        return mypageMapper.getWebpassword(email);
+    }
+
+    @Override
+    public void updateWebpassword(String payPwd,String email) throws Exception {
+        mypageMapper.updateWebpassword(payPwd,email);
+    }
+
+    @Override
+    public UserDTO getUserName(String email) throws Exception {
+        return mypageMapper.getUserName(email);
+    }
+
+    @Override
+    public UserDTO getUserInfo(String email) throws Exception {
+        return mypageMapper.getUserInfo(email);
+    }
+
 
 }

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- tab bootstrap / css 우선순위로 맨 위 -->  
-    <link rel="stylesheet" href="../../static/css/nav_footer/nav_footer.css"/>
-    <link rel="stylesheet" href="./css/mypage_userTab.css"/>
-    <link rel="stylesheet" href="./css/mypage_userOut.css"/>
-    <link rel="stylesheet" href="./css/mypage_board.css"/>
+    <link rel="stylesheet" href="/nav_footer/nav_footer.css"/>
+    <link rel="stylesheet" href="/css/mypage/mypage_userTab.css"/>
+    <link rel="stylesheet" href="/css/mypage/mypage_userOut.css"/>
+    <link rel="stylesheet" href="/css/mypage/mypage_board.css"/>
     <!-- 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,13 +93,13 @@
             
             <div class="mypage-tab-box">
                 <div class="mypage-tab">
-                    <a href="#">내 프로필</a>
+                    <a th:href="@{http://localhost:8082/mypage/mypage_myInfo}">내 프로필</a>
                 </div>
                 <div class="mypage-tab">
-                    <a href="#">내 게시글</a>
+                    <a th:href="@{http://localhost:8082/mypage/mypage_board}">내 게시글</a>
                 </div>
                 <div class="mypage-tab3">
-                    <a href="#">이체 비밀번호 관리</a>
+                    <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">이체 비밀번호 관리</a>
                 </div>
             </div>
             <div class="logout-box">
@@ -296,9 +296,9 @@
 
 	</footer>
 
-    <script src="./js/mypage_board.js"></script>
-    <script src="./js/mypage_userOut.js"></script>
-    <script src="../../static/js/nav_footer/nav.js"></script>
+    <script src="/js/mypage/mypage_board.js"></script>
+    <script src="/js/mypage/mypage_userOut.js"></script>
+    <script src="/nav_footer/nav.js"></script>
     
 </body>
 </html>

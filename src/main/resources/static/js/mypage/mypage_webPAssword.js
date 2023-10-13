@@ -62,8 +62,18 @@ insertWebBtn[0].onclick = function() {
     if(webPwdInput[0].value === webChkPwdInput[0].value && reg.test(webPwdInput[0].value)){
 
         alert("등록되었습니다.");
-        // db에 비번 insert
+        updateSubmit();
+
     }else {
         alert("비밀번호를 정확히 입력해주세요.")
     }
+}
+
+// -- 비밀번호 등록 시 서버로 보내는 데이터 -------
+function updateSubmit() {
+
+    var PwdUpdateForm = document.updatePwdForm;
+
+    PwdUpdateForm.submit();
+
 }

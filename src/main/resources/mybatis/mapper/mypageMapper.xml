@@ -27,13 +27,46 @@
         select open_password,open_account from openbank where open_name = (select user_name from users where email=#{email})
     </select>
 
+    <select id="getUserName" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
+        select user_name from users where email=#{email}
+    </select>
+
     <!-- 계좌 등록 insert -->
     <insert id="insertAccount" parameterType="map">
         insert into my_account (myaccount_bank,myaccount_anum,myaccount_date,email)
-        values (#{myaccount_bank},#{myaccount_anum},sysdate,#{email})
-
-
+        values (
+        (select open_bank from openbank
+        where open_name = (select user_name from users where email=#{email})
+        and
+        open_account = #{myaccount_anum}),
+        #{myaccount_anum},sysdate,#{email}
+        )
     </insert>
+
+    <!-- 등록된 계좌 조회 -->
+    <select id="getAccounts" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        select open_bank, open_account,open_aname,open_balance from openbank
+        where open_account in (select myaccount_anum from my_account where email=#{email}
+        and myaccount_anum in
+        (select open_account from openbank where open_name = (select user_name from users where email=#{email})))
+        and
+        open_name=(select user_name from users where email=#{email})
+    </select>
+
+    <!-- 이체 비밀번호 조회 -->
+    <select id="getWebpassword" parameterType="java.lang.String" resultType="java.lang.String">
+        select pay_password from users where email = #{email}
+    </select>
+
+    <!-- 이체 비밀번호 등록/변경 -->
+    <update id="updateWebpassword" parameterType="map">
+        update users set pay_password = #{pay_password} where email=#{email}
+    </update>
+
+    <!-- 내 정보 수정 데이터 조회 -->
+    <select id="getUserInfo" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
+        select user_name,email,tel,address1,address2 from users where email=#{email}
+    </select>
 
 
 

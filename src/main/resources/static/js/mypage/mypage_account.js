@@ -292,23 +292,25 @@ function accountAuth (event) {
 
     if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
             console.log("인증성공");
-            console.log("입력번호"+accounNums[1].value);
-            console.log('db인증성공'+openAccPwd[i].open_password + '계좌번호' + openAccPwd[i].open_account);
+
             addBtn[0].style.backgroundColor = "#0c0ccad0";
             addBtn[0].style.cursor = "pointer";
 
+            accounNums[1].value = accountNumsValue;
+            accounPwds[0].value = accountPwdsValue;
+
             addBtn[0].onclick = function() {
                 //함수 호출
-                insertAcc();
+                //insertAcc();
 
                 modalDiv3[0].style.display = "none";
                 document.body.style.overflow = "auto";
                 document.body.style.overflowX = "hidden";
+
             }
-        }else {
+        } else {
             console.log('인증실패')
-            console.log('db인증실패'+openAccPwd[i].open_password + '계좌번호' + openAccPwd[i].open_account);
-            console.log("입력번호"+accounNums[1].value);
+
             accounNums[1].value = "";
             accounPwds[0].value = "";
 
@@ -448,22 +450,10 @@ for(var j = 0; j < accDelBtn.length; j++) {
 }
 
 
-function insertAcc(){
-
-    var accinsertForm = document.accForm;
-
-//    var bankBtns = document.getElementsClassName("bankBtn click");
-//    var kakao = document.getElementId("kakao");
+//function insertAcc(){
 //
-//    if(bankBtns.id == kakao){
-//    //클릭된 은행클래스의 id가 카카오면
-//    //해당 정보를 서버로 넘기기
-//    //서버에서 그 값을 받아서 insert문에 넣기
+//    var accinsertForm = document.accForm;
 //
-//    }
-
-
-
-    accinsertForm.submit();
-
-}
+//    accinsertForm.submit();
+//
+//}
