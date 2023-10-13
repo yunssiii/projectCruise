@@ -1,0 +1,159 @@
+@charset "UTF-8";
+
+body {
+	margin: 0px;
+	bottom: 0px;
+	font-family: NanumSquare;
+}
+
+.navigator {
+	height: 80px;
+	background-color: transparent;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	font-size: 25px;
+}
+
+.nav-item {
+	padding: 28px 17px;
+	font-weight: 700;
+	font-size: 25px;
+	background-color: transparent;
+	border: none;
+}
+
+.logo_cruise {
+	text-decoration: none;
+	font-family: 'Black Han Sans', sans-serif !important;
+	font-size: 40px;
+	font-weight: 500;
+	color: #0C0CCA;
+}
+
+.navigator_menu {
+	display: flex;
+	justify-content: center;
+}
+
+.navigator_menu_link {
+	text-decoration: none;
+	color: #0C0CCA;
+}
+
+.navigator_menu_link:hover {
+	color: #FFD966;
+}
+
+.navigator .navigator_menu button {
+	display: flex;
+	margin-left: 10px;
+	margin-bottom: 1px;
+}
+
+.voyage_button {
+	margin-top: 1.5rem;
+	padding: 5px 20px;
+	color: #0C0CCA;
+	border-color: #0C0CCA;
+	border-radius: 10px;
+	background-color: white;
+	font-weight: bold;
+}
+
+.voyage_button:hover {
+	transform: scale(1.07);
+	border-color: #0C0CCA;
+	background-color: #FFD966;
+}
+.button:visited{
+	color: #FFD966;
+}
+.logout-icon{
+	
+	
+}
+footer{
+	width: 100%;
+}
+.footer {
+	display: flex;
+	justify-content: center;
+	background-color: black;
+	color: white;
+	
+}
+
+.footer_container {
+	max-width: 1170px;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.footer-menu {
+	display: flex;
+	justify-content: space-between;
+	height: 346px;
+}
+
+.last_line {
+	display: flex;
+	justify-content: flex-end;
+	font-size: 12px;
+}
+
+.menu-content {
+	display: none;
+	position: absolute;
+	background-color: white;
+	min-width: 160px;
+	border-radius: 10px;
+	border: 2px solid #FFD966;
+	z-index: 3;
+	font-size: 15px; 
+	width: 64px;
+	
+}
+.menu-content2{
+	text-align: center;
+}
+
+.menu-content:after {
+  position: absolute;
+  bottom: 100%;
+  left: 23%;
+  margin-left: -10px;
+  border: solid transparent;
+  border-color: transparent;
+  border-bottom-color: #FFD966;
+  border-width: 10px;
+  pointer-events: none;
+  content: ' ';
+}
+
+.menu-content a {
+	padding: 12px 10px;
+	text-decoration: none;
+	display: block;
+	font-size: 15px;
+	color: inherit;
+	 
+}
+
+.menu-content a:hover {
+	background-color: #FFF4A8;
+	font-size: 16px;
+	font-weight: 800;
+	
+}
+
+.navButtonClick {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+.clicked {
+	color: #FFD966;
+ }
