@@ -1,6 +1,7 @@
 package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
