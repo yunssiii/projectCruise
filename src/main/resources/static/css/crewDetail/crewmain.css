@@ -30,7 +30,9 @@ a:hover {
     color: #0C0CCA;
 }
 
-
+nav {
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
+}
 
 .wave{
     z-index: -1;

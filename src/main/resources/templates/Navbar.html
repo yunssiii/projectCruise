@@ -1,0 +1,63 @@
+<meta charset="UTF-8">
+
+<nav class="navigator" th:fragment="navbarFragmant">
+    <div>
+        <a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+        </a>
+    </div>
+
+    <div class="navigator_menu">
+        <div>
+            <button id="first_menuButton"
+                    class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+            <div id="first_menu" class="menu-content">
+                <a href="#">
+                    <b>알림!</b><br>
+                    <label>모임통장 목표 달성완료!</label>
+
+                </a>
+
+                <a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+
+            </div>
+        </div>
+
+        <div >
+            <button id="second_menuButton"
+                    class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
+            <div id="second_menu" class="menu-content menu-content2">
+
+
+                <a href="#" >내 정보 수정</a>
+                <a href="#" >내 게시글 관리</a>
+                <a href="#" >내 계좌 관리</a>
+                <a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            </div>
+        </div>
+        <div>
+            <button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+        </div>
+    </div>
+
+</nav>
+
+<footer th:fragment="footerFragmant">
+    <div class="footer" >
+        <div class="footer_container">
+            <div class="footer_menu">
+                <p>
+                    <i class="fa-brands fa-docker"> 크루즈㈜ </i><br> <br> 대표이사
+                    홍길동 | 사업자등록번호 166-15-01234 | 서울특별시 강남구 테헤란로 1244층 (역삼동, 삼원타워) <br>
+                </p>
+                <p>
+                    <i class="fa-solid fa-phone fa-2xs"></i> 유선 상담 1998-0917 평일
+                    09:00~18:00 (은행 휴무일 제외)
+                </p>
+            </div>
+            <div class="last_line">
+                <b>© Cruise. All rights reserved</b>
+            </div>
+        </div>
+    </div>
+
+</footer>
