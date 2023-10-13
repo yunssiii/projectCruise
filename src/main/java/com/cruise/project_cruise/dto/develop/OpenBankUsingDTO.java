@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class OpenBankUsingDTO {
 
-    private String openuse_num;
+    private int openuse_num;
     private String open_account;
     private String openuse_date;
     private String openuse_assort;
