@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>소셜회원가입</title>
-
+    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <link rel="stylesheet" type="text/css" th:href="@{/css/nextSocialSignUpForm/nextSocialSignupForm.css}"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -14,6 +14,7 @@
 
 </head>
 <body>
+<th:block th:replace="nav_footer/nav_footer :: header"></th:block>
 <div id="form-container">
 <h2>소셜 회원가입 추가정보</h2>
     <br/><br/>
@@ -67,7 +68,7 @@
     </form>
     </div>
     </div>
-
+<th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 
 </body>
 </html>

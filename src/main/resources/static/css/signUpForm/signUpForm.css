@@ -2,6 +2,9 @@
           font-family: 'NanumSquare', 'sans-serif';
       }
 
+
+
+
   #emailStatus {
 
              position: absolute;
@@ -29,7 +32,10 @@
 
            .registration-container {
             max-width: 400px;
-            margin: 0 auto;
+            margin-top: 150px;
+            margin-bottom: 150px;
+            margin-left: auto;
+            margin-right: auto;
             padding: 20px;
             background-color: #f0f0f0;
             border: 1px solid #ccc;
@@ -116,9 +122,15 @@
             text-align: center;
         }
 
+        .social-icons{
+
+         padding-top: 22.5px;
+        }
+
         .social-icons a{
 
             text-decoration:none;
+
             margin-right: 20px;
             margin-left: 20px;
         }

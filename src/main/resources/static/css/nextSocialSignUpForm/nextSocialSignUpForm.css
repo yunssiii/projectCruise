@@ -7,7 +7,11 @@ body {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f7f7f7;
+    background-color: #f9f9f9;
+    margin-top:30px;
+    margin-bottom:100px;
+    margin-left:auto;
+    margin-right:auto;
 }
 h2 {
     text-align: center;
@@ -20,14 +24,15 @@ h2 {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #f7f7f7;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .form-group {
     margin-bottom: 15px;
 }
 
 .form-control {
-    width: 90%; /* 변경: 입력 요소를 꽉 채우도록 너비 설정 */
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
