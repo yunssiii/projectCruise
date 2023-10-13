@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.MypageMapper">
+
+    <!-- 내 모임 상세 정보 select문 -->
+    <select id="getCrews" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewDTO">
+        select crew_name, crew_accountid, crew_info, crew_num from crew
+        where crew_num in (select crew_num from crew_member where cmem_email=#{cmem_email})
+    </select>
+
+    <!-- 내 모임 탈퇴하기   -->
+    <delete id="deleteCrew" parameterType="map">
+        delete crew_member where crew_num=#{crew_num} and cmem_email = #{cmem_email}
+    </delete>
+
+    <!-- 내 모임수 selec - zero,all 구분   -->
+    <select id="getCrewNums" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewMemberDTO">
+        select crew_num from crew_member where cmem_email = #{cmem_email}
+    </select>
+
+    <!-- 가상계좌 비번과 등록 시 입력할 비번 비교를 위한 가상계좌 비번, 계좌번호 select -->
+    <!-- 가상계좌번호 입력 계좌번호 비교 -->
+    <select id="getOpenAccPWd" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        select open_password,open_account from openbank where open_name = (select user_name from users where email=#{email})
+    </select>
+
+    <select id="getUserName" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
+        select user_name from users where email=#{email}
+    </select>
+
+    <!-- 계좌 등록 insert -->
+    <insert id="insertAccount" parameterType="map">
+        insert into my_account (myaccount_bank,myaccount_anum,myaccount_date,email)
+        values (
+        (select open_bank from openbank
+        where open_name = (select user_name from users where email=#{email})
+        and
+        open_account = #{myaccount_anum}),
+        #{myaccount_anum},sysdate,#{email}
+        )
+    </insert>
+
+    <!-- 등록된 계좌 조회 -->
+    <select id="getAccounts" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        select open_bank, open_account,open_aname,open_balance from openbank
+        where open_account in (select myaccount_anum from my_account where email=#{email}
+        and myaccount_anum in
+        (select open_account from openbank where open_name = (select user_name from users where email=#{email})))
+        and
+        open_name=(select user_name from users where email=#{email})
+    </select>
+
+    <!-- 이체 비밀번호 조회 -->
+    <select id="getWebpassword" parameterType="java.lang.String" resultType="java.lang.String">
+        select pay_password from users where email = #{email}
+    </select>
+
+    <!-- 이체 비밀번호 등록/변경 -->
+    <update id="updateWebpassword" parameterType="map">
+        update users set pay_password = #{pay_password} where email=#{email}
+    </update>
+
+    <!-- 내 정보 수정 데이터 조회 -->
+    <select id="getUserInfo" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
+        select user_name,email,tel,address1,address2 from users where email=#{email}
+    </select>
+
+
+
+
+</mapper>

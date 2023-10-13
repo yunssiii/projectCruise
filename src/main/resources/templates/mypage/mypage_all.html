@@ -202,7 +202,7 @@
                 
                  내 계좌 모아 보기
             </div>
-            <div class="slide-cover">
+            <div class="slide-cover" th:if="${!#lists.isEmpty(accountLists)}">
                 <button class="slideBtn-prev">
                     <span class="material-symbols-outlined">arrow_left_alt</span>
                 </button>
@@ -211,75 +211,51 @@
                 </button>
             </div>
         </div>
+
         <section class="article-account-section">
-            <div class="swiper"> 
+            <!-- 계좌 등록 0일 때 if로 화면 만들기 -->
+            <div class="zeroAccount-box" th:if="${#lists.isEmpty(accountLists)}">
+                <div class="zeroAccount-content">
+                    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Dotted%20Line%20Face.png" alt="Dotted Line Face" width="150" height="150" />
+                    <span class="zeroAccount-text">등록된 계좌가 없어요ㅠㅠ</span>
+                </div>
+            </div>
+
+            <div class="swiper">
                 <div class="swiper-wrapper">
                     <!-- 반복문 -->
-                    <div class="swiper-slide">
+                    <div class="swiper-slide" th:each="dto:${accountLists}">
                         <div class="article-account-box">
                             <div class="account-box">
                                 <div class="select-modal-div">
-                                    <div class="account-name">
-                                        <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
-                                        <img class="account-name-img" src="/images/mypage/국민은행_로고_PNG_AI_원본_다운.png"/>
-                                    </div>
-                                    <div class="account-num-cover">
-                                        <p class="account-num-title">계좌번호</p>
-                                        <p class="account-num">1111-1111-11111</p>
-                                    </div>
-                                </div>
-                                <div class="account-alias-box">
-                                    <p class="account-alias" >황윤하의 통장</p>
-                                    <input type="text" value="황윤하의 통장" class="account-alias2 hidden"/>
-                                    <button class="account-update">수정</button>
-                                    <button class="account-update-ok hidden">변경</button>
-                                    |
-                                    <button class="account-delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="article-account-box">
-                            <div class="account-box">
-                                <div class="select-modal-div">
-                                    <div class="account-name">
-                                        <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
-                                        <img class="account-name-img" src="/images/mypage/우리은행_로고_PNG_AI_원본_다운.png"/>
-                                    </div>
-                                    <div class="account-num-cover">
-                                        <p class="account-num-title">계좌번호</p>
-                                        <p class="account-num">1111-1111-11111</p>
-                                    </div>
-                                </div>
-                                <div class="account-alias-box">
-                                    <p class="account-alias" >황윤하의 통장</p>
-                                    <input type="text" value="황윤하의 통장" class="account-alias2 hidden"/>
-                                    <button class="account-update">수정</button>
-                                    <button class="account-update-ok hidden">변경</button>
-                                    |
-                                    <button class="account-delete">삭제</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide">
-                        <div class="article-account-box">
-                            <div class="account-box">
-                                <div class="select-modal-div">
-                                    <div class="account-name">
-                                        <!-- if로 00은행이면 이거 저거 이렇게 해야하나?? -->
+                                    <!-- 계좌 이미지 if 국민,신한,우리,카카오,기업만 등록 가능 -->
+                                    <div class="account-name" th:if="${#strings.equals(dto.open_bank,'카카오뱅크')}">
                                         <img class="account-name-img-kakao" src="/images/mypage/kakaobank_logo.png"/>
                                     </div>
+
+                                    <div class="account-name" th:if="${#strings.equals(dto.open_bank,'신한은행')}">
+                                        <img class="account-name-img" src="/images/mypage/신한뱅크_로고_PNG_AI_원본_다운.png"/>
+                                    </div>
+
+                                    <div class="account-name" th:if="${#strings.equals(dto.open_bank,'국민은행')}">
+                                        <img class="account-name-img" src="/images/mypage/국민은행_로고_PNG_AI_원본_다운.png"/>
+                                    </div>
+
+                                    <div class="account-name" th:if="${#strings.equals(dto.open_bank,'우리은행')}">
+                                        <img class="account-name-img" src="/images/mypage/우리은행_로고_PNG_AI_원본_다운.png"/>
+                                    </div>
+
+                                    <div class="account-name" th:if="${#strings.equals(dto.open_bank,'기업은행')}">
+                                        <img class="account-name-img" src="/images/mypage/기업은행_로고_PNG_AI_원본_다운1.png"/>
+                                    </div>
+
                                     <div class="account-num-cover">
                                         <p class="account-num-title">계좌번호</p>
-                                        <p class="account-num">1111-1111-11111</p>
+                                        <p class="account-num" th:text="${dto.open_account}"></p>
                                     </div>
                                 </div>
                                 <div class="account-alias-box">
-                                    <p class="account-alias" >황윤하의 통장</p>
+                                    <p class="account-alias" th:text="${dto.open_aname}"></p>
                                     <input type="text" value="황윤하의 통장" class="account-alias2 hidden"/>
                                     <button class="account-update">수정</button>
                                     <button class="account-update-ok hidden">변경</button>
@@ -289,14 +265,16 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
+
         <div class="password-box">
             <button class="passwordBtn">
                 <b>크루즈웹</b> 이체 비밀번호 
-                <a href="#">등록 </a> | 
-                <a href="#">변경 </a>
+                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">등록 </a> |
+                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">변경 </a>
             </button>
         </div>
 
@@ -311,9 +289,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 가상계좌 비밀번호 넘기기 -->
-
 
     <!-- 계좌 등록 모달 -->
     
@@ -368,7 +343,6 @@
     </div>
 
     <!-- 모달2 -->
-<form action="/mypage/mypage_all" method="post" name="accForm">
     <div class="modal-div2">
         <div class="content">
             <span class="closeBtn2">&times;</span>
@@ -439,7 +413,7 @@
     <!-- 모달3 -->
     <!-- form 태그로 전체 insert, 모달1,2의 정보는 hidden으로 넘기기
     모달1은 db에 저장되지 않고 생색만 내기 -->
-
+    <form action="/mypage/mypage_all" method="post" name="accForm">
     <div class="modal-div3">
         <div class="content">
             <span class="closeBtn3">&times;</span>
@@ -448,7 +422,7 @@
                 <h2>계좌 등록</h2>
                 <div class="accountName-box">
                     <div class="account-text">이름</div>
-                    <input type="text" class="account-input" value="황윤하" disabled/>
+                    <input type="text" class="account-input" th:value="${userName.user_name}" disabled/>
                 </div>
                 <div class="accountNum-box">
                     <div class="account-text">계좌번호</div>
@@ -462,7 +436,7 @@
                     <div class="resultDiv" id="resultPwd"></div>
                 </div>
                 <div>
-                    <button class="addBtn" type="button">등록</button>
+                    <button class="addBtn" type="submit">등록</button>
                 </div>
             </div>
         </div>
@@ -471,83 +445,34 @@
 
     <!-- 계좌 삭제 안내 모달창 -->
         <!-- 반복문..! -->
-        <div class="accountDelmodal-div">
-            <div class="accountDel-content">
-                <div class="accountDel-box">
-                    <div class="accountDel-title">[황윤하의 통장] 계좌를 정말 삭제하시겠습니까?</div>
-                    <div class="yesno-box">
-                        <button class="yesBtn">예</button>
-                        <button class="noBtn">아니오</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accountDelmodal-div">
-            <div class="accountDel-content">
-                <div class="accountDel-box">
-                    <div class="accountDel-title">[황윤하의 통장] 계좌를 정말 삭제하시겠습니까?</div>
-                    <div class="yesno-box">
-                        <button class="yesBtn">예</button>
-                        <button class="noBtn">아니오</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="accountDelmodal-div">
-            <div class="accountDel-content">
-                <div class="accountDel-box">
-                    <div class="accountDel-title">[황윤하의 통장] 계좌를 정말 삭제하시겠습니까?</div>
-                    <div class="yesno-box">
-                        <button class="yesBtn">예</button>
-                        <button class="noBtn">아니오</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+    <script>
 
+        var accDEl  = document.getElementsByClassName("account-delete");
 
+        for(var i=0;i<accDEl.length;i++){
 
+            document.write('<div class="accountDelmodal-div"><div class="accountDel-content"><div class="accountDel-box">');
+            document.write('<div class="accountDel-title">[황윤하의 통장] 계좌를 정말 삭제하시겠습니까?</div>');
+            document.write('<div class="yesno-box">');
+            document.write('<button class="yesBtn">예</button>');
+            document.write('<button class="noBtn">아니오</button>');
+            document.write('</div></div></div></div>');
 
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </script>
 
 
 
     <!-- 계좌 상세 모달 반복문 -->
-    <div class="account-modal">
+    <div class="account-modal" th:each="dto:${accountLists}">
         <div class="modal-content">
             <span class="closeBtn">&times;</span>
             <div class="modal-container">
-                <div class="open-aname">KB Star*t 통장</div>
-                <div class="open-account">1111-1111-1111</div>
-                <div class="openuse-balance">560,030원</div>
+                <div class="open-aname" th:text="${dto.open_aname}"></div>
+                <div class="open-account" th:text="${dto.open_account}"></div>
+                <div class="openuse-balance" th:text="${dto.open_balance}"></div>
 
                 <div class="line"></div>
 
@@ -623,169 +548,7 @@
         </div>
     </div>
 
-    <div class="account-modal">
-        <div class="modal-content">
-            <span class="closeBtn">&times;</span>
-            <div class="modal-container">
-                <div class="open-aname">KB Star*t 통장</div>
-                <div class="open-account">1111-1111-1111</div>
-                <div class="openuse-balance">560,030원</div>
 
-                <div class="line"></div>
-
-                <div class="select-cover">
-                    
-                    <div class="area-custom-select">
-                        <div class="custom-select" tabindex="0">
-                          <span class="custom-select-text">1개월</span>
-                          <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
-                        </div>
-                        <ul class="custom-select-list" style="display:none;">
-                            <li value="selectOption1" class="custom-select-option">1개월</li>
-                            <li value="selectOption2" class="custom-select-option">3개월</li>
-                            <li value="selectOption3" class="custom-select-option">6개월</li>
-                        </ul>
-                    </div>
-
-                    <input type="text" class="openuse-input-search" id="search" onkeyup="search(this)"/>
-                    <button class="openuse-searchBtn">
-                        <span class="material-symbols-outlined" style="color: #0C0CCA;">
-                            search
-                        </span>
-                    </button>
-                </div>
-
-                <div class="line"></div>
-
-                <div class="openuse-box">
-                    <!-- 반복문 -->
-                    <!-- <div id="searchList">검색결과</div> -->
-                    <div class="openuse-cover" > 
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <!-- if 출금/입금 -->
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div> 
-                </div>
-
-                <div class="line"></div>
-
-            </div>
-            
-        </div>
-    </div>
-
-    <div class="account-modal">
-        <div class="modal-content">
-            <span class="closeBtn">&times;</span>
-            <div class="modal-container">
-                <div class="open-aname">KB Star*t 통장</div>
-                <div class="open-account">1111-1111-1111</div>
-                <div class="openuse-balance">560,030원</div>
-
-                <div class="line"></div>
-
-                <div class="select-cover">
-                    
-                    <div class="area-custom-select">
-                        <div class="custom-select" tabindex="0">
-                          <span class="custom-select-text">1개월</span>
-                          <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
-                        </div>
-                        <ul class="custom-select-list" style="display:none;">
-                            <li value="selectOption1" class="custom-select-option">1개월</li>
-                            <li value="selectOption2" class="custom-select-option">3개월</li>
-                            <li value="selectOption3" class="custom-select-option">6개월</li>
-                        </ul>
-                    </div>
-
-                    <input type="text" class="openuse-input-search" id="search" onkeyup="search(this)"/>
-                    <button class="openuse-searchBtn">
-                        <span class="material-symbols-outlined" style="color: #0C0CCA;">
-                            search
-                        </span>
-                    </button>
-                </div>
-
-                <div class="line"></div>
-
-                <div class="openuse-box">
-                    <!-- 반복문 -->
-                    <!-- <div id="searchList">검색결과</div> -->
-                    <div class="openuse-cover" > 
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <!-- if 출금/입금 -->
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div> 
-                </div>
-
-                <div class="line"></div>
-
-            </div>
-            
-        </div>
-    </div>
 
 
     <!-- 웨이브 배경 -->

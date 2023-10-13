@@ -55,28 +55,17 @@
     border: 1px solid #8b8b8b;
 }
 
-.user-cover2 {
-    /* border: 1px solid;  */
+<!-- 주소 부분 -->
+
+.addr-box {
     display: flex;
-    width: 80%;
-    font-family: NanumSquareBold;
-    padding: 0px 40px 10px 40px;
-    font-size: 13pt;
-    justify-content: space-between;
+    align-items: end;
 }
 
-.addr-box1 {
-    width: 80%; 
-}
-
-.addr-box2 {
-    margin-left: 80px;
-    width: 80%;
-}
 
 .user-addr1 {
     margin-top: 10px;
-    width: 100%;
+    width: 80%;
     padding: 10px;
     color: #8b8b8b;
     border-radius: 10px;
@@ -91,6 +80,17 @@
     border-radius: 10px;
     border: 1px solid #8b8b8b;
    
+}
+
+.addrBtn {
+    margin-left: 20px;
+    padding: 0px 15px;
+    font-family: NanumSquare;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    cursor: pointer;
 }
 
 .line2 {
