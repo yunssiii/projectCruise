@@ -5,10 +5,16 @@
     font-style: normal;
 }
 
+/* 헤더  ----------------------------------- */
+nav {
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+
 .header {
     background-color: white;
     height: 80px;
 }
+/* ------------------------------------------ */
 
 body {
     font-family: 'NanumSquare', 'sans-serif';
@@ -254,7 +260,7 @@ body {
 }
 
 
-button {
+button:not(#first_menuButton, #second_menuButton, .voyage_button) {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     font-size: 12pt;
     text-align: center;
@@ -271,7 +277,7 @@ button {
     color: rgb(0, 0, 0);
 }
 
-button:hover {
+button:hover:not(#first_menuButton, #second_menuButton, .voyage_button) {
     background-color: #FFD966;
     transition: 0.2s;
 }
