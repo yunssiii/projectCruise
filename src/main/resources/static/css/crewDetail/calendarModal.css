@@ -1,0 +1,31 @@
+
+.calendarHidden {
+    display: none;
+    height: 0;
+    /*transition: 0.2s;*/
+}
+
+.calendarVisible {
+    display: inline-block;
+    height: auto;
+    /*transition: 0.2s;*/
+}
+
+#calendarModal {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 500px;
+    height: auto;
+    text-align: center;
+    border-radius: 10px;
+    align-content: center;
+    margin: 20px;
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    font-size: 15pt;
+
+    position: fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    /* 이 Modal이 모든 요소들 중 가장 위에 뜨게 하기 위해서 */
+}

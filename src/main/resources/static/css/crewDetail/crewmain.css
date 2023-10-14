@@ -20,19 +20,26 @@ body {
     user-select:none
 }
 
-a {
+a:not(.logo_cruise) {
     text-decoration: none;
     color: black;
 }
 
-a:hover {
+a:hover:not(.logo_cruise) {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     color: #0C0CCA;
 }
 
+/* 헤더  ----------------------------------- */
 nav {
     box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
 }
+
+.header {
+    background-color: white;
+    height: 80px;
+}
+/* ------------------------------------------ */
 
 .wave{
     z-index: -1;
@@ -57,10 +64,7 @@ nav {
 
 
 
-.header {
-    background-color: white;
-    height: 80px;
-}
+
 
 
 
@@ -1083,6 +1087,17 @@ nav {
     margin-top: 10px;
     margin-bottom: 50px;
     width: 90%;
+}
+
+
+#ModalBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
 }
 
 

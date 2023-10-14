@@ -31,20 +31,23 @@ public class CrewController {
         ModelAndView mav = new ModelAndView();
         /**
          * TODO
-         * 0. 내가 크루 원일 때만 해당 페이지에 들어올 수 있게 하기
+         * 0. 내가 크루원일 때만 해당 페이지에 들어올 수 있게 하기
          * 1. 크루 소식조회
-         * 2. crewNum에 해당하는 크루 기본정보 데이터
+         * 2. crewNum에 해당하는 크루 기본정보 데이터 - 완료
          * 3. 거래내역 조회
          * 4. 회비내역 조회
          * 5. 납입기능
          * 6. 일정 간편조회
          */
 
-        // TODO 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
+        // TODO 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
+            // 1. 세션에서 크루원의 이메일 받기
+            // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
+            // 3. 존재하면 접속가능, 존재하지 않으면 return 오류페이지
 
-        // TODO 크루 소식조회
+        // TODO 1. 크루 소식조회
 
-        // 크루 기본정보 데이터 - 완료
+        // 2. 크루 기본정보 데이터 - 완료
             // 1. 크루 데이터 가지고오기
             int crewNum = Integer.parseInt(request.getParameter("crewNum"));
             CrewDTO dto = crewDetailService.getCrewData(crewNum);
@@ -66,7 +69,8 @@ public class CrewController {
             String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
 
             // 4-2. 목표금액, 달성율
-            int achievePer = (crewAccountBalance/dto.getCrew_goal())*100;
+            int achievePer = (int)(((double)crewAccountBalance/(double)dto.getCrew_goal())*100);
+                // int 는 정수이기 때문에 나눗셈의 소숫점 결과값을 얻으려면 double로 형변환 해주어야 함.
             String crewGoal = decimalFormat.format(dto.getCrew_goal());
 
 

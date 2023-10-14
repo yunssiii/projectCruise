@@ -6,6 +6,7 @@
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewmain.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewExit.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewDetail/calendarModal.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
     <script
             src="https://code.jquery.com/jquery-3.7.1.js"
@@ -24,7 +25,8 @@
     <!-- ----------------- -->
 </head>
 <body>
-    <nav th:replace="navbar :: navbarFragmant"></nav>
+    <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
+
 
     <div class="background">
         <div class="wave"><div class="blue"></div></div>
@@ -321,7 +323,9 @@
             <div class="exitResultInfo">[ 앙큼불여우단 ] 크루와의 항해가 계속됩니다 </div>
             <button class="exitOK" onclick="exitNoOkClick()">확인</button>
         </div>
-
+    </div>
+    <div id="calendarModal" class="calendarVisible">
+        <div>[[${dto.crew_name}]] 일정 조회</div>
     </div>
 
     <nav th:replace="navbar :: footerFragmant"></nav>
