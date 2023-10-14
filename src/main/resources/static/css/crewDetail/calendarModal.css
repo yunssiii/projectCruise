@@ -1,20 +1,10 @@
 
-.calendarHidden {
-    display: none;
-    height: 0;
-    /*transition: 0.2s;*/
-}
-
-.calendarVisible {
-    display: inline-block;
-    height: auto;
-    /*transition: 0.2s;*/
-}
 
 #calendarModal {
-    background-color: rgba(255, 255, 255, 0.8);
-    width: 500px;
-    height: auto;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 1000px;
+    height: 600px;
     text-align: center;
     border-radius: 10px;
     align-content: center;
@@ -28,4 +18,37 @@
     transform: translate(-50%, -50%);
     z-index: 2;
     /* 이 Modal이 모든 요소들 중 가장 위에 뜨게 하기 위해서 */
+}
+
+#calendarModal .calModalTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+        /* 세로기준 가운데 정렬 */
+}
+
+#closeXBtn {
+    font-size: 30pt;
+    margin: 20px 20px;
+}
+
+#calendarModal .calModalTop .title {
+    font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
+    font-size: 20pt;
+    text-align: left;
+    margin: 20px 20px;
+}
+
+#calendarModal hr {
+    width: 960px;
+    margin: 0 auto;
+}
+
+#calendarModal #crewCalendar {
+    /*border: 1px solid #000000;*/
+    background-color: white;
+    border-radius: 10px;
+    margin: 20px;
+    width: 960px;
+    height: 470px;
 }

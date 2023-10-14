@@ -249,7 +249,7 @@
             </div>
         </div>
         <div class="cal_receipt">
-            <div class="detail_href"><a href="">자세히보기 ▶</a></div>
+            <div class="detail_href"><a id="detail_href">자세히보기 ▶</a></div>
             <div class="title">크루 일정</div>
             <div class="line1"></div>
             <div class="content">
@@ -294,7 +294,7 @@
             <div class="line2"></div>
         </div>
     </div>
-
+    <div id="modalBg" class="hiddenModalBg">
     <div id="exitModal" class="exitHidden">
         <div id="choiceYN" class="exitVisible">
             <div class="closeX" onclick="crewExitCloseXClick()">×</div>
@@ -325,16 +325,26 @@
         </div>
     </div>
     <div id="calendarModal" class="calendarVisible">
-        <div>[[${dto.crew_name}]] 일정 조회</div>
+        <div class="calModalTop">
+            <div class="title">[[${dto.crew_name}]] 일정 조회</div>
+            <div id="closeXBtn"> × </div>
+        </div>
+        <hr>
+        <div id="crewCalendar">
+            달력공간
+        </div>
     </div>
-
+    </div>
     <nav th:replace="navbar :: footerFragmant"></nav>
 
 </body>
 
 <!-- 네비게이터 바 스크립트 -->
 <script type="text/javascript" src="/js/nav.js"></script>
+<!-- 제이쿼리 cdm-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="/js/crewDetail/crewmain.js"></script>
+<script type="text/javascript" src="/js/crewDetail/crewCalendar.js"></script>
 <script>
     /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.
      * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
