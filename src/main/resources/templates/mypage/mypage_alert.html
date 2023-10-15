@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/mypage_userOut.css"/>
+    <link rel="stylesheet" href="./css/mypage_userTab.css"/>
+    <link rel="stylesheet" href="./mypage_alert.css"/>
+    <!-- 폰트 -->
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="user-container">
+        <!-- 메뉴 -->
+        <div class="mypage-bar">
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Passenger%20Ship.png" alt="Passenger Ship" width="230" height="230"/>
+            
+            <div class="mypage-profile">
+                <p class="pro-name">황윤하</p>
+                <p class="pro-email">hyhdbsgk@naver.com</p>
+            </div>
+
+            <div class="line"></div>
+            
+            <div class="mypage-tab-box">
+                <div class="mypage-tab2">
+                    <a href="#">내 알림</a>
+                </div>
+                <div class="mypage-tab">
+                    <a href="#">내 프로필</a>
+                </div>
+                <div class="mypage-tab">
+                    <a href="#">내 게시글</a>
+                </div>
+                <div class="mypage-tab3">
+                    <a href="#">이체 비밀번호 관리</a>
+                </div>
+            </div>
+            <div class="logout-box">
+                <button class="logout">로그아웃</button>
+                |
+                <button class="withdrawal">회원탈퇴</button>
+                <p class="logo">크루즈</p>
+            </div>
+        </div>
+    
+
+        <!-- 게시글 관리 -->
+        <div class="alert-cover">
+            <ul class="tabs">
+                <li class="tab-link current" data-tab="tab-1">내 알림</li>
+            </ul>
+
+            <div id="tab-1" class="tab-content current">
+                <div class="alert-wrap">    
+                    <div class="top-bar">
+                        <div>
+                            <input type="checkbox" id="all-alert-chk"/>
+                            <label for="all-alert-chk"></label>
+                            <span class="chk-text">전체 선택</span>
+                        </div>
+                        <div>
+                            <button class="top-btn">삭제</button>
+                        </div>
+                    </div>
+
+                    <!-- 반복문 -->
+                    <div class="alert-div">
+                        <input type="checkbox" id="chk-alert-1" name="alert-chk"/>
+                        <label for="chk-alert-1"></label>
+                        <div class="alert-div2">
+                            <div class="alert-div3">
+                                <div class="alert-div4">
+                                    <div class="alert-type">입금</div>
+                                    <div class="alert-date">2023.10.15</div>
+                                </div>
+                            </div>
+                            <a href="#" class="alert-content">[여사모 크루] 입금날입니다!</a>
+                        </div>
+                    </div>
+                    <div class="alert-div">
+                        <input type="checkbox" id="chk-alert-2" name="alert-chk"/>
+                        <label for="chk-alert-2"></label>
+                        <div class="alert-div2">
+                            <div class="alert-div3">
+                                <div class="alert-div4">
+                                    <div class="alert-type">게시판</div>
+                                    <div class="alert-date">2023.10.15</div>
+                                </div>
+                            </div>
+                            <a href="#" class="alert-content">[여사모 크루] 부산 가자~ 게시글에 댓글이 달렸습니다!</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- "회원 탈퇴" 모달 -->
+    <div class="userOutmodal-div">
+        <div class="userOutmodal-content">
+            <div class="userOut-box">
+                <h2 class="userOut-title">회원 탈퇴하시겠습니까?</h2>
+                <div class="userOut-content">
+                <b> [ 안내사항 ] </b> <br/>
+                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
+                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
+                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
+                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
+                </div>
+                <div class="yn-box">
+                    <button class="yBtn">예</button>
+                    <button class="nBtn">아니오</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- "회원 탈퇴" 확인 모달 -->
+    <div class="y-div">
+        <div class="y-content">
+            <div class="y-box">
+                탈퇴되었습니다.
+            </div>
+            <button class="yes">확인</button>
+        </div>
+    </div>
+
+    <div class="n-div">
+        <div class="n-content">
+            <div class="n-box">
+                계속 항해를 이어갑니다.
+            </div>
+            <button class="no">확인</button>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="../js/mypage_userOut.js"></script>
+    <script src="./mypage_alert.js"></script>
+
+</body>
+</html>
