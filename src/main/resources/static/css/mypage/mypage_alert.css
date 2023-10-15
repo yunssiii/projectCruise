@@ -1,0 +1,148 @@
+.alert-cover {
+    width:70%;
+    font-family: NanumSquare;
+    font-size: 11pt;
+}
+
+.alert-wrap {
+    background-color: white;
+    padding: 10px;
+    width: 97%;
+    font-family: NanumSquare;
+}
+
+.top-bar {
+    padding: 13px 0px 13px 13px;
+    font-family: NanumSquare;
+    font-size: 10pt;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chk-text {
+    padding-left: 10px;
+}
+
+.top-btn {
+    margin-right: 5px;
+    padding: 7px 15px;
+    background-color: #ededed;
+    border: none;
+    border-radius: 6px;
+    font-size: 9pt;
+    cursor: pointer;
+}
+
+.top-btn:hover{
+    background-color: rgba(250, 211, 96, 0.726);
+}
+
+/* 알림 내용 */
+.alert-div {
+    /* border: 1px solid; */
+    display: flex;
+    align-items: center;
+    border-radius: 13px;
+    padding-left: 20px;
+    margin: 10px;
+    width: 95%;
+    background-color: #ffd96676;
+}
+
+.alert-div2 {
+    /* border: 1px solid; */
+    width: 100%;
+    margin-left: 20px;
+    padding: 15px;
+    
+}
+
+.alert-div3 {
+    /* border: 1px solid; */
+    margin-bottom: 15px;
+}
+
+.alert-div4 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.alert-type {
+    /* border: 1px solid; */
+    font-size: 9pt;
+    color: #8a8989;
+    font-weight: 600;
+}
+
+.alert-date {
+    font-size: 9pt;
+    color: #8a8989;
+    font-weight: 600;
+}
+
+.alert-content {
+    font-weight: 600;
+}
+
+
+
+/* 체크박스 */
+
+input[type="checkbox"]{
+    display:none;
+}
+  
+input[type="checkbox"] + label{
+    cursor:pointer;
+}
+
+input[type="checkbox"] + label::before{ /* 클릭 전 */
+    content:"";
+    display:inline-block;
+    width:13px;
+    height:13px;
+    border:2px solid #cecece;
+    border-radius: 4px;
+    vertical-align:middle;
+}
+
+input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
+    content:"";
+    background-color:#ffffff;
+    border-color:#cecece;
+    background-image: url('../image/chk.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+/* 탭 */
+ul.tabs{
+	margin: 0px;
+	padding: 50px 0px 0px 50px;
+	list-style: none;
+}
+
+ul.tabs li{
+	background: none;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	background: #ededed;
+    border-radius: 13px 13px 0px 0px;
+}
+
+.tab-content{
+	display: none;
+	background: #ededed;
+	padding: 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border-radius: 0px 0px 13px 13px;
+}
+
+.tab-content.current{
+	display: inherit;
+}

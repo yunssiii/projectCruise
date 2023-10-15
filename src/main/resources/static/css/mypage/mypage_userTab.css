@@ -1,6 +1,6 @@
 body {margin: 0;background-color: #0C0CCA;}
 p {margin: 0;}
-a {text-decoration: none;color: black;}
+a {text-decoration: none;color: black;cursor: pointer;}
 
 .user-container {
     /* border: 1px solid; */
@@ -60,17 +60,22 @@ a {text-decoration: none;color: black;}
     width: 90%;
 }
 
-.mypage-tab, .mypage-tab3 {
+.mypage-tab,.mypage-tab2, .mypage-tab3 {
     /* background-color: rgb(233, 161, 255); */
     width: 30%;
     font-family: NanumSquare;
     font-size: 15pt;
-    margin: 20px 0px 10px 10px ;
+    margin: 20px 0px 10px 10px;
 }
 
 .mypage-tab:hover, .mypage-tab3:hover {
     box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
     width: 24%;
+}
+
+.mypage-tab2:hover{
+    box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
+    width: 19%;
 }
 
 .mypage-tab3 {
