@@ -1,10 +1,9 @@
 
 
 #calendarModal {
-    display: inline-block;
     background-color: rgba(255, 255, 255, 0.9);
     width: 1000px;
-    height: 600px;
+    height: 650px;
     text-align: center;
     border-radius: 10px;
     align-content: center;
@@ -13,7 +12,7 @@
     font-size: 15pt;
 
     position: fixed;
-    top:50%;
+    top:48%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -29,14 +28,14 @@
 
 #closeXBtn {
     font-size: 30pt;
-    margin: 20px 20px;
+    margin: 10px 20px;
 }
 
 #calendarModal .calModalTop .title {
     font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
     font-size: 20pt;
     text-align: left;
-    margin: 20px 20px;
+    margin: 10px 20px;
 }
 
 #calendarModal hr {
@@ -44,11 +43,30 @@
     margin: 0 auto;
 }
 
-#calendarModal #crewCalendar {
-    /*border: 1px solid #000000;*/
-    background-color: white;
-    border-radius: 10px;
-    margin: 20px;
-    width: 960px;
-    height: 470px;
-}
+
+/* 풀캘린더 커스텀하기 */
+
+    /* 평일 hover 없애기 */
+    .fc-day-mon a:hover, .fc-day-tue a:hover, .fc-day-wed a:hover, .fc-day-thu a:hover, .fc-day-fri a:hover {
+        color: #494949;
+        text-decoration: none !important;
+    }
+
+    /* 일요일 날짜 */
+    .fc-day-sun a, .fc-day-sun a:hover {
+        color: #dc1b1b;
+        text-decoration: none !important;
+    }
+
+    /* 토요일 날짜 */
+    .fc-day-sat a, .fc-day-sat a:hover {
+        color: #055ed3;
+        text-decoration: none !important;
+    }
+
+
+
+
+
+
+

@@ -20,12 +20,12 @@ body {
     user-select:none
 }
 
-a:not(.logo_cruise) {
+a:not(.logo_cruise, .fc-day-sat, .fc-day-sun) {
     text-decoration: none;
     color: black;
 }
 
-a:hover:not(.logo_cruise) {
+a:hover:not(.logo_cruise, .fc-day-sat, .fc-day-sun) {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     color: #0C0CCA;
 }
@@ -1089,7 +1089,6 @@ nav {
     margin-bottom: 50px;
     width: 90%;
 }
-
 
 #modalBg {
     position: fixed;

@@ -23,6 +23,146 @@
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <!-- ----------------- -->
+
+    <!-- 풀캘린더 -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Calendar 모달
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: { // 툴바 설정부분.
+                    left: 'dayGridMonth,listMonth',
+                    center: 'title',
+                    right: 'prev,next today'
+                },
+                dayCellContent: function (info) {
+                    var number = document.createElement("a");
+                    number.classList.add("fc-daygrid-day-number");
+                    number.innerHTML = info.dayNumberText.replace("일", '').replace("日","");
+                    if (info.view.type === "dayGridMonth") {
+                        return {
+                            html: number.outerHTML
+                        };
+                    }
+                    return {
+                        domNodes: []
+                    };
+                },
+                views: {
+                    dayGridMonth: {
+                        type: 'dayGrid',
+                        duration: {months: 1},
+                        monthMode: true,
+                        fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
+                    }
+                },
+                // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
+                navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
+                businessHours: true, // display business hours
+                editable: true, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
+                selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
+                locale:"ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                events: [
+                    {
+                        title: 'Business Lunch',
+                        start: '2023-01-03T13:00:00',
+                        constraint: 'businessHours'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2023-01-13T11:00:00',
+                        constraint: 'availableForMeeting', // defined below
+                        color: '#257e4a'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2023-01-18',
+                        end: '2023-01-20'
+                    },
+                    {
+                        title: 'Party',
+                        start: '2023-01-29T20:00:00'
+                    },
+
+                    // areas where "Meeting" must be dropped
+                    {
+                        groupId: 'availableForMeeting',
+                        start: '2023-01-11T10:00:00',
+                        end: '2023-01-11T16:00:00',
+                        display: 'background'
+                    },
+                    {
+                        groupId: 'availableForMeeting',
+                        start: '2023-01-13T10:00:00',
+                        end: '2023-01-13T16:00:00',
+                        display: 'background'
+                    },
+
+                    // red areas where no events can be dropped
+                    {
+                        start: '2023-01-24',
+                        end: '2023-01-28',
+                        overlap: false,
+                        display: 'background',
+                        color: '#ff9f89'
+                    },
+                    {
+                        start: '2023-01-06',
+                        end: '2023-01-08',
+                        overlap: false,
+                        display: 'background',
+                        color: '#ff9f89'
+                    }
+                ]
+            });
+
+            calendar.render();
+        });
+
+    </script>
+    <style>
+
+        #crewCalendar {
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px 0 0 0;
+            font-family: 'NanumSquare', Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            height: 510px;
+        }
+
+        #calendar {
+            max-width: 930px;
+            height: 490px;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .crewCalendarContainer {
+            position: relative;
+        }
+
+        /*#addScheBtn { 일정 관리 창에서만 쓸 버튼! */
+        /*    position: absolute;*/
+        /*    top: 1px;*/
+        /*    left: 115px;*/
+        /*    background-color: #2e3f51;*/
+        /*    border-radius: 5px;*/
+        /*    height: 34px;*/
+        /*    width: 50px;*/
+        /*    color: white;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        /*#addScheBtn:active {*/
+        /*    background-color: #1c2731;*/
+        /*}*/
+
+    </style>
 </head>
 <body>
     <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
@@ -253,7 +393,7 @@
             <div class="title">크루 일정</div>
             <div class="line1"></div>
             <div class="content">
-                여기 달력 넣을거야
+                여기 달력 넣지말고 하루 일정만 넣자
             </div>
             <div class="line2"></div>
             <div class="paper"></div>
@@ -331,7 +471,10 @@
         </div>
         <hr>
         <div id="crewCalendar">
-            달력공간
+            <div class="crewCalendarContainer">
+<!--                <button id="addScheBtn" type="button">Add</button> 일정 관리 창에서만 쓸 버튼! -->
+                <div id='calendar'></div>
+            </div>
         </div>
     </div>
     </div>
