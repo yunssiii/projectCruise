@@ -166,7 +166,7 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
     content:"";
     background-color:#ffffff;
     border-color:#cecece;
-    background-image: url('../image/chk.png');
+    background-image: url('/images/mypage/chk.png');
     background-repeat: no-repeat;
     background-position: 50%;
 }

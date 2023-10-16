@@ -19,6 +19,11 @@ public interface MypageService {
     public  List<OpenBankDTO> getAccounts(String email) throws Exception; //계좌 조회
     public String getWebpassword(String email) throws Exception; //이체 비밀번호 조회
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception; //이제 비밀번호 수정(등록/변경)
-    public UserDTO getUserName(String email) throws Exception; //로그인한 사용자 이름 조회
     public UserDTO getUserInfo(String email) throws Exception; //로그인한 사용자 정보 조회
+    public String getCrewName(@Param("crew_num") int crewNum) throws Exception; // 크루명 조회
+    public List<CrewBoardDTO> getMyboard(@Param("email")String email) throws Exception; //내 게시글 조회
+    public void deleteMyboard(int boardNum) throws Exception; //내 게시글 삭제
+    public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception; //내 댓글 조회
+    public String getBoardSubject(int boardNum) throws Exception; //게시글 제목 조회
+    public void deleteMycomment(int commentNum) throws Exception; //댓글 삭제
 }

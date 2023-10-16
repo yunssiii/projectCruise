@@ -1,12 +1,12 @@
 package com.cruise.project_cruise.mapper;
 
-import com.cruise.project_cruise.dto.CrewDTO;
-import com.cruise.project_cruise.dto.CrewMemberDTO;
-import com.cruise.project_cruise.dto.UserDTO;
+import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
+import java.io.StringReader;
 import java.util.List;
 
 @Mapper
@@ -20,6 +20,11 @@ public interface MypageMapper {
     public  List<OpenBankDTO> getAccounts(String email) throws Exception;
     public String getWebpassword(String email) throws Exception;
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception;
-    public UserDTO getUserName(String email) throws Exception;
     public UserDTO getUserInfo(String email) throws Exception;
+    public String getCrewName(@Param("crew_num") int crewNum) throws Exception;
+    public List<CrewBoardDTO> getMyboard(@Param("email")String email) throws Exception;
+    public void deleteMyboard(int boardNum) throws Exception;
+    public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception;
+    public String getBoardSubject(int boardNum) throws Exception;
+    public void deleteMycomment(int commentNum) throws Exception;
 }

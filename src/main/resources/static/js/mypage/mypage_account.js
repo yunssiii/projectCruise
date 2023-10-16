@@ -293,6 +293,9 @@ function accountAuth (event) {
     if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
             console.log("인증성공");
 
+            accounPwds[0].value = accountPwdsValue;
+            accounNums[1].value = accountNumsValue;
+
             addBtn[0].style.backgroundColor = "#0c0ccad0";
             addBtn[0].style.cursor = "pointer";
 
@@ -300,8 +303,6 @@ function accountAuth (event) {
             accounPwds[0].value = accountPwdsValue;
 
             addBtn[0].onclick = function() {
-                //함수 호출
-                //insertAcc();
 
                 modalDiv3[0].style.display = "none";
                 document.body.style.overflow = "auto";
