@@ -1,13 +1,11 @@
 package com.cruise.project_cruise.service;
 
+import com.cruise.project_cruise.dto.ScheduleDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-@Mapper
+import java.util.List;
+
 public interface CrewSettingService {
-
-//    public int selectMethod() throws Exception;
-//    public void insertMethod(TemplateDTO dto) throws Exception;
-
-    // Mapper Interface를 그대로 가져와주기.
-
+    public List<ScheduleDTO> getCrewScheList(@Param("crew_num") int crewNum) throws Exception;
 }

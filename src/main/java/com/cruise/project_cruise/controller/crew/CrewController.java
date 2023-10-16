@@ -1,9 +1,15 @@
 package com.cruise.project_cruise.controller.crew;
 
 import com.cruise.project_cruise.dto.CrewDTO;
+import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
+import com.cruise.project_cruise.service.CrewSettingService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,10 +17,39 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value="/crew")
 @RestController
 public class CrewController {
+
+    // 스케줄 데이터를 전달해주는 URL - main, setting, mypage에서 공동 사용
+    @RequestMapping("/setting/loadCrewSchedule")
+    @ResponseBody
+    public List<Map<String,Object>> loadCrewSchedule (@RequestParam("crewNum") int crewNum) throws Exception {
+        List<ScheduleDTO> crewScheList = crewSettingService.getCrewScheList(crewNum);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        HashMap<String, Object> hash = new HashMap<>();
+
+        for (int i = 0; i < crewScheList.size(); i++) {
+            hash.put("title", crewScheList.get(i).getSche_title());
+            hash.put("start", crewScheList.get(i).getSche_start());
+            hash.put("end", crewScheList.get(i).getSche_end());
+            hash.put("allDay", crewScheList.get(i).getSche_alldayTF());
+            hash.put("color", crewScheList.get(i).getSche_assort());
+            hash.put("textColor", "#FFFFFF");
+
+            jsonObject = new JSONObject(hash);
+            jsonArray.add(jsonObject);
+        }
+
+        return jsonArray;
+    }
 
     /**
      * TODO [CrewController] : 만들어야 할 메소드 목록
@@ -24,6 +59,8 @@ public class CrewController {
 
     @Autowired
     private CrewDetailService crewDetailService;
+    @Autowired
+    private CrewSettingService crewSettingService;
 
     @RequestMapping(value="")
     public ModelAndView crewMain(HttpServletRequest request) throws Exception {
@@ -84,6 +121,7 @@ public class CrewController {
 
         // 데이터 넘겨주기
         mav.addObject("dto",dto);
+        mav.addObject("crewNum",crewNum);
         mav.addObject("captainName",captainName);
         mav.addObject("createdDate",createdDate);
         mav.addObject("crewAccountBalance", crewAccountBalanceStr);
@@ -112,14 +150,18 @@ public class CrewController {
     }
 
     @RequestMapping(value="/setting")
-    public ModelAndView crewSetting() throws Exception {
+    public ModelAndView crewSetting(HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
+        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        // FIXME Post 방식으로 CrewNum을 넘겨받기
-
+        mav.addObject("dto",dto);
+        mav.addObject("crewNum",crewNum);
         mav.setViewName("crew/crewSetting");
 
         return mav;
     }
+
+
 
 }

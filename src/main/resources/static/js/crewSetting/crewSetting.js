@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+});
+
 
 // '위로' 눌렀을 때 화면 상단으로 이동 ---------------------------------------------
 
@@ -7,15 +11,17 @@
 
     upScrollText.addEventListener('click',function(){
         window.scrollTo({left:0, top:0,behavior:'smooth'});
-
     })
+
+// 세팅 창으로 내려갔을 때 달력보기 버튼 클릭 이벤트 발생시키기
+
+
 
 // 화면 가장 상단일 때  -------------------------------------------
 
     window.addEventListener('scroll',function(){
 
         var scrollTop = window.scrollY || document.documentElement.scrollTop;
-
 
         if(scrollTop===0) {
             //설정창 div 숨기기
@@ -126,6 +132,7 @@
         selectSettingMenu();
         setCrewTapClick("scheduleSet");
 
+
         if(crewBoxDiv.classList.contains('hidden')){
             crewBoxDiv.classList.remove('hidden');
             crewBoxDiv.classList.add('visibleBox');
@@ -147,12 +154,27 @@
         }
 
         scrollPoint.scrollIntoView({behavior:'smooth'});
+        var settingScrollPosition = scrollPoint.scrollTop;
+
+        window.addEventListener('scroll',function(){
+            var scrollTop = window.scrollY || document.documentElement.scrollTop;
+            if(scrollTop >= settingScrollPosition) {
+                const monthViewBtn = document.querySelectorAll('button[title="month view"]');
+                setTimeout(function() {
+                    monthViewBtn[0].click();
+                },500)
+                // 스크롤이 다 내려가기 전 click이벤트가 발생해 버벅거리는 문제가 발생.
+                // 이렇게 해줘야 스크롤이 내려간 뒤에 month view 버튼이 눌러짐 ㅠㅠ
+            }
+        });
 
         // 선원 관리 탭에 들어갔다가 다시 크루 관리 탭에 들어왔을 때,
         // 가장 첫 번째 탭에 select 클래스가 설정되어 있지 않은 현상을 해결하기 위함
         if(!crewFirstTap.classList.contains('select')){
             crewFirstTap.classList.add('select')
         }
+
+
 
     }
 
@@ -241,6 +263,7 @@
         var tapDivs = crewSettingContentDiv.querySelectorAll("div");
         var selectedTap = document.getElementById(setMenuName);
         var selectTapDivs = selectedTap.querySelectorAll("div");
+
 
         switch (setMenuName) {
             case "scheduleSet" :

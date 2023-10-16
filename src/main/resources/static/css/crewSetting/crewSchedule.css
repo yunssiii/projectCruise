@@ -1,0 +1,72 @@
+.crewCalendarContainer {
+    position: relative;
+}
+
+
+
+#addScheBtn { /*일정 관리 창에서만 쓸 버튼!*/
+    position: absolute;
+    top: 0px;
+    left: 220px;
+    background-color: #2e3f51;
+    border-radius: 5px;
+    height: 30px;
+    /*width: 50px;*/
+    font-size: 10pt;
+    color: white;
+    cursor: pointer;
+}
+
+#addScheBtn:active {
+    background-color: #1c2731;
+}
+
+.searchDateCont {
+    position: absolute;
+    top: 0;
+    right: 220px;
+}
+
+.searchDateCont #searchDate{
+    width: 150px;
+    height: 30px;
+}
+
+
+/* 풀캘린더 커스텀하기 */
+
+#calendar {
+    max-width: 970px;
+    padding: 0;
+    margin: 0 auto;
+}
+
+#fc-dom-1 {font-size: 14pt;}  /* 제목 */
+
+.fc-button {
+    height: 30px;
+    font-size: 10pt !important;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 15px !important;
+}
+
+
+/* 평일 hover 없애기 */
+.fc-day-mon a:hover, .fc-day-tue a:hover, .fc-day-wed a:hover, .fc-day-thu a:hover, .fc-day-fri a:hover {
+    color: #494949;
+    text-decoration: none !important;
+}
+
+/* 일요일 날짜 */
+.fc-day-sun a, .fc-day-sun a:hover {
+    color: #dc1b1b;
+    text-decoration: none !important;
+}
+
+/* 토요일 날짜 */
+.fc-day-sat a, .fc-day-sat a:hover {
+    color: #055ed3;
+    text-decoration: none !important;
+}

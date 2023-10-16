@@ -1,22 +1,20 @@
 package com.cruise.project_cruise.service;
 
+import com.cruise.project_cruise.dto.ScheduleDTO;
+import com.cruise.project_cruise.mapper.CrewSettingMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CrewSettingServiceImpl implements CrewSettingService {
 
-//    @Autowired
-//    private TemplateMapper templateMapper;
-//
-//    @Override
-//    public int selectMethod() throws Exception {
-//        return templateMapper.selectMethod();
-//    };
-//    @Override
-//    public void insertMethod(TemplateDTO dto) throws Exception {
-//        templateMapper.insertMethod(dto);
-//    };
+    @Autowired
+    private CrewSettingMapper crewSettingMapper;
 
-    // Mapper Interface를 그대로 가져와주기.
-
+    @Override
+    public List<ScheduleDTO> getCrewScheList(int crewNum) throws Exception {
+        return crewSettingMapper.getCrewScheList(crewNum);
+    }
 }
