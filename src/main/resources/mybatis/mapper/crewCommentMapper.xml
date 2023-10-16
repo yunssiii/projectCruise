@@ -11,9 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
 	insert into crew_comment (comment_num, crew_num, board_num, email, name,
-	comment_content,comment_created)
+	comment_content, comment_created, ref_no, ref_level)
 	values (#{comment_num}, #{crew_num}, #{board_num}, #{email}, #{name},
-	#{comment_content}, sysdate)
+	#{comment_content}, sysdate, 0, 0)
 </insert>
 
 <select id="getDataCount" parameterType="int" resultType="int">
@@ -23,10 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getLists" parameterType="int"
 	resultType="com.cruise.project_cruise.dto.CrewCommentDTO">
-	select name, comment_content, comment_num, email,
-	to_char(comment_created,'YYYY.MM.DD. HH24:MI') comment_created
-	from crew_comment where board_num = #{board_num}
-	order by comment_num asc
+	SELECT comment_num, name, email, comment_content,
+	TO_CHAR(comment_created,'YYYY.MM.DD. HH24:MI:ss') AS comment_created,
+	CASE WHEN ref_no = 0 THEN '원댓글' ELSE '대댓글' END AS 댓글_유형,
+	CASE WHEN ref_no = 0 THEN comment_num ELSE ref_no END AS ref_no,
+	ref_level FROM	crew_comment
+	WHERE board_num = #{board_num}
+	ORDER BY ref_no ASC, comment_created ASC
 </select>
 
 <update id="updateData" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
@@ -38,5 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="deleteData" parameterType="int">
 	delete crew_comment where comment_num=#{comment_num}
 </delete>
+
+<insert id="insertCommentReply" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
+	insert into crew_comment (comment_num, crew_num, board_num, email, name,
+	comment_content, comment_created, ref_no, ref_level)
+	values (#{comment_num}, #{crew_num}, #{board_num}, #{email}, #{name},
+	#{comment_content}, sysdate, #{ref_no}, 1)
+</insert>
 
 </mapper>

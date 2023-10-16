@@ -1,4 +1,4 @@
-package com.cruise.project_cruise.controller;
+package com.cruise.project_cruise.controller.board;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -27,22 +28,20 @@ public class CrewBoardController {
 	@Autowired
 	CrewBoardUtil myUtil;
 
-	@GetMapping("/board/created")
-	public ModelAndView created() throws Exception {
-
-		ModelAndView mav = new ModelAndView();
-
-		mav.setViewName("board/created");
-
-		return mav;
-	}
-
 	@PostMapping("/board/created")
 	public ModelAndView created_ok(CrewBoardDTO dto,
 								   HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
 		CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
+
+		int notice = Integer.parseInt(request.getParameter("notice"));
+
+		if (notice == 1) {
+			dto.setNotice(1);
+		} else {
+			dto.setNotice(0);
+		}
 
 		ModelAndView mav = new ModelAndView();
 
@@ -77,8 +76,8 @@ public class CrewBoardController {
 
 		CrewBoardDTO userInfo = new CrewBoardDTO();
 		userInfo.setCrew_num(2);
-		userInfo.setName("모임원");
-		userInfo.setEmail("java@gmail.com");
+		userInfo.setName("이미연");
+		userInfo.setEmail("study@naver.com");
 		session.setAttribute("userInfo", userInfo);
 
 		userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
@@ -111,31 +110,28 @@ public class CrewBoardController {
 		if(currentPage > totalPage)
 			currentPage = totalPage;
 
-//		int start = (currentPage - 1) * numPerPage + 1;
-//		int end = currentPage * numPerPage;
-
 		int start = dataCount - numPerPage * (currentPage - 1);
 		int end = dataCount - (currentPage * numPerPage) + 1;
 
 		List<CrewBoardDTO> lists = crewBoardService.getLists(start, end,
-												searchKey, searchValue, userInfo.getCrew_num());
+				searchKey, searchValue, userInfo.getCrew_num());
 
 		String param = "";
-		if(searchValue != null && !searchValue.equals("")) {
+		if(searchValue != null && !searchValue.isEmpty()) {
 			param += "searchKey=" + searchKey;
 			param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
 
 		String listUrl = "/board/list";
 
-		if(!param.equals(""))
+		if(!param.isEmpty())
 			listUrl = listUrl + "?" + param;
 
 		String pageIndexList = myUtil.pageIndexList(currentPage, totalPage, listUrl);
 
 		String articleUrl ="/board/article?pageNum=" + currentPage;
 
-		if(!param.equals(""))
+		if(!param.isEmpty())
 			articleUrl = articleUrl + "&" + param;
 
 
@@ -143,6 +139,7 @@ public class CrewBoardController {
 
 		mav.setViewName("board/list");
 
+		mav.addObject("userInfo", userInfo);
 		mav.addObject("crew_num", userInfo.getCrew_num());
 
 		mav.addObject("lists", lists);
@@ -150,6 +147,17 @@ public class CrewBoardController {
 		mav.addObject("dataCount", dataCount);
 		mav.addObject("articleUrl", articleUrl);
 		mav.addObject("pageNum", currentPage);
+
+		// Title-----------------------------------
+		Map<String, Object> boardTitle = crewBoardService.boardTitle(userInfo.getCrew_num());
+
+		mav.addObject("boardTitle", boardTitle);
+		// -----------------------------------Title
+
+		// 캡틴인 경우 '공지 등록' 가능
+		String checkCaptain = crewBoardService.checkCaptain(userInfo.getEmail());
+		mav.addObject("checkCaptain", checkCaptain);
+
 
 		return mav;
 	}
@@ -184,7 +192,7 @@ public class CrewBoardController {
 		}
 
 		String param = "pageNum=" + pageNum;
-		if(searchValue != null && !searchValue.equals("")) {
+		if(searchValue != null && !searchValue.isEmpty()) {
 			param += "&searchKey=" + searchKey;
 			param += "&searchValue=" + URLEncoder.encode(searchValue,"UTF-8");
 		}
@@ -201,6 +209,7 @@ public class CrewBoardController {
 
 		mav.addObject("lists", lists);
 		// ------------------------------댓글 불러오기
+
 
 		mav.setViewName("board/article");
 
@@ -232,7 +241,7 @@ public class CrewBoardController {
 		}
 
 		String param = "pageNum=" + pageNum;
-		if(searchValue != null && !searchValue.equals("")) {
+		if(searchValue != null && !searchValue.isEmpty()) {
 			param += "&searchKey=" + searchKey;
 			param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
@@ -289,30 +298,20 @@ public class CrewBoardController {
 
 	@RequestMapping(value = "/board/deleted_ok",
 			method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView deleted_ok(HttpServletRequest request) throws Exception {
+	public String deleted_ok(HttpServletRequest request) throws Exception {
+
+		int num = Integer.parseInt(request.getParameter("board_num"));
 
 		HttpSession session = request.getSession();
 		CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
 
-		int num = Integer.parseInt(request.getParameter("board_num"));
-		String pageNum = request.getParameter("pageNum");
-		String searchKey = request.getParameter("searchKey");
-		String searchValue = request.getParameter("searchValue");
+		if(userInfo != null) {
+			crewBoardService.deleteData(num);
 
-		crewBoardService.deleteData(num);
-
-		String param = "pageNum=" + pageNum;
-
-		if(searchValue != null && !searchValue.equals("")) {
-			param += "&searchKey=" + searchKey;
-			param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
+			return "userInfoOK";
+		} else {
+			return "userInfoNull";
 		}
-
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/board/list?" + param);
-
-		return mav;
-
 	}
 
 }

@@ -4,15 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게 시 판</title>
 
-<link rel="stylesheet" type="text/css" href="/board/css/style.css"/>
-<link rel="stylesheet" type="text/css" href="/board/css/list.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/css/list.css"/>
+<link rel="stylesheet" type="text/css" href="/css/created.css"/>
+<link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script type="text/javascript">
 
-	function sendIt() {
+	function searchIt() {
 		var f = document.searchForm;
-		
+
 		f.action = "/board/list";
 		f.submit();
 	}
@@ -22,13 +30,110 @@
 
 </head>
 <body>
+<nav class="navigator">
+	<div>
+		<a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+		</a>
+	</div>
+
+	<div class="navigator_menu">
+		<div>
+			<button id="first_menuButton"
+					class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+			<div id="first_menu" class="menu-content">
+				<a href="#">
+					<b>알림!</b><br>
+					<label>모임통장 목표 달성완료!</label>
+				</a>
+				<a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+			</div>
+		</div>
+		<div >
+			<button id="second_menuButton"
+					class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
+			<div id="second_menu" class="menu-content menu-content2">
+				<a href="#" >내 정보 수정</a>
+				<a href="#" >내 게시글 관리</a>
+				<a href="#" >내 계좌 관리</a>
+				<a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+			</div>
+		</div>
+		<div>
+			<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/moim/passbook'">항해시작</button>
+		</div>
+	</div>
+</nav>
+
 
 <div id="bbsList">
-	<div id="bbsList_title">
-		게 시 판
+	<div class="container">
+		<div class="image">
+			<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Passenger%20Ship.png" alt="Passenger Ship" width="150" height="200" />
+		</div>
+		<div>
+			<div id="bbsList_title" th:if="${boardTitle != null}">
+				<a href="#" class="crew-main"><h4 th:text="${boardTitle['CREW_NAME']}">겸댕이들 먹방 통장</h4></a>
+				<p th:text="${boardTitle['CREW_INFO']}">굶주린 겸댕이들 끊임 없이 먹는 모임입니다</p>
+				<div><i style="color: #FFD966;" class="fa-regular fa-chess-king"></i>
+					모임장 : <span th:text="${boardTitle['CAPTAIN_NAME']}"></span></div>
+				<div><i style="color: #0C0CCA;" class="fa-solid fa-chess-pawn"></i>
+					모임원수:  <span th:text="${boardTitle['MEMBER_COUNT']}"></span>명</div>
+			</div>
+		</div>
 	</div>
 	<div id="bbsList_header">
 		<div id="leftHeader">
+			<h3><i class="fa-regular fa-pen-to-square"></i>  크루즈 모임 게시판</h3>
+			<br>
+		</div>
+		<div id="rightHeader">
+			<input type="button" value=" 공지 " class="upload_button" id="noticeBtn"
+				   th:if="${checkCaptain == 'Y'}"/>
+			<input type="button" value=" 글올리기 " class="upload_button" id="openFormButton"/>
+		</div>
+	</div>
+	<div id="bbsList_list">
+		<table>
+			<thead id="title">
+			<tr>
+				<th class="num">NO.</th>
+				<th class="subject">제목</th>
+				<th class="name">작성자</th>
+				<th class="created">작성일</th>
+				<th class="hitCount">조회수</th>
+			</tr>
+			</thead>
+			<hr>
+
+			<tbody id="lists">
+			<tr th:if="${#lists.size(lists)} > 0" th:each="dto:${lists}" th:class="${dto.notice == 1} ? 'notice' : ''">
+				<td class="num" th:text="${dto.rnum}">번호</td>
+				<td class="subject">
+					<a th:href="@{${articleUrl}} + '&num=' + @{${dto.board_num} + '&crewName=' + ${boardTitle['CREW_NAME']}}"
+					   th:text="${dto.board_subject}">제목</a>
+					<span th:text="'[' + ${dto.comment_count} + ']'"
+						  style="font-size: smaller;"></span>
+				</td>
+				<td class="name" th:text="${dto.name }"></td>
+				<td class="created" th:text="${dto.board_created }"></td>
+				<td class="hitCount" th:text="${dto.hitCount }"></td>
+			</tr>
+
+			<tr>
+				<td colspan="5" id="pageIndex">
+					<a th:utext="${pageIndexList }"></a>
+				</td>
+			</tr>
+			<tr th:if="${dataCount} == 0">
+				<td colspan="5" id="noArticle">
+					등록된 게시물이 없습니다.
+				</td>
+			</tr>
+
+			</tbody>
+		</table>
+
+		<div id="footer">
 		<form action="" method="get" name="searchForm">
 			<select name="searchKey" class="selectFiled">
 				<option value="board_subject">제목</option>
@@ -36,56 +141,141 @@
 				<option value="board_content">내용</option>
 			</select>
 			<input type="text" name="searchValue" class="textFiled"/>
-			<input type="button" value=" 검 색 " class="btn2" onclick="sendIt();"/>
+			<input type="button" value=" 검 색 " class="bbs_button" onclick="searchIt();"/>
 		</form>
 		</div>
-		<div id="rightHeader">
-			<input type="button" value=" 글올리기 " class="btn2"
-			onclick="javascript:location.href='/board/created';"/>
-		</div>	
-	</div>
-	<div id="bbsList_list">
-		<table>
-			<thead id="title">
-				<tr>
-					<th class="num">번호</th>
-					<th class="subject">제목</th>
-					<th class="name">작성자</th>
-					<th class="created">작성일</th>
-					<th class="hitCount">조회수</th>
-				</tr>			
-			</thead>	
-				
-		<tbody id="lists">
-			<tr th:if="${#lists.size(lists)} > 0" th:each="dto:${lists}">
-				<td class="num" th:text="${dto.rnum}">번호</td>
-				<td class="subject">
-				<a th:href="@{${articleUrl}} + '&num=' + @{${dto.board_num}}"
-				   th:text="${dto.board_subject}">제목</a>
-				<span th:text="'[' + ${dto.comment_count} + ']'"
-					  style="font-size: smaller;"></span>
-				</td>
-				<td class="name" th:text="${dto.name }"></td>
-				<td class="created" th:text="${dto.board_created }"></td>
-				<td class="hitCount" th:text="${dto.hitCount }"></td>			
-			</tr>
-
-			<tr>
-				<td colspan="5" id="footer">
-					<a th:utext="${pageIndexList }"></a>
-				</td>
-			</tr>
-
-			<tr th:if="${dataCount} == 0">
-				<td colspan="5" id="footer">
-					등록된 게시물이 없습니다.
-				</td>
-			</tr>
-					
-		</tbody>
-		</table>
 	</div>
 </div>
+
+<footer style="position : absolute; bottom : 0;">
+	<div class="footer">
+		<div class="footer_container">
+			<div class="footer_menu">
+				<p>
+					<i class="fa-brands fa-docker"> 크루즈㈜ </i><br> <br> 대표이사
+					홍길동 | 사업자등록번호 166-15-01234 | 서울특별시 강남구 테헤란로 1244층 (역삼동, 삼원타워) <br>
+				</p>
+				<p>
+					<i class="fa-solid fa-phone fa-2xs"></i> 유선 상담 1998-0917 평일
+					09:00~18:00 (은행 휴무일 제외)
+				</p>
+			</div>
+			<div class="last_line">
+				<b>© Cruise. All rights reserved</b>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+	var postFormHTML = `
+
+		<div id="bbs">
+			<form action="/board/created" method="post" name="myForm" id="myForm" enctype="multipart/form-data">
+			<div id="bbsCreated">
+				<div class="bbsCreated_bottomLine">
+					<dl>
+						<dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>
+						<dd>
+						<input type="text" name="board_subject" size="60" maxlength="100"
+						class="boxTF" autocomplete="off"/>
+						</dd>
+					</dl>
+				</div>
+
+				<div id="bbsCreated_content">
+					<dl>
+						<dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
+						<dd>
+						<textarea rows="12" cols="63" name="board_content" class="boxTA"
+						style="resize: none; background-color: #ffffff; line-height: 1.3;"></textarea>
+						</dd>
+					</dl>
+				</div>
+				</div>
+
+				<div id="bbsCreated_footer">
+					<input type="hidden" name="notice" id="noticeInput" value="0" />
+					<input type="button" value=" 등록하기 " class="bbs_button" onclick="sendIt()"/>
+					<input type="button" value=" 취소하기 " class="bbs_button"
+							onclick="javascript:location.href='/board/list';"/>
+				</div>
+
+			</form>
+		</div>
+		`;
+
+	// "글올리기" 버튼을 찾아 클릭 이벤트 리스너 추가
+	var openFormButton = document.getElementById("openFormButton");
+	openFormButton.addEventListener("click", function () {
+		// 게시물 등록 폼으로 밑의 부분을 변경
+		document.getElementById("bbsList_list").innerHTML = postFormHTML;
+		openFormButton.style.display = "none";
+		noticeBtn.style.display = "none";
+	});
+
+	// "공지" 버튼을 찾아 클릭 이벤트 리스너 추가
+	var noticeBtn = document.getElementById("noticeBtn");
+	noticeBtn.addEventListener("click", function () {
+		// 게시물 등록 폼으로 밑의 부분을 변경
+		document.getElementById("bbsList_list").innerHTML = postFormHTML;
+		noticeInput.value = 1;
+		noticeBtn.style.display = "none";
+		openFormButton.style.display = "none";
+
+		// 제목 필드에 "[공지]" 자동 입력
+		var subjectField = document.querySelector("input[name=board_subject]");
+		if (subjectField) {
+			subjectField.value = "[공지] ";
+		}
+	});
+
+	function sendIt(){
+		console.log(noticeInput.value);
+
+		var f = document.getElementById("myForm");
+
+		str = f.board_subject.value;
+		str = str.trim();
+		if(!str){
+			alert("\n제목을 입력하세요.");
+			f.board_subject.focus();
+			return;
+		}
+		f.board_subject.value = str;
+
+		str = f.board_content.value;
+		str = str.trim();
+		if(!str){
+			alert("\n내용을 입력하세요.");
+			f.board_content.focus();
+			return;
+		}
+		f.board_content.value = str;
+
+		var formData = new FormData(f);
+
+		formData.append("notice", noticeInput.value);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/board/created", true);
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+				window.location.href = '/board/list';
+			} else {
+				// Handle errors
+				alert("Error: " + xhr.statusText);
+			}
+		};
+		xhr.send(formData);
+		openFormButton.style.display = "inline-block";
+		noticeBtn.style.display = "inline-block";
+	}
+/*]]>*/
+</script>
+
+<script type="text/javascript" src="/js/nav.js"></script>
 
 </body>
 </html>

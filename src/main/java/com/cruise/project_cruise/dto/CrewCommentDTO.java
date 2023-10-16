@@ -14,5 +14,7 @@ public class CrewCommentDTO {
 	private String name;
 	private String comment_content;
 	private String comment_created;
+	private int ref_no;
+	private int ref_level;
 
 }
