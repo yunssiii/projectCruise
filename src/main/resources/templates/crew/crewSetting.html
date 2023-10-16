@@ -16,6 +16,7 @@
     <!-- 제이쿼리 cdn-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
@@ -67,6 +68,9 @@
                             return {
                                 domNodes: []
                             };
+                        },
+                        dateClick: function(info) { // 날짜 클릭했을 때
+                            fullCalDateClick(info);
                         },
                         views: {
                             dayGridMonth: {
@@ -199,10 +203,47 @@
             <div id="crewSettingContent">
                 <div id="scheduleSet" class="visibleSettings">
                     <div class="crewCalendarContainer">
-                        <button id="addScheBtn" type="button">일정추가</button>
                         <div id='calendar'></div>
                         <div class='searchDateCont'>
                             <input type="date" id="searchDate">
+                        </div>
+                    </div>
+                    <div id="scheModalBg" class="hiddenModal">
+                        <div id="addScheModal">
+                            <div class="scheModalTopCont">
+                                <div id="addScheTitle">일정 추가하기</div>
+                                <div id="addScheModalcloseX">×</div>
+                            </div>
+                            <hr>
+                            <div class="addScheInputCont">
+                                <div class="rowCont">
+                                    <input type="text" id="scheTitle" placeholder="제목">
+                                </div>
+                                <div class="rowCont">
+                                    <div style="display: flex; align-items: center">
+                                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Alarm%20Clock.png"
+                                             alt="Alarm Clock" width="40" height="40" />
+                                        &nbsp; &nbsp;하루종일
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="allDayChk">
+                                    </div>
+                                </div>
+                                <div class="rowCont">
+                                    <div class="start">
+                                        <input type="date" id="startDate">
+                                        <input type="time" id="startDateTime">
+                                    </div>
+                                    <div> → </div>
+                                    <div class="end">
+                                        <input type="date" id="endDate">
+                                        <input type="time" id="endDateTime">
+                                    </div>
+                                </div>
+                                <div class="buttonCont">
+                                    <button type="button" id="addScheOK">추가하기</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
