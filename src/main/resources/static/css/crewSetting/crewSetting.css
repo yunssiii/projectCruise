@@ -260,7 +260,8 @@ body {
 }
 
 
-button:not(#first_menuButton, #second_menuButton, .voyage_button) {
+button:not(#first_menuButton, #second_menuButton, .voyage_button, .fc-dayGridMonth-button, .fc-listMonth-button
+            , .fc-prev-button, .fc-next-button, .fc-today-button, #addScheBtn) {
     font-family: 'NanumSquareExtraBold', 'sans-serif';
     font-size: 12pt;
     text-align: center;
@@ -277,12 +278,13 @@ button:not(#first_menuButton, #second_menuButton, .voyage_button) {
     color: rgb(0, 0, 0);
 }
 
-button:hover:not(#first_menuButton, #second_menuButton, .voyage_button) {
+button:hover:not(#first_menuButton, #second_menuButton, .voyage_button, .fc-dayGridMonth-button, .fc-listMonth-button
+                , .fc-prev-button, .fc-next-button, .fc-today-button, #addScheBtn) {
     background-color: #FFD966;
     transition: 0.2s;
 }
 
-button:active {
+button:active:not(.fc-dayGridMonth-button, .fc-listMonth-button, .fc-prev-button, .fc-next-button, .fc-today-button, #addScheBtn) {
     background-color: #e1c059;
     transition: 0.2s;
 }

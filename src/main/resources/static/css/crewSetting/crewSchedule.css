@@ -1,0 +1,175 @@
+.crewCalendarContainer {
+    position: relative;
+}
+
+.searchDateCont {
+    position: absolute;
+    top: 0;
+    right: 220px;
+}
+
+.searchDateCont #searchDate{
+    width: 150px;
+    height: 30px;
+}
+
+/* ------ 모달 ------ */
+#scheModalBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+}
+
+#addScheModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    border-radius: 10px;
+    width: 500px;
+    height: 550px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#scheModalBg .scheModal {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 3vh;
+}
+
+.scheModalTopCont {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 20px 10px 20px;
+}
+
+.scheModalTopCont #addScheTitle {
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 18pt;
+    align-content: center;
+}
+
+.scheModalTopCont hr {
+    margin: 10px 20px 10px 20px;
+    width: 95%;
+}
+
+#addScheModalcloseX {
+    font-size: 24pt;
+    cursor: pointer;
+}
+
+.addScheInputCont {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.addScheInputCont .rowCont {
+    display: flex;
+    font-size: 14pt;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    padding: 30px 0;
+    border-bottom: 1px solid #cecece;
+    transition: height 0.5s ease;
+}
+
+#allDayChk {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+
+#scheTitle {
+    border: none;
+    font-size: 16pt;
+    width: 100%;
+    height: 50px;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.start, .end {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.start {margin-left: 40px;}
+
+.end {margin-right: 40px;}
+
+.start input, .end input {
+    border: none;
+    width: 143px;
+    height: 40px;
+    padding: 0 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.inputHidden {
+    display: none;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+
+
+
+
+
+
+
+/* ------ 풀캘린더 커스텀하기 ------ */
+
+#calendar {
+    max-width: 970px;
+    padding: 0;
+    margin: 0 auto;
+}
+
+#fc-dom-1 {font-size: 14pt;}  /* 제목 */
+
+.fc-button {
+    height: 30px;
+    font-size: 10pt !important;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 15px !important;
+}
+
+
+/* 평일 hover 없애기 */
+.fc-day-mon a:hover, .fc-day-tue a:hover, .fc-day-wed a:hover, .fc-day-thu a:hover, .fc-day-fri a:hover {
+    color: #494949;
+    text-decoration: none !important;
+}
+
+/* 일요일 날짜 */
+.fc-day-sun a, .fc-day-sun a:hover {
+    color: #dc1b1b;
+    text-decoration: none !important;
+}
+
+/* 토요일 날짜 */
+.fc-day-sat a, .fc-day-sat a:hover {
+    color: #055ed3;
+    text-decoration: none !important;
+}

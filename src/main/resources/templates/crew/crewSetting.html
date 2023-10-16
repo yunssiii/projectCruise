@@ -2,16 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>앙큼불여우단 크루 관리</title>
+    <title>크루즈 :: [[${dto.getCrew_name}]] 크루 관리</title>
         <!--    FIXME 크루이름을 불러와서 넣을 수 있도록 하기 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewSetting.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewSchedule.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewInfoUpdate.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/crewDelete.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberPayView.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberBan.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewSetting/memberDivN.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
+    <!-- 제이쿼리 cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <!-- 풀캘린더 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
     <!-- 네비게이터 바 CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,6 +29,117 @@
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <!-- ----------------- -->
+    <script th:inline="javascript">
+        <!-- 풀캘린더 스크립트 -->
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+
+            $(function () {
+                var crewNumTh = /*[[${crewNum}]]*/
+
+                var request = $.ajax({
+                    url: "/crew/setting/loadCrewSchedule",
+                    method: "POST",
+                    data: {
+                        crewNum: crewNumTh
+                    }
+                })
+
+                request.done(function (data) {
+                    var calendarEl = document.getElementById('calendar');
+                    // 렌더링
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        headerToolbar: { // 툴바 설정부분.
+                            left: 'dayGridMonth,listMonth',
+                            center: 'title',
+                            right: 'prev,next today'
+                        },
+                        height: 460,
+                        // 한글달력 일자에 '일' 부분 빼기
+                        dayCellContent: function (info) {
+                            var number = document.createElement("a");
+                            number.classList.add("fc-daygrid-day-number");
+                            number.innerHTML = info.dayNumberText.replace("일", '');
+                            if (info.view.type === "dayGridMonth") {
+                                return {
+                                    html: number.outerHTML
+                                };
+                            }
+                            return {
+                                domNodes: []
+                            };
+                        },
+                        dateClick: function(info) { // 날짜 클릭했을 때
+                            fullCalDateClick(info);
+                        },
+                        views: {
+                            dayGridMonth: {
+                                type: 'dayGrid',
+                                duration: {months: 1},
+                                monthMode: true,
+                                fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
+                            }
+                        },
+                        // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
+                        navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
+                        businessHours: true, // display business hours
+                        editable: true, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
+                        selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
+                        locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                        events: data // 이 부분에 데이터가 들어옴.
+                    });
+
+                    calendar.render();
+
+                    /* 날짜 검색용 */
+                    $('#searchDate').on('change',function() {
+                        calendar.gotoDate($(this).val());
+                        btnNameCustom();
+                    })
+
+                    var monthViewBtn = document.querySelectorAll('button[title="month view"]');
+                    var listViewBtn = document.querySelectorAll('button[title="list view"]');
+                    var PrevMonthBtn = document.querySelectorAll('button[title="Previous month"]');
+                    var NextMonthBtn = document.querySelectorAll('button[title="Next month"]');
+                    var ThisMonthBtn = document.querySelectorAll('button[title="This month"]');
+                    var calendarTagA = calendarEl.querySelectorAll('a');
+
+                    var clickEvent = new Event("click");
+
+                    if($('#scheduleSet').hasClass('visibleSettings')){
+
+                        // 버튼 커스텀하기
+                        // 버튼 이름 커스텀
+                        // 1. Modal이 띄워졌을 때
+                        btnNameCustom();
+
+                        // 2. 달력보기, 리스트보기를 눌렀을 때
+                        // 달력 버튼들 누르니까 기존 text가 다시 추가되길래.. 방지용
+                        btnNameCustomAddEvent(monthViewBtn[0]);
+                        btnNameCustomAddEvent(listViewBtn[0]);
+                        btnNameCustomAddEvent(PrevMonthBtn[0]);
+                        btnNameCustomAddEvent(NextMonthBtn[0]);
+                        btnNameCustomAddEvent(ThisMonthBtn[0]);
+                        calendarTagA.forEach(function () {
+                            btnNameCustomAddEvent(this);
+                        })
+                    }
+
+                    function btnNameCustom() {
+                        monthViewBtn[0].textContent = '달력보기';
+                        listViewBtn[0].textContent = '리스트보기';
+                        ThisMonthBtn[0].textContent = '오늘';
+                    }
+
+                    function btnNameCustomAddEvent(item) {
+                        item.addEventListener('click',function(){ btnNameCustom() })
+                    }
+
+                });
+            })
+        });
+        /*]]>*/
+    </script>
 </head>
 <body>
     <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
@@ -32,7 +150,7 @@
 
     <div class="visibleContainer">
         <div class="minSizeContainer">
-            <div class="crewTitle">앙큼불여우단 크루 관리</div>
+            <div class="crewTitle">[[${dto.getCrew_name}]] 크루 관리</div>
                 <div class="menuContainer">
                     <div class="menuCard" onclick="selectCrewSetting()">
                         <div class="menuImgContainer">
@@ -60,7 +178,7 @@
             </div>
     </div>
     <div class="turnBack">
-        <a href="http://localhost:8080/crew"> ▶ 크루로 돌아가기 </a>
+        <a th:href="@{|http://localhost:8082/crew?crewNum=${crewNum}|}"> ▶ 크루로 돌아가기 </a>
         <!-- FIXME GET 방식 또는 POST 방식으로 CrewNum 넘겨주기  -->
         <!-- FIXME 최종적으로 localhost 대신 서버 IP로 고쳐주기  -->
     </div>
@@ -83,7 +201,52 @@
         <div id="crewSettingBox" class="hidden">
             <div id="crewSettingTitle">크루 일정관리</div>
             <div id="crewSettingContent">
-                <div id="scheduleSet" class="visibleSettings"> 일정관리 </div>
+                <div id="scheduleSet" class="visibleSettings">
+                    <div class="crewCalendarContainer">
+                        <div id='calendar'></div>
+                        <div class='searchDateCont'>
+                            <input type="date" id="searchDate">
+                        </div>
+                    </div>
+                    <div id="scheModalBg" class="hiddenModal">
+                        <div id="addScheModal">
+                            <div class="scheModalTopCont">
+                                <div id="addScheTitle">일정 추가하기</div>
+                                <div id="addScheModalcloseX">×</div>
+                            </div>
+                            <hr>
+                            <div class="addScheInputCont">
+                                <div class="rowCont">
+                                    <input type="text" id="scheTitle" placeholder="제목">
+                                </div>
+                                <div class="rowCont">
+                                    <div style="display: flex; align-items: center">
+                                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Alarm%20Clock.png"
+                                             alt="Alarm Clock" width="40" height="40" />
+                                        &nbsp; &nbsp;하루종일
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="allDayChk">
+                                    </div>
+                                </div>
+                                <div class="rowCont">
+                                    <div class="start">
+                                        <input type="date" id="startDate">
+                                        <input type="time" id="startDateTime">
+                                    </div>
+                                    <div> → </div>
+                                    <div class="end">
+                                        <input type="date" id="endDate">
+                                        <input type="time" id="endDateTime">
+                                    </div>
+                                </div>
+                                <div class="buttonCont">
+                                    <button type="button" id="addScheOK">추가하기</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="informationSet" class="hidden">
                     <div class="information">
                         <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Writing%20Hand.png"
@@ -490,6 +653,7 @@
 </body>
 
     <script type="text/javascript" src="/js/crewSetting/crewSetting.js"></script>
+    <script type="text/javascript" src="/js/crewSetting/crewSchedule.js"></script>
     <script type="text/javascript" src="/js/crewSetting/crewInfoUpdate.js"></script>
     <script type="text/javascript" src="/js/crewSetting/crewDelete.js"></script>
     <script type="text/javascript" src="/js/crewSetting/memberPayView.js"></script>

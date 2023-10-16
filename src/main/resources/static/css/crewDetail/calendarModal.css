@@ -43,6 +43,21 @@
     margin: 0 auto;
 }
 
+.crewCalendarContainer {
+    position: relative;
+}
+
+.searchDateCont {
+    position: absolute;
+    top: 0;
+    right: 170px;
+}
+
+.searchDateCont #searchDate{
+    width: 150px;
+    height: 32px;
+}
+
 
 /* 풀캘린더 커스텀하기 */
 

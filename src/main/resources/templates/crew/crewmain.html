@@ -2,18 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title th:text="${dto.crew_name}">크루 이름이 들어갑니다.</title>
+    <title>크루즈 :: [[${dto.getCrew_name}]] 크루</title>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewmain.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewExit.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/calendarModal.css"/>
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
-
-
+    <!-- 제이쿼리 cdn-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- 네비게이터 바 CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,105 +19,125 @@
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <!-- ----------------- -->
-
-    <!-- 풀캘린더 -->
+    <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
-    <script>
+    <script th:inline="javascript">
+        <!-- 풀캘린더 스크립트 -->
+        /*<![CDATA[*/
         document.addEventListener('DOMContentLoaded', function() {
+            $('#detail_href').on('click', function () {
 
-            // Calendar 모달
-            var calendarEl = document.getElementById('calendar');
+                $(function () {
+                    var crewNumTh = /*[[${crewNum}]]*/
+                    var request = $.ajax({
+                        url: "/crew/setting/loadCrewSchedule",
+                        method: "POST",
+                        data: {
+                            crewNum: crewNumTh
+                        }
+                    })
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                headerToolbar: { // 툴바 설정부분.
-                    left: 'dayGridMonth,listMonth',
-                    center: 'title',
-                    right: 'prev,next today'
-                },
-                dayCellContent: function (info) {
-                    var number = document.createElement("a");
-                    number.classList.add("fc-daygrid-day-number");
-                    number.innerHTML = info.dayNumberText.replace("일", '').replace("日","");
-                    if (info.view.type === "dayGridMonth") {
-                        return {
-                            html: number.outerHTML
-                        };
-                    }
-                    return {
-                        domNodes: []
-                    };
-                },
-                views: {
-                    dayGridMonth: {
-                        type: 'dayGrid',
-                        duration: {months: 1},
-                        monthMode: true,
-                        fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
-                    }
-                },
-                // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
-                navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
-                businessHours: true, // display business hours
-                editable: true, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
-                selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
-                locale:"ko", // 이 설정을 추가하면 한글로 출력이 된다.
-                events: [
-                    {
-                        title: 'Business Lunch',
-                        start: '2023-01-03T13:00:00',
-                        constraint: 'businessHours'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2023-01-13T11:00:00',
-                        constraint: 'availableForMeeting', // defined below
-                        color: '#257e4a'
-                    },
-                    {
-                        title: 'Conference',
-                        start: '2023-01-18',
-                        end: '2023-01-20'
-                    },
-                    {
-                        title: 'Party',
-                        start: '2023-01-29T20:00:00'
-                    },
+                    request.done(function (data) {
+                        var calendarEl = document.getElementById('calendar');
+                        // 렌더링
+                        var calendar = new FullCalendar.Calendar(calendarEl, {
+                            headerToolbar: { // 툴바 설정부분.
+                                left: 'dayGridMonth,listMonth',
+                                center: 'title',
+                                right: 'prev,next today'
+                            },
+                            height: 490,
+                            // 한글달력 일자에 '일' 부분 빼기
+                            dayCellContent: function (info) {
+                                var number = document.createElement("a");
+                                number.classList.add("fc-daygrid-day-number");
+                                number.innerHTML = info.dayNumberText.replace("일", '');
+                                if (info.view.type === "dayGridMonth") {
+                                    return {
+                                        html: number.outerHTML
+                                    };
+                                }
+                                return {
+                                    domNodes: []
+                                };
+                            },
+                            views: {
+                                dayGridMonth: {
+                                    type: 'dayGrid',
+                                    duration: {months: 1},
+                                    monthMode: true,
+                                    fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
+                                }
+                            },
+                            // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
+                            navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
+                            businessHours: true, // display business hours
+                            editable: false, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
+                            selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
+                            locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                            events: data // 이 부분에 데이터가 들어옴.
+                        });
 
-                    // areas where "Meeting" must be dropped
-                    {
-                        groupId: 'availableForMeeting',
-                        start: '2023-01-11T10:00:00',
-                        end: '2023-01-11T16:00:00',
-                        display: 'background'
-                    },
-                    {
-                        groupId: 'availableForMeeting',
-                        start: '2023-01-13T10:00:00',
-                        end: '2023-01-13T16:00:00',
-                        display: 'background'
-                    },
+                        calendar.render();
 
-                    // red areas where no events can be dropped
-                    {
-                        start: '2023-01-24',
-                        end: '2023-01-28',
-                        overlap: false,
-                        display: 'background',
-                        color: '#ff9f89'
-                    },
-                    {
-                        start: '2023-01-06',
-                        end: '2023-01-08',
-                        overlap: false,
-                        display: 'background',
-                        color: '#ff9f89'
-                    }
-                ]
-            });
+                        /* 날짜 검색용 */
+                        $('#searchDate').on('change', function () {
+                            calendar.gotoDate($(this).val());
+                            btnNameCustom();
+                        })
 
-            calendar.render();
-        });
+                        var monthViewBtn = document.querySelectorAll('button[title="month view"]');
+                        var listViewBtn = document.querySelectorAll('button[title="list view"]');
+                        var PrevMonthBtn = document.querySelectorAll('button[title="Previous month"]');
+                        var NextMonthBtn = document.querySelectorAll('button[title="Next month"]');
+                        var ThisMonthBtn = document.querySelectorAll('button[title="This month"]');
+                        var calendarTagA = calendarEl.querySelectorAll('a');
 
+                        var clickEvent = new MouseEvent("click", {
+                            bubbles: true,
+                            cancelable: true,
+                            view: window
+                        });
+
+                        if ($('#modalBg').hasClass('hiddenModalBg')) {
+                            $('#modalBg').removeClass('hiddenModalBg');
+
+                            // 왜인지 모르겠는데 처음으로 Modal을 켜면 달력이 깨진채로 나와서...
+                            // month 버튼을 눌러주니 제자리를 찾아가길래, modal이 띄워지면 month버튼이 같이 눌러지도록 설정해주었다.
+
+                            monthViewBtn[0].dispatchEvent(clickEvent);
+
+                            // 버튼 커스텀하기
+                            // 1. Modal이 띄워졌을 때
+                            btnNameCustom();
+                            // 2. 달력보기, 리스트보기를 눌렀을 때
+                            // 달력 버튼들 누르니까 기존 text가 다시 추가되길래.. 방지용
+                            btnNameCustomAddEvent(monthViewBtn[0]);
+                            btnNameCustomAddEvent(listViewBtn[0]);
+                            btnNameCustomAddEvent(PrevMonthBtn[0]);
+                            btnNameCustomAddEvent(NextMonthBtn[0]);
+                            btnNameCustomAddEvent(ThisMonthBtn[0]);
+                            calendarTagA.forEach(function () {
+                                btnNameCustomAddEvent(this);
+                            })
+                        }
+
+                        function btnNameCustom() {
+                            monthViewBtn[0].textContent = '달력보기';
+                            listViewBtn[0].textContent = '리스트보기';
+                            ThisMonthBtn[0].textContent = '오늘';
+                        }
+
+                        function btnNameCustomAddEvent(item) {
+                            item.addEventListener('click', function () {
+                                btnNameCustom()
+                            })
+                        }
+                    })
+                })
+            })
+        })
+    /*]]>*/
     </script>
     <style>
 
@@ -137,7 +153,7 @@
 
         #calendar {
             max-width: 930px;
-            height: 490px;
+            /* height: 490px; CSS에서 이렇게 설정하면 안되나봐... 스크립트 단에서 설정해줘야 하는듯 */
             padding: 0;
             margin: 0 auto;
         }
@@ -166,8 +182,6 @@
 </head>
 <body>
     <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
-
-
     <div class="background">
         <div class="wave"><div class="blue"></div></div>
     </div>
@@ -210,7 +224,7 @@
                     th:onclick="|location='http://localhost:8082/board/list?crewNum=${dto.crew_num}'|">소통게시판</button>
             </div>
                 <!-- FIXME crewNum을 넘겨주기 -->
-            <div class="crewmanage"><a href="http://localhost:8082/crew/setting">크루 관리</a></div>
+            <div class="crewmanage"><a th:href="@{|http://localhost:8082/crew/setting?crewNum=${crewNum}|}">크루 관리</a></div>
                 <!-- FIXME 크루 관리자에게만 해당 DIV가 보이도록 하기 -->
                 <!-- FIXME 크루 넘버를 GET 방식 또는 POST 방식으로 넘겨주기 -->
             <div id="crewexit"><a onclick="crewExitClick()">크루 탈퇴</a></div>
@@ -474,6 +488,9 @@
             <div class="crewCalendarContainer">
 <!--                <button id="addScheBtn" type="button">Add</button> 일정 관리 창에서만 쓸 버튼! -->
                 <div id='calendar'></div>
+                <div class='searchDateCont'>
+                    <input type="date" id="searchDate">
+                </div>
             </div>
         </div>
     </div>
@@ -484,8 +501,7 @@
 
 <!-- 네비게이터 바 스크립트 -->
 <script type="text/javascript" src="/js/nav.js"></script>
-<!-- 제이쿼리 cdm-->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script type="text/javascript" src="/js/crewDetail/crewmain.js"></script>
 <script type="text/javascript" src="/js/crewDetail/crewCalendar.js"></script>
 <script>
@@ -493,5 +509,7 @@
      * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
      * 이 HTML이 처음로딩 되었을 때 payMoney에 불러오는 용도 */
     payMoney.textContent = String((20000 * num.value).toLocaleString("ko-KR"));
+
+
 </script>
 </html>

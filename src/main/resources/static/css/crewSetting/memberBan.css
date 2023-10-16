@@ -56,32 +56,32 @@
 
 
 /* 표 간격 설정 */
-    #memberBan .memTableContainer table tr td:first-child, th:first-child {
+    #memberBan .memTableContainer table tr td:first-child, #memberBan .memTableContainer table tr th:first-child {
         /* 순번 */
         width: 3vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(2), th:nth-child(2) {
+    #memberBan .memTableContainer table tr td:nth-child(2), #memberBan .memTableContainer table tr th:nth-child(2) {
         /* 구분 */
         width: 3vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(3), th:nth-child(3) {
+    #memberBan .memTableContainer table tr td:nth-child(3), #memberBan .memTableContainer table tr th:nth-child(3) {
         /* 선원이름 */
         width: 8vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(4), th:nth-child(4) {
+    #memberBan .memTableContainer table tr td:nth-child(4), #memberBan .memTableContainer table tr th:nth-child(4) {
         /* 이메일 */
         width: 14vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(5), th:nth-child(5) {
+    #memberBan .memTableContainer table tr td:nth-child(5), #memberBan .memTableContainer table tr th:nth-child(5) {
         /* 가입일자 */
         width: 8vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(6), th:nth-child(6) {
+    #memberBan .memTableContainer table tr td:nth-child(6), #memberBan .memTableContainer table tr th:nth-child(6) {
         /* 총 납입액 */
         width: 6vw;
     }
@@ -91,17 +91,17 @@
         text-align: right;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(7), th:nth-child(7) {
+    #memberBan .memTableContainer table tr td:nth-child(7), #memberBan .memTableContainer table tr th:nth-child(7) {
         /* 납입횟수 */
         width: 5vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(8), th:nth-child(8) {
+    #memberBan .memTableContainer table tr td:nth-child(8), #memberBan .memTableContainer table tr th:nth-child(8) {
         /* 미납횟수 */
         width: 5vw;
     }
 
-    #memberBan .memTableContainer table tr td:nth-child(9), th:nth-child(9) {
+    #memberBan .memTableContainer table tr td:nth-child(9), #memberBan .memTableContainer table tr th:nth-child(9) {
         /* 관리 */
         width: 7vw;
     }
