@@ -27,10 +27,6 @@
         select open_password,open_account from openbank where open_name = (select user_name from users where email=#{email})
     </select>
 
-    <select id="getUserName" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
-        select user_name from users where email=#{email}
-    </select>
-
     <!-- 계좌 등록 insert -->
     <insert id="insertAccount" parameterType="map">
         insert into my_account (myaccount_bank,myaccount_anum,myaccount_date,email)
@@ -68,7 +64,37 @@
         select user_name,email,tel,address1,address2 from users where email=#{email}
     </select>
 
+    <!-- 크루명 조회 / 게시글,댓글에 필요 -->
+    <select id="getCrewName" parameterType="int" resultType="java.lang.String">
+        select crew_name from crew where crew_num = #{crew_num}
+    </select>
 
+    <!-- 내 게시글 조회 -->
+    <select id="getMyboard" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+        select crew_num,board_num,board_subject,to_char(board_created, 'YYYY-MM-DD') board_created_tochar,hitcount from crew_board
+        where email=#{email} order by board_created desc
+    </select>
+
+    <!-- 내 게시글 삭제 -->
+    <delete id="deleteMyboard" parameterType="int">
+        delete from crew_board where board_num in (#{board_num})
+    </delete>
+
+    <!-- 내 댓글 조회 -->
+    <select id="getMyComment" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewCommentDTO">
+        select crew_num,board_num,comment_num,comment_content,to_char(comment_created, 'YYYY-MM-DD') comment_created_tochar from crew_comment
+        where email=#{email} order by comment_created desc
+    </select>
+
+    <!-- 게시글 제목 조회/댓글에 필요 -->
+    <select id="getBoardSubject" parameterType="int" resultType="java.lang.String">
+        select board_subject from crew_board where board_num = #{board_num}
+    </select>
+
+    <!-- 내 댓글 삭제 -->
+    <delete id="deleteMycomment" parameterType="int">
+        delete from crew_comment where comment_num in (#{comment_num})
+    </delete>
 
 
 </mapper>

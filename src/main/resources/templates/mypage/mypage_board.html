@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- tab bootstrap / css 우선순위로 맨 위 -->  
-    <link rel="stylesheet" href="/nav_footer/nav_footer.css"/>
+    <!-- 네비게이터 바 CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
+    <!-- ----------------- -->
     <link rel="stylesheet" href="/css/mypage/mypage_userTab.css"/>
     <link rel="stylesheet" href="/css/mypage/mypage_userOut.css"/>
     <link rel="stylesheet" href="/css/mypage/mypage_board.css"/>
     <!-- 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
     <!-- 아이콘 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- jquery -->
@@ -37,46 +39,46 @@
 </head>
 <body>
 
-    <nav class="navigator" style="background-color: white;">
-		<div>
-			<a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
-			</a>
-		</div>
+<nav class="navigator" style="background-color: white;">
+    <div>
+        <a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+        </a>
+    </div>
 
-		<div class="navigator_menu">
-			<div>
-				<button id="first_menuButton"
-					class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
-				<div id="first_menu" class="menu-content">
-					<a href="#">
-					<b>알림!</b><br>
-					<label>모임통장 목표 달성완료!</label>
-					
-					</a>
-					
-					<a href=""><label style="font-size: 10px;">자세히보기 ></label></a>	
-					
-				</div>
-			</div>
+    <div class="navigator_menu">
+        <div>
+            <button id="first_menuButton"
+                    class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+            <div id="first_menu" class="menu-content">
+                <a href="#">
+                    <b>알림!</b><br>
+                    <label>모임통장 목표 달성완료!</label>
 
-			<div >
-				<button id="second_menuButton"
-					class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
-				<div id="second_menu" class="menu-content menu-content2">
-				
-				
-					<a href="#" >내 정보 수정</a>
-					<a href="#" >내 게시글 관리</a> 
-					<a href="#" >내 계좌 관리</a>
-					<a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-				</div>
-			</div>
-			<div>
-				<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
-			</div>
-		</div>
+                </a>
 
-	</nav>
+                <a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+
+            </div>
+        </div>
+
+        <div >
+            <button id="second_menuButton"
+                    class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
+            <div id="second_menu" class="menu-content menu-content2">
+
+
+                <a href="#" >내 정보 수정</a>
+                <a href="#" >내 게시글 관리</a>
+                <a href="#" >내 계좌 관리</a>
+                <a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            </div>
+        </div>
+        <div>
+            <button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+        </div>
+    </div>
+
+</nav>
 
     <div class="user-container">
         <!-- 메뉴 -->
@@ -85,15 +87,15 @@
             <!-- <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Water%20Wave.png" alt="Water Wave" width="230" height="230" /> -->
             
             <div class="mypage-profile">
-                <p class="pro-name">황윤하</p>
-                <p class="pro-email">hyhdbsgk@naver.com</p>
+                <p class="pro-name" th:text="${userInfo.user_name}">이름</p>
+                <p class="pro-email" th:text="${userInfo.email}">이메일</p>
             </div>
 
             <div class="line"></div>
             
             <div class="mypage-tab-box">
                 <div class="mypage-tab2">
-                    <a href="#">내 알림</a>
+                    <a th:href="@{http://localhost:8082/mypage/mypage_myAlert}">내 알림</a>
                 </div>
                 <div class="mypage-tab">
                     <a th:href="@{http://localhost:8082/mypage/mypage_myInfo}">내 프로필</a>
@@ -140,43 +142,43 @@
                         </thead>
                         <!-- 반복 -->
 
-                        <!-- 게시글 없는 경우 - if -->
-
-                        <!-- <tbody>
+                        <tbody th:if="${#lists.isEmpty(myBoardLists)}">
                             <td class="no-board" colspan="3">등록한 게시글이 없습니다.</td>
-                        </tbody> -->
+                        </tbody>
 
-                        <tbody>
+
+                        <tbody th:each="dto:${myBoardLists}" th:if="${!#lists.isEmpty(myBoardLists)}">
                             <tr>
                                 <td class="td-article">
-                                    <input type="checkbox" id="chk-article-1" name="article-chk"/>
-                                    <label for="chk-article-1"></label>
-                                    <div class="board-num">1</div>
+                                    <input type="checkbox" th:id="|chk-article-${dto.board_num}|" name="article-chk" th:value="${dto.board_num}"/>
+                                    <label th:for="|chk-article-${dto.board_num}|"></label>
+                                    <div class="board-num" th:text="${dto.board_num}">게시글 번호</div>
                                     <div>
-                                        <span>[여우모]&nbsp;</span>
-                                        <a href="#" >부산여행 !필독!</a>
+                                        <span th:text="|[${dto.crew_name}] |">크루명</span>
+                                        <a href="#" th:text="${dto.board_subject}">게시글 제목</a>
                                     </div>
                                 </td>
-                                <td class="td-date">2023.10.04</td>
-                                <td class="td-hitcount">11</td>
+                                <td class="td-date" th:text="${dto.board_created_tochar}">생성일</td>
+                                <td class="td-hitcount" th:text="${dto.hitCount}">조회수</td>
                             </tr>
                         </tbody>
+
                         <!-- 반복 -->
                     </table>
 
                     <div class="bottom-bar">
                         <!-- 게시글 없는 경우 - if -->
+
+                        <button class="bottom-btn1" th:if="${#lists.isEmpty(myBoardLists)}"><a href="#" >글쓰기</a></button>
                         
-                        <!-- <button class="bottom-btn1"><a href="#" >글쓰기</a></button> -->
-                        
-                        <div>
-                            <input type="checkbox" id="all-article-chk"/>
+                        <div th:if="${!#lists.isEmpty(myBoardLists)}">
+                            <input type="checkbox" id="all-article-chk" name="all-article-chk" value=""/>
                             <label for="all-article-chk"></label>
                             <span class="chk-text">전체 선택</span>
                         </div>
-                        <div>
-                            <button class="bottom-btn2">삭제</button>
-                            <button class="bottom-btn2"><a href="#" >글쓰기</a></button>
+                        <div th:if="${!#lists.isEmpty(myBoardLists)}">
+                            <button id="delBoardBtn" class="bottom-btn2" type="button">삭제</button>
+                            <button class="bottom-btn2" type="button"><a href="#" >글쓰기</a></button>
                         </div>
                     </div>
                 </div>
@@ -197,23 +199,26 @@
 
                         <!-- 댓글 없는 경우 - if -->
 
-                        <!-- <tbody>
-                            <td class="no-board" colspan="3">등록한 댓글이 없습니다.</td>
-                        </tbody> -->
+                        <tbody th:if="${#lists.isEmpty(myCommentLists)}">
+                            <td class="no-board" colspan="5">등록한 댓글이 없습니다.</td>
+                        </tbody>
 
-                        <tbody>
+                        <tbody th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
                             <tr>
                                 <td colspan="3">
                                     <div class="comment-box">
-                                        <input type="checkbox" id="chk-comment-1" name="commentChk"/>
-                                        <label for="chk-comment-1"></label>
+                                        <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
+                                        <label th:for="|chk-comment-${dto.comment_num}|"></label>
                                         <div class="comment-content">
-                                            <a href="#">오키 11월 1일 부산 가보자고~</a>
+                                            <a href="#" th:text="${dto.comment_content}">댓글 내용</a>
                                         </div>
                                     </div>
-                                    <div class="comment-subject">[여우모] 부산여행 !필독!</div>
+                                    <div class="comment-subject">
+                                        <span th:text="|[${dto.crew_name}]|">크루명</span>
+                                        <span th:text="${dto.board_subject}">게시글 이름</span>
+                                    </div>
                                 </td>
-                                <td class="td-date">2023.10.04</td>
+                                <td class="td-date" th:text="${dto.comment_created_tochar}">생성일</td>
                             </tr>
                         </tbody>
                         <!-- 반복 -->
@@ -222,16 +227,16 @@
                     <div class="bottom-bar">
                         <!-- 댓글 없는 경우 - if -->
                         
-                        <!-- <button class="bottom-btn1"><a href="#" >글쓰기</a></button> -->
+                        <button class="bottom-btn1" th:if="${#lists.isEmpty(myCommentLists)}"><a href="#" >글쓰기</a></button>
                         
-                        <div>
-                            <input type="checkbox" id="all-comment-chk"/>
+                        <div th:if="${!#lists.isEmpty(myCommentLists)}">
+                            <input type="checkbox" id="all-comment-chk" name="all-commentChk" value=""/>
                             <label for="all-comment-chk"></label>
                             <span class="chk-text">전체 선택</span>
                         </div>
-                        <div>
-                            <button class="bottom-btn2">삭제</button>
-                            <button class="bottom-btn2"><a href="#" >글쓰기</a></button>
+                        <div th:if="${!#lists.isEmpty(myCommentLists)}">
+                            <button id="delCommentBtn" class="bottom-btn2" type="button">삭제</button>
+                            <button class="bottom-btn2" type="button"><a href="#" >글쓰기</a></button>
                         </div>
                     </div>
                 </div>
@@ -278,30 +283,84 @@
         </div>
     </div>
 
-    <footer>
-		<div class="footer" >
-			<div class="footer_container">
-				<div class="footer_menu">
-					<p>
-						<i class="fa-brands fa-docker"> 크루즈㈜ </i><br> <br> 대표이사
-						홍길동 | 사업자등록번호 166-15-01234 | 서울특별시 강남구 테헤란로 1244층 (역삼동, 삼원타워) <br>
-					</p>
-					<p>
-						<i class="fa-solid fa-phone fa-2xs"></i> 유선 상담 1998-0917 평일
-						09:00~18:00 (은행 휴무일 제외)
-					</p>
-				</div>
-				<div class="last_line">
-					<b>© Cruise. All rights reserved</b>
-				</div>
-			</div>
-		</div>
+    <nav th:replace="navbar :: footerFragmant"></nav>
 
-	</footer>
 
+    <script type="text/javascript" src="/js/nav.js"></script>
     <script src="/js/mypage/mypage_board.js"></script>
     <script src="/js/mypage/mypage_userOut.js"></script>
-    <script src="/nav_footer/nav.js"></script>
+
+    <script>
+
+        //게시글 삭제
+        $(document).ready(function () {
+
+            $('#delBoardBtn').on('click', function () {
+
+                var chkBoardLists = [];
+
+                $('input[name=article-chk]:checked').each(function () {
+
+                    chkBoardLists.push($(this).val());
+
+                });
+
+                console.log(chkBoardLists.join(',')); //배열을 문자열로 변경해서 출력
+
+                $.ajax({
+                    type : "POST",
+                    url : "/mypage/mypage_board_board",
+                    data : {
+                    chkBoardLists : chkBoardLists
+                    },
+                    success : function(result){
+                        console.log("성공..!" + result);
+                        $(location).attr('href','/mypage/mypage_board')
+                    },
+                    error:function(xhr,status,error) {
+                        console.log("에러..!" + error);
+                    }
+                });
+            });
+        });
+
+        //댓글 삭제
+        $(document).ready(function () {
+
+            $('#delCommentBtn').on('click', function () {
+
+                var chkCommentLists = [];
+
+                $('input[name=commentChk]:checked').each(function () {
+
+                    chkCommentLists.push($(this).val());
+
+                });
+
+                console.log(chkCommentLists.join(',')); //배열을 문자열로 변경해서 출력
+
+                $.ajax({
+                    type : "POST",
+                    url : "/mypage/mypage_board_comment",
+                    data : {
+                    chkCommentLists : chkCommentLists
+                    },
+                    success : function(result){
+                        console.log("성공..!" + result);
+                        $(location).attr('href','/mypage/mypage_board')
+                    },
+                    error:function(xhr,status,error) {
+                        console.log("에러..!" + error);
+                    }
+                });
+            });
+        });
+
+
+
+
+    </script>
+
     
 </body>
 </html>

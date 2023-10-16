@@ -57,13 +57,38 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public UserDTO getUserName(String email) throws Exception {
-        return mypageMapper.getUserName(email);
+    public UserDTO getUserInfo(String email) throws Exception {
+        return mypageMapper.getUserInfo(email);
     }
 
     @Override
-    public UserDTO getUserInfo(String email) throws Exception {
-        return mypageMapper.getUserInfo(email);
+    public String getCrewName(int crewNum) throws Exception {
+        return mypageMapper.getCrewName(crewNum);
+    }
+
+    @Override
+    public List<CrewBoardDTO> getMyboard(String email) throws Exception {
+        return mypageMapper.getMyboard(email);
+    }
+
+    @Override
+    public void deleteMyboard(int boardNum) throws Exception {
+        mypageMapper.deleteMyboard(boardNum);
+    }
+
+    @Override
+    public List<CrewCommentDTO> getMyComment(String email) throws Exception {
+        return mypageMapper.getMyComment(email);
+    }
+
+    @Override
+    public String getBoardSubject(int boardNum) throws Exception {
+        return mypageMapper.getBoardSubject(boardNum);
+    }
+
+    @Override
+    public void deleteMycomment(int commentNum) throws Exception {
+        mypageMapper.deleteMycomment(commentNum);
     }
 
 

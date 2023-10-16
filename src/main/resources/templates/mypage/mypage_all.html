@@ -41,7 +41,46 @@
 </head>
 <body >
 
-    <nav th:replace="navbar :: navbarFragmant"></nav>
+    <!-- 헤더 -->
+    <nav class="navigator" style="box-shadow: 10px 0px 10px 0px lightgray;">
+        <div>
+            <a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+            </a>
+        </div>
+
+        <div class="navigator_menu">
+            <div>
+                <button id="first_menuButton"
+                        class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+                <div id="first_menu" class="menu-content" style="z-index: 2;">
+                    <a href="#">
+                        <b>알림!</b><br>
+                        <label>모임통장 목표 달성완료!</label>
+
+                    </a>
+
+                    <a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+
+                </div>
+            </div>
+
+            <div >
+                <button id="second_menuButton"
+                        class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
+                <div id="second_menu" class="menu-content menu-content2" style="z-index: 2;">
+
+
+                    <a href="#" >내 정보 수정</a>
+                    <a href="#" >내 게시글 관리</a>
+                    <a href="#" >내 계좌 관리</a>
+                    <a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                </div>
+            </div>
+            <div>
+                <button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+            </div>
+        </div>
+    </nav>
 
     <!-- 모임 페이지 -->
     <div class="container_1">
@@ -51,7 +90,7 @@
                 
                  내 크루 모아 보기
             </div>
-            <div class="slidebox">
+            <div class="slidebox" th:if="${!#lists.isEmpty(crewLists)}">
                 <button class="slideBtn-prev">
                     <span class="material-symbols-outlined">arrow_left_alt</span>
                 </button>
@@ -61,8 +100,15 @@
             </div>
         </div>
 
+        <div class="zeroAccount-box" th:if="${#lists.isEmpty(crewLists)}" style="background-color:#0C0CCA96;">
+            <div class="zeroAccount-content">
+                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Dotted%20Line%20Face.png" alt="Dotted Line Face" width="150" height="150" />
+                <span class="zeroAccount-text">등록된 크루가 없어요ㅠㅠ</span>
+            </div>
+        </div>
+
         <form method="post" action="/mypage/mypage_all" name="goForm" >
-            <section class="sectionbox">
+            <section class="sectionbox" th:if="${!#lists.isEmpty(crewLists)}">
                 <div class="swiper">
                     <div class="swiper-wrapper">
 
@@ -386,7 +432,7 @@
                 <h2>계좌 등록</h2>
                 <div class="accountName-box">
                     <div class="account-text">이름</div>
-                    <input type="text" class="account-input" th:value="${userName.user_name}" disabled/>
+                    <input type="text" class="account-input" th:value="${userInfo.user_name}" disabled/>
                 </div>
                 <div class="accountNum-box">
                     <div class="account-text">계좌번호</div>
