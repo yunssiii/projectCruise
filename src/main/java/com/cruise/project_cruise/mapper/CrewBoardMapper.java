@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CrewBoardMapper {
@@ -23,5 +24,7 @@ public interface CrewBoardMapper {
 	public void updateHitCount(int num) throws Exception;
 	public void updateData(CrewBoardDTO dto) throws Exception;
 	public void deleteData(int num) throws Exception;
+	public Map<String, Object> boardTitle(int crew_num) throws Exception;
+	public String checkCaptain(String email) throws Exception;
 }
 

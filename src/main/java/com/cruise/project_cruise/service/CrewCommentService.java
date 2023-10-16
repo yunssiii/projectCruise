@@ -13,4 +13,5 @@ public interface CrewCommentService {
 	public List<CrewCommentDTO> getLists(int board_num) throws Exception;
 	public void updateData(CrewCommentDTO dto) throws Exception;
 	public void deleteData(int comment_num) throws Exception;
+	public void insertCommentReply(CrewCommentDTO dto) throws Exception;
 }

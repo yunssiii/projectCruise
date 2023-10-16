@@ -43,4 +43,9 @@ public class CrewCommentServiceImpl implements CrewCommentService {
 	public void deleteData(int comment_num) throws Exception {
 		mapper.deleteData(comment_num);
 	}
+
+	@Override
+	public void insertCommentReply(CrewCommentDTO dto) throws Exception {
+		mapper.insertCommentReply(dto);
+	}
 }

@@ -4,6 +4,7 @@ package com.cruise.project_cruise.service;
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface CrewBoardService {
@@ -19,4 +20,6 @@ public interface CrewBoardService {
 	public void updateHitCount(int num) throws Exception;
 	public void updateData(CrewBoardDTO dto) throws Exception;
 	public void deleteData(int num) throws Exception;
+	public Map<String, Object> boardTitle(int crew_num) throws Exception;
+	public String checkCaptain(String email) throws Exception;
 }

@@ -11,16 +11,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	insert into crew_board (crew_num, board_num, email, name, board_subject,
-	board_content, board_created, hitcount)
+	board_content, board_created, hitcount, notice)
 	values (#{crew_num}, #{board_num}, #{email}, #{name}, #{board_subject},
-	#{board_content}, sysdate, 0)
+	#{board_content}, sysdate, 0, #{notice})
 </insert>
 
 <select id="getLists" parameterType="hashMap" 	
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	select a.*, nvl(b.comment_count, 0) as comment_count from (
 	select rownum rnum, data.* from (
-	select board_num, name, board_subject, hitCount,
+	select board_num, name, board_subject, hitCount, notice,
 	to_char(board_created,'YYYY-MM-DD') board_created
 	from crew_board
 	where crew_num = #{crew_num} and
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<![CDATA[
 	where a.rnum <= #{start} and a.rnum >= #{end}
 	]]>
-	order by a.rnum desc
+	order by (case when a.notice = 1 then 1 else 2 end), a.rnum desc
 </select>
 
 <select id="getDataCount" parameterType="map" resultType="int">
@@ -61,5 +61,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <delete id="deleteData" parameterType="int">
 	delete crew_board where board_num=#{board_num}
 </delete>
+
+<select id="boardTitle" parameterType="int" resultType="hashmap">
+	SELECT * FROM (
+	SELECT c.crew_name, c.crew_info, cb.name AS captain_name,
+	(SELECT COUNT(*) FROM crew_member WHERE crew_num = #{crew_num}) AS member_count
+	FROM crew c
+	INNER JOIN crew_board cb ON c.captain_email = cb.email
+	WHERE c.crew_num = #{crew_num}
+	)
+	<![CDATA[
+WHERE ROWNUM <= 1
+]]>
+</select>
+
+<select id="checkCaptain" resultType="String" parameterType="String">
+	select captain_yn from crew_member
+	where cmem_email=#{email} and
+	<![CDATA[
+ROWNUM <= 1
+]]>
+</select>
 
 </mapper>

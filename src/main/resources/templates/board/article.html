@@ -4,232 +4,144 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게 시 판</title>
 
-<link rel="stylesheet" type="text/css" href="/board/css/style.css"/>
-<link rel="stylesheet" type="text/css" href="/board/css/article.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/css/article.css"/>
+<link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-	function sendIt() {
-		var f = document['comment-form'];
-		var str = f.comment_content.value.trim();
-
-		if(!str){
-			alert("\n내용을 입력하세요.");
-			f.comment_content.focus();
-			return false;
-		}
-
-		return true;
-	}
-
-	// 댓글 등록
-	function insertComment() {
-		if(sendIt()) {
-			var data = $('[name=comment-form]').serialize();
-			var num = "[[${dto.board_num}]]";
-			var params = "[[${params}]]";
-
-			$.ajax({
-				url: '/board/comment/create',
-				type: 'post',
-				data: data,
-				success: function(data) {
-					console.log('AJAX 요청 성공');
-					if(data === "userInfoOK") {
-						let url = '/board/article?' + params + '&num=' + num;
-						window.location.href = url;
-					}else{
-						alert("userInfoNull");
-					}
-				},
-				error: function(data) {
-					console.log('AJAX 요청 오류');
-					console.log(data);
-				}
-			});
-		}
-	}
-
-	// 댓글 삭제
-	function deleteComment(comment_num) {
-		console.log(comment_num);
-		var num = "[[${dto.board_num}]]";
-		var params = "[[${params}]]";
-
-		$.ajax({
-			url: '/board/comment/delete',
-			type: 'post',
-			data: { comment_num: comment_num },
-			success: function(data) {
-				if(data === "userInfoOK") {
-					let url = '/board/article?' + params + '&num=' + num;
-					window.location.href = url;
-				} else {
-					alert("userInfoNull");
-				}
-			},
-			error: function(data) {
-				console.log('AJAX 요청 오류');
-				console.log(data);
-			}
-		});
-	}
-
-	// 댓글 수정(입력 폼으로 변경)
-	function changeComment(dto) {
-		console.log(dto);
-
-		var commentContent = dto.comment_content;
-		var commentNum = dto.comment_num;
-
-		$('#update_div_' + commentNum).hide();
-		$('#delete_form_' + commentNum).hide();
-
-		var inputField = '<input type="text" name="comment_' + commentNum + '" value="' + commentContent + '"/>';
-		inputField += '<span class="input-group-btn">';
-		inputField += '<button class="btn2" type="button" onclick="updateComment(' + commentNum + ');">등록</button> </span>';
-
-		$('#comment_' + commentNum).html(inputField);
-	}
-
-	// 댓글 수정(update)
-	function updateComment(commentNum) {
-		console.log("commentNum: " + commentNum);
-		var commentContent = $('[name=comment_' + commentNum + ']').val();
-		console.log("commentContent: " + commentContent);
-
-		if (commentContent === '' || commentContent === null) {
-			alert("\n내용을 입력하세요.");
-			$('#comment_' + commentNum).focus();
-			return;
-		}
-
-		var num = "[[${dto.board_num}]]";
-		var params = "[[${params}]]";
-
-		$.ajax({
-			url: '/board/comment/update',
-			type: 'post',
-			data: { commentContent: commentContent, commentNum: commentNum },
-			success: function(data) {
-				console.log('AJAX 요청 성공');
-				if (data === "userInfoOK") {
-					let url = '/board/article?' + params + '&num=' + num;
-					window.location.href = url;
-				} else {
-					alert("userInfoNull");
-				}
-			},
-			error: function(data) {
-				console.log('AJAX 요청 오류');
-				console.log(data);
-			}
-		});
-	}
-
+<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+<script>
+	const num = "[[${dto.board_num}]]";
+	const params = "[[${params}]]";
+	var userEmail = "[[${userInfo.email}]]";
 </script>
+<script type="text/javascript" th:src="@{/js/article.js}"></script>
 
 </head>
 <body>
 
-<div id="bbs">
-	<div id="bbs_title">
-		게 시 판
+<nav class="navigator">
+	<div>
+		<a href="http://localhost:8080/list" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+		</a>
 	</div>
+	<div class="navigator_menu">
+		<div>
+			<button id="first_menuButton"
+					class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+			<div id="first_menu" class="menu-content">
+				<a href="#">
+					<b>알림!</b><br>
+					<label>모임통장 목표 달성완료!</label>
+				</a>
+				<a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+			</div>
+		</div>
+		<div>
+			<button id="second_menuButton"
+					class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
+			<div id="second_menu" class="menu-content menu-content2">
+				<a href="#" >내 정보 수정</a>
+				<a href="#" >내 게시글 관리</a>
+				<a href="#" >내 계좌 관리</a>
+				<a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+			</div>
+		</div>
+		<div>
+			<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+		</div>
+	</div>
+</nav>
+
+<div id="bbs">
 	<div id="bbsArticle">
 		<div id="bbsArticle_header">
-			[[${dto.board_subject }]]
-		</div>
-		<div class="bbsArticle_bottomLine">
-			<dl>
-				<dt>작성자</dt>
-				<dd th:text="${dto.name }"></dd> <!-- [[${dto.name }]] -->
-			</dl>
-		</div>
-		<div class="bbsArticle_bottomLine">
-			<dl>
-				<dt>등록일</dt>
-				<dd>[[${dto.board_created }]]</dd>
-				<dt>조회수</dt>
-				<dd th:text="${dto.hitCount }"></dd>
-			</dl>
+			<input type="button" th:value="${param.crewName + ' 게시판 >>'}" class="article_button"
+				   th:onclick="'location=\'list' + '\''"/>
+			<h2><br>[[${dto.board_subject}]]</h2>
+			<div class="article_button_flex">
+				<input type="button" value=" 수정 " class="article_button2"
+					   th:if="${userInfo.email == dto.email}"
+					   th:onclick="'location=\'updated?board_num=' +
+					@{${dto.board_num }} + '&' + @{${params }} + '\''"/>
+				<input type="button" value=" 삭제 " class="article_button2"
+					   th:if="${userInfo.email == dto.email}"
+					   th:onclick="'confirmDeleteArticle(' + ${dto.board_num} + ')'"/>
+			</div>
+			<div class="header">
+				<div>[[${dto.name}]]</div>
+				<div>
+					<span>[[${dto.board_created}]]</span>
+					<span th:text="'조회 ' + ${dto.hitCount}"></span>
+				</div>
+			</div>
 		</div>
 		<div id="bbsArticle_content">
-			<table width="600" border="0">
-			<tr>
-			<td style="padding: 20px 80px 20px 0px" valign="top" height="200">
-				<textarea rows="12" cols="82"
-				name="content" style="padding-left: 20px;
-				resize: none; background-color: #ffffff; border: 0px;
-				font-family: NanumSquare;"
-				class="boxTA" th:text="${dto.board_content}"
-				disabled="disabled"></textarea>
-			</td>
-			</tr>
+			<table>
+				<tr>
+					<td valign="top" height="200">
+					<textarea rows="12" cols="82"
+					name="content"
+					class="content-box" th:text="${dto.board_content}"
+					disabled="disabled"></textarea>
+					</td>
+				</tr>
 			</table>
-		</div>
-	</div>
-	<div id="bbsArticle_footer">
-		<div id="leftFooter">
-		<input type="button" value=" 수정 " class="btn2"
-			   th:if="${userInfo.email == dto.email}"
-			   th:onclick="'location=\'updated?board_num=' +
-					@{${dto.board_num }} + '&' + @{${params }} + '\''"/>
-		<input type="button" value=" 삭제 " class="btn2"
-			   th:if="${userInfo.email == dto.email}"
-			   th:onclick="'location=\'deleted_ok?board_num=' +
-					@{${dto.board_num }} + '&' + @{${params }} + '\''"/>
-		</div>
-		<div id="rightFooter">
-		<input type="button" value=" 리스트 " class="btn2"
-			th:onclick="@{|location.href='/board/list?${params}'|}"/>
 		</div>
 	</div>
 
 	<!-- 댓글 리스트 -->
-	<div>
-		<span>댓글 <span th:text="${lists.size}"></span></span>
-	</div>
-	<br>
-	<div id="lists">
-		<ul th:if="${#lists.size(lists)} > 0" th:each="dto:${lists}">
-			<li>
-			<div class="name" th:text="${dto.name}"></div>
-			<div class="content" th:id="|comment_${dto.comment_num}|" th:text="${dto.comment_content}"></div>
-			<div class="created" th:text="${dto.comment_created}"
-				 style="font-size: smaller;"></div>
-			<div th:id="|update_div_${dto.comment_num}|">
-				<input type="button" value=" 수정 " class="btn2"
-					   th:if="${userInfo.email == dto.email}" th:onclick="changeComment([[${dto}]]);"/>
-			</div>
-			<form name="delete-form" th:id="|delete_form_${dto.comment_num}|"
-				  action="/board/comment/delete" method="post">
-				<input type="hidden" name="comment_num" th:value="${dto.comment_num}"/>
-				<input type="button" class="btn2" value=" 삭제 "
-					   th:if="${userInfo.email == dto.email}" th:onclick="deleteComment([[${dto.comment_num}]]);"/>
-			</form>
-			</li>
-		</ul>
-	</div>
+	<div style="font-weight: bold;">
+		<i class="fa-regular fa-comment-dots fa-lg" style="padding-left: 15px;"></i> 댓글 <span id="commentCount"></span></div>
+	<div id="comment_box">
+		<div class="commentArea"></div>
 
-	<!-- 댓글 입력 폼-->
-	<div class="card my-4">
-		<div class="card-body">
-			<form name="comment-form" action="/board/comment/create" method="post"
-				  autocomplete="off" onsubmit="return sendIt();">
-				<input type="hidden" name="num" th:value="${dto.board_num}"/>
-				<input type="hidden" name="email" th:value="${dto.email}"/>
-				<div class="form-group">
-					<textarea name="comment_content" class="form-control" rows="3"
-							style="font-family: NanumSquare;"></textarea>
-				</div>
-				<button type="button" class="btn2" onclick="insertComment();">등록</button>
-			</form>
+		<!-- 댓글 입력 폼-->
+		<div>
+			<div class="card-body">
+				<form name="comment-form" action="/board/comment/create" method="post"
+					  autocomplete="off" onsubmit="return sendIt();">
+					<input type="hidden" name="num" th:value="${dto.board_num}"/>
+					<input type="hidden" name="email" th:value="${dto.email}"/>
+					<div class="form-group">
+						<textarea name="comment_content" class="form-control" rows="3"
+								style="font-family: NanumSquare; width: 100%;"
+								placeholder="댓글을 남겨보세요"></textarea>
+					</div>
+					<a class="commentReply" onclick="insertComment();">등록</a>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
+
+<footer>
+	<div class="footer">
+		<div class="footer_container">
+			<div class="footer_menu">
+				<p>
+					<i class="fa-brands fa-docker"> 크루즈㈜ </i><br> <br> 대표이사
+					홍길동 | 사업자등록번호 166-15-01234 | 서울특별시 강남구 테헤란로 1244층 (역삼동, 삼원타워) <br>
+				</p>
+				<p>
+					<i class="fa-solid fa-phone fa-2xs"></i> 유선 상담 1998-0917 평일
+					09:00~18:00 (은행 휴무일 제외)
+				</p>
+			</div>
+			<div class="last_line">
+				<b>© Cruise. All rights reserved</b>
+			</div>
+		</div>
+	</div>
+
+</footer>
+
+<script type="text/javascript" src="/js/nav.js"></script>
 
 </body>
 </html>

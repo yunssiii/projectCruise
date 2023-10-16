@@ -5,6 +5,7 @@ import com.cruise.project_cruise.mapper.CrewBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -53,6 +54,16 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 	@Override
 	public void deleteData(int num) throws Exception {
         mapper.deleteData(num);
+	}
+
+	@Override
+	public Map<String, Object> boardTitle(int crew_num) throws Exception {
+		return mapper.boardTitle(crew_num);
+	}
+
+	@Override
+	public String checkCaptain(String email) throws Exception {
+		return mapper.checkCaptain(email);
 	}
 
 }

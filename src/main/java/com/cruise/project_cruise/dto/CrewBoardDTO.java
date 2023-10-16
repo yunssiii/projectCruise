@@ -16,4 +16,5 @@ public class CrewBoardDTO {
 
 	private int rnum;
 	private int comment_count;
+	private int notice;
 }
