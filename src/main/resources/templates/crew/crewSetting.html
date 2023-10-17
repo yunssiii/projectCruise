@@ -32,11 +32,9 @@
     <script th:inline="javascript">
         <!-- 풀캘린더 스크립트 -->
         /*<![CDATA[*/
-        document.addEventListener('DOMContentLoaded', function() {
-
+        function calendarLoad() {
             $(function () {
                 var crewNumTh = /*[[${crewNum}]]*/
-
                 var request = $.ajax({
                     url: "/crew/setting/loadCrewSchedule",
                     method: "POST",
@@ -71,6 +69,9 @@
                         },
                         dateClick: function(info) { // 날짜 클릭했을 때
                             fullCalDateClick(info);
+                        },
+                        eventClick: function(info) { // 이벤트 클릭 했을 때
+                            fullCalEventClick(info);
                         },
                         views: {
                             dayGridMonth: {
@@ -137,7 +138,59 @@
 
                 });
             })
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            calendarLoad();
+
+            var scheForm = document.scheForm;
+            $('#addScheOK').on('click',function(){
+
+                $(function () {
+                    var scheForm = document.scheForm;
+
+                    // 넘겨야할 데이터들
+                    var crewNum = /*[[${crewNum}]]*/;
+                    var scheTitle = scheForm.sche_title.value;
+                    var scheAssort = scheForm.sche_assort.value;
+                    var scheAllDayTF = scheForm.sche_alldayTF.checked;
+                    var scheStart = scheForm.sche_start.value;
+                    var scheEnd = scheForm.sche_end.value;
+
+                    var request = $.ajax({
+                        url: "/crew/setting/addCrewSche",
+                        method: "POST",
+                        data: {
+                            crewNum: crewNum,
+                            scheTitle: scheTitle,
+                            scheAssort: scheAssort,
+                            scheAllDayTF: scheAllDayTF,
+                            scheStart:scheStart,
+                            scheEnd:scheEnd
+                        }
+                    })
+
+                    request.done(function (resp) {
+                        // 폼 리셋하기
+                        scheForm.reset();
+                        $($('.assortColors')[0]).addClass('selectedColor');
+                        $('.assortColors').not($($('.assortColors')[0])).removeClass('selectedColor');
+                        $('#selectedColor').removeClass();
+                        $('#selectedColor').addClass($($('.assortColors')[0]).attr('id'));
+                        $('#scheAssort').val($($('.assortColors')[0]).attr('id'));
+
+                        // 추가 폼 닫기
+                        $('#scheModalBg').addClass('hiddenModal');
+                        $('#addScheModal').addClass('hiddenModal');
+
+                        // 캘린더 다시 렌더링
+                        calendarLoad();
+                    })
+                })
+            })
         });
+
+
         /*]]>*/
     </script>
 </head>
@@ -224,11 +277,11 @@
                                         </div>
                                         <div id="colorSelectorContainer" class="hiddenSpeechBubble">
                                             <div class="speechBubble"></div>
-                                            <div id="FF8383" class="assortColors redSche selectedColor"></div>
-                                            <div id="22B14C" class="assortColors greenSche"></div>
-                                            <div id="FFC90E" class="assortColors yellowSche"></div>
-                                            <div id="00A5ED" class="assortColors blueSche"></div>
-                                            <div id="A1A1A1" class="assortColors graySche"></div>
+                                            <div id="redSche" class="assortColors redSche selectedColor"></div>
+                                            <div id="greenSche" class="assortColors greenSche"></div>
+                                            <div id="yellowSche" class="assortColors yellowSche"></div>
+                                            <div id="blueSche" class="assortColors blueSche"></div>
+                                            <div id="graySche" class="assortColors graySche"></div>
                                         </div>
                                         <input type="text" id="scheTitle" name="sche_title" placeholder="제목">
                                     </div>
@@ -239,7 +292,7 @@
                                             &nbsp; &nbsp;하루종일
                                         </div>
                                         <div>
-                                            <input type="checkbox" name="sche_alldayTF" id="allDayChk">
+                                            <input type="checkbox" name="sche_alldayTF" id="allDayChk" value="true">
                                         </div>
                                     </div>
                                     <div class="rowCont">
@@ -260,6 +313,9 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                        <div id="addScheOKModal">
+                            추가 완료용
                         </div>
                     </div>
                 </div>
