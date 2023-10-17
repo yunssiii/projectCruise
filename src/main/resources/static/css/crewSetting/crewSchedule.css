@@ -129,8 +129,86 @@
     overflow: hidden;
 }
 
+/* 색깔 선택 */
+/* 선택된 색상 */
+#selectedColorCont{
+    border: 2px solid #bebebe;
+    border-radius: 100%;
+    position: relative;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+}
 
+#selectedColor {
+    border: 3px solid white;
+}
 
+/* 선택 말풍선 */
+.visibleSpeechBubble {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    position: absolute;
+    top: 165px;
+    left: 10px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.hiddenSpeechBubble {
+    display: none;
+    height: 0;
+}
+
+.assortColors {
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.speechBubble { /* 말풍선 꼬리 */
+    width: 0; height: 0;
+    position: absolute;
+    top: -10px; left: 22px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 10px solid #ffffff;
+}
+
+.selectedColor {
+    border: 3px solid #bebebe;
+}
+
+.redSche {
+    border-radius: 100%;
+    background-color: #FF8383;
+    width: 30px; height: 30px;
+}
+
+.greenSche {
+    border-radius: 100%;
+    background-color: #22B14C;
+    width: 30px; height: 30px;
+}
+
+.yellowSche {
+    border-radius: 100%;
+    background-color: #FFC90E;
+    width: 30px; height: 30px;
+}
+
+.blueSche {
+    border-radius: 100%;
+    background-color: #00A5ED;
+    width: 30px; height: 30px;
+}
+
+.graySche {
+    border-radius: 100%;
+    background-color: #A1A1A1;
+    width: 30px; height: 30px;
+}
 
 
 

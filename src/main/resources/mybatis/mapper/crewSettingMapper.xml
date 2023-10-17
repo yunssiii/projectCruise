@@ -10,4 +10,6 @@
         from SCHEDULE
         where CREW_NUM = #{crew_num}
     </select>
+
+
 </mapper>
