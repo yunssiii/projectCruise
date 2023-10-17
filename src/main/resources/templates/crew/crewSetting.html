@@ -210,40 +210,56 @@
                     </div>
                     <div id="scheModalBg" class="hiddenModal">
                         <div id="addScheModal">
-                            <div class="scheModalTopCont">
-                                <div id="addScheTitle">일정 추가하기</div>
-                                <div id="addScheModalcloseX">×</div>
-                            </div>
-                            <hr>
-                            <div class="addScheInputCont">
-                                <div class="rowCont">
-                                    <input type="text" id="scheTitle" placeholder="제목">
+                            <form name="scheForm" method="post">
+                                <div class="scheModalTopCont">
+                                    <div id="addScheTitle">일정 추가하기</div>
+                                    <div id="addScheModalcloseX">×</div>
                                 </div>
-                                <div class="rowCont">
-                                    <div style="display: flex; align-items: center">
-                                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Alarm%20Clock.png"
-                                             alt="Alarm Clock" width="40" height="40" />
-                                        &nbsp; &nbsp;하루종일
+                                <hr>
+                                <div class="addScheInputCont">
+                                    <div class="rowCont">
+                                        <div id="selectedColorCont">
+                                            <div id="selectedColor" class="redSche"></div>
+                                            <input type="hidden" id="scheAssort" name="sche_assort" value="#FF8383">
+                                        </div>
+                                        <div id="colorSelectorContainer" class="hiddenSpeechBubble">
+                                            <div class="speechBubble"></div>
+                                            <div id="FF8383" class="assortColors redSche selectedColor"></div>
+                                            <div id="22B14C" class="assortColors greenSche"></div>
+                                            <div id="FFC90E" class="assortColors yellowSche"></div>
+                                            <div id="00A5ED" class="assortColors blueSche"></div>
+                                            <div id="A1A1A1" class="assortColors graySche"></div>
+                                        </div>
+                                        <input type="text" id="scheTitle" name="sche_title" placeholder="제목">
                                     </div>
-                                    <div>
-                                        <input type="checkbox" id="allDayChk">
+                                    <div class="rowCont">
+                                        <div style="display: flex; align-items: center">
+                                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Alarm%20Clock.png"
+                                                 alt="Alarm Clock" width="40" height="40" />
+                                            &nbsp; &nbsp;하루종일
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" name="sche_alldayTF" id="allDayChk">
+                                        </div>
+                                    </div>
+                                    <div class="rowCont">
+                                        <div class="start">
+                                            <input type="date" id="startDate">
+                                            <input type="time" id="startTime">
+                                            <input type="hidden" id="scheStart" name="sche_start" value="">
+                                        </div>
+                                        <div> → </div>
+                                        <div class="end">
+                                            <input type="date" id="endDate">
+                                            <input type="time" id="endTime">
+                                            <input type="hidden" id="scheEnd" name="sche_end" value="">
+                                        </div>
+                                    </div>
+                                    <div class="buttonCont">
+                                        <button type="button" id="addScheOK">추가하기</button>
                                     </div>
                                 </div>
-                                <div class="rowCont">
-                                    <div class="start">
-                                        <input type="date" id="startDate">
-                                        <input type="time" id="startDateTime">
-                                    </div>
-                                    <div> → </div>
-                                    <div class="end">
-                                        <input type="date" id="endDate">
-                                        <input type="time" id="endDateTime">
-                                    </div>
-                                </div>
-                                <div class="buttonCont">
-                                    <button type="button" id="addScheOK">추가하기</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -264,7 +280,7 @@
                         <div class="crewSailing">항해&nbsp; <b>32일</b>&nbsp;째</div>
                         </div>
                     </div>
-                    <form name="myForm" method="post" action="">
+                    <form name="informationForm" method="post" action="">
                         <div class="content">
                             <div class="title">크루 소개</div>
                             <div class="info">* 50자 까지만 작성 가능합니다.</div>

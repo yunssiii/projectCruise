@@ -19,8 +19,16 @@ function fullCalDateClick(info){
     var formattedDate = year + "-" + month + "-" + date;
     $('#startDate').val(formattedDate);
     $('#endDate').val(formattedDate);
-    $('#startDateTime').val('08:00');
-    $('#endDateTime').val('09:00');
+    $('#startTime').val('08:00');
+    $('#endTime').val('09:00');
+
+    var startDateValue = $('#startDate').val();
+    var startTimeValue = $('#startTime').val();
+    var endDateValue = $('#endDate').val();
+    var endTimeValue = $('#endTime').val();
+
+    $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
+    $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
 }
 
 // X 눌렀을 때 모달 닫기
@@ -30,11 +38,69 @@ $('#addScheModalcloseX').on('click',function() {
 
 // 하루종일에 체크되면 date input 없애기
 $('#allDayChk').on('change',function (){
+    var startDateValue = $('#startDate').val();
+    var startTimeValue = $('#startTime').val();
+    var endDateValue = $('#endDate').val();
+    var endTimeValue = $('#endTime').val();
+
     if(this.checked) {
-        $('#startDateTime').addClass('inputHidden', 500, 'easeOutBounce');
-        $('#endDateTime').addClass('inputHidden', 500, 'easeOutBounce');
+        $('#startTime').addClass('inputHidden', 500, 'easeOutBounce');
+        $('#endTime').addClass('inputHidden', 500, 'easeOutBounce');
+        $('#scheStart').val(startDateValue + ' 00:00:00');
+        $('#scheEnd').val(endDateValue + ' 00:00:00');
     } else {
-        $('#startDateTime').removeClass('inputHidden', 500, 'easeOutBounce');
-        $('#endDateTime').removeClass('inputHidden', 500, 'easeOutBounce');
+        $('#startTime').removeClass('inputHidden', 500, 'easeOutBounce');
+        $('#endTime').removeClass('inputHidden', 500, 'easeOutBounce');
+        $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
+        $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
     }
 })
+
+// 컬러 선택하기
+$('#selectedColorCont').on('click',function(){
+    if($('#colorSelectorContainer').hasClass('hiddenSpeechBubble')){
+        $('#colorSelectorContainer').removeClass('hiddenSpeechBubble');
+        $('#colorSelectorContainer').addClass('visibleSpeechBubble');
+    }
+})
+$('.assortColors').click(function() {
+    $(this).addClass('selectedColor');
+    var selectColor = $(this).attr('id')
+    $('#scheAssort').val('#' + selectColor);
+    $('.assortColors').not(this).removeClass('selectedColor')
+})
+
+// 날짜, 시간 합쳐서 채워넣기
+
+$(document).ready(function() {
+
+})
+
+
+$('#startDate').on('change',function() {
+    startDateValue = $(this).val();
+    $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
+})
+
+$('#startTime').on('change',function() {
+    startTimeValue = $(this).val()
+    $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
+})
+
+$('#endDate').on('change',function() {
+    endDateValue = $(this).val()
+    $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
+})
+
+$('#endTime').on('change',function() {
+    endTimeValue = $(this).val()
+    $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
+})
+
+
+
+// TODO - insert 쿼리문 작성하고, insert 계속 진행
+
+
+
+
