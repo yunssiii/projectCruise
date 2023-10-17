@@ -70,9 +70,14 @@
     </select>
 
     <!-- 내 게시글 조회 -->
-    <select id="getMyboard" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+    <select id="getMyboard" parameterType="map" resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+        select * from(
+        select rowNum rnum,data.* from (
         select crew_num,board_num,board_subject,to_char(board_created, 'YYYY-MM-DD') board_created_tochar,hitcount from crew_board
-        where email=#{email} order by board_created desc
+        where email=#{email} order by board_created desc) data)
+        <![CDATA[
+        where rnum>=#{start} and rnum<=#{end}
+        ]]>
     </select>
 
     <!-- 내 게시글 삭제 -->
@@ -95,6 +100,11 @@
     <delete id="deleteMycomment" parameterType="int">
         delete from crew_comment where comment_num in (#{comment_num})
     </delete>
+    
+    <!-- 게시글 전체 수/ 페이징처리 -->
+    <select id="getBoadCount" parameterType="java.lang.String" resultType="int">
+        select nvl(count(*),0) from crew_board where email=#{email}
+    </select>
 
 
 </mapper>

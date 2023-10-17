@@ -6,8 +6,11 @@ table {
 }
 
 th, td {
-    border-bottom: 1px solid #afafaf;
     padding: 13px;
+}
+
+th {
+    border-bottom: 1px solid #afafaf;
 }
 
 /* 게시글 */
@@ -33,6 +36,7 @@ th, td {
 .td-article {
     /* border: 1px solid; */
     display: flex;
+    border-bottom: 1px solid #afafaf;
 }
 
 .board-num {
@@ -47,12 +51,14 @@ th, td {
     /* border: 1px solid; */
     width: 20%;
     text-align: center;
+    border-bottom: 1px solid #afafaf;
 }
 
 .td-hitcount {
     /* border: 1px solid; */
     width: 10%;
     text-align: center;
+    border-bottom: 1px solid #afafaf;
 }
 
 .bottom-bar {

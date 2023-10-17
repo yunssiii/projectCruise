@@ -142,13 +142,12 @@
                         </thead>
                         <!-- 반복 -->
 
-                        <tbody th:if="${#lists.isEmpty(myBoardLists)}">
+                        <tbody th:if="${boardCount} == 0">
                             <td class="no-board" colspan="3">등록한 게시글이 없습니다.</td>
                         </tbody>
 
-
-                        <tbody th:each="dto:${myBoardLists}" th:if="${!#lists.isEmpty(myBoardLists)}">
-                            <tr>
+                        <tbody>
+                            <tr th:each="dto:${myBoardLists}" >
                                 <td class="td-article">
                                     <input type="checkbox" th:id="|chk-article-${dto.board_num}|" name="article-chk" th:value="${dto.board_num}"/>
                                     <label th:for="|chk-article-${dto.board_num}|"></label>
@@ -160,6 +159,14 @@
                                 </td>
                                 <td class="td-date" th:text="${dto.board_created_tochar}">생성일</td>
                                 <td class="td-hitcount" th:text="${dto.hitCount}">조회수</td>
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td id="boardIndex" style="border:none;">
+                                    <a th:utext="${boardIndexList}"></a>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -203,8 +210,8 @@
                             <td class="no-board" colspan="5">등록한 댓글이 없습니다.</td>
                         </tbody>
 
-                        <tbody th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
-                            <tr>
+                        <tbody>
+                            <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
                                 <td colspan="3">
                                     <div class="comment-box">
                                         <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
@@ -220,6 +227,8 @@
                                 </td>
                                 <td class="td-date" th:text="${dto.comment_created_tochar}">생성일</td>
                             </tr>
+
+
                         </tbody>
                         <!-- 반복 -->
                     </table>
