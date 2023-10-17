@@ -66,4 +66,9 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 		return mapper.checkCaptain(email);
 	}
 
+	@Override
+	public String getUserName(String email) throws Exception {
+		return mapper.getUserName(email);
+	}
+
 }

@@ -31,11 +31,11 @@ function deleteArticle(board_num) {
         type: 'post',
         data: { board_num: board_num },
         success: function(data) {
-            if(data === "userInfoOK") {
+            if(data === "DeleteSuccess") {
                 let url = '/board/article?' + params + '&num=' + num;
                 window.location.href = url;
             } else {
-                alert("userInfoNull");
+                alert("Error: 게시글 삭제 실패");
             }
         },
         error: function(data) {
@@ -117,12 +117,12 @@ function insertComment() {
             type: 'post',
             data: data,
             success: function(data) {
-                if(data === "userInfoOK") {
+                if(data === "InsertComment") {
                     console.log("num: " + num);
                     $('[name=comment_content]').val('');
                     commentList(num);
                 }else{
-                    alert("userInfoNull");
+                    alert("Error: 댓글 등록 에러");
                 }
             },
             error: function(data) {
@@ -143,10 +143,10 @@ function deleteComment(comment_num) {
             type: 'post',
             data: { comment_num: comment_num },
             success: function(data) {
-                if(data === "userInfoOK") {
+                if(data === "DeleteComment") {
                     commentList(num);
                 } else {
-                    alert("userInfoNull");
+                    alert("Error: 댓글 삭제 에러");
                 }
             },
             error: function(data) {
@@ -193,10 +193,10 @@ function updateComment(commentNum) {
         type: 'post',
         data: { commentContent: commentContent, commentNum: commentNum },
         success: function(data) {
-            if (data === "userInfoOK") {
+            if (data === "UpdateComment") {
                 commentList(num);
             } else {
-                alert("userInfoNull");
+                alert("Error: 댓글 수정 에러");
             }
         },
         error: function(data) {
@@ -257,10 +257,10 @@ function insertReply(commentNum) {
             num: num
         },
         success: function(data) {
-            if (data === "userInfoOK") {
+            if (data === "InsertReply") {
                 commentList(num);
             } else {
-                alert("userInfoNull");
+                alert("Error: 답글 등록 에러");
             }
         },
         error: function(data) {
