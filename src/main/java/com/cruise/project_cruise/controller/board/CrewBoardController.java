@@ -29,7 +29,7 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("/board/created")
-	public ModelAndView created_ok(CrewBoardDTO dto,
+	public ModelAndView created_ok(CrewBoardDTO dto, @RequestParam("crewNum") int crewNum,
 								   HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
@@ -42,7 +42,7 @@ public class CrewBoardController {
 			return mav;
 		}
 
-		int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+		//int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 		String userName = crewBoardService.getUserName(userEmail);
 
 		int notice = Integer.parseInt(request.getParameter("notice"));
@@ -68,7 +68,7 @@ public class CrewBoardController {
 	}
 
 	@RequestMapping(value = "/board/list", method = {RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView list(HttpServletRequest request) throws Exception {
+	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("email");
@@ -79,8 +79,6 @@ public class CrewBoardController {
 			mav.setViewName("redirect:/main");
 			return mav;
 		}
-
-		int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 
 		String pageNum = request.getParameter("pageNum");
 
