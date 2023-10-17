@@ -102,8 +102,14 @@
     </delete>
     
     <!-- 게시글 전체 수/ 페이징처리 -->
-    <select id="getBoadCount" parameterType="java.lang.String" resultType="int">
+    <select id="getBoardCount" parameterType="java.lang.String" resultType="int">
         select nvl(count(*),0) from crew_board where email=#{email}
+    </select>
+
+    <!-- 일정 조회 -->
+    <select id="getSchedule" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
+        select crew_num,sche_num,sche_title,sche_assort,sche_start,sche_end,sche_alldaytf from schedule
+        where crew_num in (select crew_num from crew_member where cmem_email=#{email})
     </select>
 
 

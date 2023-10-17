@@ -82,6 +82,7 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.getMyComment(email);
     }
 
+
     @Override
     public String getBoardSubject(int boardNum) throws Exception {
         return mypageMapper.getBoardSubject(boardNum);
@@ -93,8 +94,13 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public int getBoadCount(String email) throws Exception {
-        return mypageMapper.getBoadCount(email);
+    public int getBoardCount(String email) throws Exception {
+        return mypageMapper.getBoardCount(email);
+    }
+
+    @Override
+    public List<ScheduleDTO> getSchedule(String email) throws Exception {
+        return mypageMapper.getSchedule(email);
     }
 
 

@@ -37,6 +37,165 @@
     .material-symbols-sharp { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size: 60px;color: white;-webkit-text-stroke: 1px rgb(58, 58, 58); }
 
     </style>
+
+    <!-- 풀캘린더 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script th:inline="javascript">
+        <!-- 풀캘린더 스크립트 -->
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+
+            $(function () {
+                var emailTh = /*[[${userInfo.email}]]*/
+                var request = $.ajax({
+                    url: "/mypage/mypage_all_sche",
+                    method: "POST",
+                    data: {
+                    email: emailTh
+                    }
+                })
+
+                request.done(function (data) {
+                    var calendarEl = document.getElementById('calendar');
+                    // 렌더링
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        headerToolbar: { // 툴바 설정부분.
+                            left: 'dayGridMonth,listMonth',
+                            center: 'title',
+                            right: 'prev,next today'
+                        },
+                        height: 490,
+                        // 한글달력 일자에 '일' 부분 빼기
+                        dayCellContent: function (info) {
+                            var number = document.createElement("a");
+                            number.classList.add("fc-daygrid-day-number");
+                            number.innerHTML = info.dayNumberText.replace("일", '');
+                            if (info.view.type === "dayGridMonth") {
+                                return {
+                                    html: number.outerHTML
+                                };
+                            }
+                            return {
+                                domNodes: []
+                            };
+                        },
+                        views: {
+                            dayGridMonth: {
+                                type: 'dayGrid',
+                                duration: {months: 1},
+                                monthMode: true,
+                                fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
+                            }
+                        },
+                        // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
+                        navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
+                        businessHours: true, // display business hours
+                        editable: false, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
+                        selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
+                        locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                        events: data // 이 부분에 데이터가 들어옴.
+                    });
+
+                    calendar.render();
+
+                    /* 날짜 검색용 */
+                    $('#searchDate').on('change', function () {
+                        calendar.gotoDate($(this).val());
+                        btnNameCustom();
+                    })
+
+                    var monthViewBtn = document.querySelectorAll('button[title="month view"]');
+                    var listViewBtn = document.querySelectorAll('button[title="list view"]');
+                    var PrevMonthBtn = document.querySelectorAll('button[title="Previous month"]');
+                    var NextMonthBtn = document.querySelectorAll('button[title="Next month"]');
+                    var ThisMonthBtn = document.querySelectorAll('button[title="This month"]');
+                    var calendarTagA = calendarEl.querySelectorAll('a');
+
+                    var clickEvent = new MouseEvent("click", {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+
+                    if ($('#modalBg').hasClass('hiddenModalBg')) {
+                        $('#modalBg').removeClass('hiddenModalBg');
+
+                        // 왜인지 모르겠는데 처음으로 Modal을 켜면 달력이 깨진채로 나와서...
+                        // month 버튼을 눌러주니 제자리를 찾아가길래, modal이 띄워지면 month버튼이 같이 눌러지도록 설정해주었다.
+
+                        monthViewBtn[0].dispatchEvent(clickEvent);
+
+                        // 버튼 커스텀하기
+                        // 1. Modal이 띄워졌을 때
+                        btnNameCustom();
+                        // 2. 달력보기, 리스트보기를 눌렀을 때
+                        // 달력 버튼들 누르니까 기존 text가 다시 추가되길래.. 방지용
+                        btnNameCustomAddEvent(monthViewBtn[0]);
+                        btnNameCustomAddEvent(listViewBtn[0]);
+                        btnNameCustomAddEvent(PrevMonthBtn[0]);
+                        btnNameCustomAddEvent(NextMonthBtn[0]);
+                        btnNameCustomAddEvent(ThisMonthBtn[0]);
+                        calendarTagA.forEach(function () {
+                            btnNameCustomAddEvent(this);
+                        })
+                    }
+
+                    function btnNameCustom() {
+                        monthViewBtn[0].textContent = '달력보기';
+                        listViewBtn[0].textContent = '리스트보기';
+                        ThisMonthBtn[0].textContent = '오늘';
+                    }
+
+                    function btnNameCustomAddEvent(item) {
+                        item.addEventListener('click', function () {
+                            btnNameCustom()
+                        })
+                    }
+                })
+            })
+        })
+    /*]]>*/
+    </script>
+    <style>
+
+        #crewCalendar {
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px 0 0 0;
+            font-family: 'NanumSquare', Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            height: 510px;
+        }
+
+        #calendar {
+            max-width: 930px;
+            /* height: 490px; CSS에서 이렇게 설정하면 안되나봐... 스크립트 단에서 설정해줘야 하는듯 */
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .crewCalendarContainer {
+            position: relative;
+        }
+
+        /*#addScheBtn { 일정 관리 창에서만 쓸 버튼! */
+        /*    position: absolute;*/
+        /*    top: 1px;*/
+        /*    left: 115px;*/
+        /*    background-color: #2e3f51;*/
+        /*    border-radius: 5px;*/
+        /*    height: 34px;*/
+        /*    width: 50px;*/
+        /*    color: white;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        /*#addScheBtn:active {*/
+        /*    background-color: #1c2731;*/
+        /*}*/
+
+    </style>
     
 </head>
 <body >
@@ -565,7 +724,9 @@
     <div class="wave2"><div class="white"></div></div>
 
     <!-- 일정 시작 -->
-    <div class="aa">일정 페이지</div>
+    <div class="aa">
+        <div id='calendar'></div>
+    </div>
 
 
     <nav th:replace="navbar :: footerFragmant"></nav>
