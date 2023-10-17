@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getUserName" resultType="String" parameterType="String">
-	select user_name from users where email = #{email};
+	select user_name from users where email = #{email}
 </select>
 
 </mapper>
