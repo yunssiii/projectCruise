@@ -22,9 +22,10 @@ public interface MypageMapper {
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception;
     public UserDTO getUserInfo(String email) throws Exception;
     public String getCrewName(@Param("crew_num") int crewNum) throws Exception;
-    public List<CrewBoardDTO> getMyboard(@Param("email")String email) throws Exception;
+    public List<CrewBoardDTO> getMyboard(@Param("email")String email,@Param("start") int start,@Param("end") int end) throws Exception;
     public void deleteMyboard(int boardNum) throws Exception;
     public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception;
     public String getBoardSubject(int boardNum) throws Exception;
     public void deleteMycomment(int commentNum) throws Exception;
+    public  int getBoadCount(String email) throws Exception;
 }

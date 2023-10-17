@@ -67,9 +67,10 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public List<CrewBoardDTO> getMyboard(String email) throws Exception {
-        return mypageMapper.getMyboard(email);
+    public List<CrewBoardDTO> getMyboard(String email, int start, int end) throws Exception {
+        return mypageMapper.getMyboard(email,start,end);
     }
+
 
     @Override
     public void deleteMyboard(int boardNum) throws Exception {
@@ -89,6 +90,11 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public void deleteMycomment(int commentNum) throws Exception {
         mypageMapper.deleteMycomment(commentNum);
+    }
+
+    @Override
+    public int getBoadCount(String email) throws Exception {
+        return mypageMapper.getBoadCount(email);
     }
 
 

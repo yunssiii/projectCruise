@@ -165,13 +165,34 @@ public class MypageController {
         내 게시글 페이지
      */
     @GetMapping("mypage/mypage_board")
-    public ModelAndView myBoard() throws Exception {
+    public ModelAndView myBoard(HttpServletRequest request) throws Exception {
 
         String email = "hchdbsgk@naver.com";
 
         UserDTO userInfo = mypageService.getUserInfo(email);
-        List<CrewBoardDTO> myBoardLists = mypageService.getMyboard(email); //내 게시글 조회
         List<CrewCommentDTO> myCommentLists = mypageService.getMyComment(email); //내 댓글 조회
+
+        String pageNum = request.getParameter("pageNum");
+
+        int currentPage = 1;
+
+        if(pageNum != null) {
+            currentPage = Integer.parseInt(pageNum);
+        }
+
+        int boardCount = mypageService.getBoadCount(email);
+
+        int numPerPage = 5; //한 페이지 표시될 게시글 수
+        int totalPage = myUtil.getPageCount(numPerPage,boardCount);
+
+        if(currentPage > totalPage){
+            currentPage = totalPage;
+        }
+
+        int start = (currentPage -1) * numPerPage + 1;
+        int end = currentPage * numPerPage;
+
+        List<CrewBoardDTO> myBoardLists = mypageService.getMyboard(email,start,end); //내 게시글 조회
 
         //게시글 크루명 조회 후 myBoardLists 넣기
         for (CrewBoardDTO dto : myBoardLists){
@@ -187,12 +208,20 @@ public class MypageController {
             dto.setBoard_subject(commentSubject);
         }
 
+        String boardUrl = "/mypage/mypage_board";
+
+        String boardIndexList = myUtil.pageIndexList(currentPage,totalPage,boardUrl);
+
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
         mav.addObject("myBoardLists",myBoardLists); //내 게시글들
         mav.addObject("myCommentLists",myCommentLists); //내 댓글들
 
+        mav.addObject("boardIndexList",boardIndexList);
+        mav.addObject("boardCount",boardCount);
+        mav.addObject("boardUrl",boardUrl);
+        mav.addObject("pageNum",currentPage);
 
         mav.setViewName("mypage/mypage_board");
 
