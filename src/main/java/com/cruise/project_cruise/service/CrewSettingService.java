@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface CrewSettingService {
     public List<ScheduleDTO> getCrewScheList(@Param("crew_num") int crewNum) throws Exception;
+    public void insertCrewSche(ScheduleDTO scheduleDTO) throws Exception;
+    public int getScheMaxNum() throws Exception;
 }

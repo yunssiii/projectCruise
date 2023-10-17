@@ -17,4 +17,14 @@ public class CrewSettingServiceImpl implements CrewSettingService {
     public List<ScheduleDTO> getCrewScheList(int crewNum) throws Exception {
         return crewSettingMapper.getCrewScheList(crewNum);
     }
+
+    @Override
+    public void insertCrewSche(ScheduleDTO scheduleDTO) throws Exception {
+        crewSettingMapper.insertCrewSche(scheduleDTO);
+    }
+
+    @Override
+    public int getScheMaxNum() throws Exception {
+        return crewSettingMapper.getScheMaxNum();
+    }
 }

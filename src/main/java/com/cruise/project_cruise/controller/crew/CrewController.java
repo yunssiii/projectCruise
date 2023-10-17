@@ -34,17 +34,24 @@ public class CrewController {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
-        HashMap<String, Object> hash = new HashMap<>();
+        HashMap<String, Object> calHash = new HashMap<>();
+
+        boolean allDay = false;
 
         for (int i = 0; i < crewScheList.size(); i++) {
-            hash.put("title", crewScheList.get(i).getSche_title());
-            hash.put("start", crewScheList.get(i).getSche_start());
-            hash.put("end", crewScheList.get(i).getSche_end());
-            hash.put("allDay", crewScheList.get(i).getSche_alldayTF());
-            hash.put("color", crewScheList.get(i).getSche_assort());
-            hash.put("textColor", "#FFFFFF");
+            calHash.put("title", crewScheList.get(i).getSche_title());
+            calHash.put("start", crewScheList.get(i).getSche_start());
+            calHash.put("end", crewScheList.get(i).getSche_end());
+            if(crewScheList.get(i).getSche_alldayTF().equals("true")){
+                allDay = true;
+            } else {
+                allDay = false;
+            }
+            calHash.put("allDay", allDay);
+            calHash.put("color", crewScheList.get(i).getSche_assort());
+            calHash.put("textColor", "#FFFFFF");
 
-            jsonObject = new JSONObject(hash);
+            jsonObject = new JSONObject(calHash);
             jsonArray.add(jsonObject);
         }
 
@@ -162,6 +169,53 @@ public class CrewController {
         return mav;
     }
 
+    @RequestMapping(value="/setting/addCrewSche")
+    @ResponseBody
+    public void addCrewSche(
+            @RequestParam("crewNum") int crewNum,
+            @RequestParam("scheTitle") String scheTitle,
+            @RequestParam("scheAssort") String scheAssort,
+            @RequestParam("scheAllDayTF") String scheAllDayTF,
+            @RequestParam("scheStart") String scheStart,
+            @RequestParam("scheEnd") String scheEnd
+            ) throws Exception {
 
+        String scheAssortCode = "";
+
+        switch (scheAssort) {
+            default:
+            case "redSche":
+                scheAssortCode = "#FF8383";
+                break;
+            case "greenSche":
+                scheAssortCode = "#22B14C";
+                break;
+            case "yellowSche":
+                scheAssortCode = "#FFC90E";
+                break;
+            case "blueSche":
+                scheAssortCode = "#00A5ED";
+                break;
+            case "graySche":
+                scheAssortCode = "#A1A1A1";
+                break;
+        }
+
+        if(scheAllDayTF==null || scheAllDayTF.isEmpty()) {
+            scheAllDayTF = "false";
+        }
+
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setSche_num(crewSettingService.getScheMaxNum()+1);
+        dto.setCrew_num(crewNum);
+        dto.setSche_title(scheTitle);
+        dto.setSche_assort(scheAssortCode);
+        dto.setSche_alldayTF(scheAllDayTF);
+        dto.setSche_start(scheStart);
+        dto.setSche_end(scheEnd);
+
+        crewSettingService.insertCrewSche(dto);
+
+    }
 
 }
