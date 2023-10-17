@@ -132,7 +132,9 @@ transform: scale(1.07);
 	text-shadow: 1px 1px 2px gray;
 	color: white;
 }
-
+#modal table{
+	margin-top: 10px;
+}
 #modal .title h2 {
 	display: inline;
 }
@@ -151,6 +153,8 @@ transform: scale(1.07);
 	padding: 0px 10px;
 	text-shadow: 1px 1px 2px gray;
 	color: white;
+	display: flex;
+    justify-content: center;
 }
 
 .modals {
