@@ -27,5 +27,7 @@ public interface MypageMapper {
     public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception;
     public String getBoardSubject(int boardNum) throws Exception;
     public void deleteMycomment(int commentNum) throws Exception;
-    public  int getBoadCount(String email) throws Exception;
+    public  int getBoardCount(String email) throws Exception;
+    public int getCommentCount(String email) throws Exception;
+    public List<ScheduleDTO> getSchedule(String email) throws Exception;
 }

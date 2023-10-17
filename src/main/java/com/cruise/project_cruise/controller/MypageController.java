@@ -5,6 +5,8 @@ import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.MypageService;
 import com.cruise.project_cruise.util.CrewBoardUtil;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MypageController {
@@ -27,7 +31,9 @@ public class MypageController {
     /*
         로그인 후 바로 연결되는 마이페이지 메인창 메소드
         크루와 계좌 0이면 zero페이지 보여지고
-        0 이상이면 all페이지 보여짐 
+        0 이상이면 all페이지 보여짐
+        --
+        일정 달력 조회
      */
     @GetMapping("/mypage/mypage_all")
     public ModelAndView all(HttpServletRequest request) throws  Exception {
@@ -39,6 +45,7 @@ public class MypageController {
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(email); //가상계좌 비밀번호
         List<OpenBankDTO> accountLists = mypageService.getAccounts(email); //가상계좌정보
         UserDTO userInfo = mypageService.getUserInfo(email); // 로그인한 사용자 정보.이름
+
 
         ModelAndView mav = new ModelAndView();
 
@@ -58,6 +65,39 @@ public class MypageController {
             mav.setViewName("mypage/mypageZero");
         }
         return mav;
+    }
+
+    /*
+        일정 조회
+     */
+    @RequestMapping("/mypage/mypage_all_sche")
+    @ResponseBody
+    public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
+
+        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
+
+        System.out.println("이거-> " + myScheLists);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        for (int i=0;i<myScheLists.size();i++) {
+            hashMap.put("title", myScheLists.get(i).getSche_title());
+            hashMap.put("start", myScheLists.get(i).getSche_start());
+            hashMap.put("end", myScheLists.get(i).getSche_end());
+            hashMap.put("allDay", myScheLists.get(i).getSche_alldayTF());
+            hashMap.put("color", myScheLists.get(i).getSche_assort());
+            hashMap.put("textColor", "#FFFFFF");
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+        }
+
+        System.out.println("이거2-> " + jsonArray);
+
+        return jsonArray;
     }
 
     /*
@@ -180,7 +220,7 @@ public class MypageController {
             currentPage = Integer.parseInt(pageNum);
         }
 
-        int boardCount = mypageService.getBoadCount(email);
+        int boardCount = mypageService.getBoardCount(email);
 
         int numPerPage = 5; //한 페이지 표시될 게시글 수
         int totalPage = myUtil.getPageCount(numPerPage,boardCount);

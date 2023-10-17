@@ -26,5 +26,7 @@ public interface MypageService {
     public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception; //내 댓글 조회
     public String getBoardSubject(int boardNum) throws Exception; //게시글 제목 조회
     public void deleteMycomment(int commentNum) throws Exception; //댓글 삭제
-    public  int getBoadCount(String email) throws Exception; //게시글 전체 수
+    public  int getBoardCount(String email) throws Exception; //게시글 전체 수
+    public List<ScheduleDTO> getSchedule(String email) throws Exception; //일정 조회
+
 }

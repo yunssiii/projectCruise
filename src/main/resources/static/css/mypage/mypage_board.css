@@ -61,8 +61,12 @@ th {
     border-bottom: 1px solid #afafaf;
 }
 
+.td-comments {
+    border-bottom: 1px solid #afafaf;
+}
+
 .bottom-bar {
-    padding: 13px 0px 13px 13px;
+    padding: 13px 0px 0px 0px;
     font-family: NanumSquare;
     font-size: 10pt;
     display: flex;
@@ -74,13 +78,9 @@ th {
 }
 
 .bottom-btn1 {
-    padding: 7px 15px;
     background-color: #ededed;
-    border: none;
-    border-radius: 6px;
-    font-size: 9pt;
-    margin-left: 90%;
-    cursor: pointer;
+    border: 1px solid gray;
+    width: 100%;
 }
 
 .bottom-btn2 {
@@ -114,6 +114,31 @@ th {
     font-size: 10pt;
     color: #afafaf;
 }
+
+/* 댓글부분 스크롤 */
+.comment-table-div {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.comment-table-div::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+.comment-table-div::-webkit-scrollbar-thumb {
+    background: rgba(144,163,255,0.9); /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.comment-table-div::-webkit-scrollbar-track {
+    background: white;  /*스크롤바 뒷 배경 색상*/
+}
+
+.comment-table-div::-webkit-scrollbar-button {
+
+}
+
 
 /* tab */
 
