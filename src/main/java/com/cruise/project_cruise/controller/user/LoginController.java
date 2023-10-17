@@ -6,6 +6,7 @@ import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController {
 
     @Autowired
@@ -23,16 +23,14 @@ public class LoginController {
 
 
 
-    @GetMapping("")
+    @GetMapping("/login")
     public String myLogin() throws Exception{
         return "login/loginForm";
     }
 
-    @GetMapping("/user")
-    public @ResponseBody String user(@AuthenticationPrincipal PrincipalDetails principalDetails){
-        System.out.println("principalDetails: " + principalDetails.getUserDTO());
-        return "user";
-    }
+
+
+
 
 
     /*

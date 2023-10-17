@@ -39,7 +39,7 @@
     <span id="showHiddenDivButton"><h1>일반 로그인</h1></span>
 
     <div id="hiddenDiv" style="display: none;">
-        <form id="signupForm" action="/loginProcessing" method="post" class="form-field">
+        <form id="signupForm" method="post" class="form-field" enctype="application/json">
             <div>
                 <input id="emailInput" type="email" name="username" placeholder="이메일" required/>
                 <span id="emailStatus"></span>
@@ -51,7 +51,7 @@
                 </div>
             </div>
 
-            <button class="submit-button" type="submit">로그인하기</button>
+            <button class="submit-button" type="button" onclick="submitForm()">로그인하기</button>
         </form>
     </div>
     <div>
@@ -61,4 +61,43 @@
 </div>
     <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 </body>
+
+<script>
+    function submitForm() {
+        const form = document.getElementById('signupForm');
+        const formData = {
+            email: form.elements['username'].value,
+            password: form.elements['password'].value
+        };
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/loginProcessing", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+            const accessToken = xhr.getResponseHeader('Authorization');
+            const refreshToken = xhr.getResponseHeader('Authorization-Refresh');
+
+            console.log(accessToken);
+            console.log(refreshToken);
+
+                localStorage.setItem('accessToken', accessToken); // 토큰을 로컬 스토리지에 저장합니다.
+
+
+                window.location.href = "/"; // 로그인이 성공하면 "/" 경로로 이동
+                     const xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", "/", true); // 루트 엔드포인트로 요청을 전송합니다.
+            xhr2.setRequestHeader('Content-Type', 'application/json');
+            xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
+            xhr2.onload = function () {
+                // 루트 엔드포인트 요청 완료 시 동작을 추가합니다.
+            };
+            xhr2.send();
+            } else {
+                // 다른 상태 코드 처리
+            }
+        };
+        xhr.send(JSON.stringify(formData));
+    }
+</script>
 </html>

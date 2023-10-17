@@ -19,6 +19,10 @@ public interface UserMapper {
 
    public void updateUser(UserDTO dto) throws Exception;
 
+   public void updateUserRefreshToken(UserDTO dto) throws Exception;
+
+   public String selectRefreshToken(String refreshToken) throws Exception;
+
 
 
 }

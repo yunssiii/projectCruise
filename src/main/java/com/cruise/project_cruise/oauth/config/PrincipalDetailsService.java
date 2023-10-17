@@ -3,6 +3,7 @@ package com.cruise.project_cruise.oauth.config;
 import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,10 +31,12 @@ public class PrincipalDetailsService implements UserDetailsService {
         try {
             userDTO.setEmail(userService.selectEmail(username));
             if (userDTO.getEmail() != null) {
-                userDTO.setUser_password(userService.selectPassWord(username));
-                System.out.println("PrincipalDetailsService: " + userDTO);
-
-                return new PrincipalDetails(userDTO);
+                String password = userService.selectPassWord(username);
+                return User.builder()
+                        .username(userDTO.getEmail())
+                        .password(password)
+                        .roles("USER")  // 사용자의 권한을 설정해야 함 없으면 오류남
+                        .build();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

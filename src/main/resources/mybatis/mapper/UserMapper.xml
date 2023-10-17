@@ -20,6 +20,10 @@
         select user_password from users where email=#{email}
     </select>
 
+    <select id="selectRefreshToken" parameterType="java.lang.String" resultType="java.lang.String">
+        select refreshtoken from users where refreshtoken=#{refreshToken}
+    </select>
+
     <insert id="insertSocialUser" parameterType="com.cruise.project_cruise.dto.UserDTO">
 
         insert into users (email,email_verified,provider,provider_id) values (#{email}, #{email_verified}, #{provider}, #{provider_id})
@@ -33,6 +37,11 @@
         update users set user_name=#{user_name}, tel=#{tel}, address1=#{address1}, address2=#{address2} where email=#{email}
     </update>
 
-    <!-- 여기 아래는 user관련 mapper는 아니지만 다른팀원과 충돌날 우려가 있어서 일단 여기에 만들겠음 -->
+    <update id="updateUserRefreshToken" parameterType="com.cruise.project_cruise.dto.UserDTO">
+        update users set refreshtoken=#{refreshToken} where email=#{email}
+    </update>
+
+
+
 
 </mapper>

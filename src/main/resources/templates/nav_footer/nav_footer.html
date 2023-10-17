@@ -10,6 +10,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+		<script>
+			function logout() {
+                localStorage.removeItem('accessToken');
+                window.location.href = '/logout';
+            }
+		</script>
 
 		<link rel="stylesheet" type="text/css" th:href="@{/css/nav_footer/nav_footer.css}"/>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
@@ -20,7 +26,7 @@
  <th:block th:fragment="header">
 	<nav class="navigator">
 		<div>
-			<a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+			<a href="http://localhost:8082/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
 			</a>
 		</div>
 
@@ -50,15 +56,15 @@
 					<a href="#" >내 게시글 관리</a> 
 					<a href="#" >내 계좌 관리</a>
 					<th:block th:unless="${#authorization.expression('isAuthenticated()')}">
-						<a href="http://localhost:8080/login">로그인</a>
+						<a href="http://localhost:8082/login">로그인</a>
 					</th:block>
 					<th:block th:if="${#authorization.expression('isAuthenticated()')}">
-					<a href="http://localhost:8080/logout" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+					<a onclick="logout()" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
 					</th:block>
 				</div>
 			</div>
 			<div>
-				<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+				<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8082/passbook'">항해시작</button>
 			</div>
 		</div>
 
