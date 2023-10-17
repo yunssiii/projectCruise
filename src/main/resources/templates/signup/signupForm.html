@@ -15,10 +15,30 @@
     <script th:src="@{/js/signUpForm/emailVerify.js}"></script>
     <script th:src="@{/js/signUpForm/passwordToggle.js}"></script>
     <script th:src="@{/js/signUpForm/postCode.js}"></script>
-    <script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const accessToken = localStorage.getItem('accessToken');
+            const isAuthenticated = /*[[${#authorization.expression('isAuthenticated()')}]]*/;
+
+           if (accessToken || isAuthenticated) {
+            }else{
+                showOrText();
+            }
+        });
+
+        function showOrText(){
+
+                    const orText = document.createElement('div');
+                    orText.className = "or-text";
+                    orText.innerHTML = '계정이 있으신가요? <a href="/login">로그인을 해주세요!</a>';
+
+                    const registrationContainer = document.querySelector('.registration-container');
+                    registrationContainer.appendChild(orText);
+
+        }
 
     </script>
-
 
 </head>
 <body>
@@ -84,13 +104,13 @@
                <button class="submit-button" type="submit">가입하기</button>
            </form>
         </div>
-        <div>
-            <th:block th:unless="${#authorization.expression('isAuthenticated()')}">
-            <div class="or-text">계정이 있으신가요? <a th:href="@{/login}">로그인을 해주세요!</a></div>
-            </th:block>
-        </div>
+
+
+
     </div>
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
+
+
 
 </body>
 </html>

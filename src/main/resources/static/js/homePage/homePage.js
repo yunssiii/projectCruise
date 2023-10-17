@@ -1,8 +1,8 @@
 // 세션 데이터를 JavaScript로 가져와서 모달에 출력하는 함수
        function showModalWithAjax() {
     var group = document.getElementById("sessionGroup").textContent;
-    var email = document.getElementById("sessionEmail").textContent;
     var num = parseInt(document.getElementById("sessionNum").textContent);
+    var email = document.getElementById("sessionEmail").textContent;
 
     // AJAX 요청 보내기
     $.ajax({

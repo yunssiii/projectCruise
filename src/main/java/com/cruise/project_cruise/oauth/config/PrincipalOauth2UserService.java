@@ -6,6 +6,7 @@ import com.cruise.project_cruise.oauth.provider.KakaoUserInfo;
 import com.cruise.project_cruise.oauth.provider.NaverUserInfo;
 import com.cruise.project_cruise.oauth.provider.OAuth2UserInfo;
 import com.cruise.project_cruise.service.UserService;
+import com.cruise.project_cruise.token.JwtTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -20,6 +21,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserService userService;
+
 
 
 
@@ -89,6 +91,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                 //NewUser면 추가정보 받기전 데이터를 데이터베이스에저장
                 userService.insertSocialUser(userDTO);
             }
+
 
 
 

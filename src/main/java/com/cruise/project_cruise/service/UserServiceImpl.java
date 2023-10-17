@@ -43,5 +43,15 @@ public class UserServiceImpl implements UserService{
         userMapper.updateUser(dto);
     }
 
+    @Override
+    public void updateUserRefreshToken(UserDTO dto) throws Exception {
+        userMapper.updateUserRefreshToken(dto);
+    }
+
+    @Override
+    public String selectRefreshToken(String refreshToken) throws Exception {
+        return userMapper.selectRefreshToken(refreshToken);
+    }
+
 
 }
