@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>모임 전환 페이지</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
+	rel="stylesheet">
+<script src="https://kit.fontawesome.com/f350c9c720.js"
+	crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css" />
+<link rel="stylesheet" type="text/css" href="/css/moim/passbook.css" />
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+</head>
+
+<body class="back">
+	<nav class="navigator">
+		<div>
+			<a href="#" class="logo_cruise"><i class="fa-brands fa-docker"></i>
+				크루즈 </a>
+		</div>
+
+		<div class="navigator_menu">
+			<div>
+				<button id="first_menuButton"
+					class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
+				<div id="first_menu" class="menu-content">
+					<a href="#"> <b>알림!</b><br> <label>모임통장 목표 달성완료!</label>
+
+					</a> <a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
+
+				</div>
+			</div>
+
+			<div>
+				<button id="second_menuButton"
+					class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick"></button>
+				<div id="second_menu" class="menu-content">
+
+					<div>
+						<p style="padding-left: 10px;">
+							이름 <br> aaa123@hanmail.net
+						</p>
+					</div>
+					<a href="#">내 정보 수정하기</a> <a href="#">내 게시글 관리</a> <a href="#">내
+						계좌 관리</a> <a href="#">로그아웃</a>
+				</div>
+			</div>
+			<div>
+				<button class="voyage_button" type="button"
+					onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
+			</div>
+		</div>
+
+	</nav>
+
+	<main>
+		<form action="" method="post" name="myForm">
+			<div class="container">
+
+				<div class="form">
+					<div>
+						<h3>크루즈의 선장이 되어보세요!</h3>
+					</div>
+
+					<div class="form-subject">
+						<label for="account">모임통장 계좌</label>
+						<p style="font-size: 13px; color: gray;">*대출이용계좌, 비활성화계좌는
+							모임통장으로 사용하실수 없습니다.</p>
+					</div>
+					<div class="form-content">
+						<label> <input type="checkbox" name="account_choice"
+							onclick="myAccount(this);" />기존 계좌 선택
+						</label><br>
+
+						<select id="my_account" name="my_account" onchange="selected(this.value)" disabled>
+							<option th:each="account : ${myAccount}" th:value="${account.myaccount_bank + ' ' + account.myaccount_anum}">
+								<span th:text="${account.myaccount_bank + ' ' + account.myaccount_anum}"></span>
+							</option>
+						</select><br>
+
+						<br> <label> <input type="checkbox"
+							name="account_choice" onclick="newAccount(this);" />새로운 계좌 선택
+						</label>
+
+						<button type="button" id='new_account_button' disabled
+								onClick="register();">등록</button>
+						<p style="font-size: 13px; color: blue;">새로운 계좌 등록 되면 메세지 띄우기</p>
+
+						<div id="my_modal" class="modals">
+
+							<div class="modals_content">
+								<div class="close-button" onclick="closeModal()">X</div>
+								<h4>새로운 계좌 불러오기</h4>
+
+								<button type="button" onclick="">등록하기</button>
+								<button type="button" onclick="closeModal()">취소</button>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="form-subject">
+						<label for="crewName">모임통장 이름</label>
+					</div>
+					<div class="form-content">
+						<input class="input" id="crewName" name="crewName" type="text"
+							placeholder="모임통장 이름을 지어주세요" />
+					</div>
+					<div class="form-subject">
+						<label for="crewInfo">모임소개[선택]</label>
+					</div>
+					<div class="form-content">
+						<input class="input" id="crewInfo" name="crewInfo" type="text"
+							   placeholder="모임을 간략히 소개해 주세요" />
+					</div>
+					<div class="form-subject">
+						<label for="crewGoal">목표금액[선택]</label>
+					</div>
+					<div class="form-content">
+						<input class="input" id="crewGoal" name="crewGoal" type="number"
+							placeholder="숫자만 입력해주세요" /> 원
+					</div>
+
+					<div class="form-subject">
+						<label for="crewPaymoney">회비금액</label>
+					</div>
+					<div class="form-content">
+						<input class="input" id="crewPaymoney" name="crewPaymoney"
+							type="number" placeholder="숫자만 입력해주세요" /> 원
+					</div>
+
+					<div class="form-subject">
+						<label for="crewPaydate">납입일</label>
+					</div>
+					<div class="form-content">
+						<input class="input" id="crewPaydate" name="crewPaydate"
+							type="number" placeholder="" /> 일
+					</div>
+
+					<div class="form-subject">
+						<label for="consent">약관동의</label>
+					</div>
+					<div class="form-content">
+						<input id="consent" name="consent" type="checkbox" />본인은 아래 약관을
+						확인하였고 약관에 동의합니다.
+					</div>
+					<div class="form-group">
+						<div class="textbox">
+							<div class="article">
+								<p class="article_text">
+								<h3>제 1 조 목적</h3>
+								이 약관은 주식회사 크루즈뱅크(이하 “크루즈”라 합니다가 제공하는것을 목적으로 합니다.
+
+								<h3>제 2 조 서비스의 종류</h3>
+								크루즈는 고객과의 모임통장서비스 이용계약 성립 시 다음 각 호에 해당하는 서비스를 제공하며, 필요에 따라 각각의
+								서비스를 추가, 변경 및 제한할 수 있으며 그 방법은 이 약관 제 12 조에서 정한 바에 따릅니다. 1. 모임주의
+								모임 만들기를 위한 모임 개설, 모임멤버 초대 서비스 2. 모임주의 모임장부 생성 및 모임멤버의 모임장부 조회서비스
+								3. 모임주의 모임 관리를 위한 회비관리 및 통지 서비스 4. 기타 크루즈가 제공하는 부가 서비스
+								<h3>제 3 조 서비스 이용 시 제한사항</h3>
+								① 모임통장서비스가 신청된 모임통장 대상계좌에 대하여는 다음 각 호의 서비스 이용이 제한됩니다. 1. 마이너스통장
+								대출, 비상금 대출 등 한도 대출 이용 2. 대출 원리금 납부 계좌로 이용
+								<h3>제 4 조 면책조항</h3>
+								① 모임주는 모임통장 대상계좌 관련 정보를 모임멤버에게 제공하기 위해 크루즈의 모바일앱 등을 이용할 수 있습니다.
+								이 경우 모임주가 직접 자신의 책임 하에 정보를 모임멤버에게 게시·전달하는것으로 보며, 카카오뱅크는 모임주의 정보
+								전달과 관련하여 그 내역 등을 기록, 관리, 통보할 의무 등을 부 담하지 않습니다. ② 크루즈는 모임주가 입력 또는
+								게시, 전달한 정보의 정확성 및 유효성을 확인할 책임이 없으며, 모임주가 입력 또는 게시·전달한 정보·사실의
+								신뢰도, 내용의 정확성 등에 관하여 보증하거나 책임을 지지 않습니다. ③ 크루즈는 모임주 및 모임멤버간 또는 그와
+								제 3 자 상호 간에 서비스를 매개로 발생한 거래, 분쟁에 대해서는 개입할 의무가 없으며 크루즈의 고의 또는 과실이
+								없는 한 책임의 전부 또는 일부를 지지 않습니다.
+								<h3>제 5 조 약관의 변경</h3>
+								크루즈가 이 약관을 변경하고자 하는 경우에는 「전자금융거래 기본약관」의 약관의 변경조항을 준용합니다.
+								<h3>제 6 조 관할법원</h3>
+								모임통장서비스에 관한 분쟁이 발생한 경우에는 크루즈와 고객이 합의로 해결함을 원칙으로 합니다. 다만, 당사자 간에
+								합의할 수 없거나 합의가 이루 어지지 않는 경우 관할법원은 민사소송법에서 정하는 바에 따릅니다.
+							</div>
+						</div>
+					</div>
+
+					<div class="container" id="container">
+						<button type="button" id="btn-modal" class="start_button"
+							onClick="sendIt()">전환신청</button>
+					</div>
+
+					<div id="modal" class="modal-overlay">
+						<div class="modal-window">
+							<div class="title">
+							<div class="close-area">X</div>
+								<h3>모임통장 신청완료</h3>
+								<p>이제 모임통장에 친구를 초대해보세요</p>
+							</div>
+							
+							<div class="content">
+								<table>
+									<tr>
+										<td colspan="2" style="border-bottom: 3px solid #BDBDBD;"></td>
+									</tr>
+									<tr>
+										<td>모임 통장 이름</td>
+										<td id="crewNameTd">겸둥이들 먹방 회비</td>
+									</tr>
+									<tr>
+										<td>계좌번호</td>
+										<td id="accountTd">110-234-56789</td>
+									</tr>
+									<tr>
+										<td>모임통장 개설일</td>
+										<td id="createdTd">2023.09.20 15:47:54</td>
+									</tr>
+									<tr>
+										<td colspan="2" style="border-top: 3px solid #BDBDBD;"><p style="font-size: 13px;">* 모임통장 신청일 이후 내역부터 멤버들에게 보여집니다.</p></td>
+									</tr>
+								</table>
+							</div>
+
+							<div class="container">
+								<button type="button" class="btn" onClick="">친구 초대하기</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</main>
+
+
+	<footer>
+		<div class="footer">
+			<div class="footer_container">
+				<div class="footer_menu">
+					<p>
+						<i class="fa-brands fa-docker"> 크루즈㈜ </i><br> <br> 대표이사
+						홍길동 | 사업자등록번호 166-15-01234 | 서울특별시 강남구 테헤란로 1244층 (역삼동, 삼원타워) <br>
+					</p>
+					<p>
+						<i class="fa-solid fa-phone fa-2xs"></i> 유선 상담 1998-0917 평일
+						09:00~18:00 (은행 휴무일 제외)
+					</p>
+				</div>
+				<div class="last_line">
+					<b>© Cruise. All rights reserved</b>
+				</div>
+			</div>
+		</div>
+
+	</footer>
+
+
+<script type="text/javascript" src="/js/nav.js"></script>
+<script type="text/javascript" src="/js/moim/passbook.js"></script>
+
+</body>
+</html>

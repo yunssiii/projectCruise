@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.MoimPassbookMapper">
+
+<select id="maxCrewNum" resultType="int">
+	select nvl(max(crew_num),0) from crew
+</select>
+
+<insert id="insertCrew" parameterType="com.cruise.project_cruise.dto.CrewDTO">
+	insert into crew (crew_num, crew_name, crew_info, captain_email,
+	crew_created, crew_paydate, crew_paymoney, crew_goal, crew_accountid, crew_bank)
+	values (#{crew_num}, #{crew_name}, #{crew_info}, #{captain_email},
+	sysdate, #{crew_paydate}, #{crew_paymoney}, #{crew_goal}, #{crew_accountid}, #{crew_bank})
+</insert>
+
+<insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
+	insert into crew_member (crew_num, cmem_email, captain_YN,
+	join_date, total_pay, must_paycount, real_paycount)
+	values (#{crew_num}, #{cmem_email}, #{captain_YN},
+	sysdate, #{total_pay}, #{must_paycount}, #{real_paycount})
+</insert>
+
+<select id="getMyAccount" parameterType="String"
+		resultType="com.cruise.project_cruise.dto.MyAccountDTO">
+	select myaccount_bank, myaccount_anum from my_account
+	where email = #{email} order by myaccount_date
+</select>
+
+</mapper>
