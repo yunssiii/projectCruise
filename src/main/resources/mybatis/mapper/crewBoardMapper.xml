@@ -71,16 +71,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE c.crew_num = #{crew_num}
 	)
 	<![CDATA[
-WHERE ROWNUM <= 1
-]]>
+	WHERE ROWNUM <= 1
+	]]>
 </select>
 
 <select id="checkCaptain" resultType="String" parameterType="String">
 	select captain_yn from crew_member
 	where cmem_email=#{email} and
 	<![CDATA[
-ROWNUM <= 1
-]]>
+	ROWNUM <= 1
+	]]>
+</select>
+
+<select id="getUserName" resultType="String" parameterType="String">
+	select user_name from users where email = #{email};
 </select>
 
 </mapper>

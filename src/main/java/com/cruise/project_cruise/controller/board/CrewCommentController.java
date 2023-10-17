@@ -1,6 +1,5 @@
 package com.cruise.project_cruise.controller.board;
 
-import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewCommentService;
@@ -33,25 +32,26 @@ public class CrewCommentController {
     @PostMapping("create")
     public String createComment(CrewCommentDTO dto, HttpServletRequest request) throws Exception {
 
-        int num = Integer.parseInt(request.getParameter("num"));
-
-        int maxNum = crewCommentService.maxNum();
-        dto.setComment_num(maxNum + 1);
-
         HttpSession session = request.getSession();
-        CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
+        String userEmail = (String)session.getAttribute("email");
 
-        if(userInfo != null) {
-            dto.setCrew_num(userInfo.getCrew_num());
+        int num = Integer.parseInt(request.getParameter("num"));
+        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        String userName = crewBoardService.getUserName(userEmail);
+
+        if(userEmail != null) {
+            int maxNum = crewCommentService.maxNum();
+            dto.setComment_num(maxNum + 1);
+            dto.setCrew_num(crewNum);
             dto.setBoard_num(num);
-            dto.setEmail(userInfo.getEmail());
-            dto.setName(userInfo.getName());
+            dto.setEmail(userEmail);
+            dto.setName(userName);
 
             crewCommentService.insertData(dto);
 
-            return "userInfoOK";
+            return "InsertComment";
         } else {
-            return "userInfoNull";
+            return "InsertCommentFail";
         }
 
     }
@@ -61,16 +61,9 @@ public class CrewCommentController {
 
         int comment_num = Integer.parseInt(request.getParameter("comment_num"));
 
-        HttpSession session = request.getSession();
-        CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
+        crewCommentService.deleteData(comment_num);
 
-        if(userInfo != null) {
-            crewCommentService.deleteData(comment_num);
-
-            return "userInfoOK";
-        } else {
-            return "userInfoNull";
-        }
+        return "DeleteComment";
     }
 
     @PostMapping("update")
@@ -79,46 +72,41 @@ public class CrewCommentController {
         int num = Integer.parseInt(request.getParameter("commentNum"));
         String content = request.getParameter("commentContent");
 
-        HttpSession session = request.getSession();
-        CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
+        dto.setComment_num(num);
+        dto.setComment_content(content);
+        crewCommentService.updateData(dto);
 
-        if(userInfo != null) {
-            dto.setComment_num(num);
-            dto.setComment_content(content);
-            crewCommentService.updateData(dto);
-
-            return "userInfoOK";
-        } else {
-            return "userInfoNull";
-        }
+        return "UpdateComment";
     }
 
     @PostMapping("insertReply")
     public String insertCommentReply(CrewCommentDTO dto, HttpServletRequest request) throws Exception {
 
+        HttpSession session = request.getSession();
+        String userEmail = (String)session.getAttribute("email");
+
         int num = Integer.parseInt(request.getParameter("num"));
+        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        String userName = crewBoardService.getUserName(userEmail);
+
         int CommentNum = Integer.parseInt(request.getParameter("commentNum"));
         String content = request.getParameter("replyContent");
 
-        HttpSession session = request.getSession();
-        CrewBoardDTO userInfo = (CrewBoardDTO) session.getAttribute("userInfo");
-
-        if(userInfo != null) {
+        if(userEmail != null) {
             int maxNum = crewCommentService.maxNum();
-
             dto.setComment_num(maxNum + 1);
-            dto.setCrew_num(userInfo.getCrew_num());
+            dto.setCrew_num(crewNum);
             dto.setBoard_num(num);
-            dto.setEmail(userInfo.getEmail());
-            dto.setName(userInfo.getName());
+            dto.setEmail(userEmail);
+            dto.setName(userName);
             dto.setComment_content(content);
             dto.setRef_no(CommentNum);
 
             crewCommentService.insertCommentReply(dto);
 
-            return "userInfoOK";
+            return "InsertReply";
         } else {
-            return "userInfoNull";
+            return "InsertReplyFail";
         }
 
     }
