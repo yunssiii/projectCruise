@@ -108,8 +108,6 @@
 <!--제이쿼리-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    var form = document.myForm;
-
 
     // 내역등록 폼 tr 추가
     $('#addUsingForm').click(function(){
@@ -118,20 +116,20 @@
             "<tr id='"+ num +"'>" +
             "<td>" + num + "</td>\n" +
             "<td>\n" +
-            "<input type=\"datetime-local\" name=\"openuse_date\" class=\"xLong\">\n" +
+            "<input id=\"openUseDate" + num + "\" type=\"datetime-local\" name=\"openuse_date\" class=\"xLong\">\n" +
             "</td>\n" +
             "<td>\n" +
-            "<select id='IOSelector' name=\"openuse_assort\">\n" +
+            "<select id=\"IOSelector" + num +  "\" name=\"openuse_assort\">\n" +
             "<option class=\"middle\" disabled selected value=''>선택</option>\n" +
             "<option value=\"I\" class=\"middle\">입금</option>\n" +
             "<option value=\"O\" class=\"middle\">출금</option>\n" +
             "</select>\n" +
             "</td>\n" +
             "<td>\n" +
-            "<input class=\"middle\" type=\"text\" name=\"openuse_outmoney\">\n" +
+            "<input id=\"outMoney" + num +"\" class=\"middle\" type=\"text\" name=\"openuse_outmoney\">\n" +
             "</td>\n" +
             "<td>\n" +
-            "<input class=\"middle\" type=\"text\" name=\"openuse_inmoney\">\n" +
+            "<input id=\"inMoney" + num +"\" class=\"middle\" type=\"text\" name=\"openuse_inmoney\">\n" +
             "</td>\n" +
             "<td>\n" +
             "<input class=\"long\" type=\"text\" name=\"openuse_content\">\n" +
@@ -144,25 +142,24 @@
             "</tr>"
 
         $('#usingListTable').append(html)
-
-        form.openuse_date.value = $('#lastDate').text();
+        $('#openUseDate'+num).val($('#lastDate').text());
 
         $('#addCancel'+num).click(function(){
             console.log(num);
             $('#'+num).remove()
         })
 
-        $('#IOSelector').on('change',function() {
-            if($('#IOSelector').val()==='I') {
-                form.openuse_inmoney.disabled = false;
-                form.openuse_inmoney.value = "";
-                form.openuse_outmoney.disabled = true;
-                form.openuse_outmoney.value = 0;
-            } else if($('#IOSelector').val()==='O') {
-                form.openuse_outmoney.disabled = false;
-                form.openuse_outmoney.value = "";
-                form.openuse_inmoney.disabled = true;
-                form.openuse_inmoney.value = 0;
+        $('#IOSelector'+num).on('change',function() {
+            if($('#IOSelector'+num).val()==='I') {
+                $('#inMoney'+num).prop('disabled', false);
+                $('#inMoney'+num).val("");
+                $('#outMoney'+num).prop('disabled', true);
+                $('#outMoney'+num).val(0)
+            } else if($('#IOSelector'+num).val()==='O') {
+                $('#outMoney'+num).prop('disabled', false);
+                $('#outMoney'+num).val("");
+                $('#inMoney'+num).prop('disabled', true);
+                $('#inMoney'+num).val(0);
             }
         })
     })
@@ -309,7 +306,6 @@
         form.action = "/develop/openbank/using/deleteInquiry";
         form.submit();
     }
-
 
 </script>
 
