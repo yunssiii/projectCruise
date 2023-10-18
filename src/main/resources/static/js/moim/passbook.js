@@ -48,14 +48,26 @@ function sendIt(){
      // 필수 입력 항목이 모두 입력되었을 때만 모달 창을 엽니다.
     const modal = document.getElementById("modal")
     modal.style.display = "flex";
+
+    // 모임 통장 이름, 계좌 번호를 모달 창으로 전달
+    var crewNameValue = document.getElementById("crewName").value;
+    document.getElementById("crewNameTd").innerText = crewNameValue;
+
+    var accountSelect = document.getElementById("my_account");
+    var accountValue = accountSelect.options[accountSelect.selectedIndex].text;
+    document.getElementById("accountTd").innerText = accountValue;
+
+    var createdTdElement = document.getElementById("createdTd");
+    var currentDate = new Date();
+    var formattedDate = currentDate.toLocaleString(); // 예: "2023-09-20 15:47:54"
+    createdTdElement.textContent = formattedDate;
 }
 
-	const closeBtn = document.querySelector(".close-area")
-	closeBtn.addEventListener("click", e => {
+const closeBtn = document.querySelector(".close-area")
+closeBtn.addEventListener("click", e => {
     const modal = document.getElementById("modal")
     modal.style.display = "none"
     window.location.href = "http://localhost:8082/mypage/mypage_all";
-
 });
 
 //체크박스 선택시 활성화(기존계좌)
