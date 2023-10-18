@@ -38,7 +38,7 @@ public class CrewBoardController {
 		ModelAndView mav = new ModelAndView();
 
 		if(userEmail == null) {
-			mav.setViewName("redirect:/main");
+			mav.setViewName("redirect:/");
 			return mav;
 		}
 
@@ -76,7 +76,7 @@ public class CrewBoardController {
 		ModelAndView mav = new ModelAndView();
 
 		if(userEmail == null) {
-			mav.setViewName("redirect:/main");
+			mav.setViewName("redirect:/");
 			return mav;
 		}
 
@@ -164,7 +164,7 @@ public class CrewBoardController {
 		ModelAndView mav = new ModelAndView();
 
 		if(userEmail == null) {
-			mav.setViewName("redirect:/main");
+			mav.setViewName("redirect:/");
 			return mav;
 		}
 
@@ -228,7 +228,7 @@ public class CrewBoardController {
 
 		if(dto == null) {
 			ModelAndView mav = new ModelAndView();
-			mav.setViewName("redirect:/main");
+			mav.setViewName("redirect:/");
 			return mav;
 		}
 
@@ -260,7 +260,7 @@ public class CrewBoardController {
 		ModelAndView mav = new ModelAndView();
 
 		if(userEmail == null) {
-			mav.setViewName("redirect:/main");
+			mav.setViewName("redirect:/");
 			return mav;
 		}
 
