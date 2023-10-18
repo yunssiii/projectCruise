@@ -62,7 +62,7 @@ public class CrewBoardController {
 
 		crewBoardService.insertData(dto);
 
-		mav.setViewName("redirect:/board/list");
+		mav.setViewName("redirect:/board/list?crewNum=" + crewNum);
 
 		return mav;
 	}

@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게 시 판</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>게 시 판</title>
 
-<link rel="stylesheet" type="text/css" href="/css/board/style.css"/>
-<link rel="stylesheet" type="text/css" href="/css/board/list.css"/>
-<link rel="stylesheet" type="text/css" href="/css/board/created.css"/>
-<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="/css/board/style.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/board/list.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/board/created.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+	<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+	<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script type="text/javascript">
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+	<script type="text/javascript">
 
-	function searchIt() {
-		var f = document.searchForm;
+		function searchIt() {
+            var f = document.searchForm;
 
-		f.action = "/board/list";
-		f.submit();
-	}
+            f.action = "/board/list?crewNum=" + [[${crewNum}]];
+            f.submit();
+        }
 
-</script>
+	</script>
 
 
 </head>
@@ -134,15 +134,15 @@
 		</table>
 
 		<div id="footer">
-		<form action="" method="get" name="searchForm">
-			<select name="searchKey" class="selectFiled">
-				<option value="board_subject">제목</option>
-				<option value="name">작성자</option>
-				<option value="board_content">내용</option>
-			</select>
-			<input type="text" name="searchValue" class="textFiled"/>
-			<input type="button" value=" 검 색 " class="bbs_button" onclick="searchIt();"/>
-		</form>
+			<form action="" method="get" name="searchForm">
+				<select name="searchKey" class="selectFiled">
+					<option value="board_subject">제목</option>
+					<option value="name">작성자</option>
+					<option value="board_content">내용</option>
+				</select>
+				<input type="text" name="searchValue" class="textFiled"/>
+				<input type="button" value=" 검 색 " class="bbs_button" onclick="searchIt();"/>
+			</form>
 		</div>
 	</div>
 </div>
@@ -168,111 +168,112 @@
 </footer>
 
 <script type="text/javascript" th:inline="javascript">
-/*<![CDATA[*/
-	var postFormHTML = `
+	/*<![CDATA[*/
+        var postFormHTML = `
 
-		<div id="bbs">
-			<form action="/board/created" method="post" name="myForm" id="myForm" enctype="multipart/form-data">
-			<div id="bbsCreated">
-				<div class="bbsCreated_bottomLine">
-					<dl>
-						<dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>
-						<dd>
-						<input type="text" name="board_subject" size="60" maxlength="100"
-						class="boxTF" autocomplete="off"/>
-						</dd>
-					</dl>
-				</div>
+            <div id="bbs">
+                <form action="/board/created" method="post" name="myForm" id="myForm" enctype="multipart/form-data">
+                <div id="bbsCreated">
+                    <div class="bbsCreated_bottomLine">
+                        <dl>
+                            <dt>제&nbsp;&nbsp;&nbsp;&nbsp;목</dt>
+                            <dd>
+                            <input type="text" name="board_subject" size="60" maxlength="100"
+                            class="boxTF" autocomplete="off"/>
+                            </dd>
+                        </dl>
+                    </div>
 
-				<div id="bbsCreated_content">
-					<dl>
-						<dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
-						<dd>
-						<textarea rows="12" cols="63" name="board_content" class="boxTA"
-						style="resize: none; background-color: #ffffff; line-height: 1.3;"></textarea>
-						</dd>
-					</dl>
-				</div>
-				</div>
+                    <div id="bbsCreated_content">
+                        <dl>
+                            <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
+                            <dd>
+                            <textarea rows="12" cols="63" name="board_content" class="boxTA"
+                            style="resize: none; background-color: #ffffff; line-height: 1.3;"></textarea>
+                            </dd>
+                        </dl>
+                    </div>
+                    </div>
 
-				<div id="bbsCreated_footer">
-					<input type="hidden" name="notice" id="noticeInput" value="0" />
-					<input type="button" value=" 등록하기 " class="bbs_button" onclick="sendIt()"/>
-					<input type="button" value=" 취소하기 " class="bbs_button"
-							onclick="javascript:location.href='/board/list';"/>
-				</div>
+                    <div id="bbsCreated_footer">
+                        <input type="hidden" name="notice" id="noticeInput" value="0" />
+                        <input type="button" value=" 등록하기 " class="bbs_button" onclick="sendIt()"/>
+                        <input type="button" value=" 취소하기 " class="bbs_button"
+                                onclick="javascript:location.href='/board/list?crewNum=[[${crewNum}]]'"/>
+                    </div>
 
-			</form>
-		</div>
-		`;
+                </form>
+            </div>
+            `;
 
-	// "글올리기" 버튼을 찾아 클릭 이벤트 리스너 추가
-	var openFormButton = document.getElementById("openFormButton");
-	openFormButton.addEventListener("click", function () {
-		// 게시물 등록 폼으로 밑의 부분을 변경
-		document.getElementById("bbsList_list").innerHTML = postFormHTML;
-		openFormButton.style.display = "none";
-		noticeBtn.style.display = "none";
-	});
+        // "글올리기" 버튼을 찾아 클릭 이벤트 리스너 추가
+        var openFormButton = document.getElementById("openFormButton");
+        openFormButton.addEventListener("click", function () {
+            // 게시물 등록 폼으로 밑의 부분을 변경
+            document.getElementById("bbsList_list").innerHTML = postFormHTML;
+            openFormButton.style.display = "none";
+            noticeBtn.style.display = "none";
+        });
 
-	// "공지" 버튼을 찾아 클릭 이벤트 리스너 추가
-	var noticeBtn = document.getElementById("noticeBtn");
-	noticeBtn.addEventListener("click", function () {
-		// 게시물 등록 폼으로 밑의 부분을 변경
-		document.getElementById("bbsList_list").innerHTML = postFormHTML;
-		noticeInput.value = 1;
-		noticeBtn.style.display = "none";
-		openFormButton.style.display = "none";
+        // "공지" 버튼을 찾아 클릭 이벤트 리스너 추가
+        var noticeBtn = document.getElementById("noticeBtn");
+        noticeBtn.addEventListener("click", function () {
+            // 게시물 등록 폼으로 밑의 부분을 변경
+            document.getElementById("bbsList_list").innerHTML = postFormHTML;
+            noticeInput.value = 1;
+            noticeBtn.style.display = "none";
+            openFormButton.style.display = "none";
 
-		// 제목 필드에 "[공지]" 자동 입력
-		var subjectField = document.querySelector("input[name=board_subject]");
-		if (subjectField) {
-			subjectField.value = "[공지] ";
-		}
-	});
+            // 제목 필드에 "[공지]" 자동 입력
+            var subjectField = document.querySelector("input[name=board_subject]");
+            if (subjectField) {
+                subjectField.value = "[공지] ";
+            }
+        });
 
-	function sendIt(){
-		console.log(noticeInput.value);
+        function sendIt(){
+            console.log('notice: ' + noticeInput.value);
+            console.log('crewNum: ' + [[${crewNum}]]);
 
-		var f = document.getElementById("myForm");
+            var f = document.getElementById("myForm");
 
-		str = f.board_subject.value;
-		str = str.trim();
-		if(!str){
-			alert("\n제목을 입력하세요.");
-			f.board_subject.focus();
-			return;
-		}
-		f.board_subject.value = str;
+            str = f.board_subject.value;
+            str = str.trim();
+            if(!str){
+                alert("\n제목을 입력하세요.");
+                f.board_subject.focus();
+                return;
+            }
+            f.board_subject.value = str;
 
-		str = f.board_content.value;
-		str = str.trim();
-		if(!str){
-			alert("\n내용을 입력하세요.");
-			f.board_content.focus();
-			return;
-		}
-		f.board_content.value = str;
+            str = f.board_content.value;
+            str = str.trim();
+            if(!str){
+                alert("\n내용을 입력하세요.");
+                f.board_content.focus();
+                return;
+            }
+            f.board_content.value = str;
 
-		var formData = new FormData(f);
+            var formData = new FormData(f);
 
-		formData.append("notice", noticeInput.value);
+            formData.append('notice', noticeInput.value);
+            formData.append('crewNum', [[${crewNum}]]);
 
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "/board/created", true);
-		xhr.onload = function () {
-			if (xhr.status === 200) {
-				window.location.href = '/board/list';
-			} else {
-				// Handle errors
-				alert("Error: " + xhr.statusText);
-			}
-		};
-		xhr.send(formData);
-		openFormButton.style.display = "inline-block";
-		noticeBtn.style.display = "inline-block";
-	}
-/*]]>*/
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/board/created', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    window.location.href = '/board/list?crewNum=[[${crewNum}]]';
+                } else {
+                    alert("Error: " + xhr.status);
+                }
+            };
+            xhr.send(formData);
+            openFormButton.style.display = "inline-block";
+            noticeBtn.style.display = "inline-block";
+        }
+    /*]]>*/
 </script>
 
 <script type="text/javascript" src="/js/nav.js"></script>
