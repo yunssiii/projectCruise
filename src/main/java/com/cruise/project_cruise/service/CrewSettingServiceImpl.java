@@ -24,6 +24,16 @@ public class CrewSettingServiceImpl implements CrewSettingService {
     }
 
     @Override
+    public void updateCrewSche(ScheduleDTO scheduleDTO) throws Exception {
+        crewSettingMapper.updateCrewSche(scheduleDTO);
+    }
+
+    @Override
+    public void deleteCrewSche(int scheNum) throws Exception {
+        crewSettingMapper.deleteCrewSche(scheNum);
+    }
+
+    @Override
     public int getScheMaxNum() throws Exception {
         return crewSettingMapper.getScheMaxNum();
     }

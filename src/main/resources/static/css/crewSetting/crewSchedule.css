@@ -13,8 +13,14 @@
     height: 30px;
 }
 
+.hiddenBtn {
+    display: none;
+    height: 0;
+}
+
 /* ------ 모달 ------ */
-#scheModalBg {
+
+#scheModalBg { /*모달 배경 */
     position: fixed;
     top: 0;
     left: 0;
@@ -25,58 +31,13 @@
     backdrop-filter: blur(3px);
 }
 
-#addScheModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    border-radius: 10px;
-    width: 500px;
-    height: 550px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
-}
-
-#scheModalBg .scheModal {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    row-gap: 3vh;
-}
-
-.scheModalTopCont {
+.scheModalTopCont { /* 모달 내 제목 */
     display: flex;
     justify-content: space-between;
     margin: 20px 20px 10px 20px;
 }
 
-.scheModalTopCont #addScheTitle {
-    display: flex;
-    flex-wrap: wrap;
-    font-family: 'NanumSquareExtraBold', 'sans-serif';
-    font-size: 18pt;
-    align-content: center;
-}
-
-.scheModalTopCont hr {
-    margin: 10px 20px 10px 20px;
-    width: 95%;
-}
-
-#addScheModalcloseX {
-    font-size: 24pt;
-    cursor: pointer;
-}
-
-.addScheInputCont {
-    display: flex;
-    flex-direction: column;
-    margin: 0 20px;
-}
-
-.addScheInputCont .rowCont {
+.rowCont { /* 모달 내 한 줄 */
     display: flex;
     font-size: 14pt;
     justify-content: space-between;
@@ -87,134 +48,251 @@
     transition: height 0.5s ease;
 }
 
-#allDayChk {
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-}
+    /* --- 일정 추가 모달 --- */
+    #addScheModal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        border-radius: 10px;
+        width: 500px;
+        height: 550px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    }
 
-#scheTitle {
-    border: none;
-    font-size: 16pt;
-    width: 100%;
-    height: 50px;
-    padding: 0 10px;
-    border-radius: 5px;
-}
+    #scheModalBg .scheModal {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        row-gap: 3vh;
+    }
 
-.start, .end {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
 
-.start {margin-left: 40px;}
 
-.end {margin-right: 40px;}
+    .scheModalTopCont #addScheTitle {
+        display: flex;
+        flex-wrap: wrap;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 18pt;
+        align-content: center;
+    }
 
-.start input, .end input {
-    border: none;
-    width: 143px;
-    height: 40px;
-    padding: 0 5px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
+    .scheModalTopCont hr {
+        margin: 10px 20px 10px 20px;
+        width: 95%;
+    }
 
-.inputHidden {
-    display: none;
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-}
+    #addScheModalcloseX {
+        font-size: 24pt;
+        cursor: pointer;
+    }
 
-/* 색깔 선택 */
-/* 선택된 색상 */
-#selectedColorCont{
-    border: 2px solid #bebebe;
-    border-radius: 100%;
-    position: relative;
-    margin: 0 10px 0 0;
-    cursor: pointer;
-}
+    .addScheInputCont {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+    }
 
-#selectedColor {
-    border: 3px solid white;
-}
 
-/* 선택 말풍선 */
-.visibleSpeechBubble {
-    display: flex;
-    column-gap: 10px;
-    align-items: center;
-    position: absolute;
-    top: 165px;
-    left: 10px;
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
+
+    #allDayChk {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+    }
+
+    #scheTitle {
+        border: none;
+        font-size: 16pt;
+        width: 100%;
+        height: 50px;
+        padding: 0 10px;
+        border-radius: 5px;
+    }
+
+    .start, .end {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .start {margin-left: 40px;}
+
+    .end {margin-right: 40px;}
+
+    .start input, .end input {
+        border: none;
+        width: 143px;
+        height: 40px;
+        padding: 0 5px;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .inputHidden {
+        display: none;
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    /* 색깔 선택 */
+    /* 선택된 색상 */
+    #selectedColorCont{
+        border: 2px solid #bebebe;
+        border-radius: 100%;
+        position: relative;
+        margin: 0 10px 0 0;
+        cursor: pointer;
+    }
+
+    #selectedColor {
+        border: 3px solid white;
+    }
+
+    /* 선택 말풍선 */
+    .visibleSpeechBubble {
+        display: flex;
+        column-gap: 10px;
+        align-items: center;
+        position: absolute;
+        top: 165px;
+        left: 10px;
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .hiddenSpeechBubble {
+        display: none;
+        height: 0;
+    }
+
+    .assortColors {
+        border: 2px solid white;
+        cursor: pointer;
+    }
+
+    .speechBubble { /* 말풍선 꼬리 */
+        width: 0; height: 0;
+        position: absolute;
+        top: -10px; left: 22px;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 10px solid #ffffff;
+    }
+
+    .selectedColor {
+        border: 3px solid #bebebe;
+    }
+
+    .redSche {
+        border-radius: 100%;
+        background-color: #FF8383;
+        width: 30px; height: 30px;
+    }
+
+    .greenSche {
+        border-radius: 100%;
+        background-color: #22B14C;
+        width: 30px; height: 30px;
+    }
+
+    .yellowSche {
+        border-radius: 100%;
+        background-color: #FFC90E;
+        width: 30px; height: 30px;
+    }
+
+    .blueSche {
+        border-radius: 100%;
+        background-color: #00A5ED;
+        width: 30px; height: 30px;
+    }
+
+    .graySche {
+        border-radius: 100%;
+        background-color: #A1A1A1;
+        width: 30px; height: 30px;
+    }
+    /* --- ------------------- --- */
+    /* --- 일정 자세히보기 모달 --- */
+    #readScheModal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 3;
+        border-radius: 10px;
+        width: 500px;
+        height: 550px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .scheModalTopCont #readScheTitle {
+        display: flex;
+        flex-wrap: wrap;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 18pt;
+        align-content: center;
+    }
+
+    #readScheModalcloseX {
+        font-size: 24pt;
+        cursor: pointer;
+    }
+
+    #readScheModal .start input, #readScheModal .end input {
+        background-color: white;
+    }
+
+/* 삭제 확인 모달*/
+
+#delScheModal_YN {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    border-radius: 10px;
+    width: 500px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.8);
     box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+    padding: 50px 0;
 }
 
-.hiddenSpeechBubble {
+#delScheModal_YN img {
+    margin-bottom: 30px;
+}
+
+#deleteMsg {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 15pt;
+    margin-bottom: 10px;
+}
+
+#delScheOK {
+    background-color: #0C0CCA !important;
+    color: white !important;
+}
+.delYNModalCont {
+    margin: 0;
+}
+
+#scheNum {
     display: none;
     height: 0;
 }
 
-.assortColors {
-    border: 2px solid white;
-    cursor: pointer;
-}
-
-.speechBubble { /* 말풍선 꼬리 */
-    width: 0; height: 0;
-    position: absolute;
-    top: -10px; left: 22px;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 10px solid #ffffff;
-}
-
-.selectedColor {
-    border: 3px solid #bebebe;
-}
-
-.redSche {
-    border-radius: 100%;
-    background-color: #FF8383;
-    width: 30px; height: 30px;
-}
-
-.greenSche {
-    border-radius: 100%;
-    background-color: #22B14C;
-    width: 30px; height: 30px;
-}
-
-.yellowSche {
-    border-radius: 100%;
-    background-color: #FFC90E;
-    width: 30px; height: 30px;
-}
-
-.blueSche {
-    border-radius: 100%;
-    background-color: #00A5ED;
-    width: 30px; height: 30px;
-}
-
-.graySche {
-    border-radius: 100%;
-    background-color: #A1A1A1;
-    width: 30px; height: 30px;
-}
-
-
-
-
-
-/* ------ 풀캘린더 커스텀하기 ------ */
+        /* ------ 풀캘린더 커스텀하기 ------ */
 
 #calendar {
     max-width: 970px;
