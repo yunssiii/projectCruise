@@ -106,7 +106,8 @@
                         </div>
                     </div>
                     <div id="scheModalBg" class="hiddenModal">
-                        <div id="addScheModal">
+                        <div id="addScheModal" class="hiddenModal">
+
                             <form name="scheForm" method="post">
                                 <div class="scheModalTopCont">
                                     <div id="addScheTitle">일정 추가하기</div>
@@ -117,7 +118,7 @@
                                     <div class="rowCont">
                                         <div id="selectedColorCont">
                                             <div id="selectedColor" class="redSche"></div>
-                                            <input type="hidden" id="scheAssort" name="sche_assort" value="#FF8383">
+                                            <input type="hidden" id="scheAssort" name="sche_assort" value="redSche">
                                         </div>
                                         <div id="colorSelectorContainer" class="hiddenSpeechBubble">
                                             <div class="speechBubble"></div>
@@ -153,13 +154,23 @@
                                         </div>
                                     </div>
                                     <div class="buttonCont">
-                                        <button type="button" id="addScheOK" th:onclick="addScheOKBtnClick([[${crewNum}]])">추가하기</button>
+                                        <button type="button" class="hiddenBtn" id="addScheOK" th:onclick="addScheOKBtnClick([[${crewNum}]])">추가하기</button>
+                                        <button type="button" class="hiddenBtn" id="updateScheOK">수정하기</button>
+                                        <button type="button" class="hiddenBtn" id="delSche">삭제하기</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div id="addScheOKModal">
-                            추가 완료용
+                        <div id="delScheModal_YN" class="hiddenModal">
+                            <div class="delYNModalCont">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Dotted%20Line%20Face.png"
+                                     alt="Dotted Line Face" width="150" height="150" />
+                                <div id="deleteMsg"></div>
+                                <div class="buttonCont">
+                                    <button type="button" id="delScheOK">확인</button>
+                                    <button type="button" id="delScheCancel">취소</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
