@@ -153,7 +153,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                             }
                         }));
 
-        filterChain.doFilter(request, response);
+       // filterChain.doFilter(request, response); /loginProcessing을 제외한 모든 url은 필터 체크를 하기 때문에 모든 Url에서 처음에 토큰값도 없으니 두번씩 화면이 나오는것이였음
     }
 
     /**

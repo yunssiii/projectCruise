@@ -1,3 +1,5 @@
+
+(function(){
 let navButtonClick = document.getElementsByClassName("navButtonClick");
 
    function handleClick(event) {
@@ -75,4 +77,5 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
 				
 			}
 		});
+		})();
 		

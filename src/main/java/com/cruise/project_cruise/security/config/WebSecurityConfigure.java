@@ -45,6 +45,9 @@ public class WebSecurityConfigure {
         return new JwtAuthenticationProcessingFilter(passwordUtil, jwtTokenizer, userService);
     }
 
+    @Autowired
+    private CustomAuthenticaionSuccessHandler customAuthenticaionSuccessHandler;
+
     PasswordUtil passwordUtil;
     @Autowired
     private JwtTokenizer jwtTokenizer;
@@ -67,6 +70,7 @@ public class WebSecurityConfigure {
         http
 
                 .formLogin().disable()
+
                 .httpBasic().disable()
                 .csrf().disable()
                 .headers().frameOptions().disable()
@@ -83,7 +87,8 @@ public class WebSecurityConfigure {
                 .permitAll()
                 .and()
                 .oauth2Login()
-                .loginPage("/signup") //구글 로그인이 완료된 뒤의 후처리가 필요함. Tip.(액세스토큰+사용자프로필정보를 받음)//defaultsuccessurl-- login으로 와서 로그인 완료하면 /가지만 다른 url로 온경우에는 그 Url로 보내
+                .loginPage("/signup")
+                .successHandler(customAuthenticaionSuccessHandler)//구글 로그인이 완료된 뒤의 후처리가 필요함. Tip.(액세스토큰+사용자프로필정보를 받음)//defaultsuccessurl-- login으로 와서 로그인 완료하면 /가지만 다른 url로 온경우에는 그 Url로 보내
                 .userInfoEndpoint()
                 .userService(principalOauth2UserService);
 
