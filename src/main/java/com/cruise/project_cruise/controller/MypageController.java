@@ -3,10 +3,16 @@ package com.cruise.project_cruise.controller;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.MypageService;
 import com.cruise.project_cruise.token.JwtTokenizer;
 import com.cruise.project_cruise.util.CrewBoardUtil;
+
 import lombok.RequiredArgsConstructor;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -20,9 +26,13 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import java.util.Optional;
+
+
 
 
 @Controller
@@ -44,7 +54,9 @@ public class MypageController {
     /*
         로그인 후 바로 연결되는 마이페이지 메인창 메소드
         크루와 계좌 0이면 zero페이지 보여지고
-        0 이상이면 all페이지 보여짐 
+        0 이상이면 all페이지 보여짐
+        --
+        일정 달력 조회
      */
 
 
@@ -185,6 +197,112 @@ public class MypageController {
      */
 
     /*
+        계좌 내역 조회
+     */
+    @PostMapping("/mypage/useAccount")
+    public List<Map<String,Object>> useAccount(@RequestParam("accountNum") String accountNum,
+                                   @RequestParam("months") int months) throws Exception{
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        System.out.println("Month : " + months);
+        System.out.println("------계좌번호 : "+accountNum);
+
+        if(months == 1){
+            List<OpenBankUsingDTO> useAccounts1 = mypageService.getUseAccounts(accountNum,months);
+
+            for(int i=0;i<useAccounts1.size();i++){
+                hashMap.put("openUseDate", useAccounts1.get(i).getOpenuse_date());
+                hashMap.put("openUseContent", useAccounts1.get(i).getOpenuse_content());
+                hashMap.put("openuseAssort", useAccounts1.get(i).getOpenuse_assort());
+                hashMap.put("openUseIn", useAccounts1.get(i).getOpenuse_inmoney());
+                hashMap.put("openUseOut", useAccounts1.get(i).getOpenuse_outmoney());
+
+                jsonObject = new JSONObject(hashMap);
+                jsonArray.add(jsonObject);
+            }
+
+            System.out.println("1달 계좌내역-> " + jsonArray);
+
+            return jsonArray;
+
+        }else if(months == 3){
+
+            List<OpenBankUsingDTO> useAccounts2 = mypageService.getUseAccounts(accountNum,months);
+
+            for(int i=0;i<useAccounts2.size();i++){
+                hashMap.put("openUseDate", useAccounts2.get(i).getOpenuse_date());
+                hashMap.put("openUseContent", useAccounts2.get(i).getOpenuse_content());
+                hashMap.put("openuseAssort", useAccounts2.get(i).getOpenuse_assort());
+                hashMap.put("openUseIn", useAccounts2.get(i).getOpenuse_inmoney());
+                hashMap.put("openUseOut", useAccounts2.get(i).getOpenuse_outmoney());
+
+                jsonObject = new JSONObject(hashMap);
+                jsonArray.add(jsonObject);
+            }
+
+            System.out.println("3달 계좌내역-> " + jsonArray);
+
+            return jsonArray;
+
+        }else if(months == 6){
+
+
+            List<OpenBankUsingDTO> useAccounts3 = mypageService.getUseAccounts(accountNum,months);
+
+            for(int i=0;i<useAccounts3.size();i++){
+                hashMap.put("openUseDate", useAccounts3.get(i).getOpenuse_date());
+                hashMap.put("openUseContent", useAccounts3.get(i).getOpenuse_content());
+                hashMap.put("openuseAssort", useAccounts3.get(i).getOpenuse_assort());
+                hashMap.put("openUseIn", useAccounts3.get(i).getOpenuse_inmoney());
+                hashMap.put("openUseOut", useAccounts3.get(i).getOpenuse_outmoney());
+
+
+                jsonObject = new JSONObject(hashMap);
+                jsonArray.add(jsonObject);
+            }
+
+            System.out.println("6달 계좌내역-> " + jsonArray);
+
+            return jsonArray;
+        }
+
+        return jsonArray;
+
+    }
+
+    /*
+        계좌명 수정
+        수정 후 뿌려주기 위해 다시 조회
+     */
+    @PostMapping("/mypage/updateAname")
+    public List<Map<String,Object>> updateAname(@RequestParam("openAccount") String openAccount,@RequestParam("openAname") String openAname) throws Exception{
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        String email = "hchdbsgk@naver.com";
+
+        mypageService.updateAname(openAname,openAccount); //계좌명 수정
+        List<OpenBankDTO> accountLists = mypageService.getAccounts(email); //가상계좌정보
+
+        for(int i=0;i<accountLists.size();i++){
+            hashMap.put("selectAname", accountLists.get(i).getOpen_aname());
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+
+        }
+
+        System.out.println("변경된 계좌명-> " + jsonArray);
+
+        return jsonArray;
+    }
+
+    /*
         크루 '탈퇴하기' 버튼 누를 때 get방식으로 삭제하는 메소드
      */
     @GetMapping("/mypage/mypage_all_ok")
@@ -247,6 +365,38 @@ public class MypageController {
     }
 
     /*
+        일정 조회
+     */
+    @RequestMapping("/mypage/mypage_all_sche")
+    @ResponseBody
+    public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
+
+        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        for (int i=0;i<myScheLists.size();i++) {
+            hashMap.put("title", myScheLists.get(i).getSche_title());
+            hashMap.put("start", myScheLists.get(i).getSche_start());
+            hashMap.put("end", myScheLists.get(i).getSche_end());
+            hashMap.put("allDay", myScheLists.get(i).getSche_alldayTF());
+            hashMap.put("color", myScheLists.get(i).getSche_assort());
+            hashMap.put("textColor", "#FFFFFF");
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+        }
+
+        System.out.println("이거2-> " + jsonArray);
+
+        return jsonArray;
+    }
+
+
+    /*
         내 정보 수정 페이지
      */
     @GetMapping("mypage/mypage_myInfo")
@@ -285,7 +435,7 @@ public class MypageController {
             currentPage = Integer.parseInt(pageNum);
         }
 
-        int boardCount = mypageService.getBoadCount(email);
+        int boardCount = mypageService.getBoardCount(email);
 
         int numPerPage = 5; //한 페이지 표시될 게시글 수
         int totalPage = myUtil.getPageCount(numPerPage,boardCount);

@@ -4,12 +4,46 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewSettingMapper">
-<!--    해당 크루의 스케줄을 불러오는 쿼리 -->
+    <!-- 스케줄 관리 -->
+    <!--    해당 크루의 스케줄을 불러오는 쿼리 -->
     <select id="getCrewScheList" parameterType="int" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
         select CREW_NUM, SCHE_NUM, SCHE_TITLE, SCHE_ASSORT, SCHE_START, SCHE_END, SCHE_ALLDAYTF
         from SCHEDULE
         where CREW_NUM = #{crew_num}
     </select>
+
+    <!-- 스케줄의 maxNum 들고오기 -->
+    <select id="getScheMaxNum" resultType="int">
+        select nvl(max(SCHE_NUM),0) from SCHEDULE
+    </select>
+
+    <!-- 스케줄 추가하기 -->
+    <insert id="insertCrewSche" parameterType="com.cruise.project_cruise.dto.ScheduleDTO">
+        insert into SCHEDULE
+        (crew_num, sche_num, sche_title, sche_assort, sche_start, sche_end, sche_alldaytf)
+        values
+            (#{crew_num}, #{sche_num}, #{sche_title}, #{sche_assort},
+             TO_DATE(#{sche_start},'YYYY-MM-DD HH24:MI:SS'),
+             TO_DATE(#{sche_end},'YYYY-MM-DD HH24:MI:SS'),
+             #{sche_alldayTF})
+    </insert>
+
+    <!-- 스케줄 수정하기 -->
+    <update id="updateCrewSche" parameterType="com.cruise.project_cruise.dto.ScheduleDTO">
+        update SCHEDULE
+        set
+            SCHE_TITLE=#{sche_title},
+            SCHE_ASSORT=#{sche_assort},
+            SCHE_START=TO_DATE(#{sche_start},'YYYY-MM-DD HH24:MI:SS'),
+            SCHE_END=TO_DATE(#{sche_end},'YYYY-MM-DD HH24:MI:SS'),
+            SCHE_ALLDAYTF=#{sche_alldayTF}
+        where SCHE_NUM=#{sche_num}
+    </update>
+
+    <!-- 스케줄 삭제하기 -->
+    <update id="deleteCrewSche" parameterType="int">
+        delete SCHEDULE where SCHE_NUM=#{sche_num}
+    </update>
 
 
 </mapper>

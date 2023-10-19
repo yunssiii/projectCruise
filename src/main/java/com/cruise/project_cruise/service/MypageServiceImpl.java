@@ -2,8 +2,10 @@ package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.mapper.MypageMapper;
 import com.cruise.project_cruise.mapper.TemplateMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +49,16 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
+    public List<OpenBankUsingDTO> getUseAccounts(String accountNum, int monthNum) throws Exception {
+        return mypageMapper.getUseAccounts(accountNum, monthNum);
+    }
+
+    @Override
+    public void updateAname(String openAname, String openAccount) throws Exception {
+        mypageMapper.updateAname(openAname,openAccount);
+    }
+
+    @Override
     public String getWebpassword(String email) throws Exception {
         return mypageMapper.getWebpassword(email);
     }
@@ -82,6 +94,7 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.getMyComment(email);
     }
 
+
     @Override
     public String getBoardSubject(int boardNum) throws Exception {
         return mypageMapper.getBoardSubject(boardNum);
@@ -93,8 +106,13 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public int getBoadCount(String email) throws Exception {
-        return mypageMapper.getBoadCount(email);
+    public int getBoardCount(String email) throws Exception {
+        return mypageMapper.getBoardCount(email);
+    }
+
+    @Override
+    public List<ScheduleDTO> getSchedule(String email) throws Exception {
+        return mypageMapper.getSchedule(email);
     }
 
 

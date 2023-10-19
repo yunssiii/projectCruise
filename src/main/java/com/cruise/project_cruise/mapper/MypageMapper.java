@@ -2,6 +2,7 @@ package com.cruise.project_cruise.mapper;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -18,6 +19,8 @@ public interface MypageMapper {
     public List<OpenBankDTO> getOpenAccPWd(String email) throws Exception;
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception;
     public  List<OpenBankDTO> getAccounts(String email) throws Exception;
+    public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception;
+    public void updateAname(@Param("open_aname") String openAname,@Param("open_account")String openAccount) throws Exception;
     public String getWebpassword(String email) throws Exception;
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception;
     public UserDTO getUserInfo(String email) throws Exception;
@@ -27,5 +30,7 @@ public interface MypageMapper {
     public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception;
     public String getBoardSubject(int boardNum) throws Exception;
     public void deleteMycomment(int commentNum) throws Exception;
-    public  int getBoadCount(String email) throws Exception;
+    public  int getBoardCount(String email) throws Exception;
+    public int getCommentCount(String email) throws Exception;
+    public List<ScheduleDTO> getSchedule(String email) throws Exception;
 }

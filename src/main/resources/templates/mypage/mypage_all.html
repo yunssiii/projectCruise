@@ -40,6 +40,167 @@
 
     </style>
 
+
+
+    <!-- 풀캘린더 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script th:inline="javascript">
+        <!-- 풀캘린더 스크립트 -->
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+
+            $(function () {
+                var emailTh = /*[[${userInfo.email}]]*/
+                var request = $.ajax({
+                    url: "/mypage/mypage_all_sche",
+                    method: "POST",
+                    data: {
+                    email: emailTh
+                    }
+                })
+
+                request.done(function (data) {
+                    var calendarEl = document.getElementById('calendar');
+                    // 렌더링
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        headerToolbar: { // 툴바 설정부분.
+                            left: 'dayGridMonth,listMonth',
+                            center: 'title',
+                            right: 'prev,next today'
+                        },
+                        height: 490,
+                        // 한글달력 일자에 '일' 부분 빼기
+                        dayCellContent: function (info) {
+                            var number = document.createElement("a");
+                            number.classList.add("fc-daygrid-day-number");
+                            number.innerHTML = info.dayNumberText.replace("일", '');
+                            if (info.view.type === "dayGridMonth") {
+                                return {
+                                    html: number.outerHTML
+                                };
+                            }
+                            return {
+                                domNodes: []
+                            };
+                        },
+                        views: {
+                            dayGridMonth: {
+                                type: 'dayGrid',
+                                duration: {months: 1},
+                                monthMode: true,
+                                fixedWeekCount: false, // 다음달의 첫 주가 마지막줄에 추가되는 것을 없애기 위함
+                            }
+                        },
+                        // initialDate: '2023-01-12', // 디폴트 데이트. 창을 처음 켰을 때 포커싱할 날짜를 설정한다. 이 설정을 없애면 오늘 날짜로 포커싱된다.
+                        navLinks: true, // can click day/week names to navigate views - 요일이나 날짜 클릭시, 일이나 주 단위 보여주는 화면으로 넘어간다.
+                        businessHours: true, // display business hours
+                        editable: false, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
+                        selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
+                        locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                        events: data // 이 부분에 데이터가 들어옴.
+                    });
+
+                    calendar.render();
+
+                    /* 날짜 검색용 */
+                    $('#searchDate').on('change', function () {
+                        calendar.gotoDate($(this).val());
+                        btnNameCustom();
+                    })
+
+                    var monthViewBtn = document.querySelectorAll('button[title="month view"]');
+                    var listViewBtn = document.querySelectorAll('button[title="list view"]');
+                    var PrevMonthBtn = document.querySelectorAll('button[title="Previous month"]');
+                    var NextMonthBtn = document.querySelectorAll('button[title="Next month"]');
+                    var ThisMonthBtn = document.querySelectorAll('button[title="This month"]');
+                    var calendarTagA = calendarEl.querySelectorAll('a');
+
+                    var clickEvent = new MouseEvent("click", {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+
+                    if ($('#modalBg').hasClass('hiddenModalBg')) {
+                        $('#modalBg').removeClass('hiddenModalBg');
+
+                        // 왜인지 모르겠는데 처음으로 Modal을 켜면 달력이 깨진채로 나와서...
+                        // month 버튼을 눌러주니 제자리를 찾아가길래, modal이 띄워지면 month버튼이 같이 눌러지도록 설정해주었다.
+
+                        monthViewBtn[0].dispatchEvent(clickEvent);
+
+                        // 버튼 커스텀하기
+                        // 1. Modal이 띄워졌을 때
+                        btnNameCustom();
+                        // 2. 달력보기, 리스트보기를 눌렀을 때
+                        // 달력 버튼들 누르니까 기존 text가 다시 추가되길래.. 방지용
+                        btnNameCustomAddEvent(monthViewBtn[0]);
+                        btnNameCustomAddEvent(listViewBtn[0]);
+                        btnNameCustomAddEvent(PrevMonthBtn[0]);
+                        btnNameCustomAddEvent(NextMonthBtn[0]);
+                        btnNameCustomAddEvent(ThisMonthBtn[0]);
+                        calendarTagA.forEach(function () {
+                            btnNameCustomAddEvent(this);
+                        })
+                    }
+
+                    function btnNameCustom() {
+                        monthViewBtn[0].textContent = '달력보기';
+                        listViewBtn[0].textContent = '리스트보기';
+                        ThisMonthBtn[0].textContent = '오늘';
+                    }
+
+                    function btnNameCustomAddEvent(item) {
+                        item.addEventListener('click', function () {
+                            btnNameCustom()
+                        })
+                    }
+                })
+            })
+        })
+    /*]]>*/
+    </script>
+    <style>
+
+        #crewCalendar {
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px;
+            padding: 20px 0 0 0;
+            font-family: 'NanumSquare', Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            height: 510px;
+        }
+
+        #calendar {
+            max-width: 930px;
+            /* height: 490px; CSS에서 이렇게 설정하면 안되나봐... 스크립트 단에서 설정해줘야 하는듯 */
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .crewCalendarContainer {
+            position: relative;
+        }
+
+        /*#addScheBtn { 일정 관리 창에서만 쓸 버튼! */
+        /*    position: absolute;*/
+        /*    top: 1px;*/
+        /*    left: 115px;*/
+        /*    background-color: #2e3f51;*/
+        /*    border-radius: 5px;*/
+        /*    height: 34px;*/
+        /*    width: 50px;*/
+        /*    color: white;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        /*#addScheBtn:active {*/
+        /*    background-color: #1c2731;*/
+        /*}*/
+
+    </style>
+
     
 </head>
 <body >
@@ -230,10 +391,10 @@
                                     </div>
                                 </div>
                                 <div class="account-alias-box">
-                                    <p class="account-alias" th:text="${dto.open_aname}"></p>
-                                    <input type="text" value="황윤하의 통장" class="account-alias2 hidden"/>
+                                    <p class="account-alias" th:id="|account-alias${dto.open_account}|" th:text="${dto.open_aname}"></p>
+                                    <input type="text" th:id="|aname${dto.open_account}|" th:value="${dto.open_aname}" class="account-alias2 hidden"/>
                                     <button class="account-update">수정</button>
-                                    <button class="account-update-ok hidden">변경</button>
+                                    <button class="account-update-ok hidden" th:onclick="updateAname([[${dto.open_account}]]);clickChangeBtn();">변경</button>
                                     |
                                     <button class="account-delete">삭제</button>
                                 </div>
@@ -244,6 +405,64 @@
                 </div>
             </div>
         </section>
+
+        <script>
+
+
+
+            var accUpdateBtn = document.getElementsByClassName("account-update");
+            var okUpdateBtn = document.getElementsByClassName("account-update-ok");
+            var pAlias = document.getElementsByClassName("account-alias");
+            var inputAlias = document.getElementsByClassName("account-alias2");
+
+
+
+            function clickChangeBtn() {
+
+                for(var i=0;i<accUpdateBtn.length;i++){
+
+                    pAlias[i].classList.remove("hidden");
+                    inputAlias[i].classList.add("hidden");
+
+                    accUpdateBtn[i].classList.remove("hidden");
+                    okUpdateBtn[i].classList.add("hidden");
+
+                }
+            };
+
+
+            function updateAname(openAccount){
+
+                var openAname = $('#aname' + openAccount).val();
+                var alias = $('#account-alias' + openAccount).val();
+
+                console.log('음..' + openAname)
+
+                $.ajax({
+                    type : "POST",
+                    url : "/mypage/updateAname",
+                    data : {
+                    openAccount : openAccount,
+                    openAname : openAname
+                    },
+                    success : function(result){
+                        console.log("수정성공..!" + result);
+
+                        $.each(result, function(i) {
+
+                        $('#account-alias' + openAccount).html(result[i].selectAname);
+
+                        });
+
+                    },
+                    error:function(xhr,status,error) {
+                        console.log("수정에러..!" + error);
+                    }
+
+                });
+            };
+
+        </script>
 
         <div class="password-box">
             <button class="passwordBtn">
@@ -459,14 +678,55 @@
                           <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
-                            <li value="selectOption1" class="custom-select-option">1개월</li>
-                            <li value="selectOption2" class="custom-select-option">3개월</li>
-                            <li value="selectOption3" class="custom-select-option">6개월</li>
+                            <li class="custom-select-option" id="oneMonth">1개월</li>
+                            <li class="custom-select-option" id="threeMonth">3개월</li>
+                            <li class="custom-select-option" id="sixMonth">6개월</li>
                         </ul>
+                        <input type="hidden" th:id="|monthVal${dto.open_account}|" name="months" value="1">
                     </div>
 
-                    <input type="text" class="openuse-input-search" id="search" onkeyup="search(this)"/>
-                    <button class="openuse-searchBtn">
+                    <script th:inline="javascript">
+
+                        /*<![CDATA[*/
+
+                        $('#oneMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+                            $('#monthVal' + accountNum).val(1);
+
+                            console.log('첫클릭' + accountNum)
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        $('#threeMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+
+                            $('#monthVal' + accountNum).val(3);
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        $('#sixMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+
+                            $('#monthVal' + accountNum).val(6);
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        /*]]*/
+
+
+                    </script>
+
+                    <input type="text" class="openuse-input-search" th:id="|search${dto.open_account}|"/>
+                    <button class="openuse-searchBtn" th:onclick="accountDivClick([[${dto.open_account}]])">
                         <span class="material-symbols-outlined" style="color: #0C0CCA;">
                             search
                         </span>
@@ -475,45 +735,8 @@
 
                 <div class="line"></div>
 
-                <div class="openuse-box">
-                    <!-- 반복문 -->
-                    <!-- <div id="searchList">검색결과</div> -->
-                    <div class="openuse-cover" > 
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <!-- if 출금/입금 -->
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div> 
+                <div class="openuse-box" th:id="|openuseList${dto.open_account}|">
+                    <!-- 계좌 내역 -->
                 </div>
 
                 <div class="line"></div>
@@ -530,7 +753,9 @@
     <div class="wave2"><div class="white"></div></div>
 
     <!-- 일정 시작 -->
-    <div class="aa">일정 페이지</div>
+    <div class="aa">
+        <div id='calendar'></div>
+    </div>
 
 
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
@@ -553,6 +778,94 @@
     <!-- <script src="../js/search.js"></script> -->
 
 
+
+
     
 </body>
+
+<script>
+
+
+    //계좌 내역 조회
+
+        function accountDivClick(accountNum) {
+
+            var months = $('#monthVal' + accountNum).val();
+            var search = $('#search' + accountNum).val();
+
+            var word = search.toLowerCase(); //검색값 대소문자 구분 안하게 함
+
+            console.log("넘기는 계좌번호" + accountNum);
+
+            $.ajax({
+                type : "POST",
+                url : "/mypage/useAccount",
+                data : {
+                accountNum : accountNum,
+                months : months
+                },
+                success : function(result){
+                    console.log("성공..!");
+                    console.log("넘어온 계좌번호" + accountNum);
+
+                    var str = '';
+
+                    $.each(result, function(i) {
+
+                        // 검색 시
+
+                            console.log("검색한 단어" + word);
+
+                            var searchContent = result[i].openUseContent.toLowerCase();
+
+                            if(searchContent.includes(word)){
+
+                                if($.trim(result[i].openuseAssort) == 'I'){
+
+                                    str += '<div class="openuse-cover">'
+                                        str += '<div class="dateDiv">'
+                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="contentDiv">'
+                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="moneyDiv">'
+                                            str += '<p class="openuse-money2">' + result[i].openUseIn + '</p>'
+                                        str += '</div>'
+                                    str += '</div>'
+
+                                }else if($.trim(result[i].openuseAssort) == 'O'){
+
+                                    str += '<div class="openuse-cover">'
+                                        str += '<div class="dateDiv">'
+                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="contentDiv">'
+                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="moneyDiv">'
+                                            str += '<p class="openuse-money">' + result[i].openUseOut + '</p>'
+                                        str += '</div>'
+                                    str += '</div>'
+
+                                }
+                            }
+
+
+                    }); //반복문 끝
+
+                    $('#openuseList' + accountNum).children().remove(); //자식 요소들을 지워줌
+                    $('#openuseList' + accountNum).append(str); //그 담에 더함
+
+                },
+                error:function(xhr,status,error) {
+                    console.log("에러..!" + error);
+                }
+            });
+        };
+
+</script>
+
+
+
 </html>

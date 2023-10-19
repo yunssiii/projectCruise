@@ -103,8 +103,9 @@
                                 <th scope="col">조회수</th>
                             </tr>
                         </thead>
+                    </table>
                         <!-- 반복 -->
-
+                    <table >
                         <tbody th:if="${boardCount} == 0">
                             <td class="no-board" colspan="3">등록한 게시글이 없습니다.</td>
                         </tbody>
@@ -124,7 +125,7 @@
                                 <td class="td-hitcount" th:text="${dto.hitCount}">조회수</td>
                             </tr>
 
-                            <tr>
+                            <tr th:if="${boardCount} != 0">
                                 <td></td>
                                 <td></td>
                                 <td id="boardIndex" style="border:none;">
@@ -137,9 +138,8 @@
                     </table>
 
                     <div class="bottom-bar">
-                        <!-- 게시글 없는 경우 - if -->
 
-                        <button class="bottom-btn1" th:if="${#lists.isEmpty(myBoardLists)}"><a href="#" >글쓰기</a></button>
+                        <div class="bottom-btn1" th:if="${#lists.isEmpty(myBoardLists)}"></div>
                         
                         <div th:if="${!#lists.isEmpty(myBoardLists)}">
                             <input type="checkbox" id="all-article-chk" name="all-article-chk" value=""/>
@@ -148,7 +148,6 @@
                         </div>
                         <div th:if="${!#lists.isEmpty(myBoardLists)}">
                             <button id="delBoardBtn" class="bottom-btn2" type="button">삭제</button>
-                            <button class="bottom-btn2" type="button"><a href="#" >글쓰기</a></button>
                         </div>
                     </div>
                 </div>
@@ -166,40 +165,40 @@
                             </tr>
                         </thead>
                         <!-- 반복 -->
-
-                        <!-- 댓글 없는 경우 - if -->
-
-                        <tbody th:if="${#lists.isEmpty(myCommentLists)}">
-                            <td class="no-board" colspan="5">등록한 댓글이 없습니다.</td>
-                        </tbody>
-
-                        <tbody>
-                            <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
-                                <td colspan="3">
-                                    <div class="comment-box">
-                                        <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
-                                        <label th:for="|chk-comment-${dto.comment_num}|"></label>
-                                        <div class="comment-content">
-                                            <a href="#" th:text="${dto.comment_content}">댓글 내용</a>
-                                        </div>
-                                    </div>
-                                    <div class="comment-subject">
-                                        <span th:text="|[${dto.crew_name}]|">크루명</span>
-                                        <span th:text="${dto.board_subject}">게시글 이름</span>
-                                    </div>
-                                </td>
-                                <td class="td-date" th:text="${dto.comment_created_tochar}">생성일</td>
-                            </tr>
-
-
-                        </tbody>
-                        <!-- 반복 -->
                     </table>
+
+                    <div class="comment-table-div">
+                        <table class="board-table">
+                            <tbody th:if="${#lists.isEmpty(myCommentLists)}">
+                                <td class="no-board" colspan="5">등록한 댓글이 없습니다.</td>
+                            </tbody>
+
+                            <tbody>
+                                <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
+                                    <td colspan="3" class="td-comments">
+                                        <div class="comment-box">
+                                            <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
+                                            <label th:for="|chk-comment-${dto.comment_num}|"></label>
+                                            <div class="comment-content">
+                                                <a href="#" th:text="${dto.comment_content}">댓글 내용</a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-subject">
+                                            <span th:text="|[${dto.crew_name}]|">크루명</span>
+                                            <span th:text="${dto.board_subject}">게시글 이름</span>
+                                        </div>
+                                    </td>
+                                    <td class="td-date" th:text="${dto.comment_created_tochar}">생성일</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="bottom-bar">
                         <!-- 댓글 없는 경우 - if -->
                         
-                        <button class="bottom-btn1" th:if="${#lists.isEmpty(myCommentLists)}"><a href="#" >글쓰기</a></button>
+                        <div class="bottom-btn1" th:if="${#lists.isEmpty(myCommentLists)}"></div>
                         
                         <div th:if="${!#lists.isEmpty(myCommentLists)}">
                             <input type="checkbox" id="all-comment-chk" name="all-commentChk" value=""/>
@@ -208,7 +207,6 @@
                         </div>
                         <div th:if="${!#lists.isEmpty(myCommentLists)}">
                             <button id="delCommentBtn" class="bottom-btn2" type="button">삭제</button>
-                            <button class="bottom-btn2" type="button"><a href="#" >글쓰기</a></button>
                         </div>
                     </div>
                 </div>

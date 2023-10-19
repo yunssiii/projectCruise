@@ -7,10 +7,7 @@ import com.cruise.project_cruise.service.CrewSettingService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,17 +31,25 @@ public class CrewController {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
-        HashMap<String, Object> hash = new HashMap<>();
+        HashMap<String, Object> calHash = new HashMap<>();
+
+        boolean allDay = false;
 
         for (int i = 0; i < crewScheList.size(); i++) {
-            hash.put("title", crewScheList.get(i).getSche_title());
-            hash.put("start", crewScheList.get(i).getSche_start());
-            hash.put("end", crewScheList.get(i).getSche_end());
-            hash.put("allDay", crewScheList.get(i).getSche_alldayTF());
-            hash.put("color", crewScheList.get(i).getSche_assort());
-            hash.put("textColor", "#FFFFFF");
+            calHash.put("id",crewScheList.get(i).getSche_num());
+            calHash.put("title", crewScheList.get(i).getSche_title());
+            calHash.put("start", crewScheList.get(i).getSche_start());
+            calHash.put("end", crewScheList.get(i).getSche_end());
+            if(crewScheList.get(i).getSche_alldayTF().equals("true")){
+                allDay = true;
+            } else {
+                allDay = false;
+            }
+            calHash.put("allDay", allDay);
+            calHash.put("color", crewScheList.get(i).getSche_assort());
+            calHash.put("textColor", "#FFFFFF");
 
-            jsonObject = new JSONObject(hash);
+            jsonObject = new JSONObject(calHash);
             jsonArray.add(jsonObject);
         }
 
@@ -162,6 +167,112 @@ public class CrewController {
         return mav;
     }
 
+    @RequestMapping(value="/setting/addCrewSche")
+    @ResponseBody
+    public void addCrewSche(
+            @RequestParam("crewNum") int crewNum,
+            @RequestParam("scheTitle") String scheTitle,
+            @RequestParam("scheAssort") String scheAssort,
+            @RequestParam("scheAllDayTF") String scheAllDayTF,
+            @RequestParam("scheStart") String scheStart,
+            @RequestParam("scheEnd") String scheEnd
+            ) throws Exception {
 
+        String scheAssortCode = "";
+
+        switch (scheAssort) {
+            default:
+            case "redSche":
+                scheAssortCode = "#FF8383";
+                break;
+            case "greenSche":
+                scheAssortCode = "#22B14C";
+                break;
+            case "yellowSche":
+                scheAssortCode = "#FFC90E";
+                break;
+            case "blueSche":
+                scheAssortCode = "#00A5ED";
+                break;
+            case "graySche":
+                scheAssortCode = "#A1A1A1";
+                break;
+        }
+
+        if(scheAllDayTF==null || scheAllDayTF.isEmpty()) {
+            scheAllDayTF = "false";
+        }
+
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setSche_num(crewSettingService.getScheMaxNum()+1);
+        dto.setCrew_num(crewNum);
+        dto.setSche_title(scheTitle);
+        dto.setSche_assort(scheAssortCode);
+        dto.setSche_alldayTF(scheAllDayTF);
+        dto.setSche_start(scheStart);
+        dto.setSche_end(scheEnd);
+
+        crewSettingService.insertCrewSche(dto);
+        System.out.println("[CrewController - Setting : Calendar] 일정 추가완료 - crewNum " + crewNum + " scheTitle " + scheTitle);
+
+    }
+
+    @RequestMapping(value="/setting/updateCrewSche")
+    @ResponseBody
+    public void updateCrewSche(
+            @RequestParam("scheNum") int scheNum,
+            @RequestParam("scheTitle") String scheTitle,
+            @RequestParam("scheAssort") String scheAssort,
+            @RequestParam("scheAllDayTF") String scheAllDayTF,
+            @RequestParam("scheStart") String scheStart,
+            @RequestParam("scheEnd") String scheEnd
+    ) throws Exception {
+
+        String scheAssortCode = "";
+
+        switch (scheAssort) {
+            default:
+            case "redSche":
+                scheAssortCode = "#FF8383";
+                break;
+            case "greenSche":
+                scheAssortCode = "#22B14C";
+                break;
+            case "yellowSche":
+                scheAssortCode = "#FFC90E";
+                break;
+            case "blueSche":
+                scheAssortCode = "#00A5ED";
+                break;
+            case "graySche":
+                scheAssortCode = "#A1A1A1";
+                break;
+        }
+
+        if(!scheAllDayTF.equals("true")) {
+            scheAllDayTF = "false";
+        } else {
+            scheAllDayTF = "true";
+        }
+
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setSche_num(scheNum);
+        dto.setSche_title(scheTitle);
+        dto.setSche_assort(scheAssortCode);
+        dto.setSche_alldayTF(scheAllDayTF);
+        dto.setSche_start(scheStart);
+        dto.setSche_end(scheEnd);
+
+        crewSettingService.updateCrewSche(dto);
+        System.out.println("[CrewController - Setting : Calendar] 일정 수정완료 - scheNum " + scheNum + " scheTitle " + scheTitle);
+
+    }
+
+    @RequestMapping(value="/setting/deleteCrewSche")
+    @ResponseBody
+    public void deleteCrewSche(@RequestParam("scheNum") int scheNum) throws Exception {
+        crewSettingService.deleteCrewSche(scheNum);
+        System.out.println("[CrewController - Setting : Calendar] 일정 삭제완료 - scheNum " + scheNum);
+    }
 
 }

@@ -151,12 +151,13 @@ body{margin: 0; overflow-x: hidden;}
 }
 
 .user-out{
-    /* border: 1px solid black; */
+    border: none;
     padding: 15px 16px 3px 0;
-    text-align: end;
     font-size: 8pt;
     color: #858585;
     cursor: pointer;
+    background: none;
+    float: right;
 }
 
 .crew-all {

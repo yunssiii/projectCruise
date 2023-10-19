@@ -2,6 +2,7 @@ package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.security.core.parameters.P;
@@ -17,6 +18,8 @@ public interface MypageService {
 
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception; //계좌 등록하기
     public  List<OpenBankDTO> getAccounts(String email) throws Exception; //계좌 조회
+    public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception; //계좌 내역 조회
+    public void updateAname(@Param("open_aname") String openAname,@Param("open_account")String openAccount) throws Exception; //계좌명 수정
     public String getWebpassword(String email) throws Exception; //이체 비밀번호 조회
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception; //이제 비밀번호 수정(등록/변경)
     public UserDTO getUserInfo(String email) throws Exception; //로그인한 사용자 정보 조회
@@ -26,5 +29,7 @@ public interface MypageService {
     public List<CrewCommentDTO> getMyComment(@Param("email")String email) throws Exception; //내 댓글 조회
     public String getBoardSubject(int boardNum) throws Exception; //게시글 제목 조회
     public void deleteMycomment(int commentNum) throws Exception; //댓글 삭제
-    public  int getBoadCount(String email) throws Exception; //게시글 전체 수
+    public  int getBoardCount(String email) throws Exception; //게시글 전체 수
+    public List<ScheduleDTO> getSchedule(String email) throws Exception; //일정 조회
+
 }

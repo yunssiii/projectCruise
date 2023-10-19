@@ -7,20 +7,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/css/style.css"/>
-<link rel="stylesheet" type="text/css" href="/css/article.css"/>
-<link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
+<link rel="stylesheet" type="text/css" href="/css/board/style.css"/>
+<link rel="stylesheet" type="text/css" href="/css/board/article.css"/>
+<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css"/>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 <script>
-	const num = "[[${dto.board_num}]]";
-	const params = "[[${params}]]";
-	var userEmail = "[[${email}]]";
+	var num = "[[${dto.board_num}]]";
+	var params = "[[${params}]]";
+	var crew_num = "[[${dto.crew_num}]]";
+	const userEmail = "[[${email}]]";
 </script>
-<script type="text/javascript" th:src="@{/js/article.js}"></script>
+<script type="text/javascript" th:src="@{/js/board/article.js}"></script>
 
 </head>
 <body>
@@ -66,11 +67,11 @@
 			<h2><br>[[${dto.board_subject}]]</h2>
 			<div class="article_button_flex">
 				<input type="button" value=" 수정 " class="article_button2"
-					   th:if="${userInfo.email == dto.email}"
+					   th:if="${email == dto.email}"
 					   th:onclick="'location=\'updated?board_num=' +
 					@{${dto.board_num }} + '&' + @{${params }} + '\''"/>
 				<input type="button" value=" 삭제 " class="article_button2"
-					   th:if="${userInfo.email == dto.email}"
+					   th:if="${email == dto.email}"
 					   th:onclick="'confirmDeleteArticle(' + ${dto.board_num} + ')'"/>
 			</div>
 			<div class="header">
@@ -86,9 +87,9 @@
 				<tr>
 					<td valign="top" height="200">
 					<textarea rows="12" cols="82"
-					name="content"
-					class="content-box" th:text="${dto.board_content}"
-					disabled="disabled"></textarea>
+							  name="content"
+							  class="content-box" th:text="${dto.board_content}"
+							  disabled="disabled"></textarea>
 					</td>
 				</tr>
 			</table>
@@ -106,11 +107,12 @@
 			<div class="card-body">
 				<form name="comment-form" action="/board/comment/create" method="post"
 					  autocomplete="off" onsubmit="return sendIt();">
-					<input type="hidden" name="num" th:value="${dto.board_num}"/>
+					<input type="hidden" name="board_num" th:value="${dto.board_num}"/>
+					<input type="hidden" name="crew_num" th:value="${dto.crew_num}"/>
 					<div class="form-group">
 						<textarea name="comment_content" class="form-control" rows="3"
-								style="font-family: NanumSquare; width: 100%;"
-								placeholder="댓글을 남겨보세요"></textarea>
+								  style="font-family: NanumSquare; width: 100%;"
+								  placeholder="댓글을 남겨보세요"></textarea>
 					</div>
 					<a class="commentReply" onclick="insertComment();">등록</a>
 				</form>
@@ -144,4 +146,3 @@
 
 </body>
 </html>
-

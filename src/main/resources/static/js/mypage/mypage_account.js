@@ -288,13 +288,14 @@ function accountAuth (event) {
     var accountPwdsValue =  accounPwds[0].value;
     var accountNumsValue =  accounNums[1].value;
 
+    console.log("인증전-번호"+accountNumsValue);
+
     for(var i=0;i<openAccPwd.length;i++){
 
     if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
             console.log("인증성공");
 
-            accounPwds[0].value = accountPwdsValue;
-            accounNums[1].value = accountNumsValue;
+            console.log("인증성공-번호"+accounNums[1].value);
 
             addBtn[0].style.backgroundColor = "#0c0ccad0";
             addBtn[0].style.cursor = "pointer";
@@ -312,9 +313,6 @@ function accountAuth (event) {
         } else {
             console.log('인증실패')
 
-            accounNums[1].value = "";
-            accounPwds[0].value = "";
-
             document.getElementById("resultNum").innerText = "";
             document.getElementById("resultPwd").innerText = "";
 
@@ -322,6 +320,11 @@ function accountAuth (event) {
             accounNums[1].style.outline = "1px solid black";
             accounPwds[0].style.border = "none";
             accounPwds[0].style.outline = "1px solid black";
+
+            accounNums[1].value = accountNumsValue;
+            accounPwds[0].value = accountPwdsValue;
+
+
         }
 
     }
@@ -367,20 +370,26 @@ function Modal(num) {
         okUpdateBtn[num].classList.remove("hidden");
     };
 
-    okUpdateBtn[num].onclick = function() {
-        pAlias[num].classList.remove("hidden");
-        inputAlias[num].classList.add("hidden");
-
-        accUpdateBtn[num].classList.remove("hidden");
-        okUpdateBtn[num].classList.add("hidden");
-    };
+//    okUpdateBtn[num].onclick = function() {
+//
+//        pAlias[num].classList.remove("hidden");
+//        inputAlias[num].classList.add("hidden");
+//
+//        accUpdateBtn[num].classList.remove("hidden");
+//        okUpdateBtn[num].classList.add("hidden");
+//    };
 
     //모달
     return function() {
 
         boxs[num].onclick =  function() {
+
+//            console.log('모달번호: ' + num +', 계좌번호: '+accountNum);
+
             modals[num].style.display = "block";
             document.body.style.overflow = "hidden";
+
+            $('#oneMonth').click();
         };
     
         btns[num].onclick = function() {
@@ -450,11 +459,6 @@ for(var j = 0; j < accDelBtn.length; j++) {
     accountFunc[j](); //함수 호출
 }
 
+// -- 계좌 내역 조회 ---------------------------------------------------------------
 
-//function insertAcc(){
-//
-//    var accinsertForm = document.accForm;
-//
-//    accinsertForm.submit();
-//
-//}
+
