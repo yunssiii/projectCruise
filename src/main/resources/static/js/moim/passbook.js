@@ -130,12 +130,12 @@ function newAccount(checkbox) {
         document.getElementById('my_account').disabled = true;
     }
 }
-function register(){
-    let modal = document.getElementById("my_modal");
-    modal.style.display = "block";
-}
-
-function closeModal() {
-    let modal = document.getElementById("my_modal");
-    modal.style.display = "none"; // 모달창 닫기
-}
+//function register(){
+//    let modal = document.getElementById("my_modal");
+//    modal.style.display = "block";
+//}
+//
+//function closeModal() {
+//    let modal = document.getElementById("my_modal");
+//    modal.style.display = "none"; // 모달창 닫기
+//}

@@ -14,11 +14,12 @@
 } 
 
 body{
-	background-image: url("/images/bluebox.jpg");
-	background-size: cover; 
-	background-repeat: no-repeat;
-	background-position: center;
-	font-family:NanumSquare; 
+	 background-image: url("/images/bluebox.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: NanumSquare;
 	
 }
 
@@ -71,10 +72,12 @@ h2::after{
    
 }
 
+
+
 #sect1{
     position: relative;
     color: black;
-  
+    height: 915px;
 	
 }
 

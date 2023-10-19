@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,20 +38,19 @@ public class HomeController {
     @Autowired
     CrewMemberInviteService crewMemberInviteService;
 
-    @Autowired
-    JwtTokenizer jwtTokenizer;
+
 
 
 
 
     @RequestMapping(value = "/",method = {RequestMethod.GET, RequestMethod.POST})
     public String home(HttpSession session, Model model, @RequestParam(name = "group", required = false) String group,
-                       @RequestParam(name = "num", required = false) String num,@RequestHeader(value = "Authorization", required = false) String accessToken, @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws Exception {
+                       @RequestParam(name = "num", required = false) String num) throws Exception {
         //이것 때문에 엄청고생했는데 결국 OAuth2User 에서는 소셜로그인 정보만 담기는거였음
         //근데 일반로그인해서 콘솔에 principal찍어봐도 값은 나오는데 왜 Null이라고 인식하는지...
         //더 자세한 공부가 필요함..
-        String email = null;
-        Optional<String> emailOptional = jwtTokenizer.extractEmail(accessToken);
+         final Logger logger = LoggerFactory.getLogger(HomeController.class);
+            logger.info("처음화면");
 
 
         if (group != null && num != null) { // group과 num 값이 파라미터에 있을 때만 세션에 값을 설정
@@ -62,7 +63,7 @@ public class HomeController {
 
 
 
-
+        /*
         //초대받았을때와 아닐때를 구분 할 수 있음
 
         if (group == null && session.getAttribute("group") == null) { //초대받지 않았고 로그인을하면 group과 num을하면 지워지므로 세션값으로 다시 비교
@@ -90,28 +91,6 @@ public class HomeController {
             }
         }
 
-/*
-            System.out.println("사용자가 " + clientRegistrationId + "로 로그인했습니다.");
-            if ("google".equals(clientRegistrationId)) {
-                email = principal.getAttribute("email"); // 구글 로그인 진행시
-            } else if ("naver".equals(clientRegistrationId)) {
-                // 네이버 로그인 처리
-                JSONParser jsonParser = new JSONParser();
-                ObjectMapper mapper = new ObjectMapper();
-                String apiResult = mapper.writeValueAsString(principal.getAttributes().get("response"));
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(apiResult);
-                email = (String) jsonObject.get("email");
-            } else if ("kakao".equals(clientRegistrationId)) {
-                JSONParser jsonParser = new JSONParser();
-                ObjectMapper mapper = new ObjectMapper();
-                String apiResult = mapper.writeValueAsString(principal.getAttributes().get("kakao_account"));
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(apiResult);
-                email = (String) jsonObject.get("email");
-            } else {
-                System.out.println("사용자가 로그인 하지 않았습니다.");
-                //System.out.println(principal.getAttributes());
-            }
-            */
         else if (group == null && session.getAttribute("group") != null) { //초대받았을때
 
             if (principal != null || emailOptional.isPresent()) { // 로그인 했을 경우
@@ -142,10 +121,12 @@ public class HomeController {
 //            model.addAttribute("email", email);
 
         }
+        */
 
-        System.out.println("세션직전 이메일" +email); //일반로그인시에는 여기까지는 오는데 바로아래 세션이 안들어감..이유를 모르겠음 그래서 일반로그인은
+
+        //일반로그인시에는 여기까지는 오는데 바로아래 세션이 안들어감..이유를 모르겠음 그래서 일반로그인은
                                                     //이메일 받자마자 세션에 등록하는건 가능해서 그렇게 작성하였음
-        session.setAttribute("email", email);
+
 
 
 
@@ -177,8 +158,30 @@ public class HomeController {
             session.removeAttribute("num");
 
 
-            return "redirect:/";
+            return "redirect:/mypage/mypage_all";
         }
+
+    @GetMapping("/accept2")
+    @ResponseBody
+    public void accept2(HttpSession session) throws Exception {
+
+        CrewMemberDTO dto = new CrewMemberDTO();
+
+        String email = (String) session.getAttribute("email");
+        String crew_numStr = (String) session.getAttribute("num");
+        int crew_num = Integer.parseInt(crew_numStr);
+
+        dto.setCrew_num(crew_num);
+        dto.setCmem_email(email);
+
+        crewMemberInviteService.insertCrewMember(dto);
+
+        session.removeAttribute("group");
+        session.removeAttribute("num");
+
+
+
+    }
 
         @GetMapping("/reject")
         public String reject(HttpSession session){
@@ -186,7 +189,14 @@ public class HomeController {
             session.removeAttribute("num");
 
 
-            return "redirect:/";
+            return "redirect:/mypage/mypage_all";
+        }
+
+        @GetMapping("/reject2")
+        @ResponseBody
+        public void reject2(HttpSession session){
+            session.removeAttribute("group");
+            session.removeAttribute("num");
         }
 
         @GetMapping("/showModalWithAjax")

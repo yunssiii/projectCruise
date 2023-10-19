@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-
+    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <!-- ----------------- -->
     <link rel="stylesheet" href="/css/mypage/mypage_user.css"/>
@@ -34,46 +34,7 @@
 </head>
 <body>
 
-<nav class="navigator" style="background-color: white;">
-    <div>
-        <a href="http://localhost:8080/mypage" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
-        </a>
-    </div>
-
-    <div class="navigator_menu">
-        <div>
-            <button id="first_menuButton"
-                    class="fa-regular fa-bell navigator_menu_link nav-item navButtonClick"></button>
-            <div id="first_menu" class="menu-content">
-                <a href="#">
-                    <b>알림!</b><br>
-                    <label>모임통장 목표 달성완료!</label>
-
-                </a>
-
-                <a href=""><label style="font-size: 10px;">자세히보기 ></label></a>
-
-            </div>
-        </div>
-
-        <div >
-            <button id="second_menuButton"
-                    class="fa-solid fa-bars navigator_menu_link nav-item navButtonClick" ></button>
-            <div id="second_menu" class="menu-content menu-content2">
-
-
-                <a href="#" >내 정보 수정</a>
-                <a href="#" >내 게시글 관리</a>
-                <a href="#" >내 계좌 관리</a>
-                <a href="http://localhost:8080/main" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-            </div>
-        </div>
-        <div>
-            <button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8080/passbook'">항해시작</button>
-        </div>
-    </div>
-
-</nav>
+<th:block th:replace="nav_footer/nav_footer :: header"></th:block>
     
     <div class="user-container">
         <!-- 메뉴 -->
@@ -217,12 +178,12 @@
         </div>
     </div>
 
-    <nav th:replace="navbar :: footerFragmant"></nav>
+
 
     <script src="/js/mypage/mypage_user.js"></script>
     <script src="/js/mypage/mypage_userOut.js"></script>
     <script type="text/javascript" src="/js/nav.js"></script>
 
-
+<th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 </body>
 </html>

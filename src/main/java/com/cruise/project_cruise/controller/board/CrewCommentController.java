@@ -35,15 +35,13 @@ public class CrewCommentController {
         HttpSession session = request.getSession();
         String userEmail = (String)session.getAttribute("email");
 
-        int num = Integer.parseInt(request.getParameter("num"));
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        int maxNum = crewCommentService.maxNum();
         String userName = crewBoardService.getUserName(userEmail);
 
         if(userEmail != null) {
-            int maxNum = crewCommentService.maxNum();
             dto.setComment_num(maxNum + 1);
-            dto.setCrew_num(crewNum);
-            dto.setBoard_num(num);
+            dto.setCrew_num(dto.getCrew_num());
+            dto.setBoard_num(dto.getBoard_num());
             dto.setEmail(userEmail);
             dto.setName(userName);
 
@@ -57,23 +55,16 @@ public class CrewCommentController {
     }
 
     @PostMapping("delete")
-    public String deleteComment(HttpServletRequest request) throws Exception {
-
-        int comment_num = Integer.parseInt(request.getParameter("comment_num"));
-
-        crewCommentService.deleteData(comment_num);
+    public String deleteComment(CrewCommentDTO dto) throws Exception {
+        crewCommentService.deleteData(dto.getComment_num());
 
         return "DeleteComment";
     }
 
     @PostMapping("update")
-    public String updateComment(CrewCommentDTO dto, HttpServletRequest request) throws Exception {
-
-        int num = Integer.parseInt(request.getParameter("commentNum"));
-        String content = request.getParameter("commentContent");
-
-        dto.setComment_num(num);
-        dto.setComment_content(content);
+    public String updateComment(CrewCommentDTO dto) throws Exception {
+        dto.setComment_num(dto.getComment_num());
+        dto.setComment_content(dto.getComment_content());
         crewCommentService.updateData(dto);
 
         return "UpdateComment";
@@ -85,22 +76,17 @@ public class CrewCommentController {
         HttpSession session = request.getSession();
         String userEmail = (String)session.getAttribute("email");
 
-        int num = Integer.parseInt(request.getParameter("num"));
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         String userName = crewBoardService.getUserName(userEmail);
-
-        int CommentNum = Integer.parseInt(request.getParameter("commentNum"));
-        String content = request.getParameter("replyContent");
 
         if(userEmail != null) {
             int maxNum = crewCommentService.maxNum();
             dto.setComment_num(maxNum + 1);
-            dto.setCrew_num(crewNum);
-            dto.setBoard_num(num);
+            dto.setCrew_num(dto.getCrew_num());
+            dto.setBoard_num(dto.getBoard_num());
             dto.setEmail(userEmail);
             dto.setName(userName);
-            dto.setComment_content(content);
-            dto.setRef_no(CommentNum);
+            dto.setComment_content(dto.getComment_content());
+            dto.setRef_no(dto.getComment_num());
 
             crewCommentService.insertCommentReply(dto);
 

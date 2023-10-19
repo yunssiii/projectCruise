@@ -6,6 +6,7 @@
     <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <link rel="stylesheet" type="text/css" th:href="@{/css/loginForm/loginForm.css}"/>
     <script src="https://kit.fontawesome.com/79ef7aaf2e.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/loginForm/emailVerify.js}"></script>
     <script th:src="@{/js/loginForm/passwordToggle.js}"></script>
@@ -64,6 +65,7 @@
 
 <script>
     function submitForm() {
+
         const form = document.getElementById('signupForm');
         const formData = {
             email: form.elements['username'].value,
@@ -73,6 +75,7 @@
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "/loginProcessing", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(formData));
         xhr.onload = function () {
             if (xhr.status === 200) {
             const accessToken = xhr.getResponseHeader('Authorization');
@@ -84,20 +87,22 @@
                 localStorage.setItem('accessToken', accessToken); // 토큰을 로컬 스토리지에 저장합니다.
 
 
-                window.location.href = "/"; // 로그인이 성공하면 "/" 경로로 이동
-                     const xhr2 = new XMLHttpRequest();
-            xhr2.open("POST", "/", true); // 루트 엔드포인트로 요청을 전송합니다.
-            xhr2.setRequestHeader('Content-Type', 'application/json');
+            const xhr2 = new XMLHttpRequest();
+            xhr2.open("POST", "/mypage/mypage_all", true); // 루트 엔드포인트로 요청을 전송합니다.
             xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
-            xhr2.onload = function () {
-                // 루트 엔드포인트 요청 완료 시 동작을 추가합니다.
-            };
             xhr2.send();
+            xhr2.onload = function() {
+                const responseText = xhr2.responseText;
+
+                     document.open();
+                    document.write(responseText);
+                    document.close();
+            };
             } else {
                 // 다른 상태 코드 처리
             }
         };
-        xhr.send(JSON.stringify(formData));
+
     }
 </script>
 </html>
