@@ -109,14 +109,13 @@ function calendarLoad(crewNum) {
 
 // 모달 공통세팅
 function sameModalSetting(crewNum) {
+
     // X 누르면 모달 닫기
     $('#addScheModalcloseX').on('click',function() {
         $('#scheModalBg').addClass('hiddenModal')
         $('#addScheModal').addClass('hiddenModal')
         $('#colorSelectorContainer').addClass('hiddenSpeechBubble');
 
-        
-        // 이벤트 리스너 off 해주기
         $('#updateScheOK').off('click');
         $('#delSche').off('click');
         $('#delScheOK').off('click');
@@ -127,7 +126,6 @@ function sameModalSetting(crewNum) {
         $('#startTime').off('change');
         $('#endDate').off('change');
         $('#endTime').off('change');
-
 
         var scheForm = document.scheForm;
         scheForm.reset();
@@ -148,8 +146,8 @@ function sameModalSetting(crewNum) {
         } else {
             $('#startTime').removeClass('inputHidden');
             $('#endTime').removeClass('inputHidden');
-            $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-            $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
+            $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+            $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
         }
     })
 
@@ -180,29 +178,107 @@ function sameModalSetting(crewNum) {
     })
 
     // 날짜, 시간 합쳐서 채워넣기
-    $('#startDate').on('change',function() {
+        // 1. 모달 띄워졌을 때 날짜시간값 채워두기
         var startDateValue = $('#startDate').val();
         var startTimeValue = $('#startTime').val();
-        $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-    })
+        $('#scheStart').val(startDateValue + ' ' + startTimeValue);
 
-    $('#startTime').on('change',function() {
-        var startDateValue = $('#startDate').val();
-        var startTimeValue = $('#startTime').val();
-        $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-    })
-
-    $('#endDate').on('change',function() {
         var endDateValue = $('#endDate').val();
         var endTimeValue = $('#endTime').val();
-        $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
-    })
+        $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
 
-    $('#endTime').on('change',function() {
-        var endDateValue = $('#endDate').val();
-        var endTimeValue = $('#endTime').val();
-        $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
-    })
+        // 2. 모달 띄워졌을 때 값을 복원데이터로 저장해두기
+        $('#scheStart').data('prevDateValue', $('#startDate').val());
+        $('#scheStart').data('prevTimeValue', $('#startTime').val());
+        $('#scheEnd').data('prevDateValue', $('#endDate').val());
+        $('#scheEnd').data('prevTimeValue', $('#endTime').val());
+
+        // 3. 각 input 요소마다 이벤트리스너 달아주기
+        $('#startDate').on('change',function() {
+            
+            // 1. 요소가 변경된 후의 FullDate들을 가져와주고, 
+            var startDateValue = $('#startDate').val();
+            var startTimeValue = $('#startTime').val();
+            $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+
+            var scheStartDateObj = new Date($('#scheStart').val());
+            var scheEndDateObj = new Date($('#scheEnd').val());
+
+            // 2. 변경된 후의 값을 비교한 후,
+                // 조건이 true면 전 값으로 돌리기
+                // 조건이 false면 변경된 값 유지
+            if(scheStartDateObj>scheEndDateObj) {
+                alert("시작일정은 마감일정보다 이전이거나 같아야 합니다.");
+                $('#startDate').val($('#scheStart').data('prevDateValue'));
+                startDateValue = $('#startDate').val();
+                $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+                return;
+            }
+            
+            // 3. 변경된 후의 값을 다시 복원데이터로 저장
+            $('#scheStart').data('prevDateValue', $('#startDate').val());
+                // if문을 실행하지 않고 변경되었다면, 변경된 값을 다시 백업데이터로 저장.
+
+        })
+
+        $('#startTime').on('change',function() {
+
+            var startDateValue = $('#startDate').val();
+            var startTimeValue = $('#startTime').val();
+            $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+
+            var scheStartDateObj = new Date($('#scheStart').val());
+            var scheEndDateObj = new Date($('#scheEnd').val());
+
+            if(scheStartDateObj>scheEndDateObj) {
+                alert("시작일정은 마감일정보다 이전이거나 같아야 합니다.");
+                $('#startTime').val($('#scheStart').data('prevTimeValue'));
+                startTimeValue = $('#startTime').val();
+                $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+                return;
+            }
+            $('#scheStart').data('prevTimeValue', $('#startTime').val());
+                // if문을 실행하지 않고 변경되었다면, 변경된 값을 다시 백업데이터로 저장.
+
+        })
+
+        $('#endDate').on('change',function() {
+
+            var endDateValue = $('#endDate').val();
+            var endTimeValue = $('#endTime').val();
+            $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
+
+            var scheStartDateObj = new Date($('#scheStart').val());
+            var scheEndDateObj = new Date($('#scheEnd').val());
+
+            if(scheStartDateObj>scheEndDateObj) {
+                alert("시작일정은 마감일정보다 이전이거나 같아야 합니다.");
+                $('#endDate').val($('#scheEnd').data('prevDateValue'));
+                endDateValue = $('#endDate').val();
+                $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
+                return;
+            }
+            $('#scheEnd').data('prevDateValue', $('#endDate').val());
+
+        })
+
+        $('#endTime').on('change',function() {
+            var endDateValue = $('#endDate').val();
+            var endTimeValue = $('#endTime').val();
+            $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
+
+            var scheStartDateObj = new Date($('#scheStart').val());
+            var scheEndDateObj = new Date($('#scheEnd').val());
+
+            if(scheStartDateObj>scheEndDateObj) {
+                alert("시작일정은 마감일정보다 이전이거나 같아야 합니다.");
+                $('#endTime').val($('#scheEnd').data('prevTimeValue'));
+                endTimeValue = $('#endTime').val();
+                $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
+                return;
+            }
+            $('#scheEnd').data('prevTimeValue', $('#endTime').val());
+        })
 }
 
 // 수정 시 색 selectedColor 클래스 적용
@@ -262,6 +338,8 @@ function addScheOKBtnClick(crewNum) {
 
     // 추가 모달 처음 세팅
     function fullCalDateClick(info, crewNum){
+
+        // 색깔 선택 컨테이너 설정 초기화하기
         $('#selectedColor').removeClass();
         $('#selectedColor').addClass('redSche');
         $('#redSche').addClass('selectedColor');
@@ -292,8 +370,8 @@ function addScheOKBtnClick(crewNum) {
         var formattedDate = year + "-" + month + "-" + date;
         $('#startDate').val(formattedDate);
         $('#endDate').val(formattedDate);
-        $('#startTime').val('08:00');
-        $('#endTime').val('09:00');
+        $('#startTime').val('08:00:00');
+        $('#endTime').val('09:00:00');
 
         var startDateValue = $('#startDate').val();
         var startTimeValue = $('#startTime').val();
@@ -302,88 +380,11 @@ function addScheOKBtnClick(crewNum) {
 
         $('#startTime').removeClass('inputHidden');
         $('#endTime').removeClass('inputHidden');
-        $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-        $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
+        $('#scheStart').val(startDateValue + ' ' + startTimeValue);
+        $('#scheEnd').val(endDateValue + ' ' + endTimeValue);
 
         sameModalSetting(crewNum); // 공통적인 부분 함수로 따로 빼기
     }
-
-
-    // // X 눌렀을 때 모달 닫기
-    // $('#addScheModalcloseX').on('click',function() {
-    //     $('#scheModalBg').addClass('hiddenModal')
-    //     $('#addScheModal').addClass('hiddenModal')
-    // })
-    //
-    // // 하루종일에 체크되면 date input 없애기
-    // $('#allDayChk').on('change',function (){
-    //     var startDateValue = $('#startDate').val();
-    //     var startTimeValue = $('#startTime').val();
-    //     var endDateValue = $('#endDate').val();
-    //     var endTimeValue = $('#endTime').val();
-    //
-    //     if(this.checked) {
-    //         $('#startTime').addClass('inputHidden');
-    //         $('#endTime').addClass('inputHidden');
-    //         $('#scheStart').val(startDateValue + ' 00:00:00');
-    //         $('#scheEnd').val(endDateValue + ' 00:00:00');
-    //     } else {
-    //         $('#startTime').removeClass('inputHidden');
-    //         $('#endTime').removeClass('inputHidden');
-    //         $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-    //         $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
-    //     }
-    // })
-    //
-    // // 컬러 선택하기
-    // $('#selectedColorCont').on('click',function(){
-    //     if($('#colorSelectorContainer').hasClass('hiddenSpeechBubble')){
-    //         $('#colorSelectorContainer').removeClass('hiddenSpeechBubble');
-    //         $('#colorSelectorContainer').addClass('visibleSpeechBubble');
-    //     }
-    // })
-    // $('.assortColors').click(function() {
-    //     // 선택된 색상에만 selectedColor 적용하기
-    //     $(this).addClass('selectedColor');
-    //     $('.assortColors').not(this).removeClass('selectedColor')
-    //     var selectColor = $(this).attr('id')
-    //
-    //     // hidden input에 값 넢어주기
-    //     $('#scheAssort').val(selectColor);
-    //
-    //     // 제목 옆 #selectedColor 에 선택된 클래스 적용해주기
-    //     $('#selectedColor').removeClass();
-    //     $('#selectedColor').addClass($(this).attr('id'));
-    //
-    //     //말풍선 닫기
-    //     $('#colorSelectorContainer').removeClass('visibleSpeechBubble');
-    //     $('#colorSelectorContainer').addClass('hiddenSpeechBubble');
-    // })
-    //
-    // // 날짜, 시간 합쳐서 채워넣기
-    // $('#startDate').on('change',function() {
-    //     var startDateValue = $('#startDate').val();
-    //     var startTimeValue = $('#startTime').val();
-    //     $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-    // })
-    //
-    // $('#startTime').on('change',function() {
-    //     var startDateValue = $('#startDate').val();
-    //     var startTimeValue = $('#startTime').val();
-    //     $('#scheStart').val(startDateValue + ' ' + startTimeValue + ':00');
-    // })
-    //
-    // $('#endDate').on('change',function() {
-    //     var endDateValue = $('#endDate').val();
-    //     var endTimeValue = $('#endTime').val();
-    //     $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
-    // })
-    //
-    // $('#endTime').on('change',function() {
-    //     var endDateValue = $('#endDate').val();
-    //     var endTimeValue = $('#endTime').val();
-    //     $('#scheEnd').val(endDateValue + ' ' + endTimeValue + ':00');
-    // })
 
 // ---------------------------------------------------------------------------
 
@@ -430,47 +431,47 @@ function addScheOKBtnClick(crewNum) {
 
         var startDate = year + "-" + month + "-" + date;
         var startTime = hours + ":" + minutes + ":00"
-        var updateScheStartStr = startDate + " " + startTime
 
         $('#startDate').val(startDate)
         $('#startTime').val(startTime)
-        $('#scheStart').val(updateScheStartStr)
 
         // 종료일 설정
-        if (info.event.end == null) { // 종료일이 없을 경우 (allDay일경우) 숨기기
+
+        var dateObj = new Date(info.event.end);
+        var year = dateObj.getFullYear();
+        var month = (dateObj.getMonth() + 1);
+        var date = dateObj.getDate();
+        var hours = dateObj.getHours();
+        var minutes = dateObj.getMinutes();
+
+
+        if (info.event.allDay) { // allDay일 경우 숨기기
             $('#startTime').addClass('inputHidden');
             $('#endTime').addClass('inputHidden');
+            date = date - 1;
         } else {
-            // allDay일 경우 endDate가 null이다.
             $('#startTime').removeClass('inputHidden');
             $('#endTime').removeClass('inputHidden');
-            var dateObj = new Date(info.event.end);
-            var year = dateObj.getFullYear();
-            var month = (dateObj.getMonth() + 1);
-            var date = dateObj.getDate();
-            var hours = dateObj.getHours();
-            var minutes = dateObj.getMinutes();
-            if (date < 10) {
-                date = "0" + date;
-            }
-            if (month < 10) {
-                month = "0" + month;
-            }
-            if (hours < 10) {
-                hours = "0" + hours;
-            }
-            if (minutes < 10) {
-                minutes = "0" + minutes;
-            }
+        }
+
+        if (date < 10) {
+            date = "0" + date;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
         }
 
         var endDate = year + "-" + month + "-" + date;
         var endTime = hours + ":" + minutes + ":00"
-        var updateScheEndStr = endDate + " " + endTime;
 
         $('#endDate').val(endDate)
         $('#endTime').val(endTime)
-        $('#scheEnd').val(updateScheEndStr)
 
         // 체크여부 설정
         if (info.event.allDay == true) {
