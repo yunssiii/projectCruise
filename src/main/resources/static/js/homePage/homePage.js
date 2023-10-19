@@ -61,7 +61,30 @@
         function accept() {
             // 수락을하면 세션에있는 크루 일련번호,선원이메일을가지고 crew_member테이블에 집어넣음  잘들어 가면 세션값 지우는걸로
 
-            window.location.href="/accept";
+          const accessToken = localStorage.getItem('accessToken');
+                          if (!accessToken) {
+                              window.location.href = "/accept";
+                          } else {
+
+                                     const rejectXhr = new XMLHttpRequest();
+                                            rejectXhr.open("GET", "/accept2", true);
+                                            rejectXhr.send();
+                                            rejectXhr.onload = function() {
+
+
+                                                    const xhr2 = new XMLHttpRequest();
+                                                    xhr2.open("POST", "/mypage/mypage_all", true); // 루트 엔드포인트로 요청을 전송합니다.
+                                                    xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
+                                                    xhr2.send();
+                                                    xhr2.onload = function() {
+                                                        const responseText = xhr2.responseText;
+                                                        document.open();
+                                                        document.write(responseText);
+                                                        document.close();
+                                                    };
+
+                                            };
+                                        }
 
             closeModal(); // 모달 창 닫기
         }
@@ -72,7 +95,30 @@
             // 메시지를 보내는 모임장은 초대수락받을 필요가없음 <<이거해결해야함 크루 일련번호가 있으니 그걸 토대로 선장이메일 확인해서
             // 로그인한 사람 이메일과 선장이메일이 같으면 모달창 띄울 필요가 없음! 유레카!
 
-            window.location.href="/reject";
+            const accessToken = localStorage.getItem('accessToken');
+                if (!accessToken) {
+                    window.location.href = "/reject";
+                } else {
+
+                           const rejectXhr = new XMLHttpRequest();
+                                  rejectXhr.open("GET", "/reject2", true);
+                                  rejectXhr.send();
+                                  rejectXhr.onload = function() {
+
+
+                                          const xhr2 = new XMLHttpRequest();
+                                          xhr2.open("POST", "/mypage/mypage_all", true); // 루트 엔드포인트로 요청을 전송합니다.
+                                          xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
+                                          xhr2.send();
+                                          xhr2.onload = function() {
+                                              const responseText = xhr2.responseText;
+                                              document.open();
+                                              document.write(responseText);
+                                              document.close();
+                                          };
+
+                                  };
+                              }
 
             closeModal(); // 모달 창 닫기
         }

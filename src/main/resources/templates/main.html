@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="/main.css"/>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.extensions.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.css"/>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+     document.querySelector('.top_btn').addEventListener('click', () => {
+         fullpage_api.moveTo(1); // 1번 섹션으로 스크롤
+     });
+ });
+    </script>
+
+
+
     <script th:src="@{/js/homePage/homePage.js}"></script>
     <style>
         /* 모달 스타일 (CSS) */
@@ -79,27 +100,27 @@
 <link rel="stylesheet" type="text/css" href="/main.css" />
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
 
+
 </head>
 <body>
 <main id="fullpage">
+
         <section class="section" id="sect1">
-            
+
             <div class="top">
                         <h1>크 루 즈</h1>
                         <strong style="font-size: 3rem;">크루즈에서 모임 통장을 시작하세요</strong>
 
-                <div class="btn_box" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a th:href="@{/logout}">Log out</a>
-                </div>
-                <div class="btn_box" th:unless="${#authorization.expression('isAuthenticated()')}">
-                    <a th:href="@{/login}">Log in</a>
-                    <a th:href="@{/signup}">Sign up</a>
+
+                <div class="btn_box">
+                    <a href="/login">Log in</a>
+                    <a href="/signup">Sign up</a>
                 </div>
 
 
             </div>
 
-           
+
             <div class="bottom">
                 <div class="inner">
                         <p>
@@ -114,13 +135,13 @@
             <div class="center">
                 <div class="inner">
                     <div class="info">
-                    
+
 						<h3>"크루즈"</h3>
 						<div style="font-size: 25px;">
 	                        여러분의 지속적인 모임 활동을 응원하는<br> 모임통장 통합관리 서비스입니다<br>
-	                     </div> 
-	                     
-					</div>	
+	                     </div>
+
+					</div>
                 </div>
             </div>
         </section>
@@ -131,7 +152,7 @@
                         <h2>Free Service</h2>
                         <div class="txt_box">
 	                        <strong>
-	                        크루즈에서는 여러분의 모임관리를 돕기위해 서비스를 무료로 제공합니다. 
+	                        크루즈에서는 여러분의 모임관리를 돕기위해 서비스를 무료로 제공합니다.
 	                        </strong>
 	                       </div>
                         <ul>
@@ -161,72 +182,37 @@
                 <div class="more">
                     <h2>Lastly</h2>
                     <div class="txt_box">
-                      <video width="640" height="360" controls>
-				        <source src="images/cruise.mp4" type="video/mp4">
+                      <video width="640" height="360"  class="video" autoplay muted controls loop>
+				        <source src="images/cruise.mp4" type="video/mp4" />
 				    	</video>
-	                  
+
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <footer class="section fp-auto-height" id="sect5">
             <div class="top_btn">
-                <a href="">top</a>
+                <a href="#">top</a>
             </div>
             <p>&copy; Cruise. All rights reserved </p>
         </footer>
     </main>
 
-<p id="sessionGroup" th:if="${session.group != null}" th:text="${session.group}" style="display:none"></p>
-<p id="sessionEmail" th:if="${session.email != null}" th:text="${session.email}" style="display:none"></p>
-<p id="sessionNum" th:if="${session.num != null}" th:text="${session.num}" style="display:none"></p>
+
 
 
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-<script src="jquery-3.7.1.min.js"></script>
-<script src="/fullpage/fullpage.min.js"></script>
-<script th:inline="javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-       const accessToken = localStorage.getItem('accessToken');
-       const isAuthenticated = /*[[${#authorization.expression('isAuthenticated()')}]]*/;
 
-       if (accessToken || isAuthenticated) {
-           showLogoutButton();
-       } else {
-           showLoginSignupButtons();
-       }
-   });
-
-   function showLogoutButton() {
-       const logoutButton = document.createElement('a');
-       logoutButton.textContent = 'Log out';
-
-       logoutButton.addEventListener('click', function() {
-           localStorage.removeItem('accessToken');
-            logoutButton.href='/logout';
-       });
-
-       const buttonBox = document.querySelector('.btn_box');
-       buttonBox.innerHTML = ''; // 이전 버튼들 제거
-       buttonBox.appendChild(logoutButton);
-   }
-
-   function showLoginSignupButtons() {
-       const loginButton = document.createElement('a');
-       loginButton.textContent = 'Log in';
-       loginButton.href = '/login';
-
-       const signupButton = document.createElement('a');
-       signupButton.textContent = 'Sign up';
-       signupButton.href = '/signup';
-
-       const buttonBox = document.querySelector('.btn_box');
-       buttonBox.innerHTML = ''; // 이전 버튼들 제거
-       buttonBox.appendChild(loginButton);
-       buttonBox.appendChild(signupButton);
-   }
+<script>
+    new fullpage('#fullpage', {
+//options here
+autoScrolling:true,
+scrollHorizontally: true,
+ scrollOverflow: true
+});
 </script>
+
 
 </body>
 
