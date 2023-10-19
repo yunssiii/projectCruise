@@ -38,7 +38,7 @@ import java.util.Optional;
 
 
 
-@Controller
+@RestController
 public class MypageController {
 
     @Autowired
@@ -61,12 +61,6 @@ public class MypageController {
         --
         일정 달력 조회
      */
-
-
-
-
-
-
 
     @RequestMapping(value = "/mypage/mypage_all",method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView all(HttpSession session, HttpServletRequest request,@RequestParam(required = false) String anum,@RequestHeader(value = "Authorization", required = false) String accessToken , @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
@@ -138,16 +132,16 @@ public class MypageController {
 
 
 
-        List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보 (크루계좌번호 등록된 계좌 삭제할 때 사용)
-        List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums(email); //크루맴버의 크루번호
-        List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(email); //가상계좌 비밀번호
-        List<MyAccountDTO> accountLists = mypageService.getAccountList(email); //계좌 전체 조회
-        UserDTO userInfo = mypageService.getUserInfo(email); // 로그인한 사용자 정보.이름
+        List<CrewDTO> crewLists = mypageService.getCrews("hchdbsgk@naver.com"); //크루 정보 (크루계좌번호 등록된 계좌 삭제할 때 사용)
+        List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums("hchdbsgk@naver.com"); //크루맴버의 크루번호
+        List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd("hchdbsgk@naver.com"); //가상계좌 비밀번호
+        List<MyAccountDTO> accountLists = mypageService.getAccountList("hchdbsgk@naver.com"); //계좌 전체 조회
+        UserDTO userInfo = mypageService.getUserInfo("hchdbsgk@naver.com"); // 로그인한 사용자 정보.이름
 
         ModelAndView mav = new ModelAndView();
 
        if(anum !=null){
-           mypageService.insertAccount(email,anum);
+           mypageService.insertAccount("hchdbsgk@naver.com",anum);
 
            mav.setViewName("redirect:/mypage/mypage_all");
        }
@@ -203,6 +197,7 @@ public class MypageController {
         계좌 내역 조회
      */
     @PostMapping("/mypage/useAccount")
+    @ResponseBody
     public List<Map<String,Object>> useAccount(@RequestParam("accountNum") String accountNum,
                                    @RequestParam("months") int months) throws Exception{
 
@@ -281,6 +276,7 @@ public class MypageController {
         수정 후 뿌려주기 위해 다시 조회
      */
     @PostMapping("/mypage/updateAname")
+    @ResponseBody
     public List<Map<String,Object>> updateAname(@RequestParam("myaccountNum") String myaccountNum,@RequestParam("myaccountName") String myaccountName) throws Exception{
 
         JSONObject jsonObject = new JSONObject();
@@ -400,7 +396,7 @@ public class MypageController {
     @ResponseBody
     public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
 
-        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
+        List<ScheduleDTO> myScheLists = mypageService.getSchedule("hchdbsgk@naver.com"); //로그인한 사용자의 일정들
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
