@@ -2,8 +2,10 @@ package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.mapper.MypageMapper;
 import com.cruise.project_cruise.mapper.TemplateMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,16 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public List<OpenBankDTO> getAccounts(String email) throws Exception {
         return mypageMapper.getAccounts(email);
+    }
+
+    @Override
+    public List<OpenBankUsingDTO> getUseAccounts(String accountNum, int monthNum) throws Exception {
+        return mypageMapper.getUseAccounts(accountNum, monthNum);
+    }
+
+    @Override
+    public void updateAname(String openAname, String openAccount) throws Exception {
+        mypageMapper.updateAname(openAname,openAccount);
     }
 
     @Override

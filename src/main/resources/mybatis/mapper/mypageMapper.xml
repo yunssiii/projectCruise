@@ -46,8 +46,21 @@
         and myaccount_anum in
         (select open_account from openbank where open_name = (select user_name from users where email=#{email})))
         and
-        open_name=(select user_name from users where email=#{email})
+        open_name=(select user_name from users where email=#{email}) order by open_bank
     </select>
+
+    <!-- 등록된 계좌 내역 조회 -->
+    <select id="getUseAccounts" parameterType="map" resultType="com.cruise.project_cruise.dto.develop.OpenBankUsingDTO">
+        select to_char(openuse_date, 'YYYY-MM-DD') openuse_date,openuse_assort,openuse_content,openuse_outmoney,openuse_inmoney from openbank_use
+        where openuse_date >= (select to_char(add_months(sysdate,-#{monthNum}),'yyyy-mm-dd') as agomonths from dual)
+        and
+        open_account in (#{accountNum})
+        order by openuse_date desc
+    </select>
+
+    <update id="updateAname" parameterType="map">
+        update openbank set open_aname = #{open_aname} where open_account = #{open_account}
+    </update>
 
     <!-- 이체 비밀번호 조회 -->
     <select id="getWebpassword" parameterType="java.lang.String" resultType="java.lang.String">
