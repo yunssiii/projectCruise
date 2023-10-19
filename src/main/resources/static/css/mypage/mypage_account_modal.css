@@ -404,7 +404,6 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
 .openuse-cover {
     border-bottom: 1px solid gray;
     display: flex;
-    justify-content: space-between;
     padding: 10px;
 }
 
@@ -415,6 +414,34 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
 .openuse-cover:hover {
     background-color: rgb(221, 221, 221);
 }
+
+.openuse-date {
+
+}
+
+.dateDiv {
+    width: 30%;
+}
+
+.contentDiv {
+    width: 50%;
+    text-align: center;
+}
+
+.moneyDiv {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.openuse-money {
+    color: red;
+}
+
+.openuse-money2 {
+    color: blue;
+}
+
 
 /* 닫기 버튼 */
 .closeBtn {

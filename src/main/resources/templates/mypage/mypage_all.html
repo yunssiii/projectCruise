@@ -424,10 +424,10 @@
                                     </div>
                                 </div>
                                 <div class="account-alias-box">
-                                    <p class="account-alias" th:text="${dto.open_aname}"></p>
-                                    <input type="text" value="황윤하의 통장" class="account-alias2 hidden"/>
+                                    <p class="account-alias" th:id="|account-alias${dto.open_account}|" th:text="${dto.open_aname}"></p>
+                                    <input type="text" th:id="|aname${dto.open_account}|" th:value="${dto.open_aname}" class="account-alias2 hidden"/>
                                     <button class="account-update">수정</button>
-                                    <button class="account-update-ok hidden">변경</button>
+                                    <button class="account-update-ok hidden" th:onclick="updateAname([[${dto.open_account}]]);clickChangeBtn();">변경</button>
                                     |
                                     <button class="account-delete">삭제</button>
                                 </div>
@@ -438,6 +438,64 @@
                 </div>
             </div>
         </section>
+
+        <script>
+
+
+
+            var accUpdateBtn = document.getElementsByClassName("account-update");
+            var okUpdateBtn = document.getElementsByClassName("account-update-ok");
+            var pAlias = document.getElementsByClassName("account-alias");
+            var inputAlias = document.getElementsByClassName("account-alias2");
+
+
+
+            function clickChangeBtn() {
+
+                for(var i=0;i<accUpdateBtn.length;i++){
+
+                    pAlias[i].classList.remove("hidden");
+                    inputAlias[i].classList.add("hidden");
+
+                    accUpdateBtn[i].classList.remove("hidden");
+                    okUpdateBtn[i].classList.add("hidden");
+
+                }
+            };
+
+
+            function updateAname(openAccount){
+
+                var openAname = $('#aname' + openAccount).val();
+                var alias = $('#account-alias' + openAccount).val();
+
+                console.log('음..' + openAname)
+
+                $.ajax({
+                    type : "POST",
+                    url : "/mypage/updateAname",
+                    data : {
+                    openAccount : openAccount,
+                    openAname : openAname
+                    },
+                    success : function(result){
+                        console.log("수정성공..!" + result);
+
+                        $.each(result, function(i) {
+
+                        $('#account-alias' + openAccount).html(result[i].selectAname);
+
+                        });
+
+                    },
+                    error:function(xhr,status,error) {
+                        console.log("수정에러..!" + error);
+                    }
+
+                });
+            };
+
+        </script>
 
         <div class="password-box">
             <button class="passwordBtn">
@@ -653,14 +711,55 @@
                           <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
-                            <li value="selectOption1" class="custom-select-option">1개월</li>
-                            <li value="selectOption2" class="custom-select-option">3개월</li>
-                            <li value="selectOption3" class="custom-select-option">6개월</li>
+                            <li class="custom-select-option" id="oneMonth">1개월</li>
+                            <li class="custom-select-option" id="threeMonth">3개월</li>
+                            <li class="custom-select-option" id="sixMonth">6개월</li>
                         </ul>
+                        <input type="hidden" th:id="|monthVal${dto.open_account}|" name="months" value="1">
                     </div>
 
-                    <input type="text" class="openuse-input-search" id="search" onkeyup="search(this)"/>
-                    <button class="openuse-searchBtn">
+                    <script th:inline="javascript">
+
+                        /*<![CDATA[*/
+
+                        $('#oneMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+                            $('#monthVal' + accountNum).val(1);
+
+                            console.log('첫클릭' + accountNum)
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        $('#threeMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+
+                            $('#monthVal' + accountNum).val(3);
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        $('#sixMonth').click(function(){
+
+                            var accountNum = /*[[${dto.open_account}]]*/
+
+                            $('#monthVal' + accountNum).val(6);
+
+                            accountDivClick(accountNum);
+
+                        });
+
+                        /*]]*/
+
+
+                    </script>
+
+                    <input type="text" class="openuse-input-search" th:id="|search${dto.open_account}|"/>
+                    <button class="openuse-searchBtn" th:onclick="accountDivClick([[${dto.open_account}]])">
                         <span class="material-symbols-outlined" style="color: #0C0CCA;">
                             search
                         </span>
@@ -669,45 +768,8 @@
 
                 <div class="line"></div>
 
-                <div class="openuse-box">
-                    <!-- 반복문 -->
-                    <!-- <div id="searchList">검색결과</div> -->
-                    <div class="openuse-cover" > 
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <!-- if 출금/입금 -->
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div>
-                    <div class="openuse-cover">
-                        <p class="openuse-date">09.26</p>
-                        <p class="openuse-content">모건약국</p>
-                        <p class="openuse-money">-3,500원</p>
-                    </div> 
+                <div class="openuse-box" th:id="|openuseList${dto.open_account}|">
+                    <!-- 계좌 내역 -->
                 </div>
 
                 <div class="line"></div>
@@ -748,6 +810,94 @@
     <!-- <script src="../js/search.js"></script> -->
 
 
+
+
     
 </body>
+
+<script>
+
+
+    //계좌 내역 조회
+
+        function accountDivClick(accountNum) {
+
+            var months = $('#monthVal' + accountNum).val();
+            var search = $('#search' + accountNum).val();
+
+            var word = search.toLowerCase(); //검색값 대소문자 구분 안하게 함
+
+            console.log("넘기는 계좌번호" + accountNum);
+
+            $.ajax({
+                type : "POST",
+                url : "/mypage/useAccount",
+                data : {
+                accountNum : accountNum,
+                months : months
+                },
+                success : function(result){
+                    console.log("성공..!");
+                    console.log("넘어온 계좌번호" + accountNum);
+
+                    var str = '';
+
+                    $.each(result, function(i) {
+
+                        // 검색 시
+
+                            console.log("검색한 단어" + word);
+
+                            var searchContent = result[i].openUseContent.toLowerCase();
+
+                            if(searchContent.includes(word)){
+
+                                if($.trim(result[i].openuseAssort) == 'I'){
+
+                                    str += '<div class="openuse-cover">'
+                                        str += '<div class="dateDiv">'
+                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="contentDiv">'
+                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="moneyDiv">'
+                                            str += '<p class="openuse-money2">' + result[i].openUseIn + '</p>'
+                                        str += '</div>'
+                                    str += '</div>'
+
+                                }else if($.trim(result[i].openuseAssort) == 'O'){
+
+                                    str += '<div class="openuse-cover">'
+                                        str += '<div class="dateDiv">'
+                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="contentDiv">'
+                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                        str += '</div>'
+                                        str += '<div class="moneyDiv">'
+                                            str += '<p class="openuse-money">' + result[i].openUseOut + '</p>'
+                                        str += '</div>'
+                                    str += '</div>'
+
+                                }
+                            }
+
+
+                    }); //반복문 끝
+
+                    $('#openuseList' + accountNum).children().remove(); //자식 요소들을 지워줌
+                    $('#openuseList' + accountNum).append(str); //그 담에 더함
+
+                },
+                error:function(xhr,status,error) {
+                    console.log("에러..!" + error);
+                }
+            });
+        };
+
+</script>
+
+
+
 </html>
