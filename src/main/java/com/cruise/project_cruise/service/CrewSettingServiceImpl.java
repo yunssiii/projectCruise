@@ -1,6 +1,8 @@
 package com.cruise.project_cruise.service;
 
+import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.ScheduleDTO;
+import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.mapper.CrewSettingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,16 @@ public class CrewSettingServiceImpl implements CrewSettingService {
     @Override
     public List<ScheduleDTO> getCrewScheList(int crewNum) throws Exception {
         return crewSettingMapper.getCrewScheList(crewNum);
+    }
+
+    @Override
+    public UserDTO getCrewCaptain(String captainEmail) throws Exception {
+        return crewSettingMapper.getCrewCaptain(captainEmail);
+    }
+
+    @Override
+    public void updateCrewInfo(CrewDTO crewDTO) throws Exception {
+        crewSettingMapper.updateCrewInfo(crewDTO);
     }
 
     @Override

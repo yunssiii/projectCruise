@@ -90,9 +90,18 @@
 
 #informationSet .content .info {
     font-size: 10pt;
+    margin-top: 10px;
     margin-bottom: 10px;
     text-align: left;
     color: #ababab;
+}
+
+.warn {
+    font-size: 10pt;
+    margin-top: 10px;
+    text-align: left;
+    color: #ff0000;
+    width: 270px;
 }
 
 #informationSet .content .inputContainer {
