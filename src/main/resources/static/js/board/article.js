@@ -32,7 +32,7 @@ function deleteArticle(board_num) {
         data: { board_num: board_num },
         success: function(data) {
             if(data === "DeleteSuccess") {
-                let url = '/board/article?' + params + '&num=' + num;
+                let url = '/board/list?crewNum=' + crew_num + '&' + params;
                 window.location.href = url;
             } else {
                 alert("Error: 게시글 삭제 실패");
@@ -50,7 +50,7 @@ function commentList(num){
     $.ajax({
         url : '/board/comment/list',
         type : 'get',
-        data : {'num': num},
+        data : { num: num },
         success : function(data){
             var a = '';
         $.each(data, function (key, value) {
@@ -93,10 +93,10 @@ function commentList(num){
 
 // 댓글 개수
 function updateCount() {
-     $.ajax({
+    $.ajax({
         url: '/board/comment/count',
         type: 'get',
-        data : {'num': num},
+        data : { num: num },
         success: function(data) {
             $('#commentCount').text(data);
         },
@@ -111,14 +111,13 @@ function updateCount() {
 function insertComment() {
     if(sendIt()) {
         var data = $('[name=comment-form]').serialize();
-
+        console.log(data);
         $.ajax({
             url: '/board/comment/create',
             type: 'post',
             data: data,
             success: function(data) {
                 if(data === "InsertComment") {
-                    console.log("num: " + num);
                     $('[name=comment_content]').val('');
                     commentList(num);
                 }else{
@@ -191,7 +190,7 @@ function updateComment(commentNum) {
     $.ajax({
         url: '/board/comment/update',
         type: 'post',
-        data: { commentContent: commentContent, commentNum: commentNum },
+        data: { comment_content: commentContent, comment_num: commentNum },
         success: function(data) {
             if (data === "UpdateComment") {
                 commentList(num);
@@ -252,9 +251,10 @@ function insertReply(commentNum) {
         url: '/board/comment/insertReply',
         type: 'post',
         data: {
-            replyContent: replyContent,
-            commentNum: commentNum,
-            num: num
+            comment_content: replyContent,
+            comment_num: commentNum,
+            crew_num: crew_num,
+            board_num: num
         },
         success: function(data) {
             if (data === "InsertReply") {

@@ -42,7 +42,6 @@ public class CrewBoardController {
 			return mav;
 		}
 
-		//int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 		String userName = crewBoardService.getUserName(userEmail);
 
 		int notice = Integer.parseInt(request.getParameter("notice"));
@@ -71,7 +70,8 @@ public class CrewBoardController {
 	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
-		String userEmail = (String)session.getAttribute("email");
+//		String userEmail = (String)session.getAttribute("email");
+		String userEmail = "dlaldus@naver.com";
 
 		ModelAndView mav = new ModelAndView();
 
@@ -120,14 +120,14 @@ public class CrewBoardController {
 			param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
 
-		String listUrl = "/board/list";
+		String listUrl = "/board/list?crewNum=" + crewNum;
 
 		if(!param.isEmpty())
-			listUrl = listUrl + "?" + param;
+			listUrl = listUrl + "&" + param;
 
 		String pageIndexList = myUtil.pageIndexList(currentPage, totalPage, listUrl);
 
-		String articleUrl ="/board/article?pageNum=" + currentPage;
+		String articleUrl ="/board/article?crewNum=" + crewNum + "&pageNum=" + currentPage;
 
 		if(!param.isEmpty())
 			articleUrl = articleUrl + "&" + param;
@@ -256,6 +256,7 @@ public class CrewBoardController {
 
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("email");
+		int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 
 		ModelAndView mav = new ModelAndView();
 
@@ -277,7 +278,7 @@ public class CrewBoardController {
 
 		crewBoardService.updateData(dto);
 
-		mav.setViewName("redirect:/board/list?" + param);
+		mav.setViewName("redirect:/board/list?crewNum=" + crewNum + "&" + param);
 
 		return mav;
 	}
