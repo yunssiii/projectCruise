@@ -257,7 +257,7 @@
             var formData = new FormData(f);
 
             formData.append('notice', noticeInput.value);
-            formData.append('crewNum', [[${crewNum}]]);
+            formData.append('crew_num', [[${crewNum}]]);
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/board/created', true);

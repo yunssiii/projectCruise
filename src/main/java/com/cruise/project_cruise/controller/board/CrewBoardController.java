@@ -29,9 +29,10 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("/board/created")
-	public ModelAndView created_ok(CrewBoardDTO dto, @RequestParam("crewNum") int crewNum,
+	public ModelAndView created_ok(CrewBoardDTO dto,
 								   HttpServletRequest request) throws Exception {
 
+		// 세션에서 이메일 가져오기
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("email");
 
@@ -46,22 +47,22 @@ public class CrewBoardController {
 
 		int notice = Integer.parseInt(request.getParameter("notice"));
 
-		if (notice == 1) {	// 공지
+		if (notice == 1) {	// 공지글일 때
 			dto.setNotice(1);
-		} else {	// 일반 게시글
+		} else {	// 일반 게시글일 때
 			dto.setNotice(0);
 		}
 
 		int maxNum = crewBoardService.maxNum();
 		dto.setBoard_num(maxNum + 1);
 
-		dto.setCrew_num(crewNum);
+		dto.setCrew_num(dto.getCrew_num());
 		dto.setEmail(userEmail);
 		dto.setName(userName);
 
 		crewBoardService.insertData(dto);
 
-		mav.setViewName("redirect:/board/list?crewNum=" + crewNum);
+		mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
 
 		return mav;
 	}
@@ -70,8 +71,7 @@ public class CrewBoardController {
 	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
-//		String userEmail = (String)session.getAttribute("email");
-		String userEmail = "dlaldus@naver.com";
+		String userEmail = (String)session.getAttribute("email");
 
 		ModelAndView mav = new ModelAndView();
 
@@ -102,7 +102,7 @@ public class CrewBoardController {
 
 		int dataCount = crewBoardService.getDataCount(searchKey, searchValue, crewNum);
 
-		int numPerPage = 10;
+		int numPerPage = 10;	// 한 페이지당 10개의 게시글
 		int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 
 		if(currentPage > totalPage)
@@ -132,7 +132,6 @@ public class CrewBoardController {
 		if(!param.isEmpty())
 			articleUrl = articleUrl + "&" + param;
 
-
 		mav.setViewName("board/list");
 
 		mav.addObject("crewNum", crewNum);
@@ -147,10 +146,9 @@ public class CrewBoardController {
 		mav.addObject("boardTitle", boardTitle);
 		// -----------------------------------게시판 상단 Title
 
-		// 캡틴인 경우 '공지 등록' 가능
+		// 모임장(캡틴)인 경우 '공지' 버튼 보이게 하기
 		String checkCaptain = crewBoardService.checkCaptain(userEmail);
 		mav.addObject("checkCaptain", checkCaptain);
-
 
 		return mav;
 	}
@@ -186,7 +184,6 @@ public class CrewBoardController {
 
 		if(dto == null) {
 			mav.setViewName("redirect:/board/list?pageNum=" + pageNum);
-
 			return mav;
 		}
 
@@ -216,9 +213,10 @@ public class CrewBoardController {
 
 		int num = Integer.parseInt(request.getParameter("board_num"));
 		String pageNum = request.getParameter("pageNum");
-
 		String searchKey = request.getParameter("searchKey");
 		String searchValue = request.getParameter("searchValue");
+
+		ModelAndView mav = new ModelAndView();
 
 		if(searchValue != null) {
 			searchValue = URLDecoder.decode(searchValue, "UTF-8");
@@ -227,7 +225,6 @@ public class CrewBoardController {
 		CrewBoardDTO dto = crewBoardService.getReadData(num);
 
 		if(dto == null) {
-			ModelAndView mav = new ModelAndView();
 			mav.setViewName("redirect:/");
 			return mav;
 		}
@@ -238,7 +235,6 @@ public class CrewBoardController {
 			param += "&searchValue=" + URLEncoder.encode(searchValue, "UTF-8");
 		}
 
-		ModelAndView mav = new ModelAndView();
 		mav.setViewName("board/updated");
 
 		mav.addObject("dto", dto);
