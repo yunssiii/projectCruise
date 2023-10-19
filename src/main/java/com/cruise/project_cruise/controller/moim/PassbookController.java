@@ -27,7 +27,8 @@ public class PassbookController {
     public ModelAndView passbook(HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
-        String userEmail = (String)session.getAttribute("email");
+//        String userEmail = (String)session.getAttribute("email");
+        String userEmail = "dlaldus@naver.com";
 
         crewBoardService.getUserName(userEmail);
 
