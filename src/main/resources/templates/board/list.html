@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>게 시 판</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>게 시 판</title>
 
-	<link rel="stylesheet" type="text/css" href="/css/board/style.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/board/list.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/board/created.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css"/>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-	<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-	<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="/css/board/style.css"/>
+<link rel="stylesheet" type="text/css" href="/css/board/list.css"/>
+<link rel="stylesheet" type="text/css" href="/css/board/created.css"/>
+<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 
 
-	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-	<script type="text/javascript">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	function searchIt() {
+		var f = document.searchForm;
 
-		function searchIt() {
-            var f = document.searchForm;
-
-            f.action = "/board/list?crewNum=" + [[${crewNum}]];
-            f.submit();
-        }
-
-	</script>
+		f.action = "/board/list?crewNum=" + [[${crewNum}]];
+		f.submit();
+	}
+</script>
 
 
 </head>
@@ -134,13 +132,14 @@
 		</table>
 
 		<div id="footer">
-			<form action="" method="get" name="searchForm">
+			<form action="/board/list" method="get" name="searchForm">
 				<select name="searchKey" class="selectFiled">
 					<option value="board_subject">제목</option>
 					<option value="name">작성자</option>
 					<option value="board_content">내용</option>
 				</select>
 				<input type="text" name="searchValue" class="textFiled"/>
+				<input type="hidden" name="crewNum" th:value="${crewNum}"/>
 				<input type="button" value=" 검 색 " class="bbs_button" onclick="searchIt();"/>
 			</form>
 		</div>

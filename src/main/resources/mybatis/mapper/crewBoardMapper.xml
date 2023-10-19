@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getReadData" parameterType="int" 
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
-	select board_num,name,email,board_subject,board_content,
+	select board_num,crew_num,name,email,board_subject,board_content,
 	hitCount,board_created from crew_board where board_num=#{board_num}
 </select>
 

@@ -16,9 +16,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 <script>
-	const num = "[[${dto.board_num}]]";
-	const params = "[[${params}]]";
-	var userEmail = "[[${email}]]";
+	var num = "[[${dto.board_num}]]";
+	var params = "[[${params}]]";
+	var crew_num = "[[${dto.crew_num}]]";
+	const userEmail = "[[${email}]]";
 </script>
 <script type="text/javascript" th:src="@{/js/board/article.js}"></script>
 
@@ -106,7 +107,8 @@
 			<div class="card-body">
 				<form name="comment-form" action="/board/comment/create" method="post"
 					  autocomplete="off" onsubmit="return sendIt();">
-					<input type="hidden" name="num" th:value="${dto.board_num}"/>
+					<input type="hidden" name="board_num" th:value="${dto.board_num}"/>
+					<input type="hidden" name="crew_num" th:value="${dto.crew_num}"/>
 					<div class="form-group">
 						<textarea name="comment_content" class="form-control" rows="3"
 								  style="font-family: NanumSquare; width: 100%;"
