@@ -5,10 +5,16 @@
 
 <mapper namespace="com.cruise.project_cruise.mapper.MypageMapper">
 
-    <!-- 내 모임 상세 정보 select문 -->
+    <!-- 내 모임 전체 조회 -->
     <select id="getCrews" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewDTO">
-        select crew_name, crew_accountid, crew_info, crew_num from crew
+        select crew_name, crew_accountid, crew_info, crew_num, captain_email from crew
         where crew_num in (select crew_num from crew_member where cmem_email=#{cmem_email})
+    </select>
+
+    <!-- 내 모임 캡틴이메일 하나만 조회 -->
+    <select id="getOneCaptain" parameterType="map" resultType="java.lang.String">
+        select captain_email from crew
+        where crew_num in (select crew_num from crew_member where cmem_email=#{email} and crew_num=#{crew_num})
     </select>
 
     <!-- 내 모임 탈퇴하기   -->
@@ -29,24 +35,24 @@
 
     <!-- 계좌 등록 insert -->
     <insert id="insertAccount" parameterType="map">
-        insert into my_account (myaccount_bank,myaccount_anum,myaccount_date,email)
-        values (
-        (select open_bank from openbank
-        where open_name = (select user_name from users where email=#{email})
-        and
-        open_account = #{myaccount_anum}),
-        #{myaccount_anum},sysdate,#{email}
-        )
+        insert into my_account (myaccount_bank, myaccount_anum, myaccount_date, email, myaccount_name, myaccount_balance)
+        select ob.open_bank, ob.open_account, sysdate, u.email, ob.open_aname, ob.open_balance
+        from openbank ob
+        join users u on ob.open_name = u.user_name
+        where u.email = #{email}
+        and ob.open_account = #{myaccount_anum}
     </insert>
 
-    <!-- 등록된 계좌 조회 -->
-    <select id="getAccounts" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
-        select open_bank, open_account,open_aname,open_balance from openbank
-        where open_account in (select myaccount_anum from my_account where email=#{email}
-        and myaccount_anum in
-        (select open_account from openbank where open_name = (select user_name from users where email=#{email})))
-        and
-        open_name=(select user_name from users where email=#{email}) order by open_bank
+    <!-- 등록된 전체 계좌 조회 -->
+    <select id="getAccountList" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
+        select myaccount_anum,myaccount_bank,myaccount_name,myaccount_balance from my_account
+        where email=#{email}
+    </select>
+
+    <!-- 등록된 한 계좌 조회 -->
+    <select id="getOneAccount" parameterType="map" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
+        select myaccount_anum,myaccount_bank,myaccount_name from my_account
+        where email=#{email} and myaccount_anum=#{myaccount_anum}
     </select>
 
     <!-- 등록된 계좌 내역 조회 -->
@@ -58,9 +64,15 @@
         order by openuse_date desc
     </select>
 
+    <!-- 등록된 계좌 계좌명 수정 -->
     <update id="updateAname" parameterType="map">
-        update openbank set open_aname = #{open_aname} where open_account = #{open_account}
+        update my_account set myaccount_name = #{myaccount_name} where myaccount_anum = #{myaccount_anum}
     </update>
+
+    <!-- 등록된 계좌 삭제 -->
+    <delete id="deleteMyaccount" parameterType="java.lang.String">
+        delete from my_account where myaccount_anum = #{myaccount_anum}
+    </delete>
 
     <!-- 이체 비밀번호 조회 -->
     <select id="getWebpassword" parameterType="java.lang.String" resultType="java.lang.String">

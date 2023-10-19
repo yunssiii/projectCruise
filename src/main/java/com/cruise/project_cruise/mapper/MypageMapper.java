@@ -14,13 +14,16 @@ import java.util.List;
 public interface MypageMapper {
 
     public List<CrewDTO> getCrews(String email) throws Exception;
+    public String getOneCaptain(@Param("email")String email,@Param("crew_num")int crewNum) throws Exception;
     public void deleteCrew(@Param("cmem_email")String email, @Param("crew_num") int crewNum) throws Exception;
     public  List<CrewMemberDTO> getCrewNums(String email) throws Exception;
     public List<OpenBankDTO> getOpenAccPWd(String email) throws Exception;
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception;
-    public  List<OpenBankDTO> getAccounts(String email) throws Exception;
+    public  List<MyAccountDTO> getAccountList(String email) throws Exception;
+    public  List<MyAccountDTO> getOneAccount(@Param("email")String email,@Param("myaccount_anum")String myaccountName) throws Exception;
     public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception;
-    public void updateAname(@Param("open_aname") String openAname,@Param("open_account")String openAccount) throws Exception;
+    public void updateAname(@Param("myaccount_name") String myaccountName,@Param("myaccount_anum")String myaccountNum) throws Exception;
+    public void deleteMyaccount(String myaccountNum) throws Exception;
     public String getWebpassword(String email) throws Exception;
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception;
     public UserDTO getUserInfo(String email) throws Exception;

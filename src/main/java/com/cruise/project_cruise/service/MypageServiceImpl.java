@@ -24,6 +24,11 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
+    public String getOneCaptain(String email, int crewNum) throws Exception {
+        return mypageMapper.getOneCaptain(email, crewNum);
+    }
+
+    @Override
     public void deleteCrew(String email, int crewNum) throws Exception {
         mypageMapper.deleteCrew(email,crewNum);
     }
@@ -44,8 +49,13 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public List<OpenBankDTO> getAccounts(String email) throws Exception {
-        return mypageMapper.getAccounts(email);
+    public List<MyAccountDTO> getAccountList(String email) throws Exception {
+        return mypageMapper.getAccountList(email);
+    }
+
+    @Override
+    public List<MyAccountDTO> getOneAccount(String email, String myaccountName) throws Exception {
+        return mypageMapper.getOneAccount(email, myaccountName);
     }
 
     @Override
@@ -54,8 +64,13 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void updateAname(String openAname, String openAccount) throws Exception {
-        mypageMapper.updateAname(openAname,openAccount);
+    public void updateAname(String myaccountName, String myaccountNum) throws Exception {
+        mypageMapper.updateAname(myaccountName,myaccountNum);
+    }
+
+    @Override
+    public void deleteMyaccount(String myaccountNum) throws Exception {
+       mypageMapper.deleteMyaccount(myaccountNum);
     }
 
     @Override
