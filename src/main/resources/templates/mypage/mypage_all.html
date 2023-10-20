@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
 
-    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
+
+
     <!-- ----------------- -->
     <link rel="stylesheet" href="/css/mypage/mypage_crew.css">
     <link rel="stylesheet" href="/css/mypage/mypage_account.css">
@@ -685,6 +685,34 @@
     </div>
 </form>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.forms['accForm'];
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼이 서버로 전송되는 것을 막습니다.
+
+        const formData = new FormData(form); // 폼 데이터를 가져옵니다.
+
+        // AJAX를 사용하여 서버로 POST 요청을 전송합니다.
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => {
+            if (response.redirected) {
+
+                window.location.href = response.url; // 화면을 리다이렉트합니다.
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+</script>
+
+
     <!-- 계좌 삭제 안내 모달창 -->
         <!-- 반복문..! -->
 
@@ -848,7 +876,7 @@
 
 
     <!-- script -->
-    <script type="text/javascript" src="/js/nav.js"></script>
+<th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <script src="/js/mypage/mypage_crew.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
