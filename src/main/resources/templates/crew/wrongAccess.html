@@ -50,6 +50,10 @@
                 <div>해당 크루의 선원만 들어올 수 있어요.</div>
                 <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
             </div>
+            <div th:if="${status=='notCaptain'}">
+                <div>선장님만 크루를 관리할 수 있어요!</div>
+                <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
+            </div>
 
 
 </div>

@@ -40,7 +40,6 @@ public class CrewController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("crew/wrongAccess");
 
-//        mav.addObject("wrongAccessMsg","어쩌다 여기에 오셨나요..?");
         return mav;
     }
 
@@ -100,8 +99,11 @@ public class CrewController {
 
         // 크루 상세페이지 메인화면
         ModelAndView mav = new ModelAndView();
+        
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
+        
+        
         /**
          * TODO
          * 0. 내가 크루원일 때만 해당 페이지에 들어올 수 있게 하기
@@ -113,7 +115,7 @@ public class CrewController {
          * 6. 일정 간편조회
          */
 
-        // TODO 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
+        // 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기 - 완료
             // 1. 세션에서 크루원의 이메일 받기
             String userEmail = (String)session.getAttribute("email");
             // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
@@ -133,7 +135,7 @@ public class CrewController {
                 return mav;
             }
 
-        // TODO 0. 크루 캡틴에게만 크루관리 뜨게 하기
+        // 0. 크루 캡틴에게만 크루관리 뜨게 하기 - 완료
             if(crewDetailService.isCaptain(crewNum,userEmail)) {
                 System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 에 선장 접속");
                 mav.addObject("isCaptain","true");
@@ -145,10 +147,6 @@ public class CrewController {
         // TODO 1. 크루 소식조회
 
         // 2. 크루 기본정보 데이터 - 완료
-            // 1. 크루 데이터 가지고오기
-
-
-            // 2. 선장 이름 데이터 가지고오기
             String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
 
             // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
@@ -168,7 +166,6 @@ public class CrewController {
             int achievePer = (int)(((double)crewAccountBalance/(double)dto.getCrew_goal())*100);
                 // int 는 정수이기 때문에 나눗셈의 소숫점 결과값을 얻으려면 double로 형변환 해주어야 함.
             String crewGoal = decimalFormat.format(dto.getCrew_goal());
-
 
         // TODO 거래내역 조회
 
@@ -227,10 +224,20 @@ public class CrewController {
 
     // green 크루 관리페이지 메인
     @RequestMapping(value="/setting")
-    public ModelAndView crewSetting(HttpServletRequest request) throws Exception {
+    public ModelAndView crewSetting(HttpSession session, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보
+        String userEmail = (String) session.getAttribute("email");
+
+        if(!crewDetailService.isCaptain(crewNum,userEmail)) {
+            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 관리에 선장 접속");
+            mav.addObject("status","notCaptain");
+            mav.setViewName("crew/wrongAccess");
+
+            return mav;
+        }
+
 
         // bold 크루 정보수정 페이지
             UserDTO crewCaptain = crewSettingService.getUser(dto.getCaptain_email()); // 선장 정보
