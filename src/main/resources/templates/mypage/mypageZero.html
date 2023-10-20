@@ -76,7 +76,7 @@
 
     </style>
     <script th:src="@{/js/homePage/homePage.js}"></script>
-    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
+
 
 
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
@@ -121,7 +121,7 @@
 <p id="sessionEmail" th:if="${session.email != null}" th:text="${session.email}" style="display:none"></p>
 <p id="sessionNum" th:if="${session.num != null}" th:text="${session.num}" style="display:none"></p>
 
-    <script type="text/javascript" src="/js/nav.js"></script>
+<th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
    
     
