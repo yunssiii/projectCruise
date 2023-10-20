@@ -251,7 +251,7 @@
                                     <button class="crewBtn" type="button" th:onclick="|location='http://localhost:8082/crew?crewNum=${crewdto.crew_num}'|">크루 보기</button>
                                 </div>
 
-                                <button th:id="${crewdto.crew_num}" class="user-out" type="button" >탈퇴하기</button>
+                                <button th:id="${crewdto.crew_num}" class="user-out" type="button" th:onclick="showDelInfo([[${crewdto.crew_num}]])">탈퇴하기</button>
 
                             </div>
                         </div>
@@ -277,11 +277,11 @@
     <!-- 크루 탈퇴 안내 모달창 -->
     <!-- 크루 탈퇴 예, 아니오 모달 -->
 
-<!--
-    <div class="crewDelmodal-div">
+
+    <div th:id="|crewDelmodal-div${crewdto.crew_num}|" class="crewDelmodal-div hidden" th:each="crewdto:${crewLists}">
         <div class="crewDel-content">
-            <div class="crewDel-box">
-                <h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>
+            <div class="crewDel-box" >
+                <h2 class="crewDel-title" th:text="|[${crewdto.crew_name}] 크루에서 정말 탈퇴하시겠습니까?|"></h2>
                 <div class="creDel-content"><b> [ 안내사항 ] </b> <br/>
                     작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
                     재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
@@ -289,54 +289,42 @@
                     또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
                 </div>
                 <div class="yn-box">
-                    <button class="yBtn">예</button>
+                    <button class="yBtn" th:onclick="delCrew([[${crewdto.crew_num}]])">예</button>
                     <button class="nBtn">아니오</button>
                 </div>
             </div>
         </div>
     </div>
--->
-
 
 
     <script th:inline="javascript">
        var outBtn = document.getElementsByClassName("user-out");
-       for(var i=0;i<outBtn.length;i++){
-       console.log(i)
-       var idx = i;
-        var outBtnId = document.getElementsByClassName("user-out")[i].getAttribute("id");
-           document.write('<div class="crewDelmodal-div"><div class="crewDel-content"><div class="crewDel-box">');
-           document.write('<h2 class="crewDel-title">[우리는 여우모] 크루에서 정말 탈퇴하시겠습니까?</h2>');
-           document.write('<div class="creDel-content"><b> [ 안내사항 ] </b> <br/>' +
-           '작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다. ' +
-           '재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로 ' +
-           '삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다. ' +
-           '또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.</div>');
-           document.write('<div class="yn-box"><button class="yBtn" onclick="delCrew(outBtnId,idx)">예</button><button class="nBtn">아니오</button></div>');
-           document.write('</div></div></div>');
 
-            document.write('<div class="y-div"><div class="y-content"><div class="y-box">');
+        for(var i=0;i<outBtn.length;i++){
+
+            document.write('<div class="y-div  hidden"><div class="y-content"><div class="y-box">');
             document.write("탈퇴되었습니다.");
             document.write("</div>");
             document.write('<button class="yes">확인</button>');
             document.write("</div></div>");
 
-           document.write('<div class="n-div"><div class="n-content"><div class="n-box">');
+           document.write('<div class="n-div hidden"><div class="n-content"><div class="n-box">');
            document.write("계속 항해를 이어갑니다.");
            document.write("</div>");
            document.write('<button class="no">확인</button>');
            document.write("</div></div>");
 
-           document.write('<div class="e-div"><div class="e-content"><div class="e-box">');
+           document.write('<div class="e-div hidden"><div class="e-content"><div class="e-box">');
            document.write("선장은 탈퇴불가합니다.");
            document.write("</div>");
-           document.write('<button class="e-no">확인</button>');
+           document.write('<button class="e-yes">확인</button>');
            document.write("</div></div>");
        }
 
-        function delCrew (crewNum,i){
-        console.log(crewNum)
-        console.log(i)
+        function delCrew (crewNum){
+
+            console.log("크루번호>>" + crewNum);
+
             $.ajax({
                     type : "POST",
                     url : "/mypage/mypage_all_ok",
@@ -344,20 +332,20 @@
                         crewNum : crewNum
                     },
                     success : function(result){
-                    console.log(result)
-                        if(result == "OK"){
-                            $(".crewDelmodal-div").eq(i).css("display","none");
-                            $(".y-div").eq(i).css("display","block");
+                    console.log("성공결과>>" + result)
 
-                        }else if(result == "none"){
-                        console.log("????")
-                            $(".crewDelmodal-div").eq(i).css("display","none");
-                            $(".e-div").eq(i).css("display","block");
-                        }
+
+                            if(result == "OK"){
+
+                                closeOk() //탈퇴됨 창 열림
+
+                            }else if(result == "none"){
+                                closeDelNone() //선장 창 열림
+                            }
 
                     },
                     error:function(xhr,status,error) {
-                        console.log("수정에러..!" + error);
+                        console.log("탈퇴에러..!" + error);
                     }
               });
         }
@@ -948,6 +936,32 @@
                 }
             });
         };
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.forms['accForm'];
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // 폼이 서버로 전송되는 것을 막습니다.
+
+        const formData = new FormData(form); // 폼 데이터를 가져옵니다.
+
+        // AJAX를 사용하여 서버로 POST 요청을 전송합니다.
+        fetch(form.action, {
+            method: form.method,
+            body: formData
+        })
+        .then(response => {
+            if (response.redirected) {
+
+                window.location.href = response.url; // 화면을 리다이렉트합니다.
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
 
 </script>
 

@@ -5,70 +5,89 @@
     예/아니오 -> 모달
 */
 
-var functions = []; //함수 저장 변수
+$('.user-out').on('click', showDelInfo(crewNum));
+$('.nBtn').on('click', closeNo);
+$('.no').on('click', closeContinue);
+$('.yes').on('click', closeExit);
+$('.e-yes').on('click', closeNone);
 
-//모달창 클릭, 모달창
-var outBtn = document.getElementsByClassName("user-out");
-var crewdelDiv = document.getElementsByClassName("crewDelmodal-div");
 
-//예스버튼 클릭, 모달창
-var yBtns = document.getElementsByClassName("yBtn");
-var nBtns = document.getElementsByClassName("nBtn");
-var ymodal = document.getElementsByClassName("y-div");
-var nmodal = document.getElementsByClassName("n-div");
-var okBtn1 = document.getElementsByClassName("yes");
-var okBtn2 = document.getElementsByClassName("no");
+// '탈퇴하기' 버튼 누를 때 실행함수
+function showDelInfo(crewNum) {
 
-var errorBtn = document.getElementsByClassName("e-no");
-var errorDiv = document.getElementsByClassName("e-div");
+    $('.crewDelmodal-div'+crewNum).removeClass('hidden');
+    $('.crewDelmodal-div').addClass('visible');
 
-function DelModal(num) {
-    return function() {
+    $('body').css('overflow', 'hidden');
 
-        outBtn[num].onclick = function() {
-            crewdelDiv[num].style.display = "block";
-            document.body.style.overflow = "hidden";
-        }
-
-//        yBtns[num].onclick = function() {
-//            crewdelDiv[num].style.display = "none";
-//            ymodal[num].style.display = "block";
-//        }
-
-        nBtns[num].onclick = function() {
-            crewdelDiv[num].style.display = "none";
-            nmodal[num].style.display = "block";
-        }
-
-        okBtn1[num].onclick = function() {
-            ymodal[num].style.display = "none";
-
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-        }
-
-        okBtn2[num].onclick = function() {
-            nmodal[num].style.display = "none";
-
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-        }
-
-        errorBtn[num].onclick = function() {
-            errorDiv[num].style.display = "none";
-
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-
-        }
-    }
 }
 
-for(var i = 0; i < outBtn.length; i++) {
-    functions[i] = DelModal(i); //함수 담기
+// 첫 모달에서 '예' 버튼 누를 때 실행함수 - ok
+function closeOk() {
+
+    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+
+    $('.y-div').removeClass('hidden');//탈퇴됨 창 열기
+    $('.y-div').addClass('visible');
+
 }
 
-for(var j = 0; j < outBtn.length; j++) {
-    functions[j](); //함수 호출
+// 첫 모달에서 '예' 버튼 누를 때 실행함수 - none
+function closeDelNone() {
+
+    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+
+    $('.e-div').removeClass('hidden');//선장 창 열기
+    $('.e-div').addClass('visible');
+
 }
+
+// 첫 모달에서 '아니오' 버튼 누를 때 실행함수
+function closeNo() {
+
+    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+
+    $('.n-div').removeClass('hidden');//계속 창 열기
+    $('.n-div').addClass('visible');
+
+}
+
+// 계속 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
+function closeContinue() {
+
+    $('.n-div').addClass('hidden'); //계속 창 닫기
+
+    $('body').css('overflow','auto');
+    $('body').css('overflowX','hidden');
+
+    location.reload(); // 페이지 리로드
+
+}
+
+// 탈퇴 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
+function closeExit() {
+
+    $('.y-div').addClass('hidden'); //계속 창 닫기
+
+    $('body').css('overflow','auto');
+    $('body').css('overflowX','hidden');
+
+    location.reload(); // 페이지 리로드
+
+}
+
+// 선장 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
+function closeNone() {
+
+    $('.e-yes').addClass('hidden'); //계속 창 닫기
+
+    $('body').css('overflow','auto');
+    $('body').css('overflowX','hidden');
+
+    location.reload(); // 페이지 리로드
+
+}
+
+
+
 
