@@ -2,6 +2,9 @@ package com.cruise.project_cruise.controller;
 
 import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
+
+import com.cruise.project_cruise.dto.MyAccountDTO;
+
 import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.MypageService;
@@ -109,7 +112,7 @@ public class MainMypageController {
         List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보
         List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums(email); //크루맴버의 크루번호
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(email); //가상계좌 비밀번호
-        List<OpenBankDTO> accountLists = mypageService.getAccounts(email); //가상계좌정보
+        List<MyAccountDTO> accountLists = mypageService.getAccountList(email); //가상계좌정보
         UserDTO userInfo = mypageService.getUserInfo(email); // 로그인한 사용자 정보.이름
 
         ModelAndView mav = new ModelAndView();
@@ -149,3 +152,4 @@ public class MainMypageController {
         return mav; //프론트에서 요청했을때는 이 리턴이 프론트로 가는듯 그래서 화면이 안나오는것 같음
     }
 }
+

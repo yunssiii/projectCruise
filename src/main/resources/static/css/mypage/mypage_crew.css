@@ -309,4 +309,11 @@ body{margin: 0; overflow-x: hidden;}
     cursor: pointer;
 }
 
+/* 모달 보임/안보임 클래스 */
+.visible{
+    display:block;
+}
 
+.hidden{
+    display:none;
+}

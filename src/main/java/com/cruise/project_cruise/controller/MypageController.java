@@ -64,15 +64,6 @@ public class MypageController {
 
 
 
-
-
-
-
-
-
-
-   
-
     /*
         계좌 등록 메소드
      */
