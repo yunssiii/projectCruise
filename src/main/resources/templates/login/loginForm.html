@@ -104,9 +104,10 @@
             xhr2.onload = function() {
                 const responseText = xhr2.responseText;
 
-                     document.open();
-                    document.write(responseText);
-                    document.close();
+                   // document.open();
+                   // document.write(responseText);
+                   // document.close();
+                   window.location.href = "/mypage/mypage_all";
             };
             } else {
                 const form = document.getElementById('signupForm');

@@ -105,8 +105,18 @@ public class MainMypageController {
             }
         }
 
+        if (session.getAttribute("email")==null){
+            session.setAttribute("email", email);
+            email = (String) session.getAttribute("email");
+        }else {
+            email = (String) session.getAttribute("email");
+            session.setAttribute("email",email);
+        }
+
+
+
+
         System.out.println("뒷부분: "+ email);
-        session.setAttribute("email", email);
 
         List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보
         List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums(email); //크루맴버의 크루번호

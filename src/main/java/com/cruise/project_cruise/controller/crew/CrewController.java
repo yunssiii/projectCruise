@@ -1,6 +1,7 @@
 package com.cruise.project_cruise.controller.crew;
 
 import com.cruise.project_cruise.dto.CrewDTO;
+import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
@@ -196,7 +197,7 @@ public class CrewController {
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보
 
         // bold 크루 정보수정 페이지
-            UserDTO crewCaptain = crewSettingService.getCrewCaptain(dto.getCaptain_email()); // 선장 정보
+            UserDTO crewCaptain = crewSettingService.getUser(dto.getCaptain_email()); // 선장 정보
 
             // 항해 일수
             Date todayDateObj = new Date(); // 오늘 날짜
@@ -208,13 +209,28 @@ public class CrewController {
             dateDifference = dateDifference / (1000 * 60 * 60 * 24);
             String crewSailingDayCount = Long.toString(dateDifference) + "일";
 
+        // bold 크루 선원탈퇴 페이지
+            // 선원들 목록을 리스트로 뽑아와야해.
+        List<Map<String,String>> memberList = crewSettingService.getCrewMemberList(crewNum);
+
         mav.addObject("dto",dto); // 크루 정보
+        mav.addObject("memberList",memberList); // 크루 정보
         mav.addObject("crewCaptain",crewCaptain); // 선장 정보
         mav.addObject("crewSailingDayCount",crewSailingDayCount); // 항해일수
         mav.addObject("crewNum",crewNum);
         mav.setViewName("crew/crewSetting");
 
         return mav;
+    }
+
+    // green 선원 강퇴하기 submit
+    @RequestMapping(value="/setting/memberBan")
+    public void memberBan(@RequestParam("crewNum") int crewNum,
+                                     @RequestParam("email") String email) throws Exception {
+        crewSettingService.deleteMember(email, crewNum);
+        System.out.println(
+                "[CrewController - Setting : memberBan] " + crewNum + "번 크루에서 "
+                        + email + " 강퇴 완료");
     }
 
     // green 크루 정보 수정 submit
@@ -237,7 +253,7 @@ public class CrewController {
 
         HashMap<String, Object> hash = new HashMap<>();
         CrewDTO newCrewDTO = crewDetailService.getCrewData(crewNum);
-        System.out.println("[CrewController - Setting : Calendar] 크루 정보 수정완료");
+        System.out.println("[CrewController - Setting : crewInfo] " + crewNum + " 크루 정보 수정완료");
 
         hash.put("newCrewInfo",newCrewDTO.getCrew_info());
         hash.put("newPayDate",newCrewDTO.getCrew_paydate());

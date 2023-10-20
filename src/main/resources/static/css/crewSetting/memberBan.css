@@ -45,8 +45,8 @@
     }
 
     .memBanBtn {
-        width: auto;
-        margin: 0;
+        width: 5vw !important;
+        margin: 0 !important;
         font-family: NanumSquare, sans-serif;
         font-size: 12pt;
         height: auto;

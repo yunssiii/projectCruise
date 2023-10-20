@@ -405,38 +405,23 @@
                             </tr>
                         </table>
                         <div class="memTableBody">
-                            <table>
-                                <script>
-                                    for(var i=0;i<20;i++) {
-
-                                        if(i%2===0) {
-                                            document.write('<tr>')
-                                            document.write('<td>' + (i+1) + '</td>');
-                                            document.write('<td>선원</td>');
-                                            document.write('<td>김은지</td>');
-                                            document.write('<td>eunzzzzz1@kakao.com</td>');
-                                            document.write('<td>2023-09-20</td>');
-                                            document.write('<td>40,000원</td>');
-                                            document.write('<td>2</td>');
-                                            document.write('<td>0</td>');
-                                            document.write("<td><button class='memBanBtn' onclick='memBanBtnClick(" + (i+1) + ")'>강퇴</button></td>")
-                                            document.write('</tr>')
-                                        } else {
-                                            document.write('<tr>')
-                                            document.write('<td>' + (i+1) + '</td>');
-                                            document.write('<td>선원</td>');
-                                            document.write('<td>황윤하</td>');
-                                            document.write('<td>eunzzzzz1@kakao.com</td>');
-                                            document.write('<td>2023-09-20</td>');
-                                            document.write('<td>40,000원</td>');
-                                            document.write('<td>2</td>');
-                                            document.write('<td>0</td>');
-                                            document.write("<td><button class='memBanBtn' onclick='memBanBtnClick(" + (i+1) + ")'>강퇴</button></td>")
-                                            document.write('</tr>')
-                                        }
-
-                                    }
-                                </script>
+                            <table th:if="${!#lists.isEmpty(memberList)}">
+                                <tr th:each="mem, memStat:${memberList}">
+                                    <td th:text="${memStat.count}"></td>
+                                    <td th:if="${mem.CAPTAIN_YN=='Y'}">선장</td>
+                                    <td th:if="${mem.CAPTAIN_YN=='N'}">선원</td>
+                                    <td th:text="${mem.MEM_NAME}"></td>
+                                    <td th:text="${mem.MEM_EMAIL}"></td>
+                                    <td th:utext="${#dates.format(mem.JOIN_DATE,'yyyy-MM-dd')}"></td>
+                                    <td th:text="|${mem.TOTAL_PAY}원|"></td>
+                                    <td th:text="|${mem.MUST_PAYCOUNT}회|"></td>
+                                    <td th:text="|${mem.REAL_PAYCOUNT}회|"></td>
+                                    <td th:if="${mem.CAPTAIN_YN=='Y'}"></td>
+                                    <td th:if="${mem.CAPTAIN_YN=='N'}">
+                                        <button th:id="|memBanBtn${memStat.count}|" class='memBanBtn'
+                                                th:onclick='memBanBtnClick([[${crewNum}]],[[${memStat.count}]],[[${mem.MEM_NAME}]],[[${mem.MEM_EMAIL}]])'>강퇴</button>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>

@@ -215,6 +215,7 @@ public class HomeController {
             }
 
             System.out.println(captainYN);
+            System.out.println(email);
 
             if(captainYN.equals("Y") || captainYN.equals("N")){//대장이거나 선원이면 이미 모임에있는것이니 모달창 띄어줄 필요가 없음 근데 대장이나 선원이 아니면 captain값은 null임
                 return "error";
