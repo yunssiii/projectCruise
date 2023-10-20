@@ -29,10 +29,7 @@ function DelModal(num) {
             document.body.style.overflow = "hidden";
         }
 
-        yBtns[num].onclick = function() {
-            crewdelDiv[num].style.display = "none";
-            ymodal[num].style.display = "block";
-        }
+
 
         nBtns[num].onclick = function() {
             crewdelDiv[num].style.display = "none";

@@ -5,6 +5,16 @@
     font-style: normal;
 }
 
+#sessionGroup {
+    display: none;
+    height: 0;
+}
+
+#sessionNum {
+    display: none;
+    height: 0;
+}
+
 body {
     font-family: 'NanumSquare', 'sans-serif';
     font-size: 12pt;
@@ -256,7 +266,7 @@ nav {
     padding: 30px 30px 40px 30px;
     grid-template-columns: 100px 100px 100px 100px 80px 70px;
     grid-template-areas:
-    "crewname      crewname     crewname    crewname   crewmanage   crewexit"
+    "crewname      crewname     crewname    crewinvite   crewmanage   crewexit"
     "dotline1      dotline1     dotline1    dotline1   dotline1   dotline1"
     "accnum_sub  account_num account_num account_num    mark         mark"
     "captain_sub    captain     captain     captain     mark         mark"
@@ -321,6 +331,15 @@ nav {
     cursor: pointer;
 }
 
+#crewinvite {
+    grid-area: crewinvite;
+    font-size: 10pt;
+    text-align: right;
+}
+
+#crewinvite a{
+    cursor: pointer;
+}
 
 
 .bankbook_top .dotline1 {

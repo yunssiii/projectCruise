@@ -1,0 +1,205 @@
+body { -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+textarea {width: 100%; height: 100px; overflow: auto; background-color: white; resize: none;}
+p {margin: 0;}
+
+
+
+ .modal-div1, .modal-div2, .modal-div3 {
+    display: none; /* ����Ʈ none */
+    position: fixed; /* ��ġ ���� */
+    z-index: 1; /* �� �� */
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* �� ���� */
+    backdrop-filter: blur(3px);
+}
+
+.content {
+    background-color: #ffffff; /* ���â ��� */
+    margin: 5% auto; 
+    padding: 20px 15px 20px 20px;
+    width: 450px;
+    border-radius: 10px;
+    font-family: NanumSquare;
+    overflow: auto;
+    
+}
+
+.content::-webkit-scrollbar {
+    width: 0;
+}
+
+.closeBtn1, .closeBtn2, .closeBtn3 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn1:hover,.closeBtn1:focus,.closeBtn2:hover,.closeBtn2:focus,.closeBtn3:hover,.closeBtn3:focus {
+    color: rgb(56, 44, 44);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-cover {
+    /* border: 1px solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    width: 98%;
+    height: auto; 
+}
+
+/* modal1 */
+
+.modal-chk-box {
+    /* border: 1px solid; */
+    margin-top: 20px;
+}
+
+.agree-all-box {
+    /* border: 1px solid; */
+    margin-bottom: 15px;
+}
+
+.agree-select-box {
+    margin-top: 20px;
+}
+
+.agree-text {
+    font-size: 15pt;
+    line-height: 35px;
+    margin-bottom: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.agree-hide-box {
+    display: none;
+}
+
+.nextBtn1, .nextBtn2, .addBtn {
+    margin-top: 40px;
+    padding: 20px 155px;
+    font-size: 15pt;
+    border: none;
+    background-color: #bebebe;
+    color: #ffffff;
+    font-family: NanumSquareBold;
+    border-radius: 13px;
+}
+
+/* modal2 */
+
+.bank-box1, .bank-box2, .bank-box3 {
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.bank-box2, .bank-box3 {
+    margin-top: 20px;
+}
+
+.bankBtn:hover {
+    cursor: pointer;
+    /* border: 5px solid rgb(236, 100, 8); */
+}
+
+.click {
+    border: 5px solid rgb(236, 100, 8);
+}
+
+.bankText {
+    text-align: center;
+    margin-top: 3px;
+    font-family: NanumSquareBold;
+}
+
+/* modal3 */
+
+.accountName-box {
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.account-text {
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    color: #919090;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.resultDiv {/* ���� ��� �Է�â �˸� */
+    margin-top: 5px;
+    padding-left: 2px;
+    color: red;
+    font-size: 10pt;
+    font-family: NanumSquare;
+    font-weight: 600;
+}
+
+.account-input{
+    padding: 10px;
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    width: 95%;
+    border-radius: 5px;
+    /* margin-bottom: 15px; */
+    border: 2px solid #bebebe;
+}
+
+.accountNum-box{
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.accountPwd-box{
+    /* border: 1px solid; */
+    width: 90%;
+}
+
+.accountPwd-input {
+    padding: 10px;
+    font-size: 13pt;
+    font-family: NanumSquareBold;
+    width: 75%;
+    border-radius: 5px;
+    /* margin-bottom: 15px; */
+    border: 2px solid #bebebe;
+}
+
+.account-authBtn{
+    margin-left: 10px;
+    padding: 11px 15px;
+    font-size: 11pt;
+    font-family: NanumSquareBold;
+    border-radius: 5px;
+    border: 2px solid #bebebe;
+    cursor: pointer;
+}
+
+.acount-authBtn:hover {
+    border: 2px solid black;
+}
+
+
+
+
+.closeBtn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.closeBtn:hover,.closeBtn:focus {
+    color: rgb(56, 44, 44);
+    text-decoration: none;
+    cursor: pointer;
+}

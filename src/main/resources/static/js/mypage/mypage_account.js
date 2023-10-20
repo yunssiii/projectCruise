@@ -437,11 +437,11 @@ function accountDelModal(num) {
             document.body.style.overflow = "hidden";
         }
 
-        yesBtns[num].onclick = function() {
-            accountdelDiv[num].style.display = "none";
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-        }
+//        yesBtns[num].onclick = function() {
+//            accountdelDiv[num].style.display = "none";
+//            document.body.style.overflow = "auto";
+//            document.body.style.overflowX = "hidden";
+//        }
 
         noBtns[num].onclick = function() {
             accountdelDiv[num].style.display = "none";

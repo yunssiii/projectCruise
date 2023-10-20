@@ -1,4 +1,3 @@
-
 function sendIt(){
     f = document.myForm;
 
@@ -129,13 +128,4 @@ function newAccount(checkbox) {
         // 기존계좌 입력 필드도 비활성화
         document.getElementById('my_account').disabled = true;
     }
-}
-function register(){
-    let modal = document.getElementById("my_modal");
-    modal.style.display = "block";
-}
-
-function closeModal() {
-    let modal = document.getElementById("my_modal");
-    modal.style.display = "none"; // 모달창 닫기
 }

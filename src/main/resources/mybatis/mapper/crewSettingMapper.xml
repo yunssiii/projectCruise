@@ -4,7 +4,40 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewSettingMapper">
-    <!-- 스케줄 관리 -->
+<!-- 크루 정보수정하기 -->
+    <!-- 크루 선장정보 뽑아오기 -->
+    <select id="getCrewCaptain" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
+        select EMAIL, EMAIL_VERIFIED, USER_PASSWORD, USER_NAME, PROVIDER, PROVIDER_ID, TEL, PAY_PASSWORD, ADDRESS1, ADDRESS2, REFRESHTOKEN
+        from USERS
+        where EMAIL = #{captainEmail}
+    </select>
+
+    <!-- 크루 정보 수정 Submit -->
+    <update id="updateCrewInfo" parameterType="com.cruise.project_cruise.dto.CrewDTO">
+        update CREW
+        set
+            CREW_INFO=#{crew_info},
+            CREW_PAYDATE=#{crew_paydate},
+            CREW_PAYMONEY=#{crew_paymoney},
+            CREW_GOAL=#{crew_goal}
+        where CREW_NUM=#{crew_num}
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 스케줄 관리 -->
     <!--    해당 크루의 스케줄을 불러오는 쿼리 -->
     <select id="getCrewScheList" parameterType="int" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
         select CREW_NUM, SCHE_NUM, SCHE_TITLE, SCHE_ASSORT, SCHE_START, SCHE_END, SCHE_ALLDAYTF

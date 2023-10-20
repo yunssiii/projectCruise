@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.security.Principal;
@@ -67,6 +70,9 @@ public class MypageController {
 
 
 
+
+   
+
     /*
         계좌 등록 메소드
      */
@@ -94,6 +100,7 @@ public class MypageController {
         계좌 내역 조회
      */
     @PostMapping("/mypage/useAccount")
+    @ResponseBody
     public List<Map<String,Object>> useAccount(@RequestParam("accountNum") String accountNum,
                                    @RequestParam("months") int months) throws Exception{
 
@@ -172,7 +179,8 @@ public class MypageController {
         수정 후 뿌려주기 위해 다시 조회
      */
     @PostMapping("/mypage/updateAname")
-    public List<Map<String,Object>> updateAname(@RequestParam("openAccount") String openAccount,@RequestParam("openAname") String openAname) throws Exception{
+    @ResponseBody
+    public List<Map<String,Object>> updateAname(@RequestParam("myaccountNum") String myaccountNum,@RequestParam("myaccountName") String myaccountName) throws Exception{
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -180,11 +188,11 @@ public class MypageController {
 
         String email = "hchdbsgk@naver.com";
 
-        mypageService.updateAname(openAname,openAccount); //계좌명 수정
-        List<OpenBankDTO> accountLists = mypageService.getAccounts(email); //가상계좌정보
+        mypageService.updateAname(myaccountName,myaccountNum); //계좌명 수정
+        List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //가상계좌정보
 
         for(int i=0;i<accountLists.size();i++){
-            hashMap.put("selectAname", accountLists.get(i).getOpen_aname());
+            hashMap.put("selectAname", accountLists.get(i).getMyaccount_name());
 
             jsonObject = new JSONObject(hashMap);
             jsonArray.add(jsonObject);
@@ -197,21 +205,47 @@ public class MypageController {
     }
 
     /*
+        등록된 계좌 삭제 메소드
+        - 모임통장인 경우, 참조키 제약으로 삭제되지 않음
+     */
+    @PostMapping("/mypage/deleteAccount")
+    public void deleteMyaccount(@RequestParam("myaccountNum") String myaccountNum) throws Exception{
+
+        mypageService.deleteMyaccount(myaccountNum);
+
+    }
+
+    /*
         크루 '탈퇴하기' 버튼 누를 때 get방식으로 삭제하는 메소드
      */
-    @GetMapping("/mypage/mypage_all_ok")
-    public ModelAndView delCrew(HttpServletRequest request) throws  Exception {
+    @PostMapping("/mypage/mypage_all_ok")
+    @ResponseBody
+    public String delCrew(@RequestParam("crewNum") int crewNum) throws  Exception {
+        //ModelAndView mav = new ModelAndView();
+        String Response = "";
+
+        //crew삭제값
+        int delcrews = 0;
+
+        System.out.println("crewNum-> " + crewNum);
 
         String email = "hchdbsgk@naver.com";
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        String capEmail = mypageService.getOneCaptain(email,crewNum);
 
-        mypageService.deleteCrew(email,crewNum);
+        System.out.println("캡틴 이메일-> " + capEmail);
 
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("redirect:/mypage/mypage_all");
-
-        return mav;
+        if(capEmail.equals(email)){
+            Response = "none";
+        }else {
+            //삭제
+            delcrews = mypageService.deleteCrew(email,crewNum);
+            if(delcrews == 1){
+                Response = "OK";
+            }else{
+                Response = "false";
+            }
+        }
+        return Response;
 
     }
 
@@ -265,7 +299,7 @@ public class MypageController {
     @ResponseBody
     public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
 
-        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
+        List<ScheduleDTO> myScheLists = mypageService.getSchedule("hchdbsgk@naver.com"); //로그인한 사용자의 일정들
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
