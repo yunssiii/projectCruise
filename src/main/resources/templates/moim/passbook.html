@@ -75,34 +75,31 @@
 							모임통장으로 사용하실수 없습니다.</p>
 					</div>
 					<div class="form-content">
-						<label> <input type="checkbox" name="account_choice"
-							onclick="myAccount(this);" />기존 계좌 선택
-						</label><br>
+						<div th:if="${account != 0}">
+							<label> <input type="checkbox" name="account_choice"
+								onclick="myAccount(this);" />기존 계좌 선택
+							</label><br>
 
-						<select id="my_account" name="my_account" onchange="selected(this.value)" disabled>
-							<option th:each="account : ${myAccount}" th:value="${account.myaccount_bank + ' ' + account.myaccount_anum}">
-								<span th:text="${account.myaccount_bank + ' ' + account.myaccount_anum}"></span>
-							</option>
-						</select><br>
+							<select id="my_account" name="my_account" onchange="selected(this.value)" disabled>
+								<option th:each="account : ${myAccount}" th:value="${account.myaccount_bank + ' ' + account.myaccount_anum}">
+									<span th:text="${account.myaccount_bank + ' ' + account.myaccount_anum}"></span>
+								</option>
+							</select><br>
+						</div>
 
-						<br> <label> <input type="checkbox"
-							name="account_choice" onclick="newAccount(this);" />새로운 계좌 선택
+						<div th:if="${account == 0}">
+							<span style="color: blue;">등록된 계좌가 없습니다.</span>
+						</div>
+						<br>
+
+						<label>
+							<input type="checkbox" name="account_choice" onclick="newAccount(this);" />
 						</label>
 
+						<span>새로운 계좌 선택</span>
 						<button type="button" id="new_account_button" class="add-accountBtn" disabled>등록</button>
 						<p style="font-size: 13px; color: blue;">새로운 계좌 등록 되면 메세지 띄우기</p>
 
-<!--						<div id="my_modal" class="modals">-->
-
-<!--							<div class="modals_content">-->
-<!--								<div class="close-button" onclick="closeModal()">X</div>-->
-<!--								<h4>새로운 계좌 불러오기</h4>-->
-
-<!--								<button type="button" onclick="">등록하기</button>-->
-<!--								<button type="button" onclick="closeModal()">취소</button>-->
-<!--							</div>-->
-
-<!--						</div>-->
 					</div>
 
 					<div class="form-subject">
