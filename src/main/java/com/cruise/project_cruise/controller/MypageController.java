@@ -68,8 +68,6 @@ public class MypageController {
         String email = null;
         Optional<String> emailOptional = jwtTokenizer.extractEmail(accessToken);
 
-
-
         String group = (String) session.getAttribute("group");
          String num = (String) session.getAttribute("num");
 
@@ -315,34 +313,34 @@ public class MypageController {
     /*
         크루 '탈퇴하기' 버튼 누를 때 get방식으로 삭제하는 메소드
      */
-    @GetMapping("/mypage/mypage_all_ok")
-    public ModelAndView delCrew(HttpServletRequest request, HttpServletResponse response) throws  Exception {
+    @PostMapping("/mypage/mypage_all_ok")
+    @ResponseBody
+    public String delCrew(@RequestParam("crewNum") int crewNum) throws  Exception {
+        //ModelAndView mav = new ModelAndView();
+        String Response = "";
 
-        response.setContentType("text/html; charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        //crew삭제값
+        int delcrews = 0;
 
-        ModelAndView mav = new ModelAndView();
+        System.out.println("crewNum-> " + crewNum);
 
         String email = "hchdbsgk@naver.com";
-        int crewNum = Integer.parseInt(request.getParameter("crewNum")); //선택한 크루넘
         String capEmail = mypageService.getOneCaptain(email,crewNum);
 
         System.out.println("캡틴 이메일-> " + capEmail);
 
         if(capEmail.equals(email)){
-
-            out.println("<script> alert('선장이어서 크루 탈퇴 못함!'); ");
-            out.println("window.location.href='/mypage/mypage_all';</script>");
-            out.flush();
-
-
+            Response = "none";
         }else {
-            mypageService.deleteCrew(email,crewNum);
+            //삭제
+            delcrews = mypageService.deleteCrew(email,crewNum);
+            if(delcrews == 1){
+                Response = "OK";
+            }else{
+                Response = "false";
+            }
         }
-
-        mav.setViewName("redirect:/mypage/mypage_all");
-
-        return mav;
+        return Response;
 
     }
 
