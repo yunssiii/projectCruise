@@ -4,8 +4,6 @@ import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.mapper.MypageMapper;
-import com.cruise.project_cruise.mapper.TemplateMapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +27,9 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void deleteCrew(String email, int crewNum) throws Exception {
-        mypageMapper.deleteCrew(email,crewNum);
+    public int deleteCrew(String email, int crewNum) throws Exception {
+        int crewResult =  mypageMapper.deleteCrew(email,crewNum);
+        return crewResult;
     }
 
     @Override

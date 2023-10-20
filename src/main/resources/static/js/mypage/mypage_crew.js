@@ -19,6 +19,9 @@ var nmodal = document.getElementsByClassName("n-div");
 var okBtn1 = document.getElementsByClassName("yes");
 var okBtn2 = document.getElementsByClassName("no");
 
+var errorBtn = document.getElementsByClassName("e-no");
+var errorDiv = document.getElementsByClassName("e-div");
+
 function DelModal(num) {
     return function() {
 
@@ -27,10 +30,10 @@ function DelModal(num) {
             document.body.style.overflow = "hidden";
         }
 
-        yBtns[num].onclick = function() {
-            crewdelDiv[num].style.display = "none";
-            ymodal[num].style.display = "block";
-        }
+//        yBtns[num].onclick = function() {
+//            crewdelDiv[num].style.display = "none";
+//            ymodal[num].style.display = "block";
+//        }
 
         nBtns[num].onclick = function() {
             crewdelDiv[num].style.display = "none";
@@ -42,7 +45,6 @@ function DelModal(num) {
 
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
-            location.href='mypage_all_ok?crewNum=' + outBtn[num].id;
         }
 
         okBtn2[num].onclick = function() {
@@ -50,6 +52,14 @@ function DelModal(num) {
 
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
+        }
+
+        errorBtn[num].onclick = function() {
+            errorDiv[num].style.display = "none";
+
+            document.body.style.overflow = "auto";
+            document.body.style.overflowX = "hidden";
+
         }
     }
 }

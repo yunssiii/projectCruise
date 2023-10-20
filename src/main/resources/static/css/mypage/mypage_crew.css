@@ -251,7 +251,7 @@ body{margin: 0; overflow-x: hidden;}
 }
 
 /* 예,아니오 모달 */
-.y-div, .n-div {
+.y-div, .n-div, .e-div {
     display: none; /* 디폴트 none */
     position: fixed; /* 위치 고정 */
     z-index: 1; /* 맨 앞 */
@@ -264,7 +264,7 @@ body{margin: 0; overflow-x: hidden;}
     backdrop-filter: blur(3px);
 }
 
-.y-content, .n-content {
+.y-content, .n-content, .e-content  {
     background-color: rgba(255,255,255,0.8);
     margin: 15% auto; 
     /* margin-top: 20%; */
@@ -281,7 +281,7 @@ body{margin: 0; overflow-x: hidden;}
     align-items: center;
 }
 
-.y-box, .n-box {
+.y-box, .n-box, .e-box {
     /* border: 1px solid; */
     display: flex;
     flex-direction: column;

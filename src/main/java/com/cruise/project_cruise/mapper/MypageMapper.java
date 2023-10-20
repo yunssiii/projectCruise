@@ -5,9 +5,7 @@ import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
 
-import java.io.StringReader;
 import java.util.List;
 
 @Mapper
@@ -15,7 +13,7 @@ public interface MypageMapper {
 
     public List<CrewDTO> getCrews(String email) throws Exception;
     public String getOneCaptain(@Param("email")String email,@Param("crew_num")int crewNum) throws Exception;
-    public void deleteCrew(@Param("cmem_email")String email, @Param("crew_num") int crewNum) throws Exception;
+    public int deleteCrew(@Param("cmem_email")String email, @Param("crew_num") int crewNum) throws Exception;
     public  List<CrewMemberDTO> getCrewNums(String email) throws Exception;
     public List<OpenBankDTO> getOpenAccPWd(String email) throws Exception;
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception;
