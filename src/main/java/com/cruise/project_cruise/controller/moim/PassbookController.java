@@ -30,11 +30,14 @@ public class PassbookController {
 //        String userEmail = (String)session.getAttribute("email");
         String userEmail = "dlaldus@naver.com";
 
+        ModelAndView mav = new ModelAndView();
+
         crewBoardService.getUserName(userEmail);
 
         List<MyAccountDTO> myAccount = moimPassbookService.getMyAccount(userEmail);
-
-        ModelAndView mav = new ModelAndView();
+        if(myAccount.isEmpty()) {
+            mav.addObject("account", 0);
+        }
 
         mav.addObject("myAccount", myAccount);
 
