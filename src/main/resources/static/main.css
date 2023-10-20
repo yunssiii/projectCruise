@@ -23,10 +23,7 @@ body{
 	
 }
 
-strong{
-	
 
-}
 .blind {
     position: absolute;
     width: 1px;
@@ -77,7 +74,7 @@ h2::after{
 #sect1{
     position: relative;
     color: black;
-    height: 915px;
+
 	
 }
 
