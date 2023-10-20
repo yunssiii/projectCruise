@@ -289,37 +289,43 @@
                     또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
                 </div>
                 <div class="yn-box">
-                    <button class="yBtn" th:onclick="delCrew([[${crewdto.crew_num}]])">예</button>
-                    <button class="nBtn">아니오</button>
+                    <button th:id="|yBtn${crewdto.crew_num}|" class="yBtn" th:onclick="delCrew([[${crewdto.crew_num}]])">예</button>
+                    <button th:id="|nBtn${crewdto.crew_num}|" class="nBtn" th:onclick="closeNo([[${crewdto.crew_num}]])">아니오</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="y-div  hidden" th:id="|y-div${crewdto.crew_num}|" th:each="crewdto:${crewLists}">
+        <div class="y-content">
+            <div class="y-box">
+                탈퇴되었습니다.
+            </div>
+            <button class="yes" th:onclick="closeExit([[${crewdto.crew_num}]])">확인</button>
+        </div>
+    </div>
+
+    <div class="n-div hidden" th:id="|n-div${crewdto.crew_num}|" th:each="crewdto:${crewLists}">
+        <div class="n-content">
+            <div class="n-box">
+                계속 항해를 이어갑니다.
+            </div>
+            <button class="no" th:onclick="closeContinue([[${crewdto.crew_num}]])">확인</button>
+        </div>
+    </div>
+
+    <div class="e-div hidden" th:id="|e-div${crewdto.crew_num}|" th:each="crewdto:${crewLists}">
+        <div class="e-content">
+            <div class="e-box">
+                선장은 탈퇴불가합니다.
+            </div>
+            <button class="e-yes" th:onclick="closeNone([[${crewdto.crew_num}]])">확인</button>
+        </div>
+    </div>
+
 
     <script th:inline="javascript">
-       var outBtn = document.getElementsByClassName("user-out");
 
-        for(var i=0;i<outBtn.length;i++){
-
-            document.write('<div class="y-div  hidden"><div class="y-content"><div class="y-box">');
-            document.write("탈퇴되었습니다.");
-            document.write("</div>");
-            document.write('<button class="yes">확인</button>');
-            document.write("</div></div>");
-
-           document.write('<div class="n-div hidden"><div class="n-content"><div class="n-box">');
-           document.write("계속 항해를 이어갑니다.");
-           document.write("</div>");
-           document.write('<button class="no">확인</button>');
-           document.write("</div></div>");
-
-           document.write('<div class="e-div hidden"><div class="e-content"><div class="e-box">');
-           document.write("선장은 탈퇴불가합니다.");
-           document.write("</div>");
-           document.write('<button class="e-yes">확인</button>');
-           document.write("</div></div>");
-       }
 
         function delCrew (crewNum){
 
@@ -337,10 +343,10 @@
 
                             if(result == "OK"){
 
-                                closeOk() //탈퇴됨 창 열림
+                                closeOk(crewNum) //탈퇴됨 창 열림
 
                             }else if(result == "none"){
-                                closeDelNone() //선장 창 열림
+                                closeDelNone(crewNum) //선장 창 열림
                             }
 
                     },
@@ -406,7 +412,7 @@
                     <div class="swiper-slide" th:each="dto:${accountLists}">
                         <div class="article-account-box">
                             <div class="account-box">
-                                <div class="select-modal-div">
+                                <div class="select-modal-div" th:onclick="showAccount([[${dto.myaccount_anum}]]);oneMonths([[${dto.myaccount_anum}]]);">
                                     <!-- 계좌 이미지 if 국민,신한,우리,카카오,기업만 등록 가능 -->
                                     <div class="account-name" th:if="${#strings.equals(dto.myaccount_bank,'카카오뱅크')}">
                                         <img class="account-name-img-kakao" src="/images/mypage/kakaobank_logo.png"/>
@@ -436,7 +442,7 @@
                                 <div class="account-alias-box">
                                     <p class="account-alias" th:id="|account-alias${dto.myaccount_anum}|" th:text="${dto.myaccount_name}"></p>
                                     <input type="text" th:id="|aname${dto.myaccount_anum}|" th:value="${dto.myaccount_name}" class="account-alias2 hidden"/>
-                                    <button class="account-update">수정</button>
+                                    <button class="account-update" th:onclick="updateBtn([[${dto.myaccount_anum}]])">수정</button>
                                     <button class="account-update-ok hidden" th:onclick="updateAname([[${dto.myaccount_anum}]]);clickChangeBtn();">변경</button>
                                     |
                                     <button class="account-delete">삭제</button>
@@ -487,6 +493,7 @@
                         console.log("수정성공..!" + result[0].selectAname);
 
                         $('#account-alias' + myaccountNum).text(result[0].selectAname);
+                        $('#accountDel-title' + myaccountNum).text('[' + result[0].selectAname+ ']' +'계좌를 정말 삭제하시겠습니까?');
 
                     },
                     error:function(xhr,status,error) {
@@ -707,7 +714,7 @@
     <div th:id="|accountDelM${dto.myaccount_anum}|" class="accountDelmodal-div" th:each="dto:${accountLists}">
         <div class="accountDel-content">
             <div class="accountDel-box">
-                <div class="accountDel-title" th:text="|[${dto.myaccount_name}] 계좌를 정말 삭제하시겠습니까?|"></div>
+                <div class="accountDel-title" th:id="|accountDel-title${dto.myaccount_anum}|" th:text="|[${dto.myaccount_name}] 계좌를 정말 삭제하시겠습니까?|"></div>
                 <div class="yesno-box">
                     <button class="yesBtn" th:onclick="clickDelYesBtn();deleteMyaccount([[${dto.myaccount_anum}]])">예</button>
                     <button class="noBtn">아니오</button>
@@ -761,9 +768,9 @@
     </script>
 
     <!-- 계좌 상세 모달 반복문 -->
-    <div class="account-modal" th:each="dto:${accountLists}">
+    <div class="account-modal hidden" th:id="|account-modal${dto.myaccount_anum}|" th:each="dto:${accountLists}">
         <div class="modal-content">
-            <span class="closeBtn">&times;</span>
+            <span class="closeBtn" th:id="|closeBtn${dto.myaccount_anum}|" th:onclick="closeAccount([[${dto.myaccount_anum}]])">&times;</span>
             <div class="modal-container">
                 <div class="open-aname" th:text="${dto.myaccount_name}"></div>
                 <div class="open-account" th:text="${dto.myaccount_anum}"></div>
@@ -779,52 +786,14 @@
                           <img src="/images/mypage/iconmonstr-angel-down-thin-12.png" class="custom-select-arrow">
                         </div>
                         <ul class="custom-select-list" style="display:none;">
-                            <li class="custom-select-option" id="oneMonth">1개월</li>
-                            <li class="custom-select-option" id="threeMonth">3개월</li>
-                            <li class="custom-select-option" id="sixMonth">6개월</li>
+                            <li class="custom-select-option" th:id="|oneMonth${dto.myaccount_anum}|">1개월</li>
+                            <li class="custom-select-option" th:id="|threeMonth${dto.myaccount_anum}|" th:onclick="threeMonths([[${dto.myaccount_anum}]]);">3개월</li>
+                            <li class="custom-select-option" th:id="|sixMonth${dto.myaccount_anum}|" th:onclick="sixMonths([[${dto.myaccount_anum}]]);">6개월</li>
                         </ul>
                         <input type="hidden" th:id="|monthVal${dto.myaccount_anum}|" name="months" value="1">
                     </div>
 
-                    <script th:inline="javascript">
 
-                        /*<![CDATA[*/
-
-                        $('#oneMonth').click(function(){
-
-                            var accountNum = /*[[${dto.myaccount_anum}]]*/
-                            $('#monthVal' + accountNum).val(1);
-
-                            console.log('첫클릭' + accountNum)
-
-                            accountDivClick(accountNum);
-
-                        });
-
-                        $('#threeMonth').click(function(){
-
-                            var accountNum = /*[[${dto.myaccount_anum}]]*/
-
-                            $('#monthVal' + accountNum).val(3);
-
-                            accountDivClick(accountNum);
-
-                        });
-
-                        $('#sixMonth').click(function(){
-
-                            var accountNum = /*[[${dto.myaccount_anum}]]*/
-
-                            $('#monthVal' + accountNum).val(6);
-
-                            accountDivClick(accountNum);
-
-                        });
-
-                        /*]]*/
-
-
-                    </script>
 
                     <input type="text" class="openuse-input-search" th:id="|search${dto.myaccount_anum}|"/>
                     <button class="openuse-searchBtn" th:onclick="accountDivClick([[${dto.myaccount_anum}]])">
@@ -896,7 +865,7 @@
 
             var word = search.toLowerCase(); //검색값 대소문자 구분 안하게 함
 
-            console.log("넘기는 계좌번호" + accountNum);
+            console.log("넘기는 계좌번호>>>>>>" + accountNum);
 
             $.ajax({
                 type : "POST",
@@ -992,7 +961,40 @@
 });
 
 </script>
+<script>
 
+    function oneMonths(myaccountNum){
+
+        $('#monthVal' + myaccountNum).val(1);
+
+        console.log('첫클릭>>>>>>' + myaccountNum);
+
+        accountDivClick(myaccountNum);
+
+    };
+
+    function threeMonths(myaccountNum){
+
+        $('#monthVal' + myaccountNum).val(3);
+
+        console.log('3클릭>>>>>>' + myaccountNum);
+
+        accountDivClick(myaccountNum);
+
+    };
+
+     function sixMonths(myaccountNum){
+
+        $('#monthVal' + myaccountNum).val(6);
+
+        console.log('6클릭>>>>>>' + myaccountNum);
+
+        accountDivClick(myaccountNum);
+
+    }
+
+
+</script>
 
 
 </html>

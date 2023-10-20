@@ -293,7 +293,7 @@ body{margin: 0; overflow-x: hidden;}
     padding: 30px;
 }
 
-.yes,.no {
+.yes,.no,.e-yes {
     font-family: NanumSquareBold;
     padding: 8px 30px 8px 30px;
     background: white;
@@ -302,7 +302,7 @@ body{margin: 0; overflow-x: hidden;}
     border-radius: 5px;
 }
 
-.yes:hover,.no:hover {
+.yes:hover,.no:hover,.e-yes:hover{
     background-color: #0C0CCA;
     transition: 0.2s;
     color: white;

@@ -28,8 +28,7 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public int deleteCrew(String email, int crewNum) throws Exception {
-        int crewResult =  mypageMapper.deleteCrew(email,crewNum);
-        return crewResult;
+        return mypageMapper.deleteCrew(email,crewNum);
     }
 
     @Override
@@ -50,6 +49,11 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public List<MyAccountDTO> getAccountList(String email) throws Exception {
         return mypageMapper.getAccountList(email);
+    }
+
+    @Override
+    public List<OpenBankDTO> getAccountBals(String email) throws Exception {
+        return mypageMapper.getAccountBals(email);
     }
 
     @Override

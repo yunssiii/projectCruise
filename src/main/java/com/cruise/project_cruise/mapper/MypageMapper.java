@@ -18,6 +18,7 @@ public interface MypageMapper {
     public List<OpenBankDTO> getOpenAccPWd(String email) throws Exception;
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception;
     public  List<MyAccountDTO> getAccountList(String email) throws Exception;
+    public List<OpenBankDTO> getAccountBals(String email) throws Exception;
     public  List<MyAccountDTO> getOneAccount(@Param("email")String email,@Param("myaccount_anum")String myaccountName) throws Exception;
     public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception;
     public void updateAname(@Param("myaccount_name") String myaccountName,@Param("myaccount_anum")String myaccountNum) throws Exception;

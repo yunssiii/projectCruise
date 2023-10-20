@@ -17,6 +17,7 @@ public interface MypageService {
 
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception; //계좌 등록하기
     public  List<MyAccountDTO> getAccountList(String email) throws Exception; //계좌 전체 조회
+    public List<OpenBankDTO> getAccountBals(String email) throws Exception; //계좌 전체 중 잔액만 조회
     public  List<MyAccountDTO> getOneAccount(@Param("email")String email,@Param("myaccount_anum")String myaccountName) throws Exception; //계좌 하나 조회
     public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception; //계좌 내역 조회
     public void updateAname(@Param("myaccount_name") String myaccountName,@Param("myaccount_anum")String myaccountNum) throws Exception; //계좌명 수정

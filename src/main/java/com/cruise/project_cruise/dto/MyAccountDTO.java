@@ -10,6 +10,7 @@ public class MyAccountDTO {
     private String myaccount_anum;
     private String myaccount_date;
     private String myaccount_name;
+
     private int myaccount_balance;
 
 }
