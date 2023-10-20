@@ -6,7 +6,7 @@
 <mapper namespace="com.cruise.project_cruise.mapper.CrewMemberInviteMapper">
 
     <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
-        insert into crew_member (crew_num,cmem_email,joindate) values (#{crew_num}, #{cmem_email},sysdate)
+        insert into crew_member (crew_num,cmem_email,join_date) values (#{crew_num}, #{cmem_email},sysdate)
     </insert>
 
     <select id="selectCaptain" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO" resultType="java.lang.String">

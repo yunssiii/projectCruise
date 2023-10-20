@@ -171,13 +171,15 @@ public class MypageController {
      */
     @PostMapping("/mypage/updateAname")
     @ResponseBody
-    public List<Map<String,Object>> updateAname(@RequestParam("myaccountNum") String myaccountNum,@RequestParam("myaccountName") String myaccountName) throws Exception{
+    public List<Map<String,Object>> updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,@RequestParam("myaccountName") String myaccountName) throws Exception{
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         HashMap<String,Object> hashMap = new HashMap<>();
 
-        String email = "hchdbsgk@naver.com";
+        String email = (String) session.getAttribute("email");
+
+        System.out.println(email);
 
         mypageService.updateAname(myaccountName,myaccountNum); //계좌명 수정
         List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //가상계좌정보
