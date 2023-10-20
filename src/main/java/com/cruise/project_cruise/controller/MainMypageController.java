@@ -51,6 +51,8 @@ public class MainMypageController {
                             @RequestHeader(value = "Authorization", required = false) String accessToken ,
                             @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
 
+
+
         String email = null;
         Optional<String> emailOptional = jwtTokenizer.extractEmail(accessToken);
 
