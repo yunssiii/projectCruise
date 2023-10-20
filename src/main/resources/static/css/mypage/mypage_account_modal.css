@@ -302,7 +302,6 @@ input[type="checkbox"]:checked + label::before{ /* 클릭 후 */
 
 /* 계좌 상세 모달창 */
 .account-modal {
-    display: none; /* 디폴트 none */
     position: fixed; /* 위치 고정 */
     z-index: 1; /* 맨 앞 */
     left: 0;

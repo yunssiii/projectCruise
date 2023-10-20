@@ -2,7 +2,7 @@
 //-- 계좌 등록 ----------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
 
-//모달 이동 버튼 
+//모달 이동 버튼
 var funs = []; //모달 이동 함수를 저장하기 위한 변수
 
 var addDiv = document.getElementsByClassName("add-accountBtn");
@@ -22,7 +22,7 @@ var addBtn = document.getElementsByClassName("addBtn");
 var agreeAll = document.getElementById("agree-all");
 
 //모달2 계좌 선택
-var bankBtns = document.querySelectorAll(".bankBtn"); 
+var bankBtns = document.querySelectorAll(".bankBtn");
 
 //모달3 계좌 유효성 검사, 인증 버튼
 var accounNums = document.getElementsByClassName("account-input");
@@ -45,11 +45,11 @@ function AddModal(num) {
         nextBtn1[0].onclick = function() {
 
             for (var i = 0; i < nextBtn1.length; i++) {
-                
-                if (!agreeAll.checked) {                            
+
+                if (!agreeAll.checked) {
                     modalDiv1[num].style.display = "block";
                     modalDiv2[num].style.display = "none";
-                    
+
                 }else {
                     modalDiv1[num].style.display = "none";
                     modalDiv2[num].style.display = "block";
@@ -75,7 +75,7 @@ function AddModal(num) {
             }else {//선택됨
                 modalDiv2[num].style.display = "none";
                 modalDiv3[num].style.display = "block";
-            }                
+            }
         }
 
         xButton2[num].onclick = function() {
@@ -99,7 +99,7 @@ funs[0]();
 //-- 모달1 약관 숨기기--------------------------------------------
 
 $("#agree-show").click(function() {
-    
+
     if($("#agree-hide").css('display')==='none'){
         $("#agree-hide").css('display','block');
     }else if($("#agree-hide").css('display')==='block'){
@@ -108,7 +108,7 @@ $("#agree-show").click(function() {
 });
 
 $("#agree-show2").click(function() {
-    
+
     if($("#agree-hide2").css('display')==='none'){
         $("#agree-hide2").css('display','block');
     }else if($("#agree-hide2").css('display')==='block'){
@@ -117,7 +117,7 @@ $("#agree-show2").click(function() {
 });
 
 $("#agree-show3").click(function() {
-    
+
     if($("#agree-hide3").css('display')==='none'){
         $("#agree-hide3").css('display','block');
     }else if($("#agree-hide3").css('display')==='block'){
@@ -127,12 +127,12 @@ $("#agree-show3").click(function() {
 
 //-- 모달1 약관 동의 checkbox ------------------------------------------
 /*
-    전체 체크박스 체크시 
+    전체 체크박스 체크시
         -> "확인" 버튼 색 변함
         -> 개별 체크박스 체크됨
     개별 체크박스 체크시
         -> 전부 다 체크되면 전체, "확인" 버튼 변화
-        -> 하나만 체크되면 변화 없음 
+        -> 하나만 체크되면 변화 없음
         -> name.length로 구하기
 
 */
@@ -152,7 +152,7 @@ $(document).ready(function(){
         }
     })
 
-    // 개별 선택 
+    // 개별 선택
     $("input[name=agreeChk]").click(function() {
 
         var total = $("input[name=agreeChk]").length;
@@ -173,7 +173,7 @@ $(document).ready(function(){
 
 
 //-- 모달2 계좌에 click 클래스를 더하는 함수------------------------------
-/* 
+/*
     클릭한 div만 주황선 css 입히기
     "확인" 버튼 색 변화
     "확인" 버튼 누를 때의 js는 모달 이동 함수에 포함되어 있음
@@ -187,12 +187,12 @@ function bankClick(event) {
 
     event.target.classList.add("click");
     colorchange();
-} 
+}
 
 function colorchange() {
     nextBtn2[0].style.backgroundColor = "#0c0ccad0";
     nextBtn2[0].style.cursor = "pointer";
-    
+
 }
 
 bankBtns.forEach((e) => {
@@ -204,7 +204,7 @@ bankBtns.forEach((e) => {
 /*
     테두리 빨강, 알림문구 띄우기
     숫자만 입력 가능, 14자리
-    입력값 14보다 크,작 -> "계좌번호를 정확히 입력해주세요" 
+    입력값 14보다 크,작 -> "계좌번호를 정확히 입력해주세요"
     input 박스가 변할 때랑 등록 버튼이 눌릴 때 둘 다 나와야함
 */
 
@@ -221,7 +221,7 @@ function chkAccountNum(event) {
         accounNums[1].style.border = "1px solid black";
         accounNums[1].style.outline = "1px solid black";
 
-    }else if(inputValue.length < 10) { 
+    }else if(inputValue.length < 10) {
 
         document.getElementById("resultNum").innerText = text;
 
@@ -229,7 +229,7 @@ function chkAccountNum(event) {
         accounNums[1].style.outline = "1px solid red";
 
     }else if(inputValue.length > 14) {
-        
+
         document.getElementById("resultNum").innerText = text;
 
         accounNums[1].style.border = "1px solid red";
@@ -242,7 +242,7 @@ function chkAccountNum(event) {
 /*
     테두리 빨강, 알림문구 띄우기
     숫자만 입력 가능, 4자리
-    입력값 4보다 크,작 -> "계좌번호를 정확히 입력해주세요" 
+    입력값 4보다 크,작 -> "계좌번호를 정확히 입력해주세요"
     input 박스가 변할 때랑 등록 버튼이 눌릴 때 둘 다 나와야함
 */
 
@@ -277,7 +277,7 @@ accounPwds[0].addEventListener("change",chkAccountPwd);
 
 //-- 계좌번호 인증 함수 --------------------------------------------------
 /*
-    인증 버튼 누르면 함수 실행 
+    인증 버튼 누르면 함수 실행
     if(가상계좌 비밀번호=입력된 비밀번호 && 불러와진 이름의 가상계좌번호 = 입력된 계좌번호) ⇒ 인증 성공 / 등록 버튼 색변화/ 창 닫기/ insert
     if(번호!=비밀번호) ⇒인증 실패 / 인증 실패 알림/ 내용 지우고 cursor 계좌번호로
 */
@@ -342,81 +342,55 @@ authBtns[0].addEventListener("click",accountAuth);
 /*
     계좌 상세 모달
     계좌 별칭 수정
-    계좌 삭제 
+    계좌 삭제
 */
 
-var funcs1 = [];  
+// 계좌 카드 누를 때 함수
+function showAccount(myaccountNum) {
 
-//계좌 상세 모달
-var modals = document.getElementsByClassName("account-modal"); //모달div를 감싸는 최상위 class
-var boxs = document.getElementsByClassName("select-modal-div"); //선택할 div class
-var btns = document.getElementsByClassName("closeBtn"); //닫기 버튼이 있는 div class
+    $('#account-modal'+myaccountNum).removeClass('hidden');
+    $('#account-modal'+myaccountNum).addClass('visible');
 
-// 계좌 별칭 수정
-var accUpdateBtn = document.getElementsByClassName("account-update");
-var okUpdateBtn = document.getElementsByClassName("account-update-ok");
-var pAlias = document.getElementsByClassName("account-alias");
-var inputAlias = document.getElementsByClassName("account-alias2");
+    $('body').css('overflow', 'hidden');
 
-// Modal을 띄우고 닫는 클릭 이벤트를 정의한 함수
-function Modal(num) {
-
-    //수정
-    accUpdateBtn[num].onclick = function() {
-        pAlias[num].classList.add("hidden");
-        inputAlias[num].classList.remove("hidden");
-
-        accUpdateBtn[num].classList.add("hidden");
-        okUpdateBtn[num].classList.remove("hidden");
-    };
-
-//    okUpdateBtn[num].onclick = function() {
-//
-//        pAlias[num].classList.remove("hidden");
-//        inputAlias[num].classList.add("hidden");
-//
-//        accUpdateBtn[num].classList.remove("hidden");
-//        okUpdateBtn[num].classList.add("hidden");
-//    };
-
-    //모달
-    return function() {
-
-        boxs[num].onclick =  function() {
-
-//            console.log('모달번호: ' + num +', 계좌번호: '+accountNum);
-
-            modals[num].style.display = "block";
-            document.body.style.overflow = "hidden";
-
-            $('#oneMonth').click();
-        };
-    
-        btns[num].onclick = function() {
-            modals[num].style.display = "none";
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-        };
-
-    };
 }
 
-for(var i = 0; i < boxs.length; i++) {
-    funcs1[i] = Modal(i); //함수 담기
+// x 버튼 누를 때 함수
+function closeAccount(myaccountNum) {
+
+    $('#account-modal'+myaccountNum).addClass('hidden');
+    $('#account-modal'+myaccountNum).removeClass('visible');
+
+    $('body').css('overflow', 'auto');
+    $('body').css('overflowX', 'hidden');
+
+    $('.custom-select-option').eq(0).click();
+
 }
 
-for(var j = 0; j < boxs.length; j++) {
-    funcs1[j](); //함수 호출
+//// Modal 영역 밖을 클릭하면 Modal 닫음
+//window.onclick = function(event) {
+//    if (event.target.className == "account-modal") {
+//        event.target.style.display = "none";
+//        document.body.style.overflow = "auto";
+//        document.body.style.overflowX = "hidden";
+//    }
+//};
+
+// 계좌명 수정
+function updateBtn(myaccountNum){
+
+    $('#account-alias'+myaccountNum).addClass('hidden');
+    $('#aname'+myaccountNum).removeClass('hidden');
+
+    $('#account-update'+myaccountNum).addClass('hidden');
+    $('#account-update-ok'+myaccountNum).removeClass('hidden');
+
 }
 
-// Modal 영역 밖을 클릭하면 Modal 닫음
-window.onclick = function(event) {
-    if (event.target.className == "account-modal") {
-        event.target.style.display = "none";
-        document.body.style.overflow = "auto";
-        document.body.style.overflowX = "hidden";
-    }
-};
+
+
+
 
 // -- 계좌 삭제 예/아니오---------------------------------------------------------------
 var accountFunc = []; //함수 저장 변수

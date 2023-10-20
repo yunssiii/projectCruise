@@ -39,23 +39,26 @@ public class MainMypageController {
     @Autowired
     CrewBoardUtil myUtil;
 
+    /*
+        로그인 후 바로 연결되는 마이페이지 메인창 메소드
+        크루와 계좌 0이면 zero페이지 보여지고
+        0 이상이면 all페이지 보여짐
+        --
+        크루 조회, 계좌 조회, 계좌 등록, 초대 구분
+     */
     @RequestMapping(value = "/mypage/mypage_all",method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView all(HttpSession session, HttpServletRequest request, @RequestParam(required = false) String anum, @RequestHeader(value = "Authorization", required = false) String accessToken , @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
+    public ModelAndView all(HttpSession session, HttpServletRequest request, @RequestParam(required = false) String anum,
+                            @RequestHeader(value = "Authorization", required = false) String accessToken ,
+                            @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
 
         String email = null;
         Optional<String> emailOptional = jwtTokenizer.extractEmail(accessToken);
 
-
-
         String group = (String) session.getAttribute("group");
         String num = (String) session.getAttribute("num");
 
-
-
         //초대받았을때와 아닐때를 구분 할 수 있음
-
         if (group == null && num == null) { //초대받지 않았고 로그인을하면 group과 num을하면 지워지므로 세션값으로 다시 비교
-
 
             if (principal != null || emailOptional.isPresent()) { // 로그인 했을 경우
                 System.out.println("초대받지 못한 로그인");
@@ -77,9 +80,7 @@ public class MainMypageController {
                     }
                 }
             }
-        }
-
-        else { //초대받았을때
+        }else { //초대받았을때
 
             if (principal != null || emailOptional.isPresent()) { // 로그인 했을 경우
                 System.out.println("초대받은 로그인");
@@ -104,8 +105,6 @@ public class MainMypageController {
             }
         }
 
-
-
         if (session.getAttribute("email")==null){
             session.setAttribute("email", email);
             email = (String) session.getAttribute("email");
@@ -122,39 +121,41 @@ public class MainMypageController {
         List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보
         List<CrewMemberDTO> crewNumLists = mypageService.getCrewNums(email); //크루맴버의 크루번호
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(email); //가상계좌 비밀번호
-        List<MyAccountDTO> accountLists = mypageService.getAccountList(email); //가상계좌정보
+        List<MyAccountDTO> accountLists = mypageService.getAccountList(email); //등록된 계좌정보
+        List<OpenBankDTO> accountBalLists = mypageService.getAccountBals(email); //가상 계좌의 잔액만
         UserDTO userInfo = mypageService.getUserInfo(email); // 로그인한 사용자 정보.이름
 
         ModelAndView mav = new ModelAndView();
 
-
-
-
-
+        //크루, 계좌가 있으면 all 페이지
         if(!crewNumLists.isEmpty() || !accountLists.isEmpty()){
             mav.setViewName("mypage/mypage_all");
 
             mav.addObject("crewLists",crewLists);
             mav.addObject("userInfo",userInfo);
 
-
+            //계좌 비밀번호가 있으면
             if(openAccPwd != null){
                 mav.addObject("openAccPwd",openAccPwd);
             }
 
+            //가상 계좌 잔액을 내 계좌 잔액dto에 set
+            for(int i=0;i<accountBalLists.size();i++){
+                int balance = accountBalLists.get(i).getOpen_balance();
+                accountLists.get(i).setMyaccount_balance(balance);
+            }
+
             mav.addObject("accountLists",accountLists);
 
-        }else {
+        }else { //크루, 계좌 없으면 zero
             mav.setViewName("mypage/mypageZero");
         }
 
+        //계좌번호 있으면 계좌 등록
         if(anum !=null){
 
-
             mypageService.insertAccount(email,anum);
-
             mav.setViewName("redirect:/mypage/mypage_all");
-
             return mav;
         }
 

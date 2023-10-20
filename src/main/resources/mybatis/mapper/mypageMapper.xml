@@ -35,8 +35,8 @@
 
     <!-- 계좌 등록 insert -->
     <insert id="insertAccount" parameterType="map">
-        insert into my_account (myaccount_bank, myaccount_anum, myaccount_date, email, myaccount_name, myaccount_balance)
-        select ob.open_bank, ob.open_account, sysdate, u.email, ob.open_aname, ob.open_balance
+        insert into my_account (myaccount_bank, myaccount_anum, myaccount_date, email, myaccount_name)
+        select ob.open_bank, ob.open_account, sysdate, u.email, ob.open_aname
         from openbank ob
         join users u on ob.open_name = u.user_name
         where u.email = #{email}
@@ -45,8 +45,15 @@
 
     <!-- 등록된 전체 계좌 조회 -->
     <select id="getAccountList" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
-        select myaccount_anum,myaccount_bank,myaccount_name,myaccount_balance from my_account
-        where email=#{email}
+        select myaccount_anum,myaccount_bank,myaccount_name from my_account
+        where email=#{email} order by myaccount_bank
+    </select>
+
+    <!-- 등록된 전체 계좌 '잔액'만 조회 -->
+    <select id="getAccountBals" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.develop.OpenBankDTO">
+        select open_balance from openbank
+        where open_account in
+        (select myaccount_anum from my_account where email = #{email}) order by open_bank
     </select>
 
     <!-- 등록된 한 계좌 조회 -->

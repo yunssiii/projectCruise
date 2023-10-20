@@ -5,57 +5,52 @@
     예/아니오 -> 모달
 */
 
-$('.user-out').on('click', showDelInfo(crewNum));
-$('.nBtn').on('click', closeNo);
-$('.no').on('click', closeContinue);
-$('.yes').on('click', closeExit);
-$('.e-yes').on('click', closeNone);
 
 
 // '탈퇴하기' 버튼 누를 때 실행함수
 function showDelInfo(crewNum) {
 
-    $('.crewDelmodal-div'+crewNum).removeClass('hidden');
-    $('.crewDelmodal-div').addClass('visible');
+    $('#crewDelmodal-div'+crewNum).removeClass('hidden');
+    $('#crewDelmodal-div'+crewNum).addClass('visible');
 
     $('body').css('overflow', 'hidden');
 
 }
 
 // 첫 모달에서 '예' 버튼 누를 때 실행함수 - ok
-function closeOk() {
+function closeOk(crewNum) {
 
-    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+    $('#crewDelmodal-div'+crewNum).addClass('hidden'); //info창 닫기
 
-    $('.y-div').removeClass('hidden');//탈퇴됨 창 열기
-    $('.y-div').addClass('visible');
+    $('#y-div'+crewNum).removeClass('hidden');//탈퇴됨 창 열기
+    $('#y-div'+crewNum).addClass('visible');
 
 }
 
 // 첫 모달에서 '예' 버튼 누를 때 실행함수 - none
-function closeDelNone() {
+function closeDelNone(crewNum) {
 
-    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+    $('#crewDelmodal-div'+crewNum).addClass('hidden'); //info창 닫기
 
-    $('.e-div').removeClass('hidden');//선장 창 열기
-    $('.e-div').addClass('visible');
+    $('#e-div'+crewNum).removeClass('hidden');//선장 창 열기
+    $('#e-div'+crewNum).addClass('visible');
 
 }
 
 // 첫 모달에서 '아니오' 버튼 누를 때 실행함수
-function closeNo() {
+function closeNo(crewNum) {
 
-    $('.crewDelmodal-div').addClass('hidden'); //info창 닫기
+    $('#crewDelmodal-div'+crewNum).addClass('hidden'); //info창 닫기
 
-    $('.n-div').removeClass('hidden');//계속 창 열기
-    $('.n-div').addClass('visible');
+    $('#n-div'+crewNum).removeClass('hidden');//계속 창 열기
+    $('#n-div'+crewNum).addClass('visible');
 
 }
 
 // 계속 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
-function closeContinue() {
+function closeContinue(crewNum) {
 
-    $('.n-div').addClass('hidden'); //계속 창 닫기
+    $('#n-div'+crewNum).addClass('hidden'); //계속 창 닫기
 
     $('body').css('overflow','auto');
     $('body').css('overflowX','hidden');
@@ -65,9 +60,9 @@ function closeContinue() {
 }
 
 // 탈퇴 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
-function closeExit() {
+function closeExit(crewNum) {
 
-    $('.y-div').addClass('hidden'); //계속 창 닫기
+    $('#y-div'+crewNum).addClass('hidden'); //계속 창 닫기
 
     $('body').css('overflow','auto');
     $('body').css('overflowX','hidden');
@@ -77,9 +72,9 @@ function closeExit() {
 }
 
 // 선장 창에서 '확인' 버튼 누를 때 실행함수 - 창 닫힘
-function closeNone() {
+function closeNone(crewNum) {
 
-    $('.e-yes').addClass('hidden'); //계속 창 닫기
+    $('#e-yes'+crewNum).addClass('hidden'); //계속 창 닫기
 
     $('body').css('overflow','auto');
     $('body').css('overflowX','hidden');

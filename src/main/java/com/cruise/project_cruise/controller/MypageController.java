@@ -50,25 +50,10 @@ public class MypageController {
     @Autowired
     CrewBoardUtil myUtil;
 
-    public MypageController() throws Exception {
-    }
-
-
-    /*
-        로그인 후 바로 연결되는 마이페이지 메인창 메소드
-        크루와 계좌 0이면 zero페이지 보여지고
-        0 이상이면 all페이지 보여짐
-        --
-        일정 달력 조회
-     */
-
-
 
     /*
         계좌 등록 메소드
-     */
 
-    /*
     @PostMapping("/mypage/mypage_all")
     public ModelAndView accountInsert(@RequestParam String anum) throws Exception{
 
@@ -84,8 +69,8 @@ public class MypageController {
 
         return mav;
     }
-
      */
+
 
     /*
         계좌 내역 조회
@@ -171,18 +156,20 @@ public class MypageController {
      */
     @PostMapping("/mypage/updateAname")
     @ResponseBody
-    public List<Map<String,Object>> updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,@RequestParam("myaccountName") String myaccountName) throws Exception{
+    public List<Map<String,Object>> updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,
+                                                @RequestParam("myaccountName") String myaccountName) throws Exception{
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         HashMap<String,Object> hashMap = new HashMap<>();
 
+        //세션에서 가져온 이메일
         String email = (String) session.getAttribute("email");
 
         System.out.println(email);
 
         mypageService.updateAname(myaccountName,myaccountNum); //계좌명 수정
-        List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //가상계좌정보
+        List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //하나의 가상계좌정보
 
         for(int i=0;i<accountLists.size();i++){
             hashMap.put("selectAname", accountLists.get(i).getMyaccount_name());
@@ -213,7 +200,7 @@ public class MypageController {
      */
     @PostMapping("/mypage/mypage_all_ok")
     @ResponseBody
-    public String delCrew(@RequestParam("crewNum") int crewNum) throws  Exception {
+    public String delCrew(@RequestParam("crewNum") int crewNum,HttpServletRequest request) throws  Exception {
         //ModelAndView mav = new ModelAndView();
         String Response = "";
 
@@ -222,7 +209,9 @@ public class MypageController {
 
         System.out.println("crewNum-> " + crewNum);
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
         String capEmail = mypageService.getOneCaptain(email,crewNum);
 
         System.out.println("캡틴 이메일-> " + capEmail);
@@ -246,9 +235,11 @@ public class MypageController {
         크루즈웹 비밀번호 페이지
     */
     @GetMapping("mypage/mypage_webPassword")
-    public ModelAndView webPassword() throws Exception {
+    public ModelAndView webPassword(HttpServletRequest request) throws Exception {
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
 
         String webPassword = mypageService.getWebpassword(email);
         UserDTO userInfo = mypageService.getUserInfo(email);
@@ -270,9 +261,11 @@ public class MypageController {
         웹 비밀번호 등록/변경
      */
     @PostMapping("mypage/mypage_webPassword")
-    public ModelAndView webPassword(@RequestParam String payPwd) throws Exception {
+    public ModelAndView webPassword(@RequestParam String payPwd,HttpServletRequest request) throws Exception {
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
 
         ModelAndView mav = new ModelAndView();
 
@@ -321,9 +314,11 @@ public class MypageController {
         내 정보 수정 페이지
      */
     @GetMapping("mypage/mypage_myInfo")
-    public ModelAndView myInfo() throws Exception {
+    public ModelAndView myInfo(HttpServletRequest request) throws Exception {
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
 
         UserDTO userInfo = mypageService.getUserInfo(email);
 
@@ -343,7 +338,9 @@ public class MypageController {
     @GetMapping("mypage/mypage_board")
     public ModelAndView myBoard(HttpServletRequest request) throws Exception {
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
 
         UserDTO userInfo = mypageService.getUserInfo(email);
         List<CrewCommentDTO> myCommentLists = mypageService.getMyComment(email); //내 댓글 조회
@@ -445,9 +442,11 @@ public class MypageController {
         내 알림 페이지
      */
     @GetMapping("mypage/mypage_myAlert")
-    public ModelAndView myAlert() throws Exception {
+    public ModelAndView myAlert(HttpServletRequest request) throws Exception {
 
-        String email = "hchdbsgk@naver.com";
+        //세션에서 가져온 이메일
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("email");
 
         UserDTO userInfo = mypageService.getUserInfo(email);
 
