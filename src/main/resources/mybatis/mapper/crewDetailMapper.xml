@@ -4,7 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewDetailMapper">
-<!-- TemplateMapper 지우고 자기 매퍼이름을 기입해주세요 -->
+<!-- 상세페이지 접속 관련 -->
+    <!-- 해당 유저가 해당 크루의 회원인지 확인하는 쿼리 -->
+    <select id="isMember" parameterType="map" resultType="int">
+        select nvl(count(*),0)
+        from CREW_MEMBER
+        where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail}
+    </select>
+
+    <!-- 해당 유저가 해당 크루의 선장인지 확인하는 쿼리 -->
+    <select id="isCaptain" parameterType="map" resultType="int">
+        select nvl(count(*),0)
+        from CREW_MEMBER
+        where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail} and CAPTAIN_YN = 'Y'
+    </select>
 
     <!-- 특정 크루 데이터를 select 하는 쿼리 -->
     <select id="getCrewData" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewDTO">

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>크루즈 :: 잘못된 접근입니다.</title>
+</head>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+<style>
+
+    body {
+        font-family: 'NanumSquare', 'sans-serif';
+        font-size: 15pt;
+    }
+    div {
+        margin: 0;
+    }
+    .allBox {
+        margin: 20vh auto;
+        text-align: center;
+    }
+
+    button {
+        width: 250px;
+        height: 60px;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 15pt;
+        margin: 30px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #d3d3d3;
+    }
+
+    button:active {
+        background-color: #b7b7b7;
+        color: white;
+    }
+</style>
+
+<body>
+<div class="allBox">
+    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Anxious%20Face%20with%20Sweat.png"
+         alt="Anxious Face with Sweat" width="200" height="200" />
+            <h1> 잘못된 접근입니다! </h1>
+            <div th:if="${status=='logout'}">
+                <div>로그인을 해주세요.</div>
+                <button type="button" onclick="location.href='http://localhost:8082/login';">로그인 하러가기</button>
+            </div>
+            <div th:if="${status=='notMember'}">
+                <div>해당 크루의 선원만 들어올 수 있어요.</div>
+                <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
+            </div>
+
+
+</div>
+</body>
+</html>

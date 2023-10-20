@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +34,17 @@ public class CrewController {
     @Autowired
     private CrewSettingService crewSettingService;
 
-// red 풀캘린더 데이터 전달 URL ----------------------------------------
+// red 오류페이지
+    @RequestMapping("/wrongAccess")
+    public ModelAndView wrongAccess() throws Exception {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("crew/wrongAccess");
+
+//        mav.addObject("wrongAccessMsg","어쩌다 여기에 오셨나요..?");
+        return mav;
+    }
+
+// red 풀캘린더 데이터 전달 URL
     // - main, setting, mypage에서 공동 사용
     @RequestMapping("/setting/loadCrewSchedule")
     @ResponseBody
@@ -85,10 +96,12 @@ public class CrewController {
 
     // green 크루 상세페이지 출력
     @RequestMapping(value="")
-    public ModelAndView crewMain(HttpServletRequest request) throws Exception {
+    public ModelAndView crewMain(HttpSession session, HttpServletRequest request) throws Exception {
 
         // 크루 상세페이지 메인화면
         ModelAndView mav = new ModelAndView();
+        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
         /**
          * TODO
          * 0. 내가 크루원일 때만 해당 페이지에 들어올 수 있게 하기
@@ -102,15 +115,38 @@ public class CrewController {
 
         // TODO 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기
             // 1. 세션에서 크루원의 이메일 받기
+            String userEmail = (String)session.getAttribute("email");
             // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
-            // 3. 존재하면 접속가능, 존재하지 않으면 return 오류페이지
+            if(userEmail==null||userEmail.isEmpty()) {
+                System.out.println("[CrewController] 로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 에 접근");
+                mav.addObject("status","logout");
+                mav.setViewName("crew/wrongAccess");
+
+                return mav;
+            }
+
+            if(!crewDetailService.isMember(crewNum,userEmail)) {
+                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 " + userEmail + " 접근 실패");
+                mav.addObject("status","notMember");
+                mav.setViewName("crew/wrongAccess");
+
+                return mav;
+            }
+
+        // TODO 0. 크루 캡틴에게만 크루관리 뜨게 하기
+            if(crewDetailService.isCaptain(crewNum,userEmail)) {
+                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 에 선장 접속");
+                mav.addObject("isCaptain","true");
+            } else {
+                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 에 선원 " + userEmail + " 접속");
+                mav.addObject("isCaptain","false");
+            }
 
         // TODO 1. 크루 소식조회
 
         // 2. 크루 기본정보 데이터 - 완료
             // 1. 크루 데이터 가지고오기
-            int crewNum = Integer.parseInt(request.getParameter("crewNum"));
-            CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
 
             // 2. 선장 이름 데이터 가지고오기
             String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());

@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 public interface CrewDetailService {
     // Mapper Interface를 그대로 가져와주기.
-
+    public boolean isMember(@Param("crewNum") int crewNum, @Param("userEmail") String userEmail) throws Exception;
+    public boolean isCaptain(@Param("crewNum") int crewNum, @Param("userEmail") String userEmail) throws Exception;
     public void deleteCrewMember(String cmemEmail, int crewNum) throws Exception;
     public CrewDTO getCrewData(int crewNum) throws Exception;
     public String getCaptainName(String captainEmail) throws Exception;
