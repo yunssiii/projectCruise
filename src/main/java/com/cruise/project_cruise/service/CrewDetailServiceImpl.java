@@ -15,6 +15,26 @@ public class CrewDetailServiceImpl implements CrewDetailService {
     private CrewDetailMapper crewDetailMapper;
 
     @Override
+    public boolean isMember(int crewNum, String userEmail) throws Exception {
+        int isMember = crewDetailMapper.isMember(crewNum,userEmail);
+
+        if(isMember==1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isCaptain(int crewNum, String userEmail) throws Exception {
+        int isCaptain = crewDetailMapper.isCaptain(crewNum,userEmail);
+        if(isCaptain==1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void deleteCrewMember
             (String cmemEmail, int crewNum) throws Exception {
         crewDetailMapper.deleteCrewMember(cmemEmail, crewNum);

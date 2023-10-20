@@ -11,11 +11,11 @@
     <!-- 제이쿼리 cdn-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- 네비게이터 바 CSS -->
+    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <!-- ----------------- -->
@@ -181,7 +181,7 @@
     </style>
 </head>
 <body>
-    <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
+    <div class="header"><nav th:replace="nav_footer/nav_footer :: header"></nav></div>
     <div class="background">
         <div class="wave"><div class="blue"></div></div>
     </div>
@@ -224,7 +224,8 @@
                     th:onclick="|location='http://localhost:8082/board/list?crewNum=${dto.crew_num}'|">소통게시판</button>
             </div>
                 <!-- FIXME crewNum을 넘겨주기 -->
-            <div class="crewmanage"><a th:href="@{|http://localhost:8082/crew/setting?crewNum=${crewNum}|}">크루 관리</a></div>
+            <div th:if="${isCaptain=='true'}" class="crewmanage"><a th:href="@{|http://localhost:8082/crew/setting?crewNum=${crewNum}|}">크루 관리</a></div>
+            <div th:if="${isCaptain=='false'}" class="crewmanage">&nbsp;</div>
                 <!-- FIXME 크루 관리자에게만 해당 DIV가 보이도록 하기 -->
                 <!-- FIXME 크루 넘버를 GET 방식 또는 POST 방식으로 넘겨주기 -->
             <div id="crewinvite">
