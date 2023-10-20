@@ -83,7 +83,7 @@ public class WebSecurityConfigure {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
-                .invalidateHttpSession(false) //로그아웃하면 security session과 httpsession 같이 삭제되는거 방지
+                .invalidateHttpSession(true) //로그아웃하면 security session과 httpsession 같이 삭제되는거 방지
                 .permitAll()
                 .and()
                 .oauth2Login()

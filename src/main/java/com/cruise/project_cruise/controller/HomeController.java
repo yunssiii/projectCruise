@@ -52,7 +52,6 @@ public class HomeController {
          final Logger logger = LoggerFactory.getLogger(HomeController.class);
             logger.info("처음화면");
 
-
         if (group != null && num != null) { // group과 num 값이 파라미터에 있을 때만 세션에 값을 설정
 
 
@@ -61,76 +60,18 @@ public class HomeController {
 
         }
 
+            if(session.getAttribute("email") != null){
 
 
-        /*
-        //초대받았을때와 아닐때를 구분 할 수 있음
 
-        if (group == null && session.getAttribute("group") == null) { //초대받지 않았고 로그인을하면 group과 num을하면 지워지므로 세션값으로 다시 비교
+                return "redirect:/mypage/mypage_all";
 
-
-            if (principal != null || emailOptional.isPresent()) { // 로그인 했을 경우
-                System.out.println("초대받지 못한 로그인");
-                if (emailOptional.isPresent()) { // 일반 로그인
-                    email = emailOptional.get();
-                    System.out.println(email);
-                    session.setAttribute("email", email);
-                } else { // 소셜 로그인
-                    Map<String, Object> attributes = principal.getAttributes();
-
-                    if (attributes.get("kakao_account") != null) { // 카카오 로그인
-                        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-                        email = (String) kakaoAccount.get("email");
-                    } else if (attributes.get("response") != null) { // 네이버 로그인
-                        Map<String, Object> naverAccount = (Map<String, Object>) attributes.get("response");
-                        email = (String) naverAccount.get("email");
-                    } else { //구글 로그인
-                        email = (String) attributes.get("email");
-                    }
-                }
-            }
-        }
-
-        else if (group == null && session.getAttribute("group") != null) { //초대받았을때
-
-            if (principal != null || emailOptional.isPresent()) { // 로그인 했을 경우
-                System.out.println("초대받은 로그인");
-                if (emailOptional.isPresent()) { // 일반 로그인
-                    System.out.println("일반로그인");
-                    email = emailOptional.get();
-                    session.setAttribute("email", email);
-                } else { // 소셜 로그인
-                    Map<String, Object> attributes = principal.getAttributes();
-                    System.out.println("소셜로그인");
-
-                    if (attributes.get("kakao_account") != null) { // 카카오 로그인
-                        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-                        email = (String) kakaoAccount.get("email");
-                    } else if (attributes.get("response") != null) { // 네이버 로그인
-                        Map<String, Object> naverAccount = (Map<String, Object>) attributes.get("response");
-                        email = (String) naverAccount.get("email");
-                    } else { //구글 로그인
-                        email = (String) attributes.get("email");
-                    }
-                }
             }
 
 
-//            model.addAttribute("group", group);
-//            model.addAttribute("num", num);
-//            model.addAttribute("email", email);
-
-        }
-        */
-
-
-        //일반로그인시에는 여기까지는 오는데 바로아래 세션이 안들어감..이유를 모르겠음 그래서 일반로그인은
-                                                    //이메일 받자마자 세션에 등록하는건 가능해서 그렇게 작성하였음
 
 
 
-
-        //번호 이름 이메일을 데이터베이스에넣고 세션삭제
 
         return "main";
     }
