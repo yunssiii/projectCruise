@@ -15,6 +15,7 @@ public interface MoimPassbookMapper {
 	public void insertCrew(CrewDTO dto) throws Exception;
 	public void insertCrewMember(CrewMemberDTO dto) throws Exception;
 	public List<MyAccountDTO> getMyAccount(String email) throws Exception;
+	public String getBankName(String myaccount_anum) throws Exception;
 
 }
 
