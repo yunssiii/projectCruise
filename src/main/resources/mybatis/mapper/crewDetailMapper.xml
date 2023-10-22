@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewDetailMapper">
-<!-- 상세페이지 접속 관련 -->
+<!-- red 상세페이지 접속 관련 -->
     <!-- 해당 유저가 해당 크루의 회원인지 확인하는 쿼리 -->
     <select id="isMember" parameterType="map" resultType="int">
         select nvl(count(*),0)
@@ -19,6 +19,8 @@
         where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail} and CAPTAIN_YN = 'Y'
     </select>
 
+
+<!-- red 크루 정보 -->
     <!-- 특정 크루 데이터를 select 하는 쿼리 -->
     <select id="getCrewData" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewDTO">
         select
@@ -39,7 +41,30 @@
         where OPEN_ACCOUNT=#{crewAccount}
     </select>
 
-    <!--  크루 탈퇴 시 crewMember 테이블에서 해당 선원을 삭제합니다.  -->
+<!-- red 크루 사용자 -->
+
+    <!-- 해당 크루에 접속한 선원의 정보 가지고오기 -->
+    <select id="getCrewUserInfo" parameterType="map" resultType="java.util.Map">
+        SELECT
+            A.CREW_NUM AS CREW_NUM,
+            B.USER_NAME AS USER_NAME,
+            A.CMEM_EMAIL AS USER_EMAIL,
+            A.CAPTAIN_YN AS CAPTAIN_YN,
+            A.JOIN_DATE AS JOIN_DATE,
+            A.TOTAL_PAY AS TOTAL_PAY,
+            A.MUST_PAYCOUNT AS MUST_PAYCOUNT,
+            A.REAL_PAYCOUNT AS REAL_PAYCOUNT
+        FROM
+            (SELECT CMEM_EMAIL, CREW_NUM, CAPTAIN_YN, JOIN_DATE, TOTAL_PAY, MUST_PAYCOUNT, REAL_PAYCOUNT
+             FROM CREW_MEMBER where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail}) A
+                JOIN
+            (SELECT USER_NAME, EMAIL
+             FROM USERS) B
+            ON A.CMEM_EMAIL = B.EMAIL
+    </select>
+
+
+    <!--  크루 탈퇴 시 crewMember 테이블에서 해당 선원을 삭제  -->
     <delete id="deleteCrewMember" parameterType="hashMap">
         delete crew_member where cmem_email=#{cmemEmail} and crew_num=#{crewNum}
     </delete>

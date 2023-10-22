@@ -1,11 +1,10 @@
 package com.cruise.project_cruise.controller.crew;
 
-import com.cruise.project_cruise.dto.CrewDTO;
-import com.cruise.project_cruise.dto.CrewMemberDTO;
-import com.cruise.project_cruise.dto.ScheduleDTO;
-import com.cruise.project_cruise.dto.UserDTO;
+import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
+import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,9 @@ public class CrewController {
     private CrewDetailService crewDetailService;
     @Autowired
     private CrewSettingService crewSettingService;
+    @Autowired
+    private MypageService mypageService;
+
 
 // red 오류페이지
     @RequestMapping("/wrongAccess")
@@ -115,7 +117,7 @@ public class CrewController {
          * 6. 일정 간편조회
          */
 
-        // 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기 - 완료
+        // bold 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기 - 완료
             // 1. 세션에서 크루원의 이메일 받기
             String userEmail = (String)session.getAttribute("email");
             // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
@@ -135,18 +137,18 @@ public class CrewController {
                 return mav;
             }
 
-        // 0. 크루 캡틴에게만 크루관리 뜨게 하기 - 완료
+        // bold 0. 크루 캡틴에게만 크루관리 뜨게 하기 - 완료
             if(crewDetailService.isCaptain(crewNum,userEmail)) {
-                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 에 선장 접속");
+                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 선장 " + userEmail + " 접속");
                 mav.addObject("isCaptain","true");
             } else {
-                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 에 선원 " + userEmail + " 접속");
+                System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 선원 " + userEmail + " 접속");
                 mav.addObject("isCaptain","false");
             }
 
         // TODO 1. 크루 소식조회
 
-        // 2. 크루 기본정보 데이터 - 완료
+        // bold 2. 크루 기본정보 데이터 - 완료
             String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
 
             // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
@@ -171,30 +173,59 @@ public class CrewController {
 
         // TODO 회비내역 조회
 
-        // TODO 납입기능 양식 출력
+        // bold 납입기능 양식 출력 - 완료
+            // 접속한 유저의 선원 정보 가지고오기
+            Map<String,Object> crewUserInfo = crewDetailService.getCrewUserInfo(crewNum,userEmail);
+
+            // 숫자로 표기해야할 부분.. 따로 넘겨주기 (계산해야하니까)
+            int userMustPayCount = Integer.parseInt(String.valueOf(crewUserInfo.get("MUST_PAYCOUNT")));
+            int userRealPayCount = Integer.parseInt(String.valueOf(crewUserInfo.get("REAL_PAYCOUNT")));
+            int userTotalPay = Integer.parseInt(String.valueOf(crewUserInfo.get("TOTAL_PAY")));
+
+            // 접속한 유저의 등록된 계좌 들고오기
+            List<MyAccountDTO> userAccountList = mypageService.getAccountList(userEmail);
+
 
         // TODO 일정 간편조회
 
         // 데이터 넘겨주기
-        mav.addObject("dto",dto);
-        mav.addObject("crewNum",crewNum);
-        mav.addObject("captainName",captainName);
-        mav.addObject("createdDate",createdDate);
-        mav.addObject("crewAccountBalance", crewAccountBalanceStr);
-        mav.addObject("achievePer", achievePer);
-        mav.addObject("crewGoal", crewGoal);
+            // 크루 기본정보 관련
+            mav.addObject("dto",dto);
+            mav.addObject("crewNum",crewNum);
+            mav.addObject("captainName",captainName);
+            mav.addObject("createdDate",createdDate);
+            mav.addObject("crewAccountBalance", crewAccountBalanceStr);
+            mav.addObject("achievePer", achievePer);
+            mav.addObject("crewGoal", crewGoal);
+
+            // 납입기능 폼 데이터
+            mav.addObject("crewUserInfo", crewUserInfo);
+            mav.addObject("userMustPayCount", userMustPayCount);
+            mav.addObject("userRealPayCount", userRealPayCount);
+//            mav.addObject("userTotalPay", userTotalPay);
+            mav.addObject("userAccountList", userAccountList);
 
         mav.setViewName("crew/crewmain");
 
         return mav;
     }
 
+    // green 납입 처리하기
+    @RequestMapping(value="/paymentFee")
+    public void paymentFee() throws Exception {
+
+
+
+    }
+
+
     // green 회원 탈퇴 진행
-    @RequestMapping(value="/crewExit")
+    @RequestMapping(value="/crewExitOK")
     public ModelAndView crewExit() throws Exception {
         ModelAndView mav = new ModelAndView();
 
         // FIXME 현재 로그인한 멤버의 이메일, CrewNum 가져오기
+        // FIXME 현재 로그인한 멤버가
 
         String cmemEmail = ""; // 가상 이메일
         int crewNum = 0; // 가상 크루넘버
@@ -202,20 +233,6 @@ public class CrewController {
         crewDetailService.deleteCrewMember(cmemEmail,crewNum);
         mav.setViewName("redirect:/");
 
-        return mav;
-    }
-
-    // green 크루 초대하기
-    @RequestMapping(value="/crewInvite")
-    public ModelAndView crewInvite(HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView();
-
-        int crewNum = Integer.parseInt(request.getParameter("crewNum"));
-        String crewName = request.getParameter("crewName");
-
-        System.out.println(crewNum + " : " + crewName);
-
-        mav.setViewName("redirect:/crew?crewNum="+crewNum);
         return mav;
     }
 
@@ -230,8 +247,20 @@ public class CrewController {
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보
         String userEmail = (String) session.getAttribute("email");
 
+        // 로그인 / 로그아웃 여부 걸러내기
+        if(userEmail==null||userEmail.isEmpty()) {
+            System.out.println("[CrewController] 로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+            mav.addObject("status","logout");
+            mav.setViewName("crew/wrongAccess");
+
+            return mav;
+        }
+
+        System.out.println("[CrewController] " + userEmail + "이 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+
+        // 선장이 아닌 사용자를 걸러내기
         if(!crewDetailService.isCaptain(crewNum,userEmail)) {
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + " 관리에 선장 접속");
+            System.out.println("[CrewController] " + userEmail + "은 선장이 아님");
             mav.addObject("status","notCaptain");
             mav.setViewName("crew/wrongAccess");
 
@@ -257,7 +286,7 @@ public class CrewController {
         List<Map<String,String>> memberList = crewSettingService.getCrewMemberList(crewNum);
 
         mav.addObject("dto",dto); // 크루 정보
-        mav.addObject("memberList",memberList); // 크루 정보
+        mav.addObject("memberList",memberList); // 선원 리스트
         mav.addObject("crewCaptain",crewCaptain); // 선장 정보
         mav.addObject("crewSailingDayCount",crewSailingDayCount); // 항해일수
         mav.addObject("crewNum",crewNum);

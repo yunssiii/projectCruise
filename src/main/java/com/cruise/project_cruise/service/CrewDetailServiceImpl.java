@@ -8,23 +8,20 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class CrewDetailServiceImpl implements CrewDetailService {
-
     @Autowired
     private CrewDetailMapper crewDetailMapper;
-
     @Override
     public boolean isMember(int crewNum, String userEmail) throws Exception {
         int isMember = crewDetailMapper.isMember(crewNum,userEmail);
-
         if(isMember==1) {
             return true;
         }
-
         return false;
     }
-
     @Override
     public boolean isCaptain(int crewNum, String userEmail) throws Exception {
         int isCaptain = crewDetailMapper.isCaptain(crewNum,userEmail);
@@ -33,13 +30,11 @@ public class CrewDetailServiceImpl implements CrewDetailService {
         }
         return false;
     }
-
     @Override
     public void deleteCrewMember
             (String cmemEmail, int crewNum) throws Exception {
         crewDetailMapper.deleteCrewMember(cmemEmail, crewNum);
     }
-
     @Override
     public CrewDTO getCrewData(int crewNum) throws Exception {
         return crewDetailMapper.getCrewData(crewNum);
@@ -53,7 +48,9 @@ public class CrewDetailServiceImpl implements CrewDetailService {
     public int getAccountBalance(String crewAccount) throws Exception {
         return crewDetailMapper.getAccountBalance(crewAccount);
     }
-
-    // Mapper Interface를 그대로 가져와주기.
+    @Override
+    public Map<String, Object> getCrewUserInfo(int crewNum, String userEmail) throws Exception {
+        return crewDetailMapper.getCrewUserInfo(crewNum, userEmail);
+    }
 
 }

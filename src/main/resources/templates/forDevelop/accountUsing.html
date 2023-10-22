@@ -107,7 +107,9 @@
 </body>
 <!--제이쿼리-->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var form = document.myForm;
 
     // 내역등록 폼 tr 추가
     $('#addUsingForm').click(function(){
@@ -116,33 +118,35 @@
             "<tr id='"+ num +"'>" +
             "<td>" + num + "</td>\n" +
             "<td>\n" +
-            "<input id=\"openUseDate" + num + "\" type=\"datetime-local\" name=\"openuse_date\" class=\"xLong\">\n" +
+            "<input id=\"openAccount" + num + "\" type=\"hidden\" name=\"open_account\" class=\"addOK" + num +"\">" +
+            "<input id=\"openUseDate" + num + "\" type=\"datetime-local\" name=\"openuse_date\" class=\"xLong addOK" + num + "\">\n" +
             "</td>\n" +
             "<td>\n" +
-            "<select id=\"IOSelector" + num +  "\" name=\"openuse_assort\">\n" +
+            "<select id=\"IOSelector" + num +  "\" name=\"openuse_assort\" class=\"addOK" + num +"\">\n" +
             "<option class=\"middle\" disabled selected value=''>선택</option>\n" +
             "<option value=\"I\" class=\"middle\">입금</option>\n" +
             "<option value=\"O\" class=\"middle\">출금</option>\n" +
             "</select>\n" +
             "</td>\n" +
             "<td>\n" +
-            "<input id=\"outMoney" + num +"\" class=\"middle\" type=\"text\" name=\"openuse_outmoney\">\n" +
+            "<input id=\"outMoney" + num +"\" class=\"middle addOK" + num + "\" type=\"text\" name=\"openuse_outmoney\">\n" +
             "</td>\n" +
             "<td>\n" +
-            "<input id=\"inMoney" + num +"\" class=\"middle\" type=\"text\" name=\"openuse_inmoney\">\n" +
+            "<input id=\"inMoney" + num +"\" class=\"middle addOK" + num + "\" type=\"text\" name=\"openuse_inmoney\">\n" +
             "</td>\n" +
             "<td>\n" +
-            "<input class=\"long\" type=\"text\" name=\"openuse_content\">\n" +
+            "<input id=\"openContent" + num +"\" class=\"long addOK" + num + "\" type=\"text\" class='addOK" + num + "' name=\"openuse_content\">\n" +
             "</td>\n" +
             "<td>자동계산</td>\n" +
             "<td>\n" +
-            "<button id='addOK' type='button' onclick='addSubmit()'>등록</button>" +
+            "<button id='addOK" + num + "' type='button' name='addOK" + num + "' onclick='addSubmit(this," + num + ")'>등록</button>" +
             "<button id='addCancel"+ num + "' type='button'>취소</button>" +
             "</td>\n" +
             "</tr>"
 
         $('#usingListTable').append(html)
         $('#openUseDate'+num).val($('#lastDate').text());
+        $('#openAccount'+num).val([[${selectedAccount}]]);
 
         $('#addCancel'+num).click(function(){
             console.log(num);
@@ -167,11 +171,27 @@
 
 
 
-    function addSubmit() {
+    function addSubmit(btn, num) {
 
-        var str = form.openuse_date.value;
+        console.log(form.open_account.value);
+
+
+
+        var inputJQ = $(form).find('input')
+
+        for(var i=0;i<inputJQ.length;i++) {
+            if(!$(inputJQ[i]).hasClass($(btn).attr('name'))){
+                $(inputJQ[i]).prop('disabled',true)
+            } else if ($(inputJQ[i]).hasClass($(btn).attr('name'))) {
+                $(inputJQ[i]).prop('disabled',false)
+            }
+        }
+
+
+
+        var str = $('#openUseDate'+num).val();
         if(str==null || str==="") {
-            alert("[날짜] 날짜 입력해주세요");
+            alert("[날짜] 날짜를 입력해주세요");
             return;
         }
 
@@ -186,25 +206,29 @@
         }
 
 
-        var str = form.openuse_assort.value;
+        // var str = form.openuse_assort.value;
+        var str = $('#IOSelector'+num).val();
         if(str==null || str==="") {
             alert("[구분] 구분 선택해주세요");
             return;
         }
 
-        var str = form.openuse_outmoney.value;
+        // var str = form.openuse_outmoney.value;
+        var str = $('#outMoney'+num).val();
         if(str==null || str==="") {
             alert("[출금액] 출금액 입력해주세요");
             return;
         }
 
-        var str = form.openuse_inmoney.value;
+        // var str = form.openuse_inmoney.value;
+        var str = $('#inMoney'+num).val();
         if(str==null || str==="") {
             alert("[입금액] 입금액 입력해주세요");
             return;
         }
 
-        var str = form.openuse_content.value;
+        // var str = form.openuse_content.value;
+        var str = $('#openContent'+num).val();
         if(str==null || str==="") {
             alert("[거래내용] 거래내용 입력해주세요");
             return;
@@ -298,15 +322,18 @@
 
         var inputJQ = $(form).find('input')
 
-        for(var i=0;i<inputJQ.length;i++)
+        for(var i=0;i<inputJQ.length;i++) {
             if($(inputJQ[i]).attr('class') !== $(btn).attr('name')){
                 $(inputJQ[i]).prop('disabled',true)
+            } else if ($(inputJQ[i]).attr('class') === $(btn).attr('name')) {
+                $(inputJQ[i]).prop('disabled',false)
             }
+        }
 
         form.action = "/develop/openbank/using/deleteInquiry";
         form.submit();
     }
-
+    /*]]>*/
 </script>
 
 

@@ -5,6 +5,8 @@ import com.cruise.project_cruise.dto.TemplateDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Map;
+
 @Mapper
 public interface CrewDetailMapper {
     public int isMember(@Param("crewNum") int crewNum, @Param("userEmail") String userEmail) throws Exception;
@@ -13,5 +15,6 @@ public interface CrewDetailMapper {
     public CrewDTO getCrewData(int crewNum) throws Exception;
     public String getCaptainName(String captainEmail) throws Exception;
     public int getAccountBalance(String crewAccount) throws Exception;
+    public Map<String,Object> getCrewUserInfo(@Param("crewNum")int crewNum, @Param("userEmail") String userEmail) throws Exception;
 
 }
