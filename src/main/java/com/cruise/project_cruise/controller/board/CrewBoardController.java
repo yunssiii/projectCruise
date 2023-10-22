@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-
+@RequestMapping("/board/")
 @RestController
 public class CrewBoardController {
 
@@ -28,7 +28,7 @@ public class CrewBoardController {
 	@Autowired
 	CrewBoardUtil myUtil;
 
-	@PostMapping("/board/created")
+	@PostMapping("created")
 	public ModelAndView created_ok(CrewBoardDTO dto,
 								   HttpServletRequest request) throws Exception {
 
@@ -67,7 +67,7 @@ public class CrewBoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/list", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "list", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
@@ -153,7 +153,7 @@ public class CrewBoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/article", method = {RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value = "article", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView article(HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
@@ -207,7 +207,7 @@ public class CrewBoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/updated",
+	@RequestMapping(value = "updated",
 			method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView updated(HttpServletRequest request) throws Exception {
 
@@ -246,7 +246,7 @@ public class CrewBoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/updated_ok",
+	@RequestMapping(value = "updated_ok",
 			method = RequestMethod.POST)
 	public ModelAndView updated_ok(CrewBoardDTO dto, HttpServletRequest request) throws Exception {
 
@@ -279,7 +279,7 @@ public class CrewBoardController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/deleted_ok",
+	@RequestMapping(value = "deleted_ok",
 			method = {RequestMethod.POST, RequestMethod.GET})
 	public String deleted_ok(HttpServletRequest request) throws Exception {
 

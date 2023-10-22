@@ -19,8 +19,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
 	insert into crew_member (crew_num, cmem_email, captain_YN,
 	join_date, total_pay, must_paycount, real_paycount)
-	values (#{crew_num}, #{cmem_email}, #{captain_YN},
-	sysdate, #{total_pay}, #{must_paycount}, #{real_paycount})
+	values (#{crew_num}, #{cmem_email}, 'Y',
+	sysdate, 0, 0, 0)
 </insert>
 
 <select id="getMyAccount" parameterType="String"
@@ -28,5 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select myaccount_bank, myaccount_anum from my_account
 	where email = #{email} order by myaccount_date
 </select>
+
+<select id="getBankName" parameterType="String" resultType="String">
+	select myaccount_name from my_account where myaccount_anum = #{myaccount_anum};
+</select>
+
 
 </mapper>

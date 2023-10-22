@@ -34,4 +34,9 @@ public class MoimPassbookServiceImpl implements MoimPassbookService {
     public List<MyAccountDTO> getMyAccount(String email) throws Exception {
         return mapper.getMyAccount(email);
     }
+
+    @Override
+    public String getBankName(String myaccount_anum) throws Exception {
+        return mapper.getBankName(myaccount_anum);
+    }
 }

@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook_account_modal.css" />
-
+<link rel="stylesheet" href="/css/mypage/addAccount_banks.css"/>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
 </head>
 
@@ -76,11 +76,12 @@
 					</div>
 					<div class="form-content">
 						<div th:if="${account != 0}">
-							<label> <input type="checkbox" name="account_choice"
+							<label>
+								<input type="checkbox" name="account_choice"
 								onclick="myAccount(this);" />기존 계좌 선택
 							</label><br>
 
-							<select id="my_account" name="my_account" onchange="selected(this.value)" disabled>
+							<select id="my_account" name="my_account" disabled>
 								<option th:each="account : ${myAccount}" th:value="${account.myaccount_bank + ' ' + account.myaccount_anum}">
 									<span th:text="${account.myaccount_bank + ' ' + account.myaccount_anum}"></span>
 								</option>
@@ -98,29 +99,29 @@
 
 						<span>새로운 계좌 선택</span>
 						<button type="button" id="new_account_button" class="add-accountBtn" disabled>등록</button>
-						<p style="font-size: 13px; color: blue;">새로운 계좌 등록 되면 메세지 띄우기</p>
+						<p id="myNewAcc" style="font-size: 13px; color: blue;">새로운 계좌 등록 되면 메세지 띄우기</p>
 
 					</div>
 
-					<div class="form-subject">
+					<div class="form-subject" style="margin-top:15px;">
 						<label for="crewName">모임통장 이름</label>
 					</div>
 					<div class="form-content">
-						<input class="input" id="crewName" name="crewName" type="text"
+						<input class="input" id="crewName" name="crew_name" type="text"
 							placeholder="모임통장 이름을 지어주세요" />
 					</div>
 					<div class="form-subject">
 						<label for="crewInfo">모임소개[선택]</label>
 					</div>
 					<div class="form-content">
-						<input class="input" id="crewInfo" name="crewInfo" type="text"
+						<input class="input" id="crewInfo" name="crew_info" type="text"
 							   placeholder="모임을 간략히 소개해 주세요" />
 					</div>
 					<div class="form-subject">
 						<label for="crewGoal">목표금액[선택]</label>
 					</div>
 					<div class="form-content">
-						<input class="input" id="crewGoal" name="crewGoal" type="number"
+						<input class="input" id="crewGoal" name="crew_goal" type="number"
 							placeholder="숫자만 입력해주세요" /> 원
 					</div>
 
@@ -128,7 +129,7 @@
 						<label for="crewPaymoney">회비금액</label>
 					</div>
 					<div class="form-content">
-						<input class="input" id="crewPaymoney" name="crewPaymoney"
+						<input class="input" id="crewPaymoney" name="crew_paymoney"
 							type="number" placeholder="숫자만 입력해주세요" /> 원
 					</div>
 
@@ -136,7 +137,7 @@
 						<label for="crewPaydate">납입일</label>
 					</div>
 					<div class="form-content">
-						<input class="input" id="crewPaydate" name="crewPaydate"
+						<input class="input" id="crewPaydate" name="crew_paydate"
 							type="number" placeholder="" /> 일
 					</div>
 
@@ -350,7 +351,7 @@
 	<!-- 모달3 -->
 	<!-- form 태그로 전체 insert, 모달1,2의 정보는 hidden으로 넘기기
     모달1은 db에 저장되지 않고 생색만 내기 -->
-	<form action="/mypage/mypage_all" method="post" name="accForm">
+	<form action="/moim/passbook/new" method="post" name="accForm">
 		<div class="modal-div3">
 			<div class="content">
 				<span class="closeBtn3">&times;</span>
@@ -359,11 +360,11 @@
 					<h2>계좌 등록</h2>
 					<div class="accountName-box">
 						<div class="account-text">이름</div>
-						<input type="text" class="account-input" value="이미연" disabled/>
+						<input type="text" class="account-input" th:value="${userName}" disabled/>
 					</div>
 					<div class="accountNum-box">
 						<div class="account-text">계좌번호</div>
-						<input type="text" id="account-input1" class="account-input" name="anum" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+						<input type="text" id="account-input1" class="account-input" name="myaccount_anum" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 						<div class="resultDiv" id="resultNum"></div>
 					</div>
 					<div class="accountPwd-box">
@@ -373,7 +374,7 @@
 						<div class="resultDiv" id="resultPwd"></div>
 					</div>
 					<div>
-						<button class="addBtn" type="submit">등록</button>
+						<button type="button" class="addBtn" onclick="insertNewAccount();">등록</button>
 					</div>
 				</div>
 			</div>
@@ -403,8 +404,8 @@
 
 
 <script type="text/javascript" src="/js/nav.js"></script>
-<script type="text/javascript" src="/js/moim/passbook.js"></script>
 <script th:inline="javascript" th:src="@{/js/mypage/mypage_account.js}"></script>
+<script type="text/javascript" src="/js/moim/passbook.js"></script>
 
 
 </body>
