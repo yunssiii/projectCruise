@@ -104,7 +104,6 @@
     var mustpaycount = document.getElementById("mustpaycount");
     var realpaycount = document.getElementById("realpaycount");
     var availablepay = mustpaycount.textContent - realpaycount.textContent;
-
     var payMoney = document.getElementById('payMoney');
 
 
@@ -172,31 +171,38 @@
     var accountBlank = document.getElementById("account");
     var selectValue = document.getElementById("selectAccount");
 
+    var bankName = ""; // 은행이름(전역)
+    var accountNum = ""; // 출금계좌번호(전역)
+    var crewAccount = $('#crewAccount').val(); // 크루 계좌번호
+    var userName = $('#userName').val(); // 접속한 유저 이름
+
     function selectAccountOnChange() {
 
         // 0. select로 선택된 값 가져오기
         var selectValueStr = selectValue.value;
 
         // 1. 값을 은행과 계좌번호로 따로 나눠 분리하기
-        var bankName = "";
-        var accountNum = "";
+        var bankNameStr = ""; // 은행이름
+        var accountNumStr = ""; // 출금계좌번호
 
             // 숫자의 아스키코드 값 0(48) ~ 9(57)을 이용해 계좌번호 분리하기
         for(var i=0; i<selectValueStr.length ; i++ ) {
             if(selectValueStr.charCodeAt(i)>=48 && selectValueStr.charCodeAt(i)<=57) {
-                accountNum += selectValueStr.charAt(i);
+                accountNumStr += selectValueStr.charAt(i);
             } else {
-                bankName += selectValueStr.charAt(i);
+                bankNameStr += selectValueStr.charAt(i);
             }
         }
 
         // 2. bankName 끝에 공백이 들어가있을 것이므로 공백 제거
-        bankName = bankName.trim();
+        bankNameStr = bankNameStr.trim();
 
         // 3. 값 넣기
-        bankBlank.textContent = bankName;
-        accountBlank.textContent = accountNum;
+        bankBlank.textContent = bankNameStr;
+        accountBlank.textContent = accountNumStr;
 
+        bankName = bankNameStr; // 전역변수도 다시 설정해주기
+        accountNum = accountNumStr;
 
     }
 
@@ -205,9 +211,11 @@
      *  2. 계좌가 지정되지 않았을 때 이동하지 못하게 하기
      */
 
-    function payButtonClick() {
 
-        if(num.value=='0' || num.value===0 || payMoney.value==='0' || payMoney.value===0) {
+        // FIXME 납입 처리하러 가는 링크 넣어야함
+    $('#paymentFeeBtn').on('click',function() {
+
+        if(num.value==='0' || num.value===0 || payMoney.value==='0' || payMoney.value===0) {
             alert("납입 횟수를 지정해주세요.");
             return;
         }
@@ -217,10 +225,52 @@
             return;
         }
 
+        var crewNum = $('#crewNum').val();
+        var crewName = $('#crewNameStr').val().substr(0,2);
+        var transferMoney = $('#payMoney').text().replace(",","");
+        var transferDateObj = new Date();
 
-        // FIXME 납입 처리하러 가는 링크 넣어야함
+        var transferY = transferDateObj.getFullYear();
+        var transferM = transferDateObj.getMonth() +1;
+        var transferD = transferDateObj.getDate();
+        var transferH = transferDateObj.getHours();
+        var transferMM = transferDateObj.getMinutes();
+        var transferS = transferDateObj.getSeconds();
 
-    }
+        var transferDateStr
+            = transferY + "-" + transferM  + "-" +  transferD  + " " +
+              transferH + ":" + transferMM + ":" + transferS
+
+
+        var transperReq = $.ajax({
+            url: "/develop/openbank/using/transfer",
+            method: "POST",
+            data: {
+                withdrawAccount:accountNum,
+                depositAccount:crewAccount,
+                transferDate:transferDateStr,
+                transferMoney:transferMoney,
+                transferContent:crewNum+crewName+"_"+userName // 크루이름 3글자만 잘라서 넣음
+            }
+        })
+
+        console.log(accountNum);
+        console.log(crewAccount);
+        console.log(transferDateStr);
+        console.log(transferMoney);
+        console.log(userName);
+
+        transperReq.done(function (result) {
+
+            if(result===1) {
+                alert("납입 완료");
+            } else if (result===0){
+                alert("납입 실패 - 잔액부족");
+            }
+            // 선원 DB에 실제 납입횟수 +1 하기
+        })
+
+    })
 
 
 
