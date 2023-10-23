@@ -243,7 +243,6 @@
             = transferY + "-" + transferM  + "-" +  transferD  + " " +
               transferH + ":" + transferMM + ":" + transferS
 
-
         var transperReq = $.ajax({
             url: "/develop/openbank/using/transfer",
             method: "POST",
@@ -256,20 +255,32 @@
             }
         })
 
-        console.log(accountNum);
-        console.log(crewAccount);
-        console.log(transferDateStr);
-        console.log(transferMoney);
-        console.log(userName);
-
         transperReq.done(function (result) {
-
-            if(result===1) {
-                alert("납입 완료");
-            } else if (result===0){
-                alert("납입 실패 - 잔액부족");
+            if(result==="NODATA"){
+                alert("납입 실패 - 데이터가 입력되지 않았습니다.");
+                return;
+            } else if(result==="LACKOFBALANCE"){
+                alert("납입 실패 - 출금 계좌의 잔액이 부족합니다.");
+                return;
             }
-            // 선원 DB에 실제 납입횟수 +1 하기
+
+            var payCount = $('#num').val();
+            var paymentReq = $.ajax({
+                url: "/crew/paymentFee",
+                method: "POST",
+                data: {
+                    crewNum:crewNum,
+                    userEmail:userEmail,
+                    payment:transferMoney,
+                    payCount:payCount
+                }
+            })
+
+            paymentReq.done(function () {
+                alert("납입이 완료되었습니다.");
+                window.location.href = 'http://localhost:8082/crew?crewNum=' + crewNum;
+            });
+
         })
 
     })
