@@ -9,75 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-        /* 모달 스타일 (CSS) */
-         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            display: flex;
-        }
 
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .modal-header {
-            margin-bottom: 10px;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .close {
-            float: right;
-            cursor: pointer;
-        }
-
-        .modal-footer {
-            margin-top: 10px;
-        }
-
-        .modal-content button {
-    margin: 5px;
-    padding: 10px 20px; /* 버튼 내용과 모양을 조정할 수 있습니다. */
-    border: none;
-    cursor: pointer;
-}
-
-/* 수락 버튼의 배경색 */
-        .modal-content button.accept {
-            background-color: #4CAF50;
-            color: white; /* 버튼 텍스트 색상 */
-        }
-
-        /* 거절 버튼의 배경색 */
-        .modal-content button.reject {
-            background-color: #f44336; /* 적당한 배경색을 여기에 지정하세요 */
-            color: white;
-        }
-
-
-    </style>
     <script th:src="@{/js/homePage/homePage.js}"></script>
 
-
+    <link rel="stylesheet" href="/css/modal/modal.css">
 
     <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <!-- ----------------- -->

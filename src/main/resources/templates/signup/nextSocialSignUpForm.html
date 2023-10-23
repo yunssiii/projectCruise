@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>소셜회원가입</title>
-    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
+
     <link rel="stylesheet" type="text/css" th:href="@{/css/nextSocialSignUpForm/nextSocialSignupForm.css}"/>
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -15,6 +15,7 @@
 </head>
 <body>
 <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
+<main>
 <div id="form-container">
 <h2>소셜 회원가입 추가정보</h2>
     <br/><br/>
@@ -24,9 +25,7 @@
             <div class="container">
                 <div class="insert">
 
-                    <div>
-                        <h2>회원가입 양식</h2>
-                    </div>
+
 
                     <div class="signup-form">
 
@@ -41,11 +40,13 @@
                             <div id="phone-number-error" class="error-message"></div>
                         </div>
 
-                        <div class="form-group zip-code">
-                            <label for="addr1">우편번호</label>&nbsp;
+                        <div class="form-group">
+                            <label for="addr1">우편번호</label>
+                            <div class="zip-code">
                             <input class="form-control" style="width: 40%;" placeholder="우편번호" id="addr1" type="text" readonly="readonly">
                             <button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
-                        </div>
+                            </div>
+                            </div>
 
                         <div class="form-group">
                             <label for="addr2">도로명 주소</label>
@@ -68,7 +69,10 @@
     </form>
     </div>
     </div>
+</main>
+<th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
+
 
 </body>
 </html>

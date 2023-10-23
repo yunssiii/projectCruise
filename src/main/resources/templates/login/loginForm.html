@@ -10,33 +10,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/loginForm/emailVerify.js}"></script>
     <script th:src="@{/js/loginForm/passwordToggle.js}"></script>
-    <style>
 
-        .error-message {
-            color: red;
-            margin-top: 10px;
-
-        }
-    </style>
 </head>
 <body>
 <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
+
+<main>
 
 <div class="registration-container">
     <div class="registration-header">
         <h1>소셜 로그인</h1>
         <div class="social-icons">
             <a th:href="@{/oauth2/authorization/google}">
-                <span class="lastLoginGoogle" th:if="${session.lastLoginMethod == 'google'}">최근 로그인</span>
+                <span class="lastLoginGoogle" style="display:none">최근 로그인</span>
                 <img th:src="@{/images/google.jpeg}" alt="Google Logo" style="width: 80px; height: 80px; display:block;">
 
             </a>
             <a th:href="@{/oauth2/authorization/kakao}" >
-                <span class="lastLoginKakao" th:if="${session.lastLoginMethod == 'kakao'}">최근 로그인</span>
+                <span class="lastLoginKakao" style="display:none">최근 로그인</span>
                 <img th:src="@{/images/kakao-사각아이콘.png}" alt="Kakao Logo" style="width: 80px; height: 80px; display:block;">
             </a>
             <a th:href="@{/oauth2/authorization/naver}">
-                <span class="lastLoginNaver" th:if="${session.lastLoginMethod == 'naver'}">최근 로그인</span>
+                <span class="lastLoginNaver" style="display:none">최근 로그인</span>
                 <img th:src="@{/images/naver-사각아이콘.png}" alt="Naver Logo" style="width: 80px; height: 80px; display:block;">
             </a>
     </div>
@@ -68,10 +63,10 @@
     </div>
 </div>
 </div>
+</main>
     <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 </body>
-
 
 <script>
     function submitForm() {
@@ -122,4 +117,33 @@
 
     }
 </script>
+
+
+<script>
+
+    function getCookie(name) {
+           const value = `; ${document.cookie}`;
+           console.log(value);
+           const parts = value.split(`; ${name}=`);
+           console.log(parts);
+           if (parts.length === 2) return parts.pop().split(';').shift();
+       }
+
+       document.addEventListener('DOMContentLoaded',function(){
+
+   const lastLoginMethod = getCookie('lastLoginMethod');
+
+   if(lastLoginMethod === 'google'){
+       document.querySelector('.lastLoginGoogle').style.display = 'block';
+   }else if(lastLoginMethod=== 'kakao'){
+       document.querySelector('.lastLoginKakao').style.display = 'block';
+   }else if(lastLoginMethod=== 'naver'){
+       document.querySelector('.lastLoginNaver').style.display = 'block';
+
+   }
+
+   });
+
+</script>
+
 </html>
