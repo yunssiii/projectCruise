@@ -17,6 +17,10 @@
                     emailStatus.text("이메일 형식에 맞게 써주십시오.");
                     $("#emailStatus").show();
                 }
+                else{
+                    emailStatus.text("");
+                    $("#emailStatus").hide();
+                }
 
     });
    });

@@ -15,6 +15,8 @@
           cursor: pointer;
       }
 
+
+
   #emailStatus {
 
              position: absolute;
@@ -40,9 +42,27 @@
             margin-left: -10px;
 }
 
+  .error-message {
+            color: red;
+            margin-top: 10px;
+
+        }
+
+       main {
+    background-image: url('/images/pexels-pixabay-327337.jpg');
+    background-size: cover;
+    background-position: center;
+
+
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 740px;
+
+}
            .registration-container {
             max-width: 400px;
-            margin-top: 150px;
+             margin-top: 150px;
             margin-bottom: 150px;
             margin-left: auto;
             margin-right: auto;
@@ -57,6 +77,7 @@
         .registration-header {
             text-align: center;
             margin-bottom: 20px;
+
         }
 
         /* Style for form fields and labels */
@@ -77,6 +98,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            margin-bottom: 15px;
         }
 
         /* Style for the submit button */
@@ -90,6 +112,12 @@
             border-radius: 5px;
             cursor: pointer;
             margin-top: 20px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
         }
 
         /* Style for the "OR" text */
@@ -108,7 +136,8 @@
             #or {
             text-align: center;
             margin: 20px 0;
-            font-size: 18px; /* Increase font size for better visibility */
+            font-size: 18px;
+            color:#333;
         }
 
         .or-line {
@@ -119,12 +148,7 @@
             margin: 0 10px; /* Spacing between "OR" and lines */
         }
 
-      .social-icons a {
-          text-decoration:none;
-          display: inline-block;
-          text-align: center;
-          margin: 10px 20px; /* 이미지 위아래 여백 조정 */
-          vertical-align: bottom; /* 이미지의 상단을 기준으로 정렬 */
+
 
     .lastLoginGoogle {
     position: relative;
@@ -160,12 +184,15 @@
 }
 
 
-.social-icons a {
-    display: inline-block;
-    text-align: center;
-    margin: 0 20px; /* 이미지 사이 여백 조정 */
-    vertical-align: top; /* 이미지의 상단을 기준으로 정렬 */
-}
+        .social-icons a {
+          text-decoration:none;
+          display: inline-block;
+          text-align: center;
+          margin: 10px 20px; /* 이미지 위아래 여백 조정 */
+          vertical-align: bottom; /* 이미지의 상단을 기준으로 정렬 */
+          }
+
+
 
 /* 로고 이미지 */
 .social-icons img {
@@ -173,4 +200,6 @@
     height: auto;
 }
 
-
+.social-icons img:hover {
+    transform: scale(1.1);
+}

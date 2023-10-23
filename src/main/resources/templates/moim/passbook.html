@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <title>모임 전환 페이지</title>
 
+<script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		var openAccPwd = /*[[${openAccPwd}]]*/;
+	/*]]*/
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
-	rel="stylesheet">
-<script src="https://kit.fontawesome.com/f350c9c720.js"
-	crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook_account_modal.css" />
@@ -99,7 +101,7 @@
 
 						<span>새로운 계좌 선택</span>
 						<button type="button" id="new_account_button" class="add-accountBtn" disabled>등록</button>
-						<p id="myNewAcc" style="font-size: 13px; color: blue;">새로운 계좌 등록 되면 메세지 띄우기</p>
+						<p id="myNewAcc" style="font-size: 13px; color: blue;"></p>
 
 					</div>
 
@@ -319,7 +321,7 @@
 					</div>
 					<div>
 						<div class="bankBtn" id="kbank">케이뱅크</div>
-						<div class="bankText">캐이뱅크</div>
+						<div class="bankText">케이뱅크</div>
 					</div>
 				</div>
 				<div class="bank-box3">
@@ -364,12 +366,16 @@
 					</div>
 					<div class="accountNum-box">
 						<div class="account-text">계좌번호</div>
-						<input type="text" id="account-input1" class="account-input" name="myaccount_anum" placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+						<input type="text" id="account-input1" class="account-input" name="crew_accountid"
+							   placeholder="계좌번호를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+								value=""/>
 						<div class="resultDiv" id="resultNum"></div>
 					</div>
 					<div class="accountPwd-box">
 						<div class="account-text">계좌 비밀번호</div>
-						<input type="password" class="accountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+						<input type="password" class="accountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요."
+							   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							   value=""/>
 						<button type="button" class="account-authBtn">인증</button>
 						<div class="resultDiv" id="resultPwd"></div>
 					</div>

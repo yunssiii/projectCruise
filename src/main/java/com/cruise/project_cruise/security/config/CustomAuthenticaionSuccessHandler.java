@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -35,10 +36,18 @@ public class CustomAuthenticaionSuccessHandler implements AuthenticationSuccessH
             if (isNewUser) {
                 response.sendRedirect("/nextSocialSignUpForm");
             } else {
-                HttpSession session = request.getSession();
 
-                session.setAttribute("lastLoginMethod",userDTO.getProvider());
-                System.out.println("마지막로그인: " +session.getAttribute("lastLoginMethod"));
+
+
+                Cookie cookie = new Cookie("lastLoginMethod",userDTO.getProvider());
+                cookie.setDomain("localhost");
+                cookie.setPath("/");
+
+                cookie.setMaxAge(60*60*60*24);
+                cookie.setSecure(true);
+
+
+                response.addCookie(cookie);
 
                 response.sendRedirect("/mypage/mypage_all");
             }

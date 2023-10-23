@@ -19,6 +19,15 @@
         where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail} and CAPTAIN_YN = 'Y'
     </select>
 
+    <!-- 해당 유저의 계좌리스트 들고오기 (크루 대표통장이 아닌 것만) -->
+    <select id="getUserAccountList" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
+        select myaccount_anum,myaccount_bank,myaccount_name from my_account
+        where email=#{userEmail} and
+            myaccount_anum not in
+            (select CREW_ACCOUNTID from CREW)
+        order by MYACCOUNT_DATE
+    </select>
+
 
 <!-- red 크루 정보 -->
     <!-- 특정 크루 데이터를 select 하는 쿼리 -->
@@ -68,4 +77,13 @@
     <delete id="deleteCrewMember" parameterType="hashMap">
         delete crew_member where cmem_email=#{cmemEmail} and crew_num=#{crewNum}
     </delete>
+
+    <!-- 크루 회비 납입 시 실제 납입횟수, totalPay 업데이트 하기 -->
+    <update id="updateCrewMemberPayment" parameterType="map">
+        update CREW_MEMBER
+        set
+            TOTAL_PAY=TOTAL_PAY+#{payment},
+            REAL_PAYCOUNT=REAL_PAYCOUNT + #{payCount}
+        where CREW_NUM=#{crewNum} and CMEM_EMAIL=#{userEmail}
+    </update>
 </mapper>

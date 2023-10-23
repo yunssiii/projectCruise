@@ -183,7 +183,7 @@ public class CrewController {
             int userTotalPay = Integer.parseInt(String.valueOf(crewUserInfo.get("TOTAL_PAY")));
 
             // 접속한 유저의 등록된 계좌 들고오기
-            List<MyAccountDTO> userAccountList = mypageService.getAccountList(userEmail);
+            List<MyAccountDTO> userAccountList = crewDetailService.getUserAccountList(userEmail);
 
 
         // TODO 일정 간편조회
@@ -212,10 +212,14 @@ public class CrewController {
 
     // green 납입 처리하기
     @RequestMapping(value="/paymentFee")
-    public void paymentFee() throws Exception {
+    public void paymentFee(@RequestParam("crewNum")int crewNum, @RequestParam("userEmail") String userEmail,
+                           @RequestParam("payment") int payment, @RequestParam("payCount") int payCount) throws Exception {
 
-
-
+        // OpenBankDTO를 업데이트 해야합니다.
+        // crewNum이랑 userEmail, 납입횟수를 받아서
+        // 그 행에 해당하는 실제납입횟수에 +n 합시다
+        crewDetailService.updateCrewMemberPayment(crewNum,userEmail,payment,payCount);
+        System.out.println("[CrewController] [" + crewNum + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
     }
 
 
@@ -243,9 +247,18 @@ public class CrewController {
     @RequestMapping(value="/setting")
     public ModelAndView crewSetting(HttpSession session, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
+
+        // 선언부
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보
-        String userEmail = (String) session.getAttribute("email");
+        String userEmail = (String) session.getAttribute("email"); // 접속자 이메일
+
+        List<Map<String,String>> memberList = crewSettingService.getCrewMemberList(crewNum);
+        int memberCount = memberList.size(); // 크루 선원 목록
+        // 크루 잔액
+        int crewAccountBalance = crewDetailService.getAccountBalance(dto.getCrew_accountid());
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
 
         // 로그인 / 로그아웃 여부 걸러내기
         if(userEmail==null||userEmail.isEmpty()) {
@@ -281,12 +294,23 @@ public class CrewController {
             dateDifference = dateDifference / (1000 * 60 * 60 * 24);
             String crewSailingDayCount = Long.toString(dateDifference) + "일";
 
-        // bold 크루 선원탈퇴 페이지
+        // TODO bold 크루 선원탈퇴 페이지
             // 선원들 목록을 리스트로 뽑아와야해.
-        List<Map<String,String>> memberList = crewSettingService.getCrewMemberList(crewNum);
+
+
+        // TODO bold 잔액 1/N하기 View
+
+        Map<String,List<MyAccountDTO>> memberAccountMap = new HashMap<>();
+
+        for(int i=0;i<memberCount;i++) {
+            List<MyAccountDTO> mem_accounts = crewDetailService.getUserAccountList(memberList.get(i).get("MEM_EMAIL"));
+            memberAccountMap.put(memberList.get(i).get("MEM_EMAIL"),mem_accounts);
+        }
 
         mav.addObject("dto",dto); // 크루 정보
+        mav.addObject("crewAccountBalance",crewAccountBalanceStr); // 크루 잔액
         mav.addObject("memberList",memberList); // 선원 리스트
+        mav.addObject("memberAccountMap",memberAccountMap); // 선원들 계좌리스트
         mav.addObject("crewCaptain",crewCaptain); // 선장 정보
         mav.addObject("crewSailingDayCount",crewSailingDayCount); // 항해일수
         mav.addObject("crewNum",crewNum);
@@ -314,7 +338,7 @@ public class CrewController {
             @RequestParam("payMoney") int payMoney,
             @RequestParam("goalMoney") int goalMoney
     ) throws Exception {
-        CrewDTO crewDTO = new CrewDTO();
+        CrewDTO crewDTO = crewDetailService.getCrewData(crewNum);
         crewDTO.setCrew_num(crewNum);
         crewDTO.setCrew_info(crewInfo);
         crewDTO.setCrew_paydate(payDate);

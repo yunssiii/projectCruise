@@ -36,6 +36,8 @@
     });
 }
 
+
+
 var imagePaths = [
     "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Family%20Man%2C%20Woman%2C%20Girl%2C%20Boy.png",
 "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/People/Family%20Man%20Woman%20Girl%20Boy.webp"
@@ -46,18 +48,23 @@ function getRandomImagePath(imagePaths) {
     return imagePaths[randomIndex];
 }
 
+
+
         // 모달 창을 생성하는 함수
         function createModal(group) {
-var randomImagePath = getRandomImagePath(imagePaths);
 
+var randomImagePath = getRandomImagePath(imagePaths);
 
             var modal = document.createElement("div");
             modal.className = "modal";
             modal.innerHTML = `
                 <div id="modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content2">
         <div class="modal-header">
-            <h2>Cruise 대표 이미지나 로고 같은거 넣을자리</h2>
+
+           <a class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+           </a>
+
         </div>
         <img src="${randomImagePath}" alt="Family Man, Woman, Girl, Boy" width="200" height="200" />
         <p class="p">${group} 모임 통장에 초대되었습니다.</p>

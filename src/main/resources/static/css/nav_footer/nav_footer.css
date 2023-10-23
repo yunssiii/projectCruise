@@ -6,6 +6,8 @@ body {
 	font-family: NanumSquare;
 }
 
+
+
 .navigator {
 	height: 80px;
 	background-color: rgba(255, 255, 255, 0.726);
@@ -13,7 +15,13 @@ body {
 	justify-content: space-around;
 	align-items: center;
 	font-size: 25px;
+	box-shadow: 0px 10px 20px grey;
+	position: relative;
+    z-index: 1;
+
 }
+
+
 
 .nav-item {
 	padding: 28px 17px;
@@ -49,6 +57,7 @@ body {
 	display: flex;
 	margin-left: 10px;
 	margin-bottom: 1px;
+	cursor:pointer;
 }
 
 .voyage_button {
@@ -59,6 +68,7 @@ body {
 	border-radius: 10px;
 	background-color: white;
 	font-weight: bold;
+	cursor:pointer;
 }
 
 .voyage_button:hover {

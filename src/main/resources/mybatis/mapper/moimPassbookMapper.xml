@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="getBankName" parameterType="String" resultType="String">
-	select myaccount_name from my_account where myaccount_anum = #{myaccount_anum};
+	select myaccount_bank from my_account where myaccount_anum = #{myaccount_anum}
 </select>
 
 

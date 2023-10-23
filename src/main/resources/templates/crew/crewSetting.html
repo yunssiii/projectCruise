@@ -451,7 +451,7 @@
                 <div id="memberDivN" class="hidden">
                     <div class="memberDivNTop">
                         <div><div id="crewName">[[${dto.getCrew_name}]]</div>의 납입금액은</div>
-                        <div class="totalResult">총&nbsp;<div id="crewTotalMoney">400,000원</div>&nbsp;입니다.</div>
+                        <div class="totalResult">총&nbsp;<div id="crewTotalMoney" th:text="|${crewAccountBalance}원|">400,000원</div>&nbsp;입니다.</div>
                     </div>
                     <div class="memberDivideZone">
                         <table class="divTableHead">
@@ -465,39 +465,21 @@
                             </tr>
                         </table>
                         <div class="divTableBody">
-                            <table>
-                                <script>
-                                    for(var i=0;i<10;i++) {
-
-                                        // 임시 계좌번호 html
-                                        // FIXME 해당 선원의 계좌를 불러와야 함
-                                        var selectHtml = "<select>"
-                                            + "<option> 신한 110518407401 </option>"
-                                            + "<option> 국민 110518407401 </option>"
-                                            + "<option> 카카오 110518407401 </option>"
-                                            + "</select>"
-
-                                        if(i%2===0) {
-                                            document.write('<tr>')
-                                            document.write('<td>' + (i+1) + '</td>');
-                                            document.write('<td>선원</td>');
-                                            document.write('<td>김은지</td>');
-                                            document.write('<td>2</td>');
-                                            document.write('<td>40,000원</td>');
-                                            document.write("<td>" + selectHtml +"</td>")
-                                            document.write('</tr>')
-                                        } else {
-                                            document.write('<tr>')
-                                            document.write('<td>' + (i+1) + '</td>');
-                                            document.write('<td>선원</td>');
-                                            document.write('<td>황윤하</td>');
-                                            document.write('<td>2</td>');
-                                            document.write('<td>40,000원</td>');
-                                            document.write("<td>" + selectHtml + "</td>")
-                                            document.write('</tr>')
-                                        }
-                                    }
-                                </script>
+                            <table th:each="mem,memStat : ${memberList}">
+                                <tr>
+                                    <td th:text="${memStat.count}"></td>
+                                    <td th:if="${mem.CAPTAIN_YN=='Y'}">선장</td>
+                                    <td th:if="${mem.CAPTAIN_YN=='N'}">선원</td>
+                                    <td th:text="${mem.MEM_NAME}"></td>
+                                    <td th:text="${mem.REAL_PAYCOUNT}"></td>
+                                    <td th:id="|${mem.MEM_EMAIL}Money|"></td>
+                                    <td>
+                                        <select>
+                                            <option selected disabled> --- 계좌 선택하기 --- </option>
+                                            <option th:each="account : ${memberAccountMap[mem.MEM_EMAIL]}" th:text="|${account.myaccount_bank} ${account.myaccount_anum}|"></option>
+                                        </select>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
