@@ -1,6 +1,7 @@
 package com.cruise.project_cruise.controller.crew;
 
 import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequestMapping(value="/crew")
