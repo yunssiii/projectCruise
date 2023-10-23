@@ -35,4 +35,6 @@ public interface MypageMapper {
     public  int getBoardCount(String email) throws Exception;
     public int getCommentCount(String email) throws Exception;
     public List<ScheduleDTO> getSchedule(String email) throws Exception;
+    public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception;
+    public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
 }

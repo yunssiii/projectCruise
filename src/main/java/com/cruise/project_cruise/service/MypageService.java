@@ -14,7 +14,6 @@ public interface MypageService {
     public int deleteCrew(String email, int crewNum) throws Exception; //크루 1개 탈퇴하기
     public  List<CrewMemberDTO> getCrewNums(String email) throws Exception; //zero,all 구분 위해 크루넘 한 개 가져오기
     public List<OpenBankDTO> getOpenAccPWd(String email) throws Exception; //가상계좌 비번 여러개 가져오기
-
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception; //계좌 등록하기
     public  List<MyAccountDTO> getAccountList(String email) throws Exception; //계좌 전체 조회
     public List<OpenBankDTO> getAccountBals(String email) throws Exception; //계좌 전체 중 잔액만 조회
@@ -33,5 +32,6 @@ public interface MypageService {
     public void deleteMycomment(int commentNum) throws Exception; //댓글 삭제
     public  int getBoardCount(String email) throws Exception; //게시글 전체 수
     public List<ScheduleDTO> getSchedule(String email) throws Exception; //일정 조회
-
+    public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception; //일정 하루 조회
+    public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
 }

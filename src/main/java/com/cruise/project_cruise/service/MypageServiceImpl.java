@@ -133,5 +133,15 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.getSchedule(email);
     }
 
+    @Override
+    public List<ScheduleDTO> getOneSchedule(String email, String scheStart) throws Exception {
+        return mypageMapper.getOneSchedule(email,scheStart);
+    }
+
+    @Override
+    public String getScheCrewName(String email, int crew_num) throws Exception {
+        return mypageMapper.getScheCrewName(email, crew_num);
+    }
+
 
 }

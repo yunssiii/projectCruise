@@ -36,12 +36,9 @@
     cursor: pointer;
 }
 
-.schdule {
-  
-}
 
 /* 일정인데 아직 안해서 이름 없음 */
-.aa {
+.mySchedule-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,4 +46,81 @@
     height: 100vh;
     margin-left: 10%;
     margin-right: 10%;
+}
+
+.mySchedule-box{
+    display: flex;
+    gap: 30px;
+}
+
+.oneDay-wrap{
+
+    height: 520px;
+    border: 2px solid lightgray;
+    width: 30%;
+    margin-top: 65px;
+    overflow: auto;
+
+}
+
+.sche-date{
+    padding: 8% 8% 8% 5%;
+    font-family: 'NanumSquare';
+    font-weight: 900;
+    font-size: 15pt;
+    border-bottom: 2px solid lightgray;
+    background: #F2F2F2;
+}
+
+.clickDate {
+    border: 1px solid;
+}
+
+.oneDay-modal{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid lightgray;
+    padding: 20px 10px;
+    font-family: 'NanumSquare';
+}
+
+.sche-assort{
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+}
+
+.sche-title-box{
+
+}
+
+.sche-title{
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.sche-crewName{
+    font-size: 11pt;
+}
+
+.sche-crewName{
+
+}
+
+.oneDay-div1{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.oneDay-div2{
+    font-size: 11pt;
+}
+
+.sche-start{
+    margin-bottom: 10px;
+}
+
+.sche-end{
+
 }
