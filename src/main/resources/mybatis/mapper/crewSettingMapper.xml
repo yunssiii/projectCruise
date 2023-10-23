@@ -89,7 +89,7 @@
             (SELECT USER_NAME, EMAIL
              FROM USERS) B
             ON A.CMEM_EMAIL = B.EMAIL
-        ORDER BY A.CAPTAIN_YN DESC
+        ORDER BY A.CAPTAIN_YN DESC, A.JOIN_DATE
     </select>
 
     <!-- 선원 삭제하기 -->
