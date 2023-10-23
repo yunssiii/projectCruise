@@ -173,8 +173,10 @@
 
     var bankName = ""; // 은행이름(전역)
     var accountNum = ""; // 출금계좌번호(전역)
+    var crewNum = $('#crewNum').val();
     var crewAccount = $('#crewAccount').val(); // 크루 계좌번호
     var userName = $('#userName').val(); // 접속한 유저 이름
+    var userEmail = $('#userEmail').val(); // 접속한 유저 이메일
 
     function selectAccountOnChange() {
 

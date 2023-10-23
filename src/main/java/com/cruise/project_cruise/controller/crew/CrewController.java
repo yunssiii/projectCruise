@@ -212,10 +212,14 @@ public class CrewController {
 
     // green 납입 처리하기
     @RequestMapping(value="/paymentFee")
-    public void paymentFee() throws Exception {
+    public void paymentFee(@RequestParam("crewNum")int crewNum, @RequestParam("userEmail") String userEmail,
+                           @RequestParam("payment") int payment, @RequestParam("payCount") int payCount) throws Exception {
 
-
-
+        // OpenBankDTO를 업데이트 해야합니다.
+        // crewNum이랑 userEmail, 납입횟수를 받아서
+        // 그 행에 해당하는 실제납입횟수에 +n 합시다
+        crewDetailService.updateCrewMemberPayment(crewNum,userEmail,payment,payCount);
+        System.out.println("[CrewController] [" + crewNum + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
     }
 
 
@@ -334,7 +338,7 @@ public class CrewController {
             @RequestParam("payMoney") int payMoney,
             @RequestParam("goalMoney") int goalMoney
     ) throws Exception {
-        CrewDTO crewDTO = new CrewDTO();
+        CrewDTO crewDTO = crewDetailService.getCrewData(crewNum);
         crewDTO.setCrew_num(crewNum);
         crewDTO.setCrew_info(crewInfo);
         crewDTO.setCrew_paydate(payDate);
