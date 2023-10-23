@@ -30,18 +30,30 @@
             margin-left: -10px;
 }
 
+main {
+    background-image: url('/images/pexels-pixabay-327337.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 850px;
+    }
+
            .registration-container {
-            max-width: 400px;
-            margin-top: 150px;
-            margin-bottom: 150px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
+                       max-width: 400px;
+                       margin-top: 150px;
+                       margin-bottom: 150px;
+                       margin-left: auto;
+                       margin-right: auto;
+                       padding: 20px;
+                       background-color: #f0f0f0;
+                       border: 1px solid #ccc;
+                       border-radius: 10px;
+                       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+
+                   }
 
         /* Style for the form header */
         .registration-header {
@@ -90,6 +102,11 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
+        .submit-button:hover {
+                    background-color: #0056b3;
+                }
+
         .zip-button{
 
             width: 40%;
@@ -102,6 +119,11 @@
             cursor: pointer;
             margin-top: 20px;
         }
+
+        .zip-button:hover {
+                 background-color: #0056b3;
+                        }
+
 
         /* Style for the "OR" text */
         .or-text {
@@ -116,11 +138,7 @@
             cursor: pointer;
 
         }
-        #or{
-           display: block;
-            margin: 0 auto;
-            text-align: center;
-        }
+
 
         .social-icons{
 
@@ -134,6 +152,11 @@
             margin-right: 20px;
             margin-left: 20px;
         }
+
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+
           #or {
             text-align: center;
             margin: 20px 0;
