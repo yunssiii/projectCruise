@@ -28,6 +28,6 @@ public class CrewDTO {
     private String crew_accountid; // 크루 대표 계좌번호
     private int crew_paydate; // 크루 납입일자
     private int crew_paymoney; // 크루 납입액
-    private int crew_goal = 0; // 크루 목표금액 - 없으면 0으로 설정되게
+    private Integer crew_goal; // 크루 목표금액 - 없으면 0으로 설정되게
 
 }

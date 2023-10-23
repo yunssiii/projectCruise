@@ -140,6 +140,12 @@
     margin-right: 10px;
 }
 
+.divTableBody select option{
+    width: 80%;
+    min-height: 8vh !important;
+    margin-right: 10px;
+}
+
 
 
 /* 분담 버튼 */
