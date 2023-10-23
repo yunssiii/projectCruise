@@ -13,4 +13,7 @@ public class ScheduleDTO {
     private String sche_end; // 스케줄 종료일
     private String sche_alldayTF; // 스케줄 장소
 
+    //일정 하루 조회에 뿌리기 위해 추가
+    private String crew_name;
+
 }

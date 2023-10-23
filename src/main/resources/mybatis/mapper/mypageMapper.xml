@@ -22,7 +22,7 @@
         delete crew_member where crew_num=#{crew_num} and cmem_email = #{cmem_email}
     </delete>
 
-    <!-- 내 모임수 selec - zero,all 구분   -->
+    <!-- 내 모임수 select - zero,all 구분   -->
     <select id="getCrewNums" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewMemberDTO">
         select crew_num from crew_member where cmem_email = #{cmem_email}
     </select>
@@ -142,6 +142,21 @@
     <select id="getSchedule" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
         select crew_num,sche_num,sche_title,sche_assort,sche_start,sche_end,sche_alldaytf from schedule
         where crew_num in (select crew_num from crew_member where cmem_email=#{email})
+    </select>
+
+    <!-- 일정 하루 조회 -->
+    <select id="getOneSchedule" parameterType="map" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
+        select crew_num,sche_num,sche_title,sche_assort,to_char(sche_start, 'mm.dd HH24:MI') sche_start,
+        to_char(sche_end, 'mm.dd HH24:MI') sche_end,sche_alldaytf from schedule
+        where to_date(#{sche_start}, 'yyyy-mm-dd') between sche_start and sche_end
+        and crew_num in (select crew_num from crew_member where cmem_email=#{email})
+    </select>
+
+    <!-- 일정에 뿌려줄 크루이름만 조회 -->
+    <select id="getScheCrewName" parameterType="map" resultType="java.lang.String">
+        select crew_name from crew
+        where crew_num in (select crew_num from crew_member
+        where cmem_email = #{email} and crew_num = #{crew_num})
     </select>
 
 

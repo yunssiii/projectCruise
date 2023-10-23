@@ -364,7 +364,8 @@ function closeAccount(myaccountNum) {
     $('body').css('overflow', 'auto');
     $('body').css('overflowX', 'hidden');
 
-    $('.custom-select-option').eq(0).click();
+    $('.custom-select-option').eq(0).click(); //selectbox 1개월로 지정
+    $('#search' + myaccountNum).val(''); //검색창 값 지우기
 
 }
 

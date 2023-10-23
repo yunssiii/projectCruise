@@ -304,9 +304,52 @@ public class MypageController {
             jsonArray.add(jsonObject);
         }
 
-        System.out.println("이거2-> " + jsonArray);
+        return jsonArray;
+    }
+
+    /*
+        하루 선택 시 일정 조회
+    */
+    @RequestMapping("/mypage/mypage_onedaySche")
+    @ResponseBody
+    public List<Map<String,Object>> oneDayScheLoad (HttpSession session,@RequestParam("email") String email,@RequestParam("clickDate") String clickDate) throws Exception {
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        List<ScheduleDTO> onedayScheLists = mypageService.getOneSchedule(email,clickDate);
+
+        System.out.println("하루 일정 조회>>>>>>>>>" + onedayScheLists);
+
+        for(int i=0;i<onedayScheLists.size();i++){
+            int getCrewName = onedayScheLists.get(i).getCrew_num();
+
+            System.out.println("하루 일정 크루번호 >>>>>>>>>" + getCrewName);
+
+            String crewName = mypageService.getScheCrewName(email,getCrewName);
+
+            onedayScheLists.get(i).setCrew_name(crewName);
+
+            System.out.println("하루 일정 조회2222 >>>>>>>>>" + onedayScheLists);
+
+            hashMap.put("title", onedayScheLists.get(i).getSche_title());
+            hashMap.put("start", onedayScheLists.get(i).getSche_start());
+            hashMap.put("end", onedayScheLists.get(i).getSche_end());
+            hashMap.put("allDay", onedayScheLists.get(i).getSche_alldayTF());
+            hashMap.put("color", onedayScheLists.get(i).getSche_assort());
+            hashMap.put("crewName", onedayScheLists.get(i).getCrew_name());
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+
+        }
+
+        System.out.println("JSON형태의 하루 일정 >>>>>>>>>" + jsonArray);
 
         return jsonArray;
+
     }
 
 
