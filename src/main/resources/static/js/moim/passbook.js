@@ -1,6 +1,5 @@
 
 function sendIt(){
-    console.log(bankClick.selectedBank);
     f = document.myForm;
 
     str = f.crewName.value;
@@ -69,15 +68,33 @@ const closeBtn = document.querySelector(".close-area")
 closeBtn.addEventListener("click", e => {
     const modal = document.getElementById("modal")
     modal.style.display = "none"
+
+    // 선택한 체크 박스의 값을 hidden으로 넘겨줌(기존 계좌 vs 새 계좌)
+    const hiddenField = document.createElement("input");
+    hiddenField.type = "hidden";
+    hiddenField.name = "checkedBox";
+    hiddenField.value = checkedBox;
+    document.myForm.appendChild(hiddenField);
+
+    // 새 계좌인 경우 모달3에서 작성한 계좌번호를 hidden으로 넘겨줌
+    if(checkedBox === 'checkedNew') {
+        var crew_accountidValue = document.getElementById("account-input1").value;
+        const hiddenField2 = document.createElement("input");
+        hiddenField2.type = "hidden";
+        hiddenField2.name = "crew_accountid";
+        hiddenField2.value = crew_accountidValue;
+        document.myForm.appendChild(hiddenField2);
+    }
+
     document.myForm.action = "/moim/passbook";
     document.myForm.submit();
 });
 
 
-let checkedNew = null;  // 새로운 계좌 선택 시에만 'checkedNew' 값 설정
+let checkedBox = 'checkedOld';
 //체크박스 선택시 활성화(기존계좌)
 function myAccount(checkbox) {
-    checkedNew = null;
+    checkedBox = 'checkedOld';
     const textbox_elem = document.getElementById('my_account');
     textbox_elem.disabled = checkbox.checked ? false : true;
 
@@ -98,7 +115,7 @@ function myAccount(checkbox) {
 
 //체크박스 선택시 활성화(새로운 계좌 버튼)
 function newAccount(checkbox) {
-    checkedNew = 'checkedNew';
+    checkedBox = 'checkedNew';
     const textbox_elem = document.getElementById('new_account_button');
     textbox_elem.disabled = checkbox.checked ? false : true;
 
@@ -114,7 +131,7 @@ function newAccount(checkbox) {
         // 기존계좌 입력 필드도 비활성화
         document.getElementById('my_account').disabled = true;
         // 새로운 계좌 선택 시 값 설정
-        checkedNew = 'checkedNew';
+        checkedBox = 'checkedNew';
     }
 }
 
@@ -131,7 +148,7 @@ function insertNewAccount() {
         type: 'post',
         data: {
             myaccount_anum: newAnum,
-            checkedNew: checkedNew
+            checkedBox: checkedBox
             },
         success: function(data) {
             if(data === "insertNewAccount") {

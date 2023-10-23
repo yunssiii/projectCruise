@@ -50,7 +50,7 @@ public class PassbookController {
     }
 
     @PostMapping(value = "")
-    public ModelAndView passbook_ok(@RequestParam(value = "checkedNew", required = false) String checkedNew,
+    public ModelAndView passbook_ok(@RequestParam("checkedBox") String checkedBox,
                                     CrewDTO crewDTO, CrewMemberDTO crewMemberDTO,
                                       HttpServletRequest request) throws Exception {
 
@@ -60,12 +60,12 @@ public class PassbookController {
 
         ModelAndView mav = new ModelAndView();
         // 새로운 계좌 추가한 경우---------------------------------------------
-        String myAccount = request.getParameter("myaccount_anum");
-        System.out.println("checkedNew : " + checkedNew);
-        if (checkedNew != null) {
-            String bankName = moimPassbookService.getBankName(myAccount);
+        System.out.println("checkedBox : " + checkedBox);
+        System.out.println("crewDTO.getCrew_accountid() : " + crewDTO.getCrew_accountid());
+        if (checkedBox.equals("checkedNew")) {
+            String bankName = moimPassbookService.getBankName(crewDTO.getCrew_accountid());
             crewDTO.setCrew_bank(bankName); // 계좌명
-            crewDTO.setCrew_accountid(myAccount);   // 계좌번호
+            crewDTO.setCrew_accountid(crewDTO.getCrew_accountid());   // 계좌번호
         } else {    // 기존 계좌 선택한 경우-----------------------------------
             String selectedAccount = request.getParameter("my_account");    // select box에서 선택한 '은행명 계좌번호'
             String[] parts = selectedAccount.split(" ");    // 띄어쓰기를 기준으로 나눠서 따로 insert
@@ -78,16 +78,14 @@ public class PassbookController {
             }
         }
 
-        try {   // 목표 금액(선택)
-            crewDTO.setCrew_goal(crewDTO.getCrew_goal());
-        } catch (NumberFormatException e) {
-            crewDTO.setCrew_goal(0);
-        }
+        // 목표 금액(선택): CrewDTO에서 기본값 0으로 설정
+        crewDTO.setCrew_goal(crewDTO.getCrew_goal());
 
         int maxCrewNum = moimPassbookService.maxCrewNum() + 1;
 
         crewDTO.setCrew_num(maxCrewNum);
         crewDTO.setCrew_name(crewDTO.getCrew_name());
+
         // 모임 소개(선택)
         if(crewDTO.getCrew_info() != null && !crewDTO.getCrew_info().isEmpty()) {
             crewDTO.setCrew_info(crewDTO.getCrew_info());
