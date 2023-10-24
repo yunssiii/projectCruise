@@ -252,7 +252,6 @@ public class CrewBoardController {
 
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("email");
-		int crewNum = Integer.parseInt(request.getParameter("crewNum"));
 
 		ModelAndView mav = new ModelAndView();
 
@@ -274,7 +273,7 @@ public class CrewBoardController {
 
 		crewBoardService.updateData(dto);
 
-		mav.setViewName("redirect:/board/list?crewNum=" + crewNum + "&" + param);
+		mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num() + "&" + param);
 
 		return mav;
 	}

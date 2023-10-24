@@ -29,8 +29,8 @@ public class PassbookController {
     public ModelAndView passbook(HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
-//        String userEmail = (String)session.getAttribute("email");
-        String userEmail = "dlaldus@naver.com";
+        String userEmail = (String)session.getAttribute("email");
+
         String userName = crewBoardService.getUserName(userEmail);
 
         ModelAndView mav = new ModelAndView();
@@ -63,8 +63,7 @@ public class PassbookController {
                                       HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
-//        String userEmail = (String)session.getAttribute("email");
-        String userEmail = "dlaldus@naver.com";
+        String userEmail = (String)session.getAttribute("email");
 
         ModelAndView mav = new ModelAndView();
         // 새로운 계좌 추가한 경우---------------------------------------------
@@ -124,8 +123,7 @@ public class PassbookController {
     @PostMapping("/new")
     public String new_account(MyAccountDTO myAccountDTO, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
-//        String userEmail = (String)session.getAttribute("email");
-        String userEmail = "dlaldus@naver.com";
+        String userEmail = (String)session.getAttribute("email");
 
         mypageService.insertAccount(userEmail,myAccountDTO.getMyaccount_anum());
         System.out.println("userEmail: " + userEmail);
