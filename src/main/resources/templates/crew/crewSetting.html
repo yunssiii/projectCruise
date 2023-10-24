@@ -20,14 +20,14 @@
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
-    <!-- 네비게이터 바 CSS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
+<!--    &lt;!&ndash; 네비게이터 바 CSS &ndash;&gt;-->
+<!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">-->
+<!--    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>-->
 
-    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+<!--    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>-->
+<!--    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>-->
     <!-- ----------------- -->
     <script th:inline="javascript">
         <!-- 풀캘린더 스크립트 -->
@@ -43,7 +43,7 @@
     <input type="hidden" id="crewNameHidden" th:value="${dto.crew_name}">
     <input type="hidden" id="crewAccountHidden" th:value="${dto.crew_accountid}">
 
-    <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
+    <div class="header"><th:block th:replace="nav_footer/nav_footer :: header"></th:block></div>
 
     <div class="background">
         <div class="wave"><div id="blue" class="hidden"></div></div>
@@ -521,7 +521,7 @@
 
 
 </body>
-
+    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
     <script type="text/javascript" src="/js/crewSetting/crewSetting.js"></script>
     <script type="text/javascript" src="/js/crewSetting/crewSchedule.js"></script>
     <script type="text/javascript" src="/js/crewSetting/crewInfoUpdate.js"></script>
