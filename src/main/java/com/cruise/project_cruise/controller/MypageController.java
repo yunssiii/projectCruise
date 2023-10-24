@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +50,9 @@ public class MypageController {
 
     @Autowired
     CrewBoardUtil myUtil;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     /*
@@ -354,7 +358,7 @@ public class MypageController {
 
 
     /*
-        내 정보 수정 페이지
+        내 정보 수정 페이지 - get방식, 보여주기
      */
     @GetMapping("mypage/mypage_myInfo")
     public ModelAndView myInfo(HttpServletRequest request) throws Exception {
@@ -370,6 +374,59 @@ public class MypageController {
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
 
         mav.setViewName("mypage/mypage_myInfo");
+
+        return mav;
+
+    }
+
+    /*
+        내 정보 수정 페이지 - post방식, 찐 수정
+     */
+    @PostMapping("mypage/mypage_myInfo")
+    public ModelAndView myInfo(HttpSession session,@RequestParam("tel") String tel,
+                       @RequestParam("address")String address,@RequestParam("detailAddress")String detailAddress) throws Exception {
+
+        //세션에서 가져온 이메일
+        String email = (String) session.getAttribute("email");
+
+        mypageService.updateUserInfo(tel, address, detailAddress, email);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("redirect:/mypage/mypage_myInfo");
+
+        System.out.println(">>>>> 사용자 정보 수정 완료");
+
+        return mav;
+
+    }
+
+    /*
+        내 정보 수정 페이지 - post방식, 비밀번호만 수정
+     */
+    @PostMapping("mypage/mypage_myInfo_pwd")
+    public ModelAndView myPWd(HttpServletResponse response,HttpSession session,@RequestParam("newPwd") String newPwd,@RequestParam("chk-newPwd") String chkNewPwd) throws Exception {
+
+        //세션에서 가져온 이메일
+        String email = (String) session.getAttribute("email");
+
+        response.setContentType("text/html; charset=utf-8");
+        PrintWriter out = response.getWriter();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        String rawPassword = newPwd; 
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword); //해싱한 비밀번호
+
+        //같으면 수정
+        if(newPwd.equals(chkNewPwd)){
+            mypageService.updateUserPwd(encPassword,email);
+            System.out.println(">>>>>> 사용자 비밀번호 수정 완료");
+        }
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("redirect:/mypage/mypage_myInfo");
 
         return mav;
 

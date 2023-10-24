@@ -43,53 +43,7 @@ function chkUserPwd(event) {
 pwdInput[0].addEventListener("change",chkUserPwd);
 
 // -- "확인" 버튼 -> 비밀번호 인증 ------------------------------
-//입력된 비밀번호 복호화
 
-function pwdAuth (event) {
-
-    if(pwdInput[0].value == "dbsgk12!"){
-        alert("인증성공");
-
-        document.getElementById("resultUserPwd").innerText = "";
-        pwdInput[0].style.border = "1px solid #8b8b8b";
-        pwdInput[0].style.outline = "none";
-
-        newPwds[0].style.display = "flex";
-        newPwdInput[0].focus();
-        
-    }else {
-
-        document.getElementById("resultUserPwd").innerText = text;
-
-        pwdInput[0].style.border = "1px solid red";
-        pwdInput[0].style.outline = "1px solid red";
-    }
-}
-
-//"확인" 버튼 엔터키 이벤트 발생 js
-function enterkey(event) {
-	if (event.keyCode == 13) {
-
-    	if(pwdInput[0].value == "dbsgk12!"){
-            alert("인증성공");
-    
-            document.getElementById("resultUserPwd").innerText = "";
-            pwdInput[0].style.border = "1px solid #8b8b8b";
-            pwdInput[0].style.outline = "none";
-    
-            newPwds[0].style.display = "flex";
-            newPwdInput[0].focus();
-            
-        }else {
-            document.getElementById("resultUserPwd").innerText = text;
-
-            pwdInput[0].style.border = "1px solid red";
-            pwdInput[0].style.outline = "1px solid red";
-        }
-    }
-}
-
-pwdAuthBtn[0].addEventListener("click",pwdAuth);
 
 // -- 새 비밀번호 빨간 안내 js ----------------------------------
 
@@ -152,99 +106,78 @@ function chkNewPwd(event) {
 
 chkNewPwdInput[0].addEventListener("change",chkNewPwd);
 
-// -- 회원정보 수정 버튼 관련 js -------------------------------------- 
+// -- 비밀번호 변경하겠습니까? 버튼 누를 때 모달 열기
+function changePwd(){
 
-//모달창 클릭, 모달창
-var updateBtns = document.getElementsByClassName("updateBtn");
-var userUpdateDiv = document.getElementsByClassName("userUpdatemodal-div");
+    $('#userPwdmodalId').removeClass('hidden');
+    $('#userPwdmodalId').addClass('visible');
 
-var yesBtns = document.getElementsByClassName("yesBtn");
-var noBtns = document.getElementsByClassName("noBtn");
+}
 
-// 수정버튼 누를 때
+// -- '비밀번호 변경' 버튼 누를 때 모달 닫기
+function updatePwdBtn(){
 
-updateBtns[0].onclick = function() {
+    //새 비밀번호와 확인 비밀번호가 같지 않으면 모달 유지
+    if($('.newPwd').val() !== $('.chk-newPwd').val){
 
-    if(window.getComputedStyle(newPwds[0]).display === "flex") {
-        // alert("flex임! - 수정불가");
+        $('#userPwdmodalId').removeClass('hidden');
+        $('#userPwdmodalId').addClass('visible');
 
-        if(reg.test(newPwdInput[0].value) && newPwdInput[0].value !== pwdInput[0].value && chkNewPwdInput[0].value === newPwdInput[0].value) {
-            
-            userUpdateDiv[0].style.display = "block";
-            document.body.style.overflow = "hidden";
-
-            pwdInput[0].value = "";
-        }else {
-            alert("새 비밀번호를 입력하세요.");
-            userUpdateDiv[0].style.display = "none";
-            document.body.style.overflow = "auto";
-            document.body.style.overflowX = "hidden";
-
-            newPwdInput[0].value = "";
-            chkNewPwdInput[0].value = "";
-            
-        }
     }else {
 
-        userUpdateDiv[0].style.display = "block";
-        document.body.style.overflow = "hidden";
+        $('#userPwdmodalId').addClass('hidden');
+        $('#userPwdmodalId').removeClass('visible');
 
-        pwdInput[0].value = "";
-    }   
-    
-}
-
-//수정 모달 예/아니오
-
-yesBtns[0].onclick = function() {
-    // "예" 버튼 누를 때
-    // db에 전체 update
-    userUpdateDiv[0].style.display = "none";
-    newPwds[0].style.display = "none";
-    document.body.style.overflow = "auto";
-    document.body.style.overflowX = "hidden";
-    
-}
-
-noBtns[0].onclick = function() {
-    userUpdateDiv[0].style.display = "none";
-    newPwds[0].style.display = "none";
-    document.body.style.overflow = "auto";
-    document.body.style.overflowX = "hidden";
-}
-
-//"수정" 버튼 엔터키 이벤트 발생 js
-
-function updateEnterkey(event) {
-	if (event.keyCode == 13) {
-
-    	if(window.getComputedStyle(newPwds[0]).display === "flex") {
-    
-            if(reg.test(newPwdInput[0].value) && newPwdInput[0].value !== pwdInput[0].value && chkNewPwdInput[0].value === newPwdInput[0].value) {//수정됨
-                
-                userUpdateDiv[0].style.display = "block";
-                document.body.style.overflow = "hidden";
-
-                pwdInput[0].value = "";
-            }else {//수정안됨
-                alert("새 비밀번호를 입력하세요.");
-                userUpdateDiv[0].style.display = "none";
-                document.body.style.overflow = "auto";
-                document.body.style.overflowX = "hidden";
-
-                newPwdInput[0].value = "";
-                chkNewPwdInput[0].value = "";
-                
-            }
-        }else {//수정됨
-    
-            userUpdateDiv[0].style.display = "block";
-            document.body.style.overflow = "hidden";
-
-            pwdInput[0].value = "";
-        } 
     }
 }
+
+// x 버튼 누를 때 모달 닫기
+function closeModal() {
+
+    $('#userPwdmodalId').addClass('hidden');
+    $('#userPwdmodalId').removeClass('visible');
+
+    $('.password').val(''); //닫을 때 값 지우기
+    $('.newPwd').val('');
+    $('.chk-newPwd').val('');
+
+    $('.user-cover4').css('display','none'); //새 비밀번호 창 닫기
+
+}
+
+// -- 수정 form검사 함수 ----------------------------------------
+function updateSubmit() {
+
+    updateForm = document.updateForm;
+    tel = updateForm.tel.value;
+    address = updateForm.address.value;
+    detailAddress = updateForm.detailAddress.value;
+
+    if(!tel){
+        alert('전화번호를 입력하세요.');
+        updateForm.tel.focus();
+        return;
+    }
+
+    if(!address){
+        alert('주소를 입력하세요.');
+        return;
+    }
+
+    if(!detailAddress){
+        alert('상세주소를 입력하세요.');
+        updateForm.detailAddress.focus();
+        return;
+    }
+
+    updateForm.action = '/mypage/mypage_myInfo';
+    updateForm.submit();
+
+
+
+}
+
+
 
 
 
