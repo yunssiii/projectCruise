@@ -39,6 +39,10 @@
     </script>
 </head>
 <body>
+    <input type="hidden" id="crewNumHidden" th:value="${crewNum}">
+    <input type="hidden" id="crewNameHidden" th:value="${dto.crew_name}">
+    <input type="hidden" id="crewAccountHidden" th:value="${dto.crew_accountid}">
+
     <div class="header"><nav th:replace="navbar :: navbarFragmant"></nav></div>
 
     <div class="background">
@@ -250,17 +254,6 @@
                             <button id="deleteBtn" onclick="deleteBtnClick()"> 항해 중단하기 </button>
                         </div>
                     </div>
-                    <div id="crewDeleteComplete" class="hiddenDiv">
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Person%20Rowing%20Boat%20Light%20Skin%20Tone.png"
-                             alt="Person Rowing Boat Light Skin Tone" width="200" height="200" />
-                        <div class="title"> [ [[${dto.getCrew_name}]] ] 의 항해가 중단되었습니다. </div>
-                        <div class="stayPeriodWarning">
-
-                            <div>항해 중단 결정일자는 <div id="deleteRequestDate">유예시작일</div>이며, </div>
-                            <div>항해 중단 확정까지 <div id="deleteCompleteDDay">2일 23시간 59분 58초</div> 남았습니다.</div>
-                        </div>
-                        <button id="cancelDeleteCrewBtn" onclick="cancelDeleteCrewBtnClick()">항해 중단 취소</button>
-                    </div>
                     <div id="modalBackground" class="hiddenModal">
                         <div id="deleteYNModal" class="hiddenModal">
                             <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
@@ -269,7 +262,7 @@
                             <div id="deleteYNMsg">크루 내의 데이터는 물론, 선원들과의 추억도 함께 사라집니다.</div>
                             <div class="deleteYNBtn">
                                 <button onclick="modalWindowClose()">돌아가기</button>
-                                <button id="deleteYesBtn" onclick="deleteYesBtnClick(0, 2)">정말로 그만하기</button>
+                                <button id="deleteYesBtn" th:onclick="deleteYesBtnClick([[${crewAccountBalance}]], [[${#lists.size(memberList)}]])">정말로 그만하기</button>
                                             <!-- FIXME 계좌잔액, 남은선원수를 DB에서 불러와 넘겨주기-->
                             </div>
                         </div>
@@ -399,7 +392,7 @@
                                <th>선원 이메일</th>
                                <th>크루가입일자</th>
                                <th>총납입액</th>
-                               <th>납입횟수</th>
+                               <th>납입의무횟수</th>
                                <th>미납횟수</th>
                                <th>관리</th>
                             </tr>
@@ -415,7 +408,7 @@
                                     <td th:utext="${#dates.format(mem.JOIN_DATE,'yyyy-MM-dd')}"></td>
                                     <td th:text="|${mem.TOTAL_PAY}원|"></td>
                                     <td th:text="|${mem.MUST_PAYCOUNT}회|"></td>
-                                    <td th:text="|${mem.REAL_PAYCOUNT}회|"></td>
+                                    <td th:text="|${(mem.MUST_PAYCOUNT-mem.REAL_PAYCOUNT)}회|"></td>
                                     <td th:if="${mem.CAPTAIN_YN=='Y'}"></td>
                                     <td th:if="${mem.CAPTAIN_YN=='N'}">
                                         <button th:id="|memBanBtn${memStat.count}|" class='memBanBtn'
@@ -448,103 +441,80 @@
 
 
                 <!-- 잔액 1/N 하기 -->
-                <div id="memberDivN" class="hidden">
-                    <div class="memberDivNTop">
-                        <div><div id="crewName">[[${dto.getCrew_name}]]</div>의 납입금액은</div>
-                        <div class="totalResult">총&nbsp;<div id="crewTotalMoney" th:text="|${crewAccountBalance}원|">400,000원</div>&nbsp;입니다.</div>
-                    </div>
-                    <div class="memberDivideZone">
-                        <table class="divTableHead">
-                            <tr>
-                                <th>순번</th>
-                                <th>구분</th>
-                                <th>선원 이름</th>
-                                <th>총 납입횟수</th>
-                                <th>분담 금액</th>
-                                <th>계좌선택</th>
-                            </tr>
-                        </table>
-                        <div class="divTableBody">
-                            <table th:each="mem,memStat : ${memberList}">
-                                <tr>
-                                    <td th:text="${memStat.count}"></td>
-                                    <td th:if="${mem.CAPTAIN_YN=='Y'}">선장</td>
-                                    <td th:if="${mem.CAPTAIN_YN=='N'}">선원</td>
-                                    <td th:text="${mem.MEM_NAME}"></td>
-                                    <td th:text="${mem.REAL_PAYCOUNT}"></td>
-                                    <td th:id="|${mem.MEM_EMAIL}Money|"></td>
-                                    <td>
-                                        <select>
-                                            <option selected disabled> --- 계좌 선택하기 --- </option>
-                                            <option th:each="account : ${memberAccountMap[mem.MEM_EMAIL]}" th:text="|${account.myaccount_bank} ${account.myaccount_anum}|"></option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
+                <form name="dividingBalanceForm">
+                    <div id="memberDivN" class="hidden">
+                        <div class="memberDivNTop">
+                            <div><div id="crewName">[[${dto.getCrew_name}]]</div>의 납입금액은</div>
+                            <div class="totalResult">총&nbsp;<div id="crewTotalMoney" th:text="|${crewAccountBalanceStr}원|">400,000원</div>&nbsp;입니다.</div>
                         </div>
-                    </div>
-                    <div class="divideBtnContainer">
-                        <button id="divideNBtn"> 1/N하기 </button>
-                    </div>
-                    <div id="divideModalBg" class="hiddenModal">
-                        <div id="divideConfirmModal" class="hiddenModal">
-                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
-                                 alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
-                            <div class="divideConfirmTitle"> 다음과 같이 잔액을 나눕니다. </div>
-                            <div class="divideConfirmZone">
-                                <div class="divideOneLine">
-                                <div>
-                                    <div class="divideMemAccount">신한 110518407401</div>
-                                    <div class="divideMemName">(김은지)</div> 에게
-                                    </div>
-                                <div><div class="divideMemMoney">40,000원</div>입금</div>
+                            <div class="memberDivideZone">
+                                <table class="divTableHead">
+                                    <tr>
+                                        <th>순번</th>
+                                        <th>구분</th>
+                                        <th>선원 이름</th>
+                                        <th>총 납입횟수</th>
+                                        <th>분담 금액</th>
+                                        <th>계좌선택</th>
+                                    </tr>
+                                </table>
+                                <div class="divTableBody">
+                                        <div id="memberListSize" style="display: none; height: 0">[[${#lists.size(memberList)}]]</div>
+                                        <table>
+                                            <tr th:each="mem,memStat : ${memberList}">
+                                                <td th:text="${memStat.count}"></td>
+                                                <td th:if="${mem.CAPTAIN_YN=='Y'}">선장</td>
+                                                <td th:if="${mem.CAPTAIN_YN=='N'}">선원</td>
+                                                <td th:id="|divMemName${memStat.count}|" th:text="${mem.MEM_NAME}"></td>
+                                                <td th:text="${mem.REAL_PAYCOUNT}"></td>
+                                                <td th:id="|amountPerPayment${memStat.count}|" th:text="|${#numbers.formatInteger((amountPerPayment*mem.REAL_PAYCOUNT), 1, 'COMMA')}원|">분담금액</td>
+                                                <td>
+                                                    <select th:name="|dividingAccount${memStat.count}|" th:id="|dividingAccount${memStat.count}|">
+                                                        <option selected disabled> --- 계좌 선택하기 --- </option>
+                                                        <option th:each="account : ${memberAccountMap[mem.MEM_EMAIL]}" th:value="|${account.myaccount_bank} ${account.myaccount_anum}|" th:text="|${account.myaccount_bank} ${account.myaccount_anum}|"></option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
                                 </div>
-                                <div class="divideOneLine">
-                                <div>
-                                    <div class="divideMemAccount">신한 110518407401</div>
-                                    <div class="divideMemName">(황윤하)</div> 에게
-                                    </div>
-                                <div><div class="divideMemMoney">40,000원</div>입금</div>
-                                </div>
-                                <script>
-                                    // 테스트용
-                                    // var html = "";
-                                    //
-                                    // html = '<div class="divideOneLine">' +
-                                    //         '<div>' +
-                                    //             '<div class="divideMemAccount">신한 110518407401</div>' +
-                                    //             '<div class="divideMemName">(김은지)</div> 에게' +
-                                    //         '</div>' +
-                                    //         '<div><div class="divideMemMoney">40,000원</div>입금</div>' +
-                                    //     '</div>' +
-                                    //     '<div class="divideOneLine">' +
-                                    //         '<div>' +
-                                    //             '<div class="divideMemAccount">신한 110518407401</div>' +
-                                    //             '<div class="divideMemName">(황윤하)</div> 에게' +
-                                    //         '</div>' +
-                                    //         '<div><div class="divideMemMoney">40,000원</div>입금</div>' +
-                                    //     '</div>'
-                                    //
-                                    // for (var i=0; i<10; i++){
-                                    //     document.write(html);
-                                    // }
-                                </script>
                             </div>
                             <div class="divideBtnContainer">
-                                <button id="divideYes">네</button>
-                                <button id="divideNo">아니오</button>
+                                <button id="divideNBtn" type="button"> 1/N하기 </button>
                             </div>
-                        </div>
-                        <div id="divideCompleteModal" class="hiddenModal">
-                            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
-                                 alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
-                            <div class="divideConfirmTitle"> 잔액 나누기가 완료되었습니다. </div>
-                            <div class="divideBtnContainer">
-                                <button id="divideOKBtn">확인</button>
+
+                        <div id="divideModalBg" class="hiddenModal">
+                            <div id="divideConfirmModal" class="hiddenModal">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
+                                     alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
+                                <div class="divideConfirmTitle"> 다음과 같이 잔액을 나눕니다. </div>
+                                <div class="divideConfirmZone">
+                                    <div class="divideOneLine" th:each="mem,memStat : ${memberList}">
+                                        <div>
+                                            <div class="divideMemAccount" th:id="|dividingAccountOK${memStat.count}|">계좌번호 넣기</div>
+                                            <div class="divideMemName" th:id="|divMemNameOK${memStat.count}|">(김은지)</div> 에게
+                                            </div>
+                                        <div>
+                                            <div class="divideMemMoney" th:id="|amountPerPaymentOK${memStat.count}|">금액 넣기</div>입금
+                                            <input type="hidden" th:name="|amountPerPaymentHidden${memStat.count}|" th:id="|amountPerPaymentHidden${memStat.count}|" th:value="${(amountPerPayment*mem.REAL_PAYCOUNT)}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="divideBtnContainer">
+                                    <button id="divideYes" type="button">네</button>
+                                    <button id="divideNo" type="button">아니오</button>
+                                </div>
+                            </div>
+                            <div id="divideCompleteModal" class="hiddenModal">
+                                <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Palm%20Up%20Hand%20Light%20Skin%20Tone.png"
+                                     alt="Palm Up Hand Light Skin Tone" width="100" height="100" />
+                                <div class="divideConfirmTitle"> 잔액 나누기가 완료되었습니다. </div>
+                                <div class="divideBtnContainer">
+                                    <button id="divideOKBtn" type="button">확인</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -559,14 +529,5 @@
     <script type="text/javascript" src="/js/crewSetting/memberPayView.js"></script>
     <script type="text/javascript" src="/js/crewSetting/memberBan.js"></script>
     <script type="text/javascript" src="/js/crewSetting/memberDivN.js"></script>
-    <script>
-        // 유예기간 실시간으로 보여주기 위한 스크립트
-        setInterval(function() {
-            deleteDateStrMaker('2023-10-05 09:05:00')
-        }, 1000);
-        //FIXME DB에서 불러온 유예시작일로 고치기
 
-
-
-    </script>
 </html>

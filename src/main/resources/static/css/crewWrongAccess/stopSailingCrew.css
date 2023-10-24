@@ -1,0 +1,146 @@
+#crewDeleteComplete {
+    display: inline-block;
+}
+#crewDeleteComplete .title{
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    font-size: 18pt;
+    margin: 5px;
+}
+
+#modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(3px);
+}
+
+#deleteRequestDate {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    margin: 0 10px 0 10px;
+}
+
+#deleteCompleteDDay {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+    margin: 0 10px 0 10px;
+}
+
+#crewDeleteComplete img {
+    margin: 20px;
+}
+
+#cancelDeleteCrewBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#cancelDeleteCrewBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#cancelDeleteCrewBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+.hidden {
+    display: none;
+    height: 0;
+}
+
+.hiddenModal {
+    display: none;
+    height: 0;
+}
+
+.visibleModal {
+    display: inline-block;
+}
+
+.stayPeriodWarning {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.stayPeriodWarning div{
+    display: flex;
+    margin: 3px;
+}
+
+#crewDeleteCancelModal button {
+    font-size: 12pt;
+    width: auto;
+    height: 50px;
+}
+
+
+
+
+/* 항해 다시 시작 모달 */
+#crewDeleteCancelModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    border-radius: 10px;
+    width: 350px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+#crewDeleteCancelModal img {
+    margin: 20px 10px 10px 10px;
+}
+
+#cancelWarningTitle {
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
+}
+
+
+.cancelDeleteBtn button {
+    width: auto;
+    margin-top: 30px;
+    padding: 5px 20px 0px 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#cancelDeleteBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#cancelDeleteBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#cancelDeleteBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+#turnBackCrewBtn {
+    background-color: #0C0CCA;
+    color: white;
+}
+
+#turnBackCrewBtn:hover {
+    background-color: #FFD966;
+    transition: 0.2s;
+}
+
+#turnBackCrewBtn:active {
+    background-color: #e1c059;
+    transition: 0.2s;
+}
+
+
+

@@ -34,7 +34,8 @@
     <select id="getCrewData" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewDTO">
         select
         CREW_NUM, CREW_NAME, CREW_INFO, CAPTAIN_EMAIL, CREW_CREATED,
-        CREW_BANK, CREW_ACCOUNTID, CREW_PAYDATE, CREW_PAYMONEY, CREW_GOAL
+        CREW_BANK, CREW_ACCOUNTID, CREW_PAYDATE, CREW_PAYMONEY, CREW_GOAL,
+        TO_CHAR(CREW_DELDATE, 'yyyy-MM-dd HH24:mi:ss') AS CREW_DELDATE
         from CREW
         where CREW_NUM=#{crewNum}
     </select>

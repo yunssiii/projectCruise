@@ -50,47 +50,47 @@ button {
     margin-top: 1vh;
     width: 150px;
     height: 40px;
-    background-color: #0C0CCA;
-    color: white;
+    background-color: #0C0CCA !important;
+    color: white !important;
 }
 
 #deleteBtn:hover {
-    background-color: #FFD966;
+    background-color: #FFD966 !important;
     transition: 0.2s;
 }
 
 #deleteBtn:active {
-    background-color: #e1c059;
+    background-color: #e1c059 !important;
     transition: 0.2s;
 }
 
 #gotoMemberBanBtn {
-    background-color: #0C0CCA;
-    color: white;
+    background-color: #0C0CCA !important;
+    color: white !important;
 }
 
 #gotoMemberBanBtn:hover {
-    background-color: #FFD966;
+    background-color: #FFD966 !important;
     transition: 0.2s;
 }
 
 #gotoMemberBanBtn:active {
-    background-color: #e1c059;
+    background-color: #e1c059 !important;
     transition: 0.2s;
 }
 
 #memberDivNBtn {
-    background-color: #0C0CCA;
-    color: white;
+    background-color: #0C0CCA !important;
+    color: white !important;
 }
 
 #memberDivNBtn:hover {
-    background-color: #FFD966;
+    background-color: #FFD966 !important;
     transition: 0.2s;
 }
 
 #memberDivNBtn:active {
-    background-color: #e1c059;
+    background-color: #e1c059 !important;
     transition: 0.2s;
 }
 
@@ -144,17 +144,17 @@ button {
 }
 
 #deleteYesBtn {
-    background-color: #0C0CCA;
-    color: white;
+    background-color: #0C0CCA !important;
+    color: white !important;
 }
 
 #deleteYesBtn:hover {
-    background-color: #FFD966;
+    background-color: #FFD966 !important;
     transition: 0.2s;
 }
 
 #deleteYesBtn:active {
-    background-color: #e1c059;
+    background-color: #e1c059 !important;
     transition: 0.2s;
 }
 
@@ -162,14 +162,14 @@ button {
 
 
 #cannotDeleteModal {
-
+    padding-top: 15px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
     border-radius: 10px;
-    width: 350px;
+    width: 370px;
     height: 200px;
     background-color: rgba(255, 255, 255, 0.8);
     box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
@@ -189,65 +189,7 @@ button {
     margin: 10px 10px 10px 10px;
 }
 
-#crewDeleteCancelModal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    border-radius: 10px;
-    width: 350px;
-    height: 200px;
-    background-color: rgba(255, 255, 255, 0.8);
-    box-shadow: -3px 3px 5px 0 rgba(0, 0, 0, 0.2);
-}
 
-#crewDeleteCancelModal img {
-    margin: 20px 10px 10px 10px;
-}
-
-#cancelWarningTitle {
-    font-family: 'NanumSquareExtraBold', 'sans-serif';
-}
-
-
-.cancelDeleteBtn button {
-    width: auto;
-    margin-top: 30px;
-    padding: 5px 20px 0px 20px;
-    margin-right: 5px;
-    margin-left: 5px;
-}
-
-#cancelDeleteBtn {
-    background-color: #0C0CCA;
-    color: white;
-}
-
-#cancelDeleteBtn:hover {
-    background-color: #FFD966;
-    transition: 0.2s;
-}
-
-#cancelDeleteBtn:active {
-    background-color: #e1c059;
-    transition: 0.2s;
-}
-
-#turnBackCrewBtn {
-    background-color: #0C0CCA;
-    color: white;
-}
-
-#turnBackCrewBtn:hover {
-    background-color: #FFD966;
-    transition: 0.2s;
-}
-
-#turnBackCrewBtn:active {
-    background-color: #e1c059;
-    transition: 0.2s;
-}
 
 
 
@@ -274,49 +216,4 @@ button {
     width: auto;
 }
 
-.stayPeriodWarning {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-}
 
-.stayPeriodWarning div{
-    display: flex;
-    margin: 3px;
-}
-
-#crewDeleteComplete .title{
-    font-family: 'NanumSquareExtraBold', 'sans-serif';
-    font-size: 18pt;
-    margin: 5px;
-}
-
-#deleteRequestDate {
-    font-family: 'NanumSquareExtraBold', 'sans-serif';
-    margin: 0 10px 0 10px;
-}
-
-#deleteCompleteDDay {
-    font-family: 'NanumSquareExtraBold', 'sans-serif';
-    margin: 0 10px 0 10px;
-}
-
-#crewDeleteComplete img {
-    margin: 20px;
-}
-
-#cancelDeleteCrewBtn {
-    background-color: #0C0CCA;
-    color: white;
-}
-
-#cancelDeleteCrewBtn:hover {
-    background-color: #FFD966;
-    transition: 0.2s;
-}
-
-#cancelDeleteCrewBtn:active {
-    background-color: #e1c059;
-    transition: 0.2s;
-}

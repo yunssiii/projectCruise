@@ -6,6 +6,7 @@ import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.dto.UserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,11 @@ public interface CrewSettingMapper {
     // 크루 정보수정
     public List<ScheduleDTO> getCrewScheList(@Param("crew_num") int crewNum) throws Exception;
     public UserDTO getUser(@Param("email") String userEmail) throws Exception;
+
+    // 항해 중단하기
+    public void updateCrewDelDate(@Param("crewNum") int crewNum) throws Exception;
+    public void cancelCrewDelDate(@Param("crewNum") int crewNum) throws Exception;
+    public void deleteCrew(@Param("crewNum") int crewNum) throws Exception;
 
     // 크루 일정관리
     public void updateCrewInfo(CrewDTO crewDTO) throws Exception;
@@ -28,4 +34,7 @@ public interface CrewSettingMapper {
     // 선원 관리하기
     public List<Map<String,String>> getCrewMemberList(@Param("crew_num") int crewNum) throws Exception;
     public void deleteMember(@Param("email") String banEmail, @Param("crew_num") int crewNum) throws Exception;
+
+    // 잔액 1/N하기
+    public int getMemberPayCountSum(@Param("crewNum") int crewNum) throws Exception;
 }
