@@ -13,6 +13,7 @@ button{
 }
 .back{
 	background-image: url("/images/moim/blue4.jpg");
+    background-size: 100% 100%;
 }
 .start_button {
 	margin-top: 3rem;
