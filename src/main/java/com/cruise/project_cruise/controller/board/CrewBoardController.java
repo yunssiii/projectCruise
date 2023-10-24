@@ -134,7 +134,7 @@ public class CrewBoardController {
 
 		mav.setViewName("board/list");
 
-		mav.addObject("crewNum", crewNum);
+		mav.addObject("crew_num", crewNum);
 		mav.addObject("lists", lists);
 		mav.addObject("pageIndexList", pageIndexList);
 		mav.addObject("dataCount", dataCount);
