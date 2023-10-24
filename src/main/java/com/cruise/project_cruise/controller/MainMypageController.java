@@ -115,9 +115,6 @@ public class MainMypageController {
             session.setAttribute("email",email);
         }
 
-
-
-
         System.out.println("뒷부분: "+ email);
 
         List<CrewDTO> crewLists = mypageService.getCrews(email); //크루 정보

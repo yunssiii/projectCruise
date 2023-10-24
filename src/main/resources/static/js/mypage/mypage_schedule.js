@@ -45,6 +45,7 @@ function myCalendarLoad(email){
                 },
                 dateClick: function(info) { // 날짜 클릭했을 때
                     oneDayClick(info,email);
+                    $('.oneday').children().remove();
                 },
                 views: {
                     dayGridMonth: {
@@ -162,26 +163,50 @@ function oneDayClick(info,email){
 
                 $('.sche-date').text('📌 '+ divDate); //클릭한 날짜 html 표시
 
-                if(JSON.stringify(result) === '[]'){
+                var str = '';
+                var message = '등록된 일정이 없습니다.';
 
-                    $('.sche-title').text('등록된 일정이 없습니다.');
-                    $('.sche-crewName').text('');
-                    $('.sche-start').text('');
-                    $('.sche-end').text('');
+                if(result.length === 0){
 
-                    $('.sche-assort').css('background-color','white');
+                    console.log('결과 길이>>>>>' + result.length)
+
+                        str += '<div class="oneDay-modal">'
+                            str += '<div class="oneDay-div1">'
+                                str += '<div class="sche-assort" style="background-color:white"></div>'
+                                str += '<div class="sche-title-box">'
+                                    str += '<p class="sche-title">'+ message +'</p>'
+                                    str += '<p class="sche-crewName"></p>'
+                                str += '</div>'
+                            str += '</div>'
+                            str += '<div class="oneDay-div2">'
+                                str += '<div class="sche-start"></div>'
+                                str += '<div class="sche-end"></div>'
+                            str += '</div>'
+                        str += '</div>'
+
+                        $('.oneday').append(str);
 
                 }else{
 
                     $.each(result, function(i) {
 
-                        $('.sche-title').text(result[i].title);
-                        $('.sche-crewName').text(result[i].crewName);
-                        $('.sche-start').text(result[i].start);
-                        $('.sche-end').text(result[i].end);
+                        str += '<div class="oneDay-modal">'
+                            str += '<div class="oneDay-div1">'
+                                str += '<div class="sche-assort" style="background-color:'+ result[i].color +'"></div>'
+                                str += '<div class="sche-title-box">'
+                                    str += '<p class="sche-title">'+ result[i].title +'</p>'
+                                    str += '<p class="sche-crewName">'+ result[i].crewName +'</p>'
+                                str += '</div>'
+                            str += '</div>'
+                            str += '<div class="oneDay-div2">'
+                                str += '<div class="sche-start">'+ result[i].start +'</div>'
+                                str += '<div class="sche-end">'+ result[i].end +'</div>'
+                            str += '</div>'
+                        str += '</div>'
 
-                        $('.sche-assort').css('background-color',result[i].color);
                     });
+
+                    $('.oneday').append(str);
 
                 }
 

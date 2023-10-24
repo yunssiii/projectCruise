@@ -327,8 +327,8 @@
                                 <div class="account-alias-box">
                                     <p class="account-alias" th:id="|account-alias${dto.myaccount_anum}|" th:text="${dto.myaccount_name}"></p>
                                     <input type="text" th:id="|aname${dto.myaccount_anum}|" th:value="${dto.myaccount_name}" class="account-alias2 hidden"/>
-                                    <button class="account-update" th:onclick="updateBtn([[${dto.myaccount_anum}]])">수정</button>
-                                    <button class="account-update-ok hidden" th:onclick="updateAname([[${dto.myaccount_anum}]]);clickChangeBtn();">변경</button>
+                                    <button class="account-update" th:id="|account-update${dto.myaccount_anum}|" th:onclick="updateBtn([[${dto.myaccount_anum}]])">수정</button>
+                                    <button class="account-update-ok hidden" th:id="|account-update-ok${dto.myaccount_anum}|" th:onclick="updateAname([[${dto.myaccount_anum}]]);clickChangeBtn();">변경</button>
                                     |
                                     <button class="account-delete">삭제</button>
                                 </div>
@@ -728,19 +728,7 @@
             <div class="oneDay-wrap">
                 <div class="sche-date">날짜를 선택해 일정을 조회해보세요😊</div>
                 <div class="oneday hidden">
-                    <div class="oneDay-modal">
-                        <div class="oneDay-div1">
-                            <div class="sche-assort"></div>
-                            <div class="sche-title-box">
-                                <p class="sche-title"></p>
-                                <p class="sche-crewName"></p>
-                            </div>
-                        </div>
-                        <div class="oneDay-div2">
-                            <div class="sche-start"></div>
-                            <div class="sche-end"></div>
-                        </div>
-                    </div>
+                   <!-- 내용 들어옴 -->
                 </div>
             </div>
 

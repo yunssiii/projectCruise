@@ -92,6 +92,16 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
+    public void updateUserInfo(String tel, String address1, String address2, String email) throws Exception {
+        mypageMapper.updateUserInfo(tel, address1, address2, email);
+    }
+
+    @Override
+    public void updateUserPwd(String userPassword, String email) throws Exception {
+        mypageMapper.updateUserPwd(userPassword, email);
+    }
+
+    @Override
     public String getCrewName(int crewNum) throws Exception {
         return mypageMapper.getCrewName(crewNum);
     }

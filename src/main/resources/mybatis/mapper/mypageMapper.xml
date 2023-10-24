@@ -93,8 +93,18 @@
 
     <!-- 내 정보 수정 데이터 조회 -->
     <select id="getUserInfo" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.UserDTO">
-        select user_name,email,tel,address1,address2 from users where email=#{email}
+        select user_name,email,tel,address1,address2,user_password from users where email=#{email}
     </select>
+
+    <!-- 내 정보 수정 -->
+    <update id="updateUserInfo" parameterType="map">
+        update users set tel=#{tel},address1=#{address1},address2=#{address2} where email=#{email}
+    </update>
+
+    <!-- 내 정보 비밀번호만! 수정 -->
+    <update id="updateUserPwd" parameterType="map">
+        update users set user_password=#{user_password} where email=#{email}
+    </update>
 
     <!-- 크루명 조회 / 게시글,댓글에 필요 -->
     <select id="getCrewName" parameterType="int" resultType="java.lang.String">
@@ -148,7 +158,7 @@
     <select id="getOneSchedule" parameterType="map" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
         select crew_num,sche_num,sche_title,sche_assort,to_char(sche_start, 'mm.dd HH24:MI') sche_start,
         to_char(sche_end, 'mm.dd HH24:MI') sche_end,sche_alldaytf from schedule
-        where to_date(#{sche_start}, 'yyyy-mm-dd') between sche_start and sche_end
+        where to_date(#{sche_start}, 'yyyy-mm-dd') between to_char(sche_start, 'yyyy-mm-dd') and to_char(sche_end, 'yyyy-mm-dd')
         and crew_num in (select crew_num from crew_member where cmem_email=#{email})
     </select>
 

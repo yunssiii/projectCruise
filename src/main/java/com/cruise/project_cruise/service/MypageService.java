@@ -24,6 +24,9 @@ public interface MypageService {
     public String getWebpassword(String email) throws Exception; //이체 비밀번호 조회
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception; //이제 비밀번호 수정(등록/변경)
     public UserDTO getUserInfo(String email) throws Exception; //로그인한 사용자 정보 조회
+    public void updateUserInfo(@Param("tel")String tel,@Param("address1")String address1,
+                               @Param("address2")String address2,@Param("email")String email) throws Exception; //내 정보 수정
+    public void updateUserPwd(@Param("user_password")String userPassword,@Param("email")String email) throws Exception; //내 정보 비밀번호만! 수정
     public String getCrewName(@Param("crew_num") int crewNum) throws Exception; // 크루명 조회
     public List<CrewBoardDTO> getMyboard(@Param("email")String email,@Param("start") int start,@Param("end") int end) throws Exception; //내 게시글 조회
     public void deleteMyboard(int boardNum) throws Exception; //내 게시글 삭제

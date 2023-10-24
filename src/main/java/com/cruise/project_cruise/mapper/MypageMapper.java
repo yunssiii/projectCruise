@@ -26,6 +26,9 @@ public interface MypageMapper {
     public String getWebpassword(String email) throws Exception;
     public void updateWebpassword(@Param("pay_password") String payPwd, @Param("email")String email) throws Exception;
     public UserDTO getUserInfo(String email) throws Exception;
+    public void updateUserInfo(@Param("tel")String tel,@Param("address1")String address1,
+                               @Param("address2")String address2,@Param("email")String email) throws Exception;
+    public void updateUserPwd(@Param("user_password")String userPassword,@Param("email")String email) throws Exception;
     public String getCrewName(@Param("crew_num") int crewNum) throws Exception;
     public List<CrewBoardDTO> getMyboard(@Param("email")String email,@Param("start") int start,@Param("end") int end) throws Exception;
     public void deleteMyboard(int boardNum) throws Exception;
