@@ -102,6 +102,10 @@
                         if ($('#modalBg').hasClass('hiddenModalBg')) {
                             $('#modalBg').removeClass('hiddenModalBg');
 
+                            if($('#calendarModal').hasClass('calendarHidden')){
+                                $('#calendarModal').removeClass('calendarHidden');
+                            }
+
                             // 왜인지 모르겠는데 처음으로 Modal을 켜면 달력이 깨진채로 나와서...
                             // month 버튼을 눌러주니 제자리를 찾아가길래, modal이 띄워지면 month버튼이 같이 눌러지도록 설정해주었다.
 
@@ -237,7 +241,7 @@
                 <div id="sessionGroup" th:text="${dto.getCrew_name()}"></div>
                 <div id="sessionNum" th:text="${crewNum}" ></div>
                 <a onclick="sendLink()">크루 초대</a></div>
-            <div id="crewexit"><a onclick="crewExitClick()">크루 탈퇴</a></div>
+            <div id="crewexit"><a th:onclick="crewExitClick([[${isCaptain}]])">크루 탈퇴</a></div>
             <div class="dotline1"></div>
             <div class="accnum_sub">계좌번호</div>
             <div class="account_num" th:text="|${dto.crew_bank} ${dto.crew_accountid}|"></div>
@@ -459,7 +463,16 @@
     </div>
     <div id="modalBg" class="hiddenModalBg">
     <div id="exitModal" class="exitHidden">
-        <div id="choiceYN" class="exitVisible">
+        <div id="cannotExit" class="exitHidden">
+            <div class="closeX" onclick="crewExitCloseXClick()">×</div>
+            <div class="exitTitle">
+                선장은 탈퇴할 수 없습니다.
+            </div>
+            <div class="btnWrapper">
+                <button id="exitWarningOK" onclick="exitWarningOKClick()">확인</button>
+            </div>
+        </div>
+        <div id="choiceYN" class="exitHidden">
             <div class="closeX" onclick="crewExitCloseXClick()">×</div>
             <div class="exitTitle">
                 [ 앙큼불여우단 ] 크루에서 정말 탈퇴하시겠습니까?
@@ -487,7 +500,7 @@
             <button class="exitOK" onclick="exitNoOkClick()">확인</button>
         </div>
     </div>
-    <div id="calendarModal" class="calendarVisible">
+    <div id="calendarModal" class="calendarHidden">
         <div class="calModalTop">
             <div class="title">[[${dto.crew_name}]] 일정 조회</div>
             <div id="closeXBtn"> × </div>

@@ -349,41 +349,71 @@
      */
 
     // 크루 탈퇴 누르면 모달창 보이게 하기
-    function crewExitClick() {
+    function crewExitClick(captainYN) {
+        var modalBgDiv = document.getElementById('modalBg');
         var exitModalDiv = document.getElementById("exitModal");
+        var cannotExitDiv = document.getElementById('cannotExit');
         var choiceYNDiv = document.getElementById("choiceYN");
         var exitNoResultDiv = document.getElementById("exitNoResult");
         var exitYesResultDiv = document.getElementById("exitYesResult");
 
-        if(exitModalDiv.classList.contains("exitHidden")){
+        if (modalBgDiv.classList.contains("hiddenModalBg")) {
+            modalBgDiv.classList.remove("hiddenModalBg");
+        }
+
+        if (exitModalDiv.classList.contains("exitHidden")) {
             exitModalDiv.classList.remove("exitHidden");
             exitModalDiv.classList.add("exitVisible");
         }
 
-        // 크루탈퇴 처음 실행 시
-        // choiceYNDiv에서 '아니오'를 눌렀다가 다시 크루탈퇴를 하려 할 때,
-        // choiceYNDiv가 뜨지 않고 exitNoResultDiv 또는 exitYesResultDiv 가 뜨는 현상을
-        // 막기 위함
-        if(choiceYNDiv.classList.contains("exitHidden")) {
-            choiceYNDiv.classList.remove("exitHidden");
-            choiceYNDiv.classList.add("exitVisible");
+        if (captainYN === 'true') {
+
+            if (cannotExitDiv.classList.contains("exitHidden")) {
+                cannotExitDiv.classList.remove("exitHidden");
+                cannotExitDiv.classList.add("exitVisible");
+            }
+
+        } else {
+            // 크루탈퇴 처음 실행 시
+            // choiceYNDiv에서 '아니오'를 눌렀다가 다시 크루탈퇴를 하려 할 때,
+            // choiceYNDiv가 뜨지 않고 exitNoResultDiv 또는 exitYesResultDiv 가 뜨는 현상을
+            // 막기 위함
+            if (choiceYNDiv.classList.contains("exitHidden")) {
+                choiceYNDiv.classList.remove("exitHidden");
+                choiceYNDiv.classList.add("exitVisible");
+            }
+
+
+            if (exitNoResultDiv.classList.contains("exitVisible")) {
+                exitNoResultDiv.classList.remove("exitVisible");
+                exitNoResultDiv.classList.add("exitHidden");
+            }
+
+            if (exitYesResultDiv.classList.contains("exitVisible")) {
+                exitYesResultDiv.classList.remove("exitVisible");
+                exitYesResultDiv.classList.add("exitHidden");
+            }
         }
-
-
-        if(exitNoResultDiv.classList.contains("exitVisible")){
-            exitNoResultDiv.classList.remove("exitVisible");
-            exitNoResultDiv.classList.add("exitHidden");
-        }
-
-        if(exitYesResultDiv.classList.contains("exitVisible")){
-            exitYesResultDiv.classList.remove("exitVisible");
-            exitYesResultDiv.classList.add("exitHidden");
-        }
-
     }
+
+
+    function exitWarningOKClick() {
+        if(!$('#modalBg').hasClass('hiddenModalBg')){
+            $('#modalBg').addClass('hiddenModalBg');
+        }
+
+        if(!$('#cannotExit').hasClass('exitHidden')){
+            $('#cannotExit').addClass('exitHidden');
+        }
+    }
+
 
     function crewExitCloseXClick() {
         var exitModalDiv = document.getElementById("exitModal");
+
+        if(!$('#modalBg').hasClass('hiddenModalBg')){
+            $('#modalBg').addClass('hiddenModalBg');
+        }
 
         if(exitModalDiv.classList.contains("exitVisible")){
             exitModalDiv.classList.remove("exitVisible");
@@ -413,7 +443,9 @@
     function exitYesOkClick() {
 
         var exitModalDiv = document.getElementById("exitModal");
-
+        if(!$('#modalBg').hasClass('hiddenModalBg')){
+            $('#modalBg').addClass('hiddenModalBg');
+        }
         exitModalDiv.classList.remove("exitVisible");
         exitModalDiv.classList.add("exitHidden");
        
@@ -443,7 +475,9 @@
 
     function exitNoOkClick() {
         var exitModalDiv = document.getElementById("exitModal");
-
+        if(!$('#modalBg').hasClass('hiddenModalBg')){
+            $('#modalBg').addClass('hiddenModalBg');
+        }
         exitModalDiv.classList.remove("exitVisible");
         exitModalDiv.classList.add("exitHidden");
 

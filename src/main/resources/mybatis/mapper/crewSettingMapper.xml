@@ -25,6 +25,31 @@
         where CREW_NUM=#{crew_num}
     </update>
 
+<!-- green 항해 중단하기 -->
+    <!-- 유예일 추가하기 -->
+    <update id="updateCrewDelDate" parameterType="int">
+        update CREW
+        set
+            CREW_DELDATE = sysdate
+        where CREW_NUM = #{crewNum}
+    </update>
+
+    <!-- 항해 중단 취소하기 -->
+    <update id="cancelCrewDelDate" parameterType="int">
+        update CREW
+        set
+            CREW_DELDATE = null
+        where CREW_NUM = #{crewNum}
+    </update>
+
+    <!-- 크루 삭제하기 -->
+    <delete id="deleteCrew" parameterType="int">
+        delete CREW where CREW_NUM = #{crewNum}
+    </delete>
+
+
+
+
 <!-- green 크루 일정 관리 -->
     <!--    해당 크루의 스케줄을 불러오는 쿼리 -->
     <select id="getCrewScheList" parameterType="int" resultType="com.cruise.project_cruise.dto.ScheduleDTO">
@@ -97,6 +122,11 @@
         delete CREW_MEMBER where CMEM_EMAIL=#{email} and CREW_NUM = #{crew_num}
     </delete>
 
+<!-- green 잔액 1/N하기 -->
+    <!-- 크루 선원들의 납입횟수의 합을 구하기 -->
+    <select id="getMemberPayCountSum" parameterType="int" resultType="int">
+        select nvl(sum(REAL_PAYCOUNT),0) from CREW_MEMBER where CREW_NUM = #{crewNum}
+    </select>
 
 
 

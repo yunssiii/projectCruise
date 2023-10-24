@@ -13,6 +13,9 @@ function visibleModalFunction(modalDOM) {
 
 
 
+
+
+
 // 크루 삭제할지말지 결정하는 창 ========================================================================
 
 
@@ -37,6 +40,9 @@ var modalBack = document.getElementById('modalBackground');
 
     var memberDivNBtn = document.getElementById('memberDivNBtn');
     var gotoMemberBanBtn = document.getElementById('gotoMemberBanBtn');
+
+
+
     function deleteYesBtnClick(accountBalance, crewMemNum) {
                         // 계좌 잔액        크루 선원 수
 
@@ -80,21 +86,18 @@ var modalBack = document.getElementById('modalBackground');
             return;
         }
 
-        alert("삭제 처리하는 자바스크립트 넣기"); // FIXME 삭제 처리하는 링크로 이동
-
-        var crewDeleteYNDiv = document.getElementById('crewDeleteYNDiv');
-        var crewDeleteCompleteDiv = document.getElementById('crewDeleteComplete');
-
-
-        hiddenModalFunction(crewDeleteYNDiv);
-        visibleModalFunction(crewDeleteCompleteDiv);
-
+        window.location.href='http://localhost:8082/crew/setting/updateDelDate?crewNum=' + crewNum;
 
     }
 
 
+
+
+
+
     function modalWindowClose() {
         hiddenModalFunction(modalBack);
+        hiddenModalFunction(cannotDeleteModal);
     }
 
 
@@ -173,79 +176,8 @@ var modalBack = document.getElementById('modalBackground');
 // 삭제 결정 후 유예기간 동안 뜨는 창 =============================================================================================================
 
     // 항해 중단 일자, 유예기간 남은 일자 뜨는 창
-    var deleteRequestDateDiv = document.getElementById('deleteRequestDate');
-    var deleteCompleteDDayDiv = document.getElementById('deleteCompleteDDay');
-
-    function deleteDateStrMaker(DBdeleteRequestDate) {
-        var DBdeleteRequestDateRep = DBdeleteRequestDate.replace(/ /g,'T');
-        var deleteReqFullDate = new Date(DBdeleteRequestDateRep);
-
-        var delReqYear = deleteReqFullDate.getFullYear();
-        var delReqMonth = deleteReqFullDate.getMonth()+1;
-        var delReqDate = deleteReqFullDate.getDate();
 
 
-        var deleteRequestDateStr
-            = delReqYear + "년 "
-                + delReqMonth + "월 "
-                + delReqDate + "일 ";
-        deleteRequestDateDiv.textContent = deleteRequestDateStr;
-
-
-
-        var deleteFullDate = deleteReqFullDate.setDate(deleteReqFullDate.getDate()+3)
-        var today = new Date();
-
-
-        var remaining = deleteFullDate - today;
-        var remainingSeconds = Math.floor((remaining / 1000) % 60);
-        var remainingMinutes = Math.floor((remaining / (1000 * 60)) % 60);
-        var remainingHours = Math.floor((remaining / (1000 * 60 * 60)) % 24);
-        var remainingDays = Math.floor(remaining / (1000 * 60 * 60 * 24));
-
-        remainingSeconds = (remainingSeconds<10) ? "0" + remainingSeconds : remainingSeconds;
-        remainingMinutes = (remainingMinutes<10) ? "0" + remainingMinutes : remainingMinutes;
-        remainingHours = (remainingHours<10) ? "0" + remainingHours : remainingHours;
-
-        deleteCompleteDDayDiv.textContent
-            = remainingDays + "일 " + remainingHours + "시간 " + remainingMinutes + "분 " + remainingSeconds + "초";
-
-
-    }
-
-    // 항해 중단 취소를 눌렀을 때
-
-    var crewDeleteCancelModal = document.getElementById("crewDeleteCancelModal")
-    function cancelDeleteCrewBtnClick() {
-        visibleModalFunction(crewDeleteCancelModal);
-        visibleModalFunction(modalBack);
-    }
-
-    // 항해 다시 시작 버튼을 눌렀을 때
-    var cancelWarningTitle = document.getElementById('cancelWarningTitle');
-    var turnBackCrewBtn = document.getElementById('turnBackCrewBtn');
-    var turnBackBtn = document.getElementById('turnBackBtn');
-    var cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
-    function cancelDeleteBtnClick() {
-
-        cancelWarningTitle.textContent = "항해를 다시 시작합니다.";
-        turnBackCrewBtn.classList.remove('hidden');
-        cancelDeleteBtn.classList.add('hidden');
-        turnBackBtn.classList.add('hidden');
-    }
-
-    // 크루로 돌아가기 버튼을 눌렀을 때
-
-    function turnBackBtnClick() {
-
-        modalWindowClose(); // 모달 끄고
-
-        // FIXME 유예시작일을 없애는 메소드를 실행하는 링크로 이동
-        // FIXME 그 후에 크루로 돌아가도록 하기
-
-        window.location.href = '../../../templates/crew/crewmain.html'
-
-    }
 
 
 

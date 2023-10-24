@@ -185,6 +185,10 @@
         font-weight: bold;
     }
 
+    #sendKaKao, #sendAlert {
+        margin-top:8px !important;
+    }
+
 
 
 

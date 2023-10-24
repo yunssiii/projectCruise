@@ -2,9 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>크루즈 :: 잘못된 접근입니다.</title>
+    <title th:if="${status!='stopSailingCrew'}">크루즈 :: 잘못된 접근입니다.</title>
+    <title th:if="${status=='stopSailingCrew'}">크루즈 :: [[${dto.crew_name}]] 항해 중단 중...</title>
 </head>
+<!-- 제이쿼리 cdn-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="/css/crewWrongAccess/stopSailingCrew.css"/>
+
 <style>
 
     body {
@@ -38,22 +43,62 @@
 </style>
 
 <body>
-<div class="allBox">
+<div th:if="${status=='stopSailingCrew'}" style="margin: 20vh auto; text-align: center">
+    <div id="crewNum" class="hidden">[[${dto.crew_num}]]</div>
+    <div id="crewDeleteComplete">
+        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20activities/Person%20Rowing%20Boat%20Light%20Skin%20Tone.png"
+             alt="Person Rowing Boat Light Skin Tone" width="200" height="200" />
+        <div class="title"> [ [[${dto.getCrew_name}]] ] 의 항해가 중단되었습니다. </div>
+        <div class="stayPeriodWarning">
+            <div>항해 중단 결정일자는 <div id="deleteRequestDate">[[${delDecideDateStr}]]</div>이며, </div>
+            <div>항해 중단 확정까지 <div id="deleteCompleteDDay">2일 23시간 59분 58초</div> 남았습니다.</div>
+        </div>
+        <button id="cancelDeleteCrewBtn" onclick="cancelDeleteCrewBtnClick()">항해 중단 취소</button>
+    </div>
+    <div id="modalBackground" class="hiddenModal">
+        <div id="crewDeleteCancelModal" class="hiddenModal">
+            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Warning.png"
+                 alt="Warning" width="40" height="40" />
+            <div id="cancelWarningTitle">항해를 다시 시작할까요?</div>
+            <div class="cancelDeleteBtn">
+                <button id="turnBackBtn" onclick="modalWindowClose()" >돌아가기</button>
+                <button id="turnBackCrewBtn" onclick="turnBackBtnClick()" class="hidden">확인</button>
+                <button id="cancelDeleteBtn" onclick="cancelDeleteBtnClick()">항해 다시 시작</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:if="${status!='stopSailingCrew'}" class="allBox">
     <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Anxious%20Face%20with%20Sweat.png"
          alt="Anxious Face with Sweat" width="200" height="200" />
-            <h1> 잘못된 접근입니다! </h1>
-            <div th:if="${status=='logout'}">
-                <div>로그인을 해주세요.</div>
-                <button type="button" onclick="location.href='http://localhost:8082/login';">로그인 하러가기</button>
-            </div>
-            <div th:if="${status=='notMember'}">
-                <div>해당 크루의 선원만 들어올 수 있어요.</div>
-                <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
-            </div>
-            <div th:if="${status=='notCaptain'}">
-                <div>선장님만 크루를 관리할 수 있어요!</div>
-                <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
-            </div>
+    <h1> 잘못된 접근입니다! </h1>
+    <div th:if="${status=='logout'}">
+        <div>로그인을 해주세요.</div>
+        <button type="button" onclick="location.href='http://localhost:8082/login';">로그인 하러가기</button>
+    </div>
+    <div th:if="${status=='notMember'}">
+        <div>해당 크루의 선원만 들어올 수 있어요.</div>
+        <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
+    </div>
+    <div th:if="${status=='notCaptain'}">
+        <div>선장님만 크루를 관리할 수 있어요!</div>
+        <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
+    </div>
+    <div th:if="${status=='wrongCrewAccess'}">
+        <div>존재하지 않는 크루에요.</div>
+        <button type="button" onclick="window.history.back();">이전페이지로 돌아가기</button>
+    </div>
 </div>
 </body>
+
+<script type="text/javascript" src="/js/crewWrongAccess/stopSailingCrew.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 유예기간 실시간으로 보여주기 위한 스크립트
+    setInterval(function() {
+        deleteDateStrMaker(/*[[${delDecideDateStr}]]*/)
+    }, 1000);
+    /*]]>*/
+</script>
 </html>

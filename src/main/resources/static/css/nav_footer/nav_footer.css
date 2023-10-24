@@ -17,8 +17,8 @@ body {
 	font-size: 25px;
 	box-shadow: 0px 10px 20px grey;
 	position: relative;
-    z-index: 1;
-
+    z-index: 2;
+	/* 크루 상세페이지에서 알림창이 가려지길래 수정..!*/
 }
 
 
@@ -33,7 +33,7 @@ body {
 
 .logo_cruise {
 	text-decoration: none;
-	font-family: 'Black Han Sans', sans-serif;
+	font-family: 'Black Han Sans', sans-serif !important;
 	font-size: 40px;
 	font-weight: 500;
 	color: #0C0CCA;
@@ -120,7 +120,7 @@ footer{
 	min-width: 160px;
 	border-radius: 10px;
 	border: 2px solid #FFD966;
-	z-index: 1;
+	z-index: 2;
 	font-size: 15px; 
 	width: 64px;
 	

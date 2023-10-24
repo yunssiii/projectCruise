@@ -73,7 +73,7 @@
 
     #memberBan .memTableContainer table tr td:nth-child(4), #memberBan .memTableContainer table tr th:nth-child(4) {
         /* 이메일 */
-        width: 14vw;
+        width: 13vw;
     }
 
     #memberBan .memTableContainer table tr td:nth-child(5), #memberBan .memTableContainer table tr th:nth-child(5) {
@@ -92,8 +92,8 @@
     }
 
     #memberBan .memTableContainer table tr td:nth-child(7), #memberBan .memTableContainer table tr th:nth-child(7) {
-        /* 납입횟수 */
-        width: 5vw;
+        /* 납입의무횟수 */
+        width: 6vw;
     }
 
     #memberBan .memTableContainer table tr td:nth-child(8), #memberBan .memTableContainer table tr th:nth-child(8) {

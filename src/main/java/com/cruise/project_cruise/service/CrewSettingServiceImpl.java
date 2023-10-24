@@ -30,6 +30,17 @@ public class CrewSettingServiceImpl implements CrewSettingService {
     }
 
     @Override
+    public void stopSailing(int crewNum) throws Exception {
+        crewSettingMapper.updateCrewDelDate(crewNum); // 항해중단일자 추가하기
+        // FIXME 3일 뒤에 삭제하는 코드 넣기
+    }
+
+    @Override
+    public void cancelStopSailing(int crewNum) throws Exception {
+        crewSettingMapper.cancelCrewDelDate(crewNum);
+    }
+
+    @Override
     public void updateCrewInfo(CrewDTO crewDTO) throws Exception {
         crewSettingMapper.updateCrewInfo(crewDTO);
     }
@@ -62,5 +73,10 @@ public class CrewSettingServiceImpl implements CrewSettingService {
     @Override
     public void deleteMember(String banEmail, int crewNum) throws Exception {
         crewSettingMapper.deleteMember(banEmail,crewNum);
+    }
+
+    @Override
+    public int getMemberPayCountSum(int crewNum) throws Exception {
+        return crewSettingMapper.getMemberPayCountSum(crewNum);
     }
 }

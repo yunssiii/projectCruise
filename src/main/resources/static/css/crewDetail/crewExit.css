@@ -6,9 +6,14 @@
 }
 
 .exitVisible {
-    display: inline-block;
+    display: block;
     height: auto;
-    /*transition: 0.2s;*/
+}
+
+#exitWarningOK {
+    margin-top: 50px !important;
+    background-color: #0C0CCA !important;
+    color: white !important;
 }
 
 

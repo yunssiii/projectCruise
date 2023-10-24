@@ -3,6 +3,7 @@ package com.cruise.project_cruise.service;
 import com.cruise.project_cruise.dto.TemplateDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.exception.TransferLackOfBalanceException;
+import com.cruise.project_cruise.exception.TransferMoneyZeroException;
 import com.cruise.project_cruise.exception.TransferNoDataException;
 import com.cruise.project_cruise.mapper.DevelopOpenBankUsingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,15 +152,18 @@ public class DevelopOpenBankUsingServiceImpl implements DevelopOpenBankUsingServ
         } else if (transferMoney==null) {
             System.out.println("[OpenBanking] Rollback - 거래금액 없음");
             throw noDataError;
-        } else if (transferMoney==0
-                || withdrawDTO.getOpenuse_outmoney()==0 || depositDTO.getOpenuse_inmoney()==0) {
-            System.out.println("[OpenBanking] Rollback - 거래금액이 0임");
-            throw noDataError;
         } else if (transferContent==null || transferContent.equals("")
                 || withdrawDTO.getOpenuse_content()==null || withdrawDTO.getOpenuse_content().equals("")
                 || depositDTO.getOpenuse_content()==null || depositDTO.getOpenuse_content().equals("")) {
             System.out.println("[OpenBanking] Rollback - 거래내용 없음");
             throw noDataError;
+        }
+
+        TransferMoneyZeroException moneyZeroException = new TransferMoneyZeroException();
+        if (transferMoney==0
+                || withdrawDTO.getOpenuse_outmoney()==0 || depositDTO.getOpenuse_inmoney()==0) {
+            System.out.println("[OpenBanking] Rollback - 거래금액이 0임");
+            throw moneyZeroException;
         }
 
         // 2. 잔액이 부족할 경우
