@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/css/nav_footer/nav_footer.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook.css" />
 <link rel="stylesheet" type="text/css" href="/css/moim/passbook_account_modal.css" />
 <link rel="stylesheet" href="/css/mypage/addAccount_banks.css"/>
@@ -23,7 +22,7 @@
 
 <body>
 
-<nav th:replace="navbar :: navbarFragmant"></nav>
+<th:block th:replace="nav_footer/nav_footer :: header"></th:block>
 
 	<main>
 		<form action="" method="post" name="myForm">
@@ -350,9 +349,9 @@
 		</div>
 	</form>
 
-<nav th:replace="navbar :: footerFragmant"></nav>
+<th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
+<th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
-<script type="text/javascript" src="/js/nav.js"></script>
 <script th:inline="javascript" th:src="@{/js/mypage/mypage_account.js}"></script>
 <script type="text/javascript" src="/js/moim/passbook.js"></script>
 
