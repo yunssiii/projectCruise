@@ -57,7 +57,8 @@ var randomImagePath = getRandomImagePath(imagePaths);
                 <div id="modal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h2>Cruise 대표 이미지나 로고 같은거 넣을자리</h2>
+            <a class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+                       </a>
         </div>
         <img src="${randomImagePath}" alt="Family Man, Woman, Girl, Boy" width="200" height="200" />
         <p class="p">${group} 모임 통장에 초대되었습니다.</p>

@@ -104,8 +104,8 @@
 			<hr>
 
 			<tbody id="lists">
-			<tr th:if="${#lists.size(lists)} > 0" th:each="dto:${lists}" th:class="${dto.notice == 1} ? 'notice' : ''">
-				<td class="num" th:text="${dto.rnum}">번호</td>
+			<tr th:if="${#lists.size(lists)} > 0" th:each="dto, stat:${lists}" th:class="${dto.notice == 1} ? 'notice' : ''">
+				<td class="num" th:text="${crewMaxNum - (stat.count+(pageNum-1)*10)+1}">번호</td>
 				<td class="subject">
 					<a th:href="@{${articleUrl}} + '&num=' + @{${dto.board_num} + '&crewName=' + ${boardTitle['CREW_NAME']}}"
 					   th:text="${dto.board_subject}">제목</a>

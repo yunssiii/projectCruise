@@ -92,7 +92,7 @@ var randomImagePath = getRandomImagePath(imagePaths);
 
           const accessToken = localStorage.getItem('accessToken');
                           if (!accessToken) {
-                              window.location.href = "/accept";
+                              window.location.href = "/accept2";
                           } else {
 
                                      const rejectXhr = new XMLHttpRequest();

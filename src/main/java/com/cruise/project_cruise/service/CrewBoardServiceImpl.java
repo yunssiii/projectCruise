@@ -20,6 +20,13 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 	}
 
 	@Override
+	public int crewmaxNum(int crew_num) throws Exception {
+		return mapper.crewMaxNum(crew_num);
+	}
+
+
+
+	@Override
 	public void insertData(CrewBoardDTO dto) throws Exception {
         mapper.insertData(dto);
 	}
@@ -32,8 +39,8 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 	@Override
 	public List<CrewBoardDTO> getLists(int start, int end,
 									   String searchKey, String searchValue,
-									   int crew_num) throws Exception {
-		return mapper.getLists(start, end, searchKey, searchValue, crew_num);
+									   int crew_num, int currentPage, int totalPage) throws Exception {
+		return mapper.getLists(start, end, searchKey, searchValue, crew_num,currentPage,totalPage);
 	}
 
 	@Override
