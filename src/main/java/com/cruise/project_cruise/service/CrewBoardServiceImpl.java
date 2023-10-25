@@ -25,8 +25,6 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 		return mapper.crewMaxNum(crew_num);
 	}
 
-
-
 	@Override
 	public void insertData(CrewBoardDTO dto) throws Exception {
         mapper.insertData(dto);
@@ -77,6 +75,11 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 	@Override
 	public String getUserName(String email) throws Exception {
 		return mapper.getUserName(email);
+	}
+
+	@Override
+	public String getFileName(int board_num) throws Exception {
+		return mapper.getFileName(board_num);
 	}
 
 }
