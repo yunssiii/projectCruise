@@ -57,39 +57,7 @@ function sendIt(){
         crewGoalInput = null;
     }
 
-    // 전환 신청 완료 모달창 열기
-    const modal = document.getElementById("modal")
-    modal.style.display = "flex";
-
-    // 모임통장 전환 완료 모달--------------------------------------------
-    // 모임통장 이름 전달
-    var crewNameValue = document.getElementById("crewName").value;
-    document.getElementById("crewNameTd").innerText = crewNameValue;
-
-    // 은행명, 계좌번호 전달
-    if (checkedBox === 'checkedOld') {  // 기존 계좌 선택한 경우
-        var accountSelect = document.getElementById("my_account");
-        var accountValue = accountSelect.options[accountSelect.selectedIndex].text;
-        document.getElementById("accountTd").innerText = accountValue;
-    } else {    // 새로운 계좌 선택한 경우
-        document.getElementById("accountTd").innerText = selectedBank + " " + accountNumber;
-        console.log("입력한 계좌번호: " + accountNumber);
-    }
-
-    // 가입일(현재 시각) 전달
-    var createdTdElement = document.getElementById("createdTd");
-    var currentDate = new Date();
-    var formattedDate = currentDate.toLocaleString();
-    createdTdElement.textContent = formattedDate;
-    // --------------------------------------------모임통장 전환 완료 모달
-}
-
-// 전환 신청 완료 모달창을 닫을 때 데이터 전달
-const closeBtn = document.querySelector(".close-area")
-closeBtn.addEventListener("click", e => {
-    const modal = document.getElementById("modal")
-    modal.style.display = "none"
-
+    // 서버로 보낼 데이터를 HTML 폼에 추가----------------------
     // 선택한 체크 박스의 값을 hidden으로 넘겨줌(기존 계좌 or 새 계좌)
     const hiddenField = document.createElement("input");
     hiddenField.type = "hidden";
@@ -114,9 +82,61 @@ closeBtn.addEventListener("click", e => {
         hiddenField2.value = crew_accountidValue;
         document.myForm.appendChild(hiddenField2);
     }
+    // ----------------------서버로 보낼 데이터를 HTML 폼에 추가
 
-    document.myForm.action = "/moim/passbook";
-    document.myForm.submit();
+    // 폼 데이터를 객체로 가져옴
+    var formData = new FormData(f);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/moim/passbook');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        showModal();
+      } else {
+        console.log("passbook 전환 완료 실패");
+      }
+    };
+
+    // 데이터를 전송
+    xhr.send(formData);
+
+
+    // 모임통장 전환 완료 모달--------------------------------------------
+    // 모임통장 이름 전달
+    var crewNameValue = document.getElementById("crewName").value;
+    document.getElementById("crewNameTd").innerText = crewNameValue;
+
+    // 은행명, 계좌번호 전달
+    if (checkedBox === 'checkedOld') {  // 기존 계좌 선택한 경우
+        var accountSelect = document.getElementById("my_account");
+        var accountValue = accountSelect.options[accountSelect.selectedIndex].text;
+        document.getElementById("accountTd").innerText = accountValue;
+    } else {    // 새로운 계좌 선택한 경우
+        document.getElementById("accountTd").innerText = selectedBank + " " + accountNumber;
+        console.log("입력한 계좌번호: " + accountNumber);
+    }
+
+    // 가입일(현재 시각) 전달
+    var createdTdElement = document.getElementById("createdTd");
+    var currentDate = new Date();
+    var formattedDate = currentDate.toLocaleString();
+    createdTdElement.textContent = formattedDate;
+    // --------------------------------------------모임통장 전환 완료 모달
+}
+
+// 전환 신청 완료 모달창 열기
+function showModal() {
+    const modal = document.getElementById("modal");
+    modal.style.display = "flex";
+}
+
+// 전환 신청 완료 모달창 닫기
+const closeBtn = document.querySelector(".close-area")
+closeBtn.addEventListener("click", e => {
+    const modal = document.getElementById("modal")
+    modal.style.display = "none"
+
+    window.location.href = '/mypage/mypage_all';
 });
 
 //체크박스 선택시 활성화(기존계좌)
