@@ -423,8 +423,22 @@
 
     // 크루 탈퇴 모달에서 "예" 누르면 exitYesResult 보이게 하기
     function exitYesClick() {
-        // FIXME 탈퇴처리하기
-        exitCompleteModal();
+
+        var crewExitReq = $.ajax({
+            url: "/crew/crewExitOK",
+            method: "POST",
+            data: {
+                crewNum:crewNum,
+                userEmail:userEmail
+            }
+        })
+
+        crewExitReq.done(function(result) {
+            if(result === 1) {
+                exitCompleteModal();
+            }
+        })
+
     }
 
     function exitCompleteModal() {
@@ -437,6 +451,8 @@
             exitYesResultDiv.classList.remove("exitHidden");
             exitYesResultDiv.classList.add("exitVisible");
         }
+
+
     }
     
 
@@ -448,12 +464,8 @@
         }
         exitModalDiv.classList.remove("exitVisible");
         exitModalDiv.classList.add("exitHidden");
-       
-        /*
-            FIXME
-             위는 임시방편 자바스크립트이므로,
-             위 스크립트를 지우고 마이페이지로 돌아가게 하기
-         */
+
+        window.location.href = 'http://localhost:8082/'
     
     }
     

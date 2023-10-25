@@ -1,5 +1,6 @@
 package com.cruise.project_cruise.controller.crew;
 
+import com.cruise.project_cruise.controller.HomeController;
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
@@ -7,6 +8,8 @@ import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,6 +36,7 @@ public class CrewController {
     @Autowired
     private CrewSettingService crewSettingService;
 
+    final Logger logger = LoggerFactory.getLogger(CrewController.class); // 로그
 
 // red 오류페이지
     @RequestMapping("/wrongAccess")
@@ -45,9 +49,12 @@ public class CrewController {
 
 // red 크루 상세페이지
 
+
     // green 크루 상세페이지 출력
     @RequestMapping(value = "")
     public ModelAndView crewMain(HttpSession session, HttpServletRequest request) throws Exception {
+
+
 
         // 크루 상세페이지 메인화면
         ModelAndView mav = new ModelAndView();
@@ -67,9 +74,15 @@ public class CrewController {
          * 6. 일정 간편조회
          */
 
+        // 세션에서 접속한 유저의 이메일 받기
+        String userEmail = (String) session.getAttribute("email");
+        logger.info(userEmail + " 크루 상세페이지 접속");
+
+
         // bold 0. 잘못된 crewNum으로 들어갔을 때
         if (dto == null) {
-            System.out.println("[CrewController] 잘못된 크루 경로에 접근");
+
+            logger.info( userEmail + " 잘못된 크루 경로에 접근");
             mav.addObject("status", "wrongCrewAccess");
             mav.setViewName("crew/wrongAccess");
 
@@ -77,11 +90,10 @@ public class CrewController {
         }
 
         // bold 0. 크루원만 해당크루 상세페이지에 접속가능하게 처리하기 - 완료
-        // 1. 세션에서 크루원의 이메일 받기
-        String userEmail = (String) session.getAttribute("email");
+
         // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
         if (userEmail == null || userEmail.isEmpty()) {
-            System.out.println("[CrewController] 로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 에 접근");
+            logger.info( "로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 에 접근");
             mav.addObject("status", "logout");
             mav.setViewName("crew/wrongAccess");
 
@@ -89,7 +101,7 @@ public class CrewController {
         }
 
         if (!crewDetailService.isMember(crewNum, userEmail)) {
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 " + userEmail + " 접근 실패");
+            logger.info(crewNum + " - " + dto.getCrew_name() + "에 " + userEmail + " 접근 실패");
             mav.addObject("status", "notMember");
             mav.setViewName("crew/wrongAccess");
 
@@ -117,23 +129,24 @@ public class CrewController {
                 // 결과가 양수면 today가 더 이전 (삭제 전)
 
             if(dateCompare<=0) {
-                System.out.println("[CrewController] 삭제된 크루 경로에 접근");
+                logger.info(userEmail + " 삭제된 크루 경로에 접근");
                 mav.addObject("status", "wrongCrewAccess");
                 mav.setViewName("crew/wrongAccess");
                 return mav;
             }
 
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "은 항해중단 유예 중...");
+            logger.info(crewNum + " - " + dto.getCrew_name() + "은 항해중단 유예 중...");
+
             mav.setViewName("redirect:/crew/setting/sailingStopCrew?crewNum=" + crewNum);
             return mav;
         }
 
         // bold 0. 크루 캡틴에게만 크루관리 뜨게 하기 - 완료
         if (crewDetailService.isCaptain(crewNum, userEmail)) {
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 선장 " + userEmail + " 접속");
+            logger.info(crewNum + " - " + dto.getCrew_name() + "에 선장 " + userEmail + " 접속");
             mav.addObject("isCaptain", "true");
         } else {
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "에 선원 " + userEmail + " 접속");
+            logger.info(crewNum + " - " + dto.getCrew_name() + "에 선원 " + userEmail + " 접속");
             mav.addObject("isCaptain", "false");
         }
 
@@ -213,25 +226,31 @@ public class CrewController {
         // crewNum이랑 userEmail, 납입횟수를 받아서
         // 그 행에 해당하는 실제납입횟수에 +n 합시다
         crewDetailService.updateCrewMemberPayment(crewNum, userEmail, payment, payCount);
-        System.out.println("[CrewController] [" + crewNum + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
     }
 
 
     // green 회원 탈퇴 진행
     @RequestMapping(value = "/crewExitOK")
-    public ModelAndView crewExit() throws Exception {
-        ModelAndView mav = new ModelAndView();
+    public int crewExit(@RequestParam("crewNum") int crewNum, @RequestParam("userEmail") String userEmail) throws Exception {
+        int exitSuccess = 0;
 
-        // FIXME 현재 로그인한 멤버의 이메일, CrewNum 가져오기
-        // FIXME 현재 로그인한 멤버가
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "의 크루 탈퇴 시도");
+        // 선장인지 선원인지 먼저 확인
+        boolean isCaptain = crewDetailService.isCaptain(crewNum,userEmail);
 
-        String cmemEmail = ""; // 가상 이메일
-        int crewNum = 0; // 가상 크루넘버
+        if(isCaptain) {
+            logger.info("크루의 선장은 탈퇴할 수 없음.");
+            return exitSuccess;
+        }
 
-        crewDetailService.deleteCrewMember(cmemEmail, crewNum);
-        mav.setViewName("redirect:/");
+        crewDetailService.deleteCrewMember(userEmail, crewNum);
+        exitSuccess = 1;
+        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + " 크루 탈퇴 완료");
 
-        return mav;
+        return exitSuccess;
     }
 
 }

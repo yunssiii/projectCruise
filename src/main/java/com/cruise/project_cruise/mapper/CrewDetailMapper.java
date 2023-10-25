@@ -14,7 +14,7 @@ public interface CrewDetailMapper {
     public int isMember(@Param("crewNum") int crewNum, @Param("userEmail") String userEmail) throws Exception;
     public int isCaptain(@Param("crewNum") int crewNum, @Param("userEmail") String userEmail) throws Exception;
     public List<MyAccountDTO> getUserAccountList(@Param("userEmail") String userEmail) throws Exception;
-    public void deleteCrewMember(@Param("memberEmail") String cmemEmail, @Param("crewNum") int crewNum) throws Exception;
+    public void deleteCrewMember(@Param("cmemEmail") String cmemEmail, @Param("crewNum") int crewNum) throws Exception;
     public CrewDTO getCrewData(int crewNum) throws Exception;
     public String getCaptainName(String captainEmail) throws Exception;
     public int getAccountBalance(String crewAccount) throws Exception;
