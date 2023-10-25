@@ -229,6 +229,7 @@
 
         var crewNum = $('#crewNum').val();
         var crewName = $('#crewNameStr').val().substr(0,2);
+        var userNum = $('#userNum').val();
         var transferMoney = $('#payMoney').text().replace(",","");
         var transferDateObj = new Date();
 
@@ -251,7 +252,7 @@
                 depositAccount:crewAccount,
                 transferDate:transferDateStr,
                 transferMoney:transferMoney,
-                transferContent:crewNum+crewName+"_"+userName // 크루이름 3글자만 잘라서 넣음
+                transferContent:crewNum+userNum+"_"+userName // 크루이름 3글자만 잘라서 넣음
             }
         })
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DevelopOpenBankUsingServiceImpl implements DevelopOpenBankUsingService {
@@ -21,6 +22,26 @@ public class DevelopOpenBankUsingServiceImpl implements DevelopOpenBankUsingServ
     @Override
     public List<OpenBankUsingDTO> getUsingList(String selectedAccount) throws Exception {
         return developOpenBankUsingMapper.getUsingList(selectedAccount);
+    }
+
+    @Override
+    public List<OpenBankUsingDTO> searchInquiryForDate(String selectedAccount, String startDate, String endDate) throws Exception {
+        return developOpenBankUsingMapper.searchInquiryForDate(selectedAccount,startDate,endDate);
+    }
+
+    @Override
+    public List<OpenBankUsingDTO> searchInquiryForContent(String selectedAccount, String content) throws Exception {
+        return developOpenBankUsingMapper.searchInquiryForContent(selectedAccount,content);
+    }
+
+    @Override
+    public List<OpenBankUsingDTO> searchInquiryForDateAndContent(String selectedAccount, String startDate, String endDate, String content) throws Exception {
+        return developOpenBankUsingMapper.searchInquiryForDateAndContent(selectedAccount,startDate,endDate,content);
+    }
+
+    @Override
+    public Map<String,Integer> searchSumForDateAndContent(String selectedAccount, String startDate, String endDate, String content) throws Exception {
+        return developOpenBankUsingMapper.searchSumForDateAndContent(selectedAccount,startDate,endDate,content);
     }
 
     @Override

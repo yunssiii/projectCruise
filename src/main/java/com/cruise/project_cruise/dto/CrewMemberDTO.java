@@ -22,6 +22,7 @@ public class CrewMemberDTO {
     *
     * */
 
+    private int cmem_num;
     private int crew_num;
     private String cmem_email;
     private String captain_YN;

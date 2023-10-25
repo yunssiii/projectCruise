@@ -20,5 +20,10 @@ public class CrewMemberInviteServiceImpl implements CrewMemberInviteService{
     public String selectCaptain(CrewMemberDTO dto) throws Exception {
         return mapper.selectCaptain(dto);
     }
+
+    @Override
+    public int getCmemNumMaxNum() throws Exception {
+        return mapper.getCmemNumMaxNum();
+    }
 }
 

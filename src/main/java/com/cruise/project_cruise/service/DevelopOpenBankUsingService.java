@@ -10,11 +10,31 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface DevelopOpenBankUsingService {
 
     public List<OpenBankUsingDTO> getUsingList(String selectedAccount) throws Exception;
+    public List<OpenBankUsingDTO> searchInquiryForDate(
+            String selectedAccount,
+            String startDate,
+            String endDate) throws Exception;
+    public List<OpenBankUsingDTO> searchInquiryForContent(
+            String selectedAccount,
+            String content) throws Exception;
+    public List<OpenBankUsingDTO> searchInquiryForDateAndContent(
+            String selectedAccount,
+            String startDate,
+            String endDate,
+            String content) throws Exception;
+
+    public Map<String,Integer> searchSumForDateAndContent(
+            String selectedAccount,
+            String startDate,
+            String endDate,
+            String content) throws Exception;
+
     public void insertUsing(OpenBankUsingDTO openBankUsingDTO) throws Exception;
     public int getUsingMaxNum() throws Exception;
     public int getBalance(int openUseNum, String selectedAccount);

@@ -20,6 +20,8 @@
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
 
+
+
 <!--    &lt;!&ndash; 네비게이터 바 CSS &ndash;&gt;-->
 <!--    <link rel="preconnect" href="https://fonts.googleapis.com">-->
 <!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
@@ -302,27 +304,69 @@
                     <div class="payReceipt">
                         <hr class="topBottomLine">
                         <div class="titleContainer">
-                            <select class="month" name="payViewMonth">
+                            <select class="month" id="payViewMonth" name="payViewMonth">
                                 <!-- FIXME 월수만큼 불러오기 -->
-                                <script>
+                                <script th:inline="javascript">
+                                    /*<![CDATA[*/
                                     /* 크루 월별회비조회 select부분 월 불러오기*/
+
+                                    // 최근 5개월 회비내역 까지만 불러오기
                                     var nowFullDate = new Date();
+                                    var nowFullYear = nowFullDate.getFullYear();
                                     var nowMonth = nowFullDate.getMonth() + 1;
+                                    var fullDates = [];
 
-                                    var crewCreated = '2023-08-08 21:59:03'
+                                    var crewCreated = [[${dto.crew_created}]]
+                                    var crewCreatedYear = crewCreated.substring(0,5);
+                                    crewCreatedYear = parseInt(crewCreatedYear);
                                     var crewCreatedMonth = crewCreated.substring(5,7);
-                                    crewCreatedMonth = parseInt(crewCreatedMonth)
+                                    crewCreatedMonth = parseInt(crewCreatedMonth);
 
-                                    for(var i=nowMonth;i>=crewCreatedMonth;i--) {
-                                        document.write('<option>' + i + '</option>');
+                                    if(nowFullYear-crewCreatedYear===0 && nowMonth-crewCreatedMonth<5) {
+                                        // 만약 만들어진지 5개월 미만의 크루이면
+                                        for(var i=0; i<nowMonth-crewCreatedMonth; i++) {
+                                            var cloneDate = new Date(nowFullDate);
+                                            cloneDate.setMonth(cloneDate.getMonth()-i);
+
+                                            if(cloneDate.getMonth()===-1) {
+                                                cloneDate.setFullYear(cloneDate.getFullYear()-1);
+                                                cloneDate.setMonth(11);
+                                            }
+                                            fullDates.push(cloneDate);
+                                        }
+                                    } else {
+                                        // 5개월 이상의 크루이면
+                                        for(var i=0; i<5; i++) {
+                                            var cloneDate = new Date(nowFullDate);
+                                            cloneDate.setMonth(cloneDate.getMonth()-i);
+
+                                            if(cloneDate.getMonth()===-1) {
+                                                cloneDate.setFullYear(cloneDate.getFullYear()-1);
+                                                cloneDate.setMonth(11);
+                                            }
+                                            fullDates.push(cloneDate);
+                                        }
                                     }
 
+                                    var forStat = 0;
+
+                                    fullDates.forEach(function(Date) {
+                                        document.write('<option value="' + forStat + '">' + (Date.getMonth() +1) + '</option>');
+                                        forStat++;
+                                    })
+
+
+
+                                    /*]]>*/
                                 </script>
+
+
                             </select>
                             <div class="title">월 회비 조회</div>
                         </div>
                         <hr class="middleDotLine">
                         <div id="memberPayViewBox">여기 내역이 작성됩니다.</div>
+
                         <hr class="middleDotLine">
                         <div id="nonSelected" class="nonSelected">
                             <div class="wrap"> 총 <div class="payTotal"></div></div>
@@ -529,5 +573,11 @@
     <script type="text/javascript" src="/js/crewSetting/memberPayView.js"></script>
     <script type="text/javascript" src="/js/crewSetting/memberBan.js"></script>
     <script type="text/javascript" src="/js/crewSetting/memberDivN.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        setMemNames([[${memberList}]])
+        setMemPayMoney([[${memberList}]],fullDates);
+        /*]]>*/
+    </script>
 
 </html>
