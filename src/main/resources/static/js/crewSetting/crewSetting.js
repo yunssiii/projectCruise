@@ -217,6 +217,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!memberFirstTap.classList.contains('select')){
             memberFirstTap.classList.add('select')
         }
+
+        // 선원 회비 조회가 로딩되도록
+        monthSelectorChange(0);
     }
 
 

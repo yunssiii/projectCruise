@@ -56,6 +56,7 @@
     <!-- 해당 크루에 접속한 선원의 정보 가지고오기 -->
     <select id="getCrewUserInfo" parameterType="map" resultType="java.util.Map">
         SELECT
+            A.CMEM_NUM AS MEM_NUM,
             A.CREW_NUM AS CREW_NUM,
             B.USER_NAME AS USER_NAME,
             A.CMEM_EMAIL AS USER_EMAIL,
@@ -65,12 +66,13 @@
             A.MUST_PAYCOUNT AS MUST_PAYCOUNT,
             A.REAL_PAYCOUNT AS REAL_PAYCOUNT
         FROM
-            (SELECT CMEM_EMAIL, CREW_NUM, CAPTAIN_YN, JOIN_DATE, TOTAL_PAY, MUST_PAYCOUNT, REAL_PAYCOUNT
+            (SELECT CMEM_NUM, CMEM_EMAIL, CREW_NUM, CAPTAIN_YN, JOIN_DATE, TOTAL_PAY, MUST_PAYCOUNT, REAL_PAYCOUNT
              FROM CREW_MEMBER where CREW_NUM = #{crewNum} and CMEM_EMAIL = #{userEmail}) A
                 JOIN
             (SELECT USER_NAME, EMAIL
              FROM USERS) B
             ON A.CMEM_EMAIL = B.EMAIL
+        ORDER BY A.JOIN_DATE
     </select>
 
 

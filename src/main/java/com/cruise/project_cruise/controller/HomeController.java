@@ -90,6 +90,10 @@ public class HomeController {
             String crew_numStr = (String) session.getAttribute("num");
             int crew_num = Integer.parseInt(crew_numStr);
 
+            // 은지 - dto에 cmem_num 세팅하는 부분 추가
+            int maxNum = crewMemberInviteService.getCmemNumMaxNum();
+            dto.setCmem_num(maxNum+1);
+            
             dto.setCrew_num(crew_num);
             dto.setCmem_email(email);
 

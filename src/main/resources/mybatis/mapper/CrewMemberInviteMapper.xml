@@ -6,11 +6,16 @@
 <mapper namespace="com.cruise.project_cruise.mapper.CrewMemberInviteMapper">
 
     <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
-        insert into crew_member (crew_num,cmem_email,join_date) values (#{crew_num}, #{cmem_email},sysdate)
+        insert into crew_member (CMEM_NUM, crew_num,cmem_email,join_date) values (#{cmem_num}, #{crew_num}, #{cmem_email},sysdate)
     </insert>
 
     <select id="selectCaptain" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO" resultType="java.lang.String">
         select captain_YN from crew_member where crew_num=#{crew_num} and cmem_email=#{cmem_email}
+    </select>
+
+    <!-- crew_member 테이블의 cmem_num maxnum 가져오기-->
+    <select id="getCmemNumMaxNum" resultType="int">
+        select nvl(max(CMEM_NUM),0) from CREW_MEMBER;
     </select>
 
 </mapper>

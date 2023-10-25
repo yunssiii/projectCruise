@@ -4,13 +4,17 @@ import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.DevelopOpenBankUsingService;
 import com.cruise.project_cruise.service.DevelopOpenBankingService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping(value="/develop/openbank/using")
 @RestController
@@ -38,6 +42,76 @@ public class OpenBankUsingController {
 
         return errorMsg;
     }
+
+// red 조회
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public JSONArray searchInquiry(
+            @RequestParam("searchType") int searchType,
+            @RequestParam("selectedAccount") String selectedAccount,
+            @RequestParam("content") String content,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate
+    ) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        HashMap<String, Object> usingHash = new HashMap<>();
+
+        // searchType
+        // 0 : 계좌의 모든 거래내역
+        // 1 : 계좌 + 특정일자
+        // 2 : 계좌 + 특정 거래내용
+        // 3 : 특정 거래내용 + 특정일자
+        // 4 : 합계
+
+        List<OpenBankUsingDTO> usingList = null;
+
+        if(searchType >=0 && searchType <=3) {
+
+            switch (searchType) {
+
+                case 0:
+                    usingList = developOpenBankUsingService.getUsingList(selectedAccount);
+                    break;
+                case 1:
+                    usingList = developOpenBankUsingService.searchInquiryForDate(selectedAccount,startDate,endDate);
+                    break;
+                case 2:
+                    usingList = developOpenBankUsingService.searchInquiryForContent(selectedAccount,content);
+                    break;
+                case 3:
+                    usingList = developOpenBankUsingService.searchInquiryForDateAndContent(selectedAccount,startDate,endDate,content);
+                    break;
+            }
+
+            for(int i=0;i<usingList.size();i++) {
+                usingHash.put("num",usingList.get(i).getOpenuse_num());
+                usingHash.put("account",usingList.get(i).getOpen_account());
+                usingHash.put("date",usingList.get(i).getOpenuse_date());
+                usingHash.put("assort",usingList.get(i).getOpenuse_assort());
+                usingHash.put("outMoney",usingList.get(i).getOpenuse_outmoney());
+                usingHash.put("inMoney",usingList.get(i).getOpenuse_inmoney());
+                usingHash.put("content",usingList.get(i).getOpenuse_content());
+                usingHash.put("balance",usingList.get(i).getOpenuse_balance());
+
+                jsonObject = new JSONObject(usingHash);
+                jsonArray.add(jsonObject);
+            }
+
+        } else if (searchType==4) {
+            Map<String,Integer> result = developOpenBankUsingService.searchSumForDateAndContent(selectedAccount,startDate,endDate,content);
+            Map<String,Object> sumMap = new HashMap<>();
+            sumMap.put("inMoney",result.get("INMONEY"));
+            sumMap.put("outMoney",result.get("OUTMONEY"));
+
+            jsonObject = new JSONObject(sumMap);
+            jsonArray.add(sumMap);
+        }
+
+        return jsonArray;
+    }
+
+
 
 
 // red Develop 페이지 ModelAndView

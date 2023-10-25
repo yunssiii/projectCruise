@@ -15,37 +15,96 @@ var talkReceiverNameDiv = document.getElementById('talkReceiverName');
 var alertReceiverNameDiv = document.getElementById('alertReceiverName');
     // 월별회비조회 - 오른쪽에 카카오톡을 받을 자
 
-
+var crewNum = $('#crewNumHidden').val();
+var crewAccount = $('#crewAccountHidden').val();
 
 
 // 임시 데이터
     var memNames = [];
-    memNames[0] = '김은지';
-    memNames[1] = '황윤하';
-    memNames[2] = '한두혁';
-    memNames[3] = '이미연';
-    memNames[4] = '서미진';
 
-    var memPayMoney_Oct = []; // 10월
-    memPayMoney_Oct[0] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Oct[1] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Oct[2] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Oct[3] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Oct[4] = 20000; // 0번째 멤버의 납부금액
+    //멤버 이름 데이터 구하기 function
+    var forEachState = 0;
+    function setMemNames(memberList) {
+        // memberList = memberList.json();
+        memberList.forEach(function (member) {
+            memNames.push(member.MEM_NAME)
+        })
+    }
 
-    var memPayMoney_Sep = []; // 9월
-    memPayMoney_Sep[0] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Sep[1] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Sep[2] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Sep[3] = 0; // 0번째 멤버의 납부금액
-    memPayMoney_Sep[4] = 20000; // 0번째 멤버의 납부금액
+    var transferContents = [];
+    var memberPayMoney = [];
 
-    var memPayMoney_Aug = []; // 8월
-    memPayMoney_Aug[0] = 0; // 0번째 멤버의 납부금액
-    memPayMoney_Aug[1] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Aug[2] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Aug[3] = 20000; // 0번째 멤버의 납부금액
-    memPayMoney_Aug[4] = 20000; // 0번째 멤버의 납부금액
+    function setMemPayMoney(memberList, fullDates) {
+
+        // 거래내용 세팅
+        // crewNum+userNum+"_"+userName
+        memberList.forEach(function (member){
+            var memberName = member.MEM_NAME;
+            var memberNum = member.MEM_NUM;
+            transferContents.push(crewNum+memberNum+"_"+memberName);
+        })
+
+        console.log(transferContents);
+
+        for(var i=0;i<fullDates.length;i++) {
+
+            memberPayMoney[i] = [];
+
+            var startDate
+                = new Date(fullDates[i].getFullYear(),fullDates[i].getMonth(), 1);
+            var endDate
+                = new Date(fullDates[i].getFullYear(),fullDates[i].getMonth() +1, 0);
+
+            var startMonth = startDate.getMonth() +1 ;
+            var endMonth = endDate.getMonth() +1 ;
+            if(startMonth<10) {
+                startMonth = '0'+startMonth;
+            }
+            if(endMonth<10) {
+                endMonth = '0'+endMonth;
+            }
+
+            var startDateStr
+                = startDate.getFullYear() + "-" + startMonth  + "-01 00:00:00";
+            var endDateStr
+                = endDate.getFullYear() + "-" + endMonth  + "-" + endDate.getDate() + " 23:59:59" ;
+
+            console.log(startDateStr);
+            console.log(endDateStr);
+
+            for(var j=0;j<memberList.length;j++) {
+
+                let thisMemName = memberList[j].MEM_NAME;
+                let thisMemEmail = memberList[j].MEM_EMAIL.split("@")[0];
+                let transferContent = transferContents[j];
+                console.log(thisMemName + " / " + transferContent);
+                console.log(crewAccount);
+
+                var inquieyReq = $.ajax({
+                    url: "/develop/openbank/using/search",
+                    method: "POST",
+                    data: {
+                        searchType:4,
+                        selectedAccount:crewAccount+'',
+                        content:transferContent,
+                        startDate:startDateStr,
+                        endDate:endDateStr
+                    }
+                })
+
+                let payData = {};
+
+                inquieyReq.done(function(result){
+                     payData.memName = thisMemName;
+                     payData.memEmail = thisMemEmail;
+                     payData.payMoney = result[0].inMoney;
+                })
+
+                memberPayMoney[i].push(payData);
+            }
+        }
+        console.log(memberPayMoney);
+    }
 
     // up 버튼을 눌렀을 때 월별회비조회 부분 초기화하기
     // 첫 번째 option과 그에 해당하는 데이터가 나오도록!
@@ -66,8 +125,10 @@ var alertReceiverNameDiv = document.getElementById('alertReceiverName');
         kakaoTalkContainer.classList.add('hiddenBox');
     }
 
+
+
     // select된 달에 대한 리스트를 html로 써주는 함수
-    function monthSelectorChange(selectedMonth) {
+    function monthSelectorChange(selectedOption) {
 
         // 달이 바뀔 때 하단 Total창이 보이도록 하기
         // 미납자를 선택하고 나서 달을 바꾸면 total창으로 되돌아갈 수 없는 문제를 방지하기 위함
@@ -76,44 +137,45 @@ var alertReceiverNameDiv = document.getElementById('alertReceiverName');
         document.getElementById('nonSelected').classList.add('nonSelected');
 
 
-        var memPayMoney = [];
+        var selectedMonthList = memberPayMoney[selectedOption];
 
-        // 임시적인 코드!
-        if(selectedMonth===8 || selectedMonth==='8') {
-            memPayMoney = memPayMoney_Aug;
-        } else if (selectedMonth===9 || selectedMonth==='9') {
-            memPayMoney = memPayMoney_Sep;
-        } else {
-            memPayMoney = memPayMoney_Oct;
-        }
+        //memNames 배열에서 selectedMonthList 배열에 없는 값을 찾아내기
+            // 거래내역이 없으면 검색이 안 됐을것이기 때문에!
 
+
+        // 리스트 html 쓰기
         var html = "";
         var payTotal = 0;
 
-        // 리스트 html 쓰기
-        for(var i=0;i<memNames.length;i++) {
 
-            if(memPayMoney[i]===0) {
+
+        for(var i=0;i<selectedMonthList.length;i++) {
+
+            if (selectedMonthList[i].payMoney===0) {
                 html +=
                     "<div class='highlighter'> <div class='oneLineContainer redName'>" +
-                    "<div class='payMemName'>" + memNames[i] + "</div>" +
-                    "<div class='payMoney'>" + memPayMoney[i].toLocaleString('ko-KR') + "원 </div>" +
+                    "<div class='payMemName'>"
+                            + selectedMonthList[i].memName
+                            + " (" + selectedMonthList[i].memEmail + ") </div>" +
+                    "<div id='payMemName' style='display: none;'>" +selectedMonthList[i].memName + "</div>" +
+                    "<div class='payMoney'> 0원 </div>" +
                     "</div></div>";
             } else {
                 html +=
                     "<div class='oneLineContainer'>" +
-                    "<div class='payMemName'>" + memNames[i] + "</div>" +
-                    "<div class='payMoney'>" + memPayMoney[i].toLocaleString('ko-KR') + "원 </div>" +
+                    "<div class='payMemName'>" + selectedMonthList[i].memName + " (" + selectedMonthList[i].memEmail + ") </div>" +
+                    "<div class='payMoney'>" + selectedMonthList[i].payMoney.toLocaleString('ko-KR') + "원 </div>" +
                     "</div>";
             }
 
-            //.toLocaleString('ko-KR') = 숫자 쉼표표시
         }
+        //.toLocaleString('ko-KR') = 숫자 쉼표표시
+
         memberPayViewBoxDiv.innerHTML = html;
 
         // 총액 html 쓰기
-        for(var i=0;i<memPayMoney.length;i++) {
-            payTotal += memPayMoney[i];
+        for(var i=0;i<selectedMonthList.length;i++) {
+            payTotal += selectedMonthList[i].payMoney;
         }
         payTotalDiv.textContent
             = payTotal.toLocaleString('ko-KR') + '원';
@@ -135,7 +197,7 @@ var alertReceiverNameDiv = document.getElementById('alertReceiverName');
                 document.getElementById('nonSelected').classList.add('hiddenContainer');
                 document.getElementById('nonSelected').classList.remove('nonSelected');
 
-                var notPayName = member.querySelector('.payMemName').textContent;
+                var notPayName = member.querySelector('#payMemName').textContent;
                 msgReceiverDiv.textContent = notPayName;
                 // 미납자의 이름을 가져와서 msgReceiver에 기입한다.
 
@@ -147,15 +209,16 @@ var alertReceiverNameDiv = document.getElementById('alertReceiverName');
 
     // memberPayMoneyView DIV에 기본적으로 불러올 데이터 = 현재 월에 해당하는 데이터
     // 이 코드를 써놓지 않으면 페이지 처음 로드 시 아무 데이터도 불러와지지 않음.
-    monthSelectorChange(payViewMonthSelector.value);
+     // --> crewSetting.js에서 crewMemberSetting을 눌렀을 때의 이벤트 함수에 monthSelectorChange(0); 을 추가해주었다!
 
 
-    // selector의 change를 감지하는 이벤트리스너
-    payViewMonthSelector.addEventListener('change', function(event){
-        var selectedMonth = event.target.value;
-        monthSelectorChange(selectedMonth); // 선택된 달을 불러와서, 해당하는 달에 대한 데이터를 작성
-        settingDefaultDiv(); // 미납자를 선택했다가 다른 달을 선택했을 때, 오른쪽 DIV가 default가 되도록
-    });
+    //selector의 change를 감지하는 이벤트리스너
+    $('#payViewMonth').on('change',function() {
+        var selectedOption = $(this).val();
+        console.log(selectedOption)
+        monthSelectorChange(selectedOption);
+        settingDefaultDiv();
+    })
 
 
     function sendSettingBtnClick(btn) {

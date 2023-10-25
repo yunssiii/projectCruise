@@ -99,6 +99,7 @@
     <!-- 선원 정보 목록 뽑아오기 -->
     <select id="getCrewMemberList" parameterType="int" resultType="java.util.Map">
         SELECT
+            A.CMEM_NUM AS MEM_NUM,
             A.CREW_NUM AS CREW_NUM,
             B.USER_NAME AS MEM_NAME,
             A.CMEM_EMAIL AS MEM_EMAIL,
@@ -108,7 +109,7 @@
             A.MUST_PAYCOUNT AS MUST_PAYCOUNT,
             A.REAL_PAYCOUNT AS REAL_PAYCOUNT
         FROM
-            (SELECT CMEM_EMAIL, CREW_NUM, CAPTAIN_YN, JOIN_DATE, TOTAL_PAY, MUST_PAYCOUNT, REAL_PAYCOUNT
+            (SELECT CMEM_NUM, CMEM_EMAIL, CREW_NUM, CAPTAIN_YN, JOIN_DATE, TOTAL_PAY, MUST_PAYCOUNT, REAL_PAYCOUNT
              FROM CREW_MEMBER where CREW_NUM = #{crew_num}) A
                 JOIN
             (SELECT USER_NAME, EMAIL
