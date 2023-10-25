@@ -31,7 +31,7 @@
           font-size: 12px;
         }
         </style>
-    <title>Document</title>
+    <title>크루즈 :: 내 프로필</title>
 </head>
 <body>
 
@@ -41,41 +41,7 @@
     
     <div class="user-container">
         <!-- 메뉴 -->
-        <div class="mypage-bar">
-            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Passenger%20Ship.png" alt="Passenger Ship" width="230" height="230"/>
-            
-            <div class="mypage-profile">
-                <p class="pro-name" th:text="${userInfo.user_name}">이름</p>
-                <p class="pro-email" th:text="${userInfo.email}">이메일</p>
-            </div>
-
-            <div class="line"></div>
-            
-            <div class="mypage-tab-box">
-                <div class="mypage-tab2">
-                    <a th:href="@{http://localhost:8082/mypage/mypage_myAlert}">내 알림</a>
-                </div>
-                <div class="mypage-tab">
-                    <a th:href="@{http://localhost:8082/mypage/mypage_myInfo}">내 프로필</a>
-                </div>
-                <div class="mypage-tab">
-                    <a th:href="@{http://localhost:8082/mypage/mypage_board}">내 게시글</a>
-                </div>
-                <div class="mypage-tab3">
-                    <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">이체 비밀번호 관리</a>
-                </div>
-            </div>
-            <div class="logout-box">
-
-                <th:block th:if="${#authorization.expression('isAuthenticated()')}">
-                    <!-- If authenticated, display the "Logout" link -->
-                    <a class="logout" th:href="@{/logout}">로그아웃</a>
-                </th:block>
-                |
-                <button class="withdrawal">회원탈퇴</button>
-                <p class="logo">크루즈</p>
-            </div>
-        </div>
+        <th:block th:replace="mypage/mypage_userTab :: tab"></th:block>
 
         <!-- 정보수정 -->
 
@@ -151,45 +117,7 @@
             </div>
         </div>
 
-     <!-- "회원 탈퇴" 모달 -->
-     <div class="userOutmodal-div">
-        <div class="userOutmodal-content">
-            <div class="userOut-box">
-                <h2 class="userOut-title">회원 탈퇴하시겠습니까?</h2>
-                <div class="userOut-content">
-                <b> [ 안내사항 ] </b> <br/>
-                작성하신 게시글과 댓글은 삭제되지 않고 크루에 계속해서 보존됩니다.
-                재가입을 하더라도 탈퇴 이전의 게시글과 댓글은 수정/삭제할 수 없으므로
-                삭제를 원하는 게시물 또는 댓글이 있다면 탈퇴 전 반드시 삭제해주시기 바랍니다.
-                또한, 탈퇴를 결정한 뒤에는 결정을 취소할 수 없으니 신중히 결정해주세요.
-                </div>
-                <div class="yn-box">
-                    <button class="yBtn">예</button>
-                    <button class="nBtn">아니오</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- "회원 탈퇴" 확인 모달 -->
-    <div class="y-div">
-        <div class="y-content">
-            <div class="y-box">
-                탈퇴되었습니다.
-            </div>
-            <button class="yes">확인</button>
-        </div>
-    </div>
-    
-    <div class="n-div">
-        <div class="n-content">
-            <div class="n-box">
-                계속 항해를 이어갑니다.
-            </div>
-            <button class="no">확인</button>
-        </div>
-    </div>
-
+    <!-- 회원탈퇴 모달은 user_tab에 같이 있음 -->
 
 
     <script src="/js/mypage/mypage_user.js"></script>
@@ -305,7 +233,6 @@
 
     window.onload = function() {
 
-        // 토큰값 어캐 가져오니..?
         if(window.localStorage.getItem('accessToken') == null){
 
             $('#changePwdBtn').addClass('hidden');

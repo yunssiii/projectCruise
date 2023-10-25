@@ -153,5 +153,10 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.getScheCrewName(email, crew_num);
     }
 
+    @Override
+    public void deleteUser(String email) throws Exception {
+        mypageMapper.deleteUser(email);
+    }
+
 
 }

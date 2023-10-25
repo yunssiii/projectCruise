@@ -560,6 +560,19 @@ public class MypageController {
 
     }
 
+    /*
+        회원 탈퇴 메소드
+        - 모임장인 경우, 참조키 제약으로 삭제되지 않음
+     */
+    @PostMapping("/mypage/deleteUser")
+    public void deleteUser(@RequestParam("email") String email) throws Exception{
+
+        System.out.println("탈퇴할 이메일 >>>>>"+email);
+
+        mypageService.deleteUser(email);
+
+    }
+
 
 
 

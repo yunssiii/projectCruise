@@ -169,5 +169,9 @@
         where cmem_email = #{email} and crew_num = #{crew_num})
     </select>
 
+    <!-- 회원 탈퇴 -->
+    <delete id="deleteUser" parameterType="java.lang.String">
+        delete from users where email = #{email}
+    </delete>
 
 </mapper>
