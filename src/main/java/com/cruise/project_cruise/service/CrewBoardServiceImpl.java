@@ -82,4 +82,9 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 		return mapper.getFileName(board_num);
 	}
 
+	@Override
+	public String getCrewName(int crew_num) throws Exception {
+		return mapper.getCrewName(crew_num);
+	}
+
 }

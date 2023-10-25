@@ -87,4 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select savedFile from crew_board where board_num = #{board_num}
 </select>
 
+<select id="getCrewName" resultType="String" parameterType="int">
+	select crew_name from crew where crew_num = #{crew_num}
+</select>
+
 </mapper>

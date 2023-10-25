@@ -2,8 +2,11 @@ package com.cruise.project_cruise.controller.board;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
+import com.cruise.project_cruise.dto.MyAlertDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewCommentService;
+import com.cruise.project_cruise.service.CrewSettingService;
+import com.cruise.project_cruise.service.MypageService;
 import com.cruise.project_cruise.util.CrewBoardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +32,16 @@ public class CrewBoardController {
 	private CrewBoardService crewBoardService;
 	@Autowired
 	private CrewCommentService crewCommentService;
+	@Autowired
+	private MypageService mypageService;
+	@Autowired
+	private CrewSettingService crewSettingService;
 
 	@Autowired
 	CrewBoardUtil myUtil;
 
 	@PostMapping("created")
-	public ModelAndView created_ok(CrewBoardDTO dto,
+	public ModelAndView created_ok(CrewBoardDTO dto, MyAlertDTO myAlertDTO,
 					   @RequestParam(value = "files", required = false) MultipartFile files,
 								   HttpServletRequest request) throws Exception {
 
@@ -77,21 +86,38 @@ public class CrewBoardController {
 		}
 
 		String userName = crewBoardService.getUserName(userEmail);
-
 		int notice = Integer.parseInt(request.getParameter("notice"));
-
-		if (notice == 1) {	// 공지글일 때
-			dto.setNotice(1);
-		} else {	// 일반 게시글일 때
-			dto.setNotice(0);
-		}
-
 		int maxNum = crewBoardService.maxNum();
-		dto.setBoard_num(maxNum + 1);
 
+		dto.setBoard_num(maxNum + 1);
 		dto.setCrew_num(dto.getCrew_num());
 		dto.setEmail(userEmail);
 		dto.setName(userName);
+
+		if (notice == 1) {	// 공지글일 때
+			dto.setNotice(1);
+
+			// 공지 알림
+			String crewName = crewBoardService.getCrewName(dto.getCrew_num());
+			String alertContent = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+			Date today = new Date();
+			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
+
+			// 크루 멤버수만큼 my_alert 테이블에 insert
+            for (Map<String, String> stringStringMap : crewMember) {
+                int alertMaxNum = mypageService.maxMyalertNum();
+                mypageService.insertMyAlert(alertMaxNum + 1, "공지",
+                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"), dto.getCrew_num());
+            }
+
+			// crew_alert 테이블에 insert
+			mypageService.insertCrewAlert(mypageService.maxCalertNum() + 1, dto.getCrew_num(),
+					"공지", alertContent, date.format(today));
+
+		} else {	// 일반 게시글일 때
+			dto.setNotice(0);
+		}
 
 		crewBoardService.insertData(dto);
 
