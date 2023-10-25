@@ -54,6 +54,7 @@
 			<table>
 				<tr>
 					<td valign="top" height="200">
+					<img th:src="@{'/images/board/' + ${filepath}}" width="200" height="300" onerror="this.style.display = 'none'">
 					<textarea rows="12" cols="82"
 							  name="content"
 							  class="content-box" th:text="${dto.board_content}"

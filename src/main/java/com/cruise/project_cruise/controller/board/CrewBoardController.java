@@ -7,10 +7,13 @@ import com.cruise.project_cruise.service.CrewCommentService;
 import com.cruise.project_cruise.util.CrewBoardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -30,6 +33,7 @@ public class CrewBoardController {
 
 	@PostMapping("created")
 	public ModelAndView created_ok(CrewBoardDTO dto,
+					   @RequestParam(value = "files", required = false) MultipartFile files,
 								   HttpServletRequest request) throws Exception {
 
 		// 세션에서 이메일 가져오기
@@ -41,6 +45,35 @@ public class CrewBoardController {
 		if(userEmail == null) {
 			mav.setViewName("redirect:/");
 			return mav;
+		}
+
+		if (!files.isEmpty()) {
+			// 이미지 저장 경로
+			String upload_path = "C:\\projectCruise\\src\\main\\resources\\static\\images\\board\\";
+			String originalName = files.getOriginalFilename();
+
+			try {
+				// 파일 저장 디렉토리 생성
+				File uploadDir = new File(upload_path);
+				if (!uploadDir.exists()) {
+					uploadDir.mkdirs();
+				}
+
+				// 파일명 설정
+				String saveFileName = System.currentTimeMillis() + "-" + originalName;
+				File saveFile = new File(uploadDir, saveFileName);
+
+				// 파일 저장
+				files.transferTo(saveFile);
+
+				// 파일 업로드 성공 메시지 또는 데이터베이스에 파일 정보 저장 등의 추가 작업 수행
+				dto.setSavedFile(saveFileName);
+
+			} catch (IOException e) {
+				System.out.println("파일 업로드 실패: " + e.getMessage());
+			}
+		} else {
+			dto.setSavedFile("");
 		}
 
 		String userName = crewBoardService.getUserName(userEmail);
@@ -201,6 +234,12 @@ public class CrewBoardController {
 		mav.addObject("params", param);
 		mav.addObject("email", userEmail);
 
+		// 이미지 불러오기------------------------------------------
+		String fileName = crewBoardService.getFileName(num);
+		if (fileName != null && !fileName.isEmpty()) {
+			mav.addObject("filepath", fileName);
+		}
+		// ------------------------------------------이미지 불러오기
 
 		// 댓글 불러오기------------------------------
 		List<CrewCommentDTO> lists = crewCommentService.getLists(dto.getBoard_num());

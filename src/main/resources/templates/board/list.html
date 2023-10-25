@@ -134,6 +134,15 @@
                         </dl>
                     </div>
 
+				<div class="bbsCreated_bottomLine">
+					<dl>
+						<dt>파&nbsp;&nbsp;&nbsp;&nbsp;일</dt>
+						<dd>
+						<input type="file" id="file" name="files" multiple="multiple" accept="image/*" />
+						</dd>
+					</dl>
+				</div>
+
                     <div id="bbsCreated_content">
                         <dl>
                             <dt>내&nbsp;&nbsp;&nbsp;&nbsp;용</dt>
@@ -181,6 +190,13 @@
             }
         });
 
+		// 업로드할 파일 정보 불러오기
+		let fileElement;
+		$(document).on("change","input[name='files']",function() {
+			fileElement = this;
+			console.log("fileElement: " + fileElement);
+		});
+
         function sendIt(){
             console.log('notice: ' + noticeInput.value);
             console.log('crewNum: ' + [[${crew_num}]]);
@@ -209,6 +225,7 @@
 
             formData.append('notice', noticeInput.value);
             formData.append('crew_num', [[${crew_num}]]);
+            formData.append('files', fileElement); // 'files'는 필드 이름, 'fileElement'은 파일 데이터
 
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/board/created', true);
