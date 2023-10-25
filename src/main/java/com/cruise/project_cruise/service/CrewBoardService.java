@@ -27,4 +27,5 @@ public interface CrewBoardService {
 	public String checkCaptain(String email, int crew_num) throws Exception;
 	public String getUserName(String email) throws Exception;
 	public String getFileName(int board_num) throws Exception;
+	public String getCrewName(int crew_num) throws Exception;
 }

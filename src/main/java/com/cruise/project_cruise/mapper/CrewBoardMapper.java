@@ -29,5 +29,6 @@ public interface CrewBoardMapper {
 	public String checkCaptain(@Param("email") String email, @Param("crew_num") int crew_num) throws Exception;
 	public String getUserName(String email) throws Exception;
 	public String getFileName(int board_num) throws Exception;
+	public String getCrewName(int crew_num) throws Exception;
 }
 
