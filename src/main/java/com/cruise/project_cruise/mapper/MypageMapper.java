@@ -52,5 +52,7 @@ public interface MypageMapper {
                               @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
                               @Param("email")String email,@Param("crew_num")int crewNum) throws Exception;
     public int maxMyalertNum() throws Exception;
+    public List<MyAlertDTO> getMyalert(String email) throws Exception;
+    public void deleteMyalert(int myalertNum) throws Exception;
 
 }

@@ -321,7 +321,7 @@
 
                                     <div class="account-num-cover">
                                         <p class="account-num-title">계좌번호</p>
-                                        <p class="account-num" th:text="${dto.myaccount_anum}"></p>
+                                        <p class="account-num" th:text="${dto.myaccount_anum2}"></p>
                                     </div>
                                 </div>
                                 <div class="account-alias-box">
@@ -662,7 +662,7 @@
             <span class="closeBtn" th:id="|closeBtn${dto.myaccount_anum}|" th:onclick="closeAccount([[${dto.myaccount_anum}]])">&times;</span>
             <div class="modal-container">
                 <div class="open-aname" th:text="${dto.myaccount_name}"></div>
-                <div class="open-account" th:text="${dto.myaccount_anum}"></div>
+                <div class="open-account" th:text="${dto.myaccount_anum2}"></div>
                 <div class="openuse-balance" th:text="${dto.myaccount_balance}"></div>
 
                 <div class="line"></div>

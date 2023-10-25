@@ -9,6 +9,23 @@
     padding: 10px;
     width: 97%;
     font-family: NanumSquare;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 530px;
+}
+
+.alert-wrap::-webkit-scrollbar {
+    width: 10px;
+
+}
+
+.alert-wrap::-webkit-scrollbar-thumb {
+    background: rgba(144,163,255,0.9); /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+
+.alert-wrap::-webkit-scrollbar-track {
+    background: white;  /*스크롤바 뒷 배경 색상*/
 }
 
 .top-bar {

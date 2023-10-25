@@ -45,7 +45,7 @@
 
     <!-- 등록된 전체 계좌 조회 -->
     <select id="getAccountList" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
-        select myaccount_anum,myaccount_bank,myaccount_name from my_account
+        select myaccount_anum,(SUBSTR(myaccount_anum, 1, 3) || '*******' || SUBSTR(myaccount_anum, -4)) as myaccount_anum2,myaccount_bank,myaccount_name from my_account
         where email=#{email} order by myaccount_bank
     </select>
 
@@ -58,7 +58,7 @@
 
     <!-- 등록된 한 계좌 조회 -->
     <select id="getOneAccount" parameterType="map" resultType="com.cruise.project_cruise.dto.MyAccountDTO">
-        select myaccount_anum,myaccount_bank,myaccount_name from my_account
+        select myaccount_anum,(SUBSTR(myaccount_anum, 1, 3) || '*******' || SUBSTR(myaccount_anum, -4)) as myaccount_anum2,myaccount_bank,myaccount_name from my_account
         where email=#{email} and myaccount_anum=#{myaccount_anum}
     </select>
 
@@ -195,6 +195,20 @@
     <select id="maxMyalertNum" resultType="int">
         select nvl(max(myalert_num),0) from my_alert
     </select>
+
+    <!-- 내 알림 조회 -->
+    <select id="getMyalert" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
+        <![CDATA[
+        select myalert_num,myalert_content,myalert_assort,to_char(myalert_adate,'yyyy.mm.dd') from my_alert
+        where email=#{email} and myalert_adate<=sysdate order by myalert_adate desc
+        ]]>
+    </select>
+
+    <!-- 내 알림 삭제 -->
+    <delete id="deleteMyalert" parameterType="int">
+        delete from my_alert where myalert_num = #{myalert_num}
+    </delete>
+
 
 
 

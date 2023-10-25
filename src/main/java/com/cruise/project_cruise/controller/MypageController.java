@@ -549,15 +549,36 @@ public class MypageController {
         String email = (String)session.getAttribute("email");
 
         UserDTO userInfo = mypageService.getUserInfo(email);
+        List<MyAlertDTO> myAlertList = mypageService.getMyalert(email);
 
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
+        mav.addObject("myAlertList",myAlertList);
 
         mav.setViewName("mypage/mypage_alert");
 
         return mav;
 
+    }
+
+    /*
+        알림 삭제 메소드
+     */
+    @PostMapping("mypage/mypage_myAlert")
+    public void delMyAlert(@RequestParam(value = "chkAlertLists[]") List<String> chkAlertLists) throws Exception {
+
+        //String email = "hchdbsgk@naver.com";
+
+        //게시글 삭제
+        for (String str : chkAlertLists){
+            int chkMyalert = Integer.parseInt(str);
+
+            System.out.println("삭제할 게시글 >>>>>>>>"+chkMyalert);
+
+            mypageService.deleteMyalert(chkMyalert);
+
+        }
     }
 
     /*

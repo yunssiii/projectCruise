@@ -48,4 +48,6 @@ public interface MypageService {
                               @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
                               @Param("email")String email,@Param("crew_num")int crewNum) throws Exception; //내 알림 insert
     public int maxMyalertNum() throws Exception; //내 알림 maxNum
+    public List<MyAlertDTO> getMyalert(String email) throws Exception; //내 알림 조회
+    public void deleteMyalert(int myalertNum) throws Exception; //내 알림 삭제
 }
