@@ -23,7 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="getLists" parameterType="hashMap" 	
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	SELECT * FROM (
-	SELECT a.*, ROWNUM rnum FROM (
+	SELECT a.*, ROWNUM rnum, (
+	SELECT NVL(COUNT(*),0) FROM crew_comment where board_num = a.board_num) AS comment_count
+	FROM (
 	SELECT board_num, name, board_subject, hitCount, notice, TO_CHAR(board_created, 'YYYY-MM-DD') board_created FROM (
 	SELECT * FROM crew_board
 	WHERE crew_num = #{crew_num}
