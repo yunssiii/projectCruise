@@ -42,51 +42,38 @@
             <div id="tab-1" class="tab-content current">
                 <div class="alert-wrap">    
                     <div class="top-bar">
-                        <div>
-                            <input type="checkbox" id="all-alert-chk"/>
+                        <div th:if="${#lists.size(myAlertList)}>0">
+                            <input type="checkbox" id="all-alert-chk" value=""/>
                             <label for="all-alert-chk"></label>
                             <span class="chk-text">전체 선택</span>
                         </div>
-                        <div>
+                        <div th:if="${#lists.size(myAlertList)}>0">
                             <button class="top-btn">삭제</button>
                         </div>
                     </div>
 
+                    <!-- 알림이 없을 때 -->
+                    <div th:if="${#lists.isEmpty(myAlertList)}" style="text-align: center;margin-top: 70px;margin-bottom: 70px;font-family: NanumSquare;">
+                        등록된 알림이 없습니다.
+                    </div>
+
                     <!-- 반복문 -->
-                    <div class="alert-div">
-                        <input type="checkbox" id="chk-alert-1" name="alert-chk"/>
-                        <label for="chk-alert-1"></label>
+                    <div class="alert-div" th:if="${#lists.size(myAlertList)}>0" th:each="dto:${myAlertList}">
+                        <input type="checkbox" th:id="|chk-alert-${dto.myalert_num}|" name="alert-chk" th:value="${dto.myalert_num}"/>
+                        <label th:for="|chk-alert-${dto.myalert_num}|"></label>
                         <div class="alert-div2">
                             <div class="alert-div3">
                                 <div class="alert-div4">
-                                    <div class="alert-type">입금</div>
-                                    <div class="alert-date">2023.10.15</div>
+                                    <div class="alert-type" th:text="${dto.myalert_assort}">알림분류</div>
+                                    <div class="alert-date" th:text="${dto.myalert_adate}">날짜</div>
                                 </div>
                             </div>
-                            <a href="#" class="alert-content">
-                                <span>[여사모 크루]</span>
-                                <span>입금날입니다!</span>
-                            </a>
+                            <a href="#" class="alert-content" th:text="${dto.myalert_content}"></a>
                         </div>
                     </div>
-                    <!-- -- -->
-                    <div class="alert-div">
-                        <input type="checkbox" id="chk-alert-2" name="alert-chk"/>
-                        <label for="chk-alert-2"></label>
-                        <div class="alert-div2">
-                            <div class="alert-div3">
-                                <div class="alert-div4">
-                                    <div class="alert-type">게시판</div>
-                                    <div class="alert-date">2023.10.15</div>
-                                </div>
-                            </div>
-                            <a href="#" class="alert-content">[여사모 크루] 부산 가자~ 게시글에 댓글이 달렸습니다!</a>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -104,4 +91,44 @@
     <script src="/js/mypage/mypage_alert.js"></script>
 
 </body>
+
+<script>
+
+    //알림 삭제
+$(document).ready(function () {
+
+    $('.top-btn').on('click', function () {
+
+        var chkAlertLists = [];
+
+        $('input[name=alert-chk]:checked').each(function () {
+
+            chkAlertLists.push($(this).val());
+
+        });
+
+        console.log(chkAlertLists.join(',')); //배열을 문자열로 변경해서 출력
+
+        $.ajax({
+            type : "POST",
+            url : "/mypage/mypage_myAlert",
+            data : {
+            chkAlertLists : chkAlertLists
+            },
+            success : function(result){
+                console.log("알림 삭제 성공..!" + result);
+                $(location).attr('href','/mypage/mypage_myAlert')
+            },
+            error:function(xhr,status,error) {
+                console.log("알림 삭제 에러..!" + error);
+            }
+        });
+    });
+});
+
+
+
+</script>
+
+
 </html>

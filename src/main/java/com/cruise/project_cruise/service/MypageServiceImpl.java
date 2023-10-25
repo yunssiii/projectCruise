@@ -179,5 +179,15 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.maxMyalertNum();
     }
 
+    @Override
+    public List<MyAlertDTO> getMyalert(String email) throws Exception {
+        return mypageMapper.getMyalert(email);
+    }
+
+    @Override
+    public void deleteMyalert(int myalertNum) throws Exception {
+        mypageMapper.deleteMyalert(myalertNum);
+    }
+
 
 }
