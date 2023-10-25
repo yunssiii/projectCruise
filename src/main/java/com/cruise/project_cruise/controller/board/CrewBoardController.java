@@ -112,7 +112,7 @@ public class CrewBoardController {
 		int end = dataCount - (currentPage * numPerPage) + 1;
 
 		List<CrewBoardDTO> lists = crewBoardService.getLists(start, end,
-				searchKey, searchValue, crewNum);
+				searchKey, searchValue, crewNum,currentPage,totalPage);
 
 		String param = "";
 		if(searchValue != null && !searchValue.isEmpty()) {
@@ -140,6 +140,10 @@ public class CrewBoardController {
 		mav.addObject("dataCount", dataCount);
 		mav.addObject("articleUrl", articleUrl);
 		mav.addObject("pageNum", currentPage);
+
+		int crewMaxNum = crewBoardService.crewmaxNum(crewNum);
+
+		mav.addObject("crewMaxNum",crewMaxNum);
 
 		// 게시판 상단 Title-----------------------------------
 		Map<String, Object> boardTitle = crewBoardService.boardTitle(crewNum);
@@ -196,6 +200,7 @@ public class CrewBoardController {
 		mav.addObject("dto", dto);
 		mav.addObject("params", param);
 		mav.addObject("email", userEmail);
+
 
 		// 댓글 불러오기------------------------------
 		List<CrewCommentDTO> lists = crewCommentService.getLists(dto.getBoard_num());

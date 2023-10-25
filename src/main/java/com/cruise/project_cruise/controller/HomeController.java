@@ -102,7 +102,7 @@ public class HomeController {
             return "redirect:/mypage/mypage_all";
         }
 
-    @GetMapping("/accept2")
+    @GetMapping("/accept2") //로그인시 초대
     @ResponseBody
     public void accept2(HttpSession session) throws Exception {
 

@@ -9,6 +9,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select nvl(max(board_num),0) from crew_board
 </select>
 
+	<select id="crewMaxNum" resultType="int" parameterType="Integer">
+		SELECT COUNT(board_num) from crew_board WHERE crew_num = #{crew_num}
+	</select>
+
 <insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	insert into crew_board (crew_num, board_num, email, name, board_subject,
 	board_content, board_created, hitcount, notice)
@@ -18,24 +22,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getLists" parameterType="hashMap" 	
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
-	select a.*, nvl(b.comment_count, 0) as comment_count from (
-	select rownum rnum, data.* from (
-	select board_num, name, board_subject, hitCount, notice,
-	to_char(board_created,'YYYY-MM-DD') board_created
-	from crew_board
-	where crew_num = #{crew_num}
+	SELECT * FROM (
+	SELECT a.*, ROWNUM rnum FROM (
+	SELECT board_num, name, board_subject, hitCount, notice, TO_CHAR(board_created, 'YYYY-MM-DD') board_created FROM (
+	SELECT * FROM crew_board
+	WHERE crew_num = #{crew_num}
 	<if test="searchValue != null and searchValue != ''.toString()">
-	and ${searchKey} like '%' || #{searchValue} || '%'
+		and ${searchKey} like '%' || #{searchValue} || '%'
 	</if>
-	order by board_num asc) data) a
-	left join (
-	select board_num, count(*) as comment_count from crew_comment
-	group by board_num) b
-	on a.board_num = b.board_num
-	<![CDATA[
-	where a.rnum <= #{start} and a.rnum >= #{end}
-	]]>
-	order by (case when a.notice = 1 then 1 else 2 end), a.rnum desc
+	ORDER BY CASE WHEN notice = 1 THEN 0 ELSE 1 END, board_num Desc
+	)
+	) a WHERE ROWNUM &lt;= #{currentPage}*10
+	) WHERE rnum &gt; (#{currentPage}-1)*10
+	ORDER BY CASE WHEN notice = 1 THEN 0 ELSE rnum END, board_num Desc
 </select>
 
 <select id="getDataCount" parameterType="map" resultType="int">
