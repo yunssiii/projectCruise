@@ -5,6 +5,7 @@ import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -41,4 +42,15 @@ public interface MypageMapper {
     public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception;
     public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
     public void deleteUser(String email) throws Exception;
+
+    //알림 관련
+    public void insertCrewAlert(@Param("calert_num")int calertNum, @Param("crew_num")int crewNum,
+                                @Param("calert_assort")String calertAssort,@Param("calert_content")String calertContent,
+                                @Param("calert_alertdate")String calertAlertdate) throws Exception;
+    public int maxCalertNum() throws Exception;
+    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("myalert_assort")String myalertAssort,
+                              @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
+                              @Param("email")String email,@Param("crew_num")int crewNum) throws Exception;
+    public int maxMyalertNum() throws Exception;
+
 }
