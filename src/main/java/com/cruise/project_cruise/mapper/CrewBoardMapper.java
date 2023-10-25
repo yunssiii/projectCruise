@@ -26,7 +26,7 @@ public interface CrewBoardMapper {
 	public void updateData(CrewBoardDTO dto) throws Exception;
 	public void deleteData(int num) throws Exception;
 	public Map<String, Object> boardTitle(int crew_num) throws Exception;
-	public String checkCaptain(String email) throws Exception;
+	public String checkCaptain(String email, int crew_num) throws Exception;
 	public String getUserName(String email) throws Exception;
 }
 

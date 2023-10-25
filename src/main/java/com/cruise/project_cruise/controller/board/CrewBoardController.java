@@ -151,7 +151,7 @@ public class CrewBoardController {
 		// -----------------------------------게시판 상단 Title
 
 		// 모임장(캡틴)인 경우 '공지' 버튼 보이게 하기
-		String checkCaptain = crewBoardService.checkCaptain(userEmail);
+		String checkCaptain = crewBoardService.checkCaptain(userEmail, crewNum);
 		mav.addObject("checkCaptain", checkCaptain);
 
 		return mav;

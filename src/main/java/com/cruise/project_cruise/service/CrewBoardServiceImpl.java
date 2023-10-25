@@ -1,6 +1,7 @@
 package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
+import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.mapper.CrewBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,8 +70,8 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 	}
 
 	@Override
-	public String checkCaptain(String email) throws Exception {
-		return mapper.checkCaptain(email);
+	public String checkCaptain(String email, int crew_num) throws Exception {
+		return mapper.checkCaptain(email, crew_num);
 	}
 
 	@Override

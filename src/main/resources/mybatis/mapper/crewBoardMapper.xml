@@ -76,12 +76,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 </select>
 
-<select id="checkCaptain" resultType="String" parameterType="String">
+<select id="checkCaptain" resultType="String" parameterType="hashmap">
 	select captain_yn from crew_member
-	where cmem_email=#{email} and
-	<![CDATA[
-	ROWNUM <= 1
-	]]>
+	where cmem_email = #{email} and crew_num = #{crew_num}
 </select>
 
 <select id="getUserName" resultType="String" parameterType="String">
