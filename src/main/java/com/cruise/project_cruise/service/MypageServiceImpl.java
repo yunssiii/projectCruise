@@ -158,5 +158,26 @@ public class MypageServiceImpl implements MypageService {
         mypageMapper.deleteUser(email);
     }
 
+    //알림 관련
+    @Override
+    public void insertCrewAlert(int calertNum, int crewNum, String calertAssort, String calertContent, String calertAlertdate) throws Exception {
+        mypageMapper.insertCrewAlert(calertNum, crewNum, calertAssort, calertContent, calertAlertdate);
+    }
+
+    @Override
+    public int maxCalertNum() throws Exception {
+        return mypageMapper.maxCalertNum();
+    }
+
+    @Override
+    public void insertMyAlert(int myalertNum, String myalertAssort, String myalertContent, String myalertAdate, String email, int crewNum) throws Exception {
+        mypageMapper.insertMyAlert(myalertNum, myalertAssort, myalertContent, myalertAdate, email, crewNum);
+    }
+
+    @Override
+    public int maxMyalertNum() throws Exception {
+        return mypageMapper.maxMyalertNum();
+    }
+
 
 }

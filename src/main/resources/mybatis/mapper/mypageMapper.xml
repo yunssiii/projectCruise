@@ -174,4 +174,28 @@
         delete from users where email = #{email}
     </delete>
 
+    <!-- 크루알림 insert -->
+    <insert id="insertCrewAlert" parameterType="com.cruise.project_cruise.dto.CrewAlertDTO">
+        insert into crew_alert (calert_num,crew_num,calert_assort,calert_content,calert_alertdate)
+        values (#{calert_num},#{crew_num},#{calert_assort},#{calert_content},#{calert_alertdate})
+    </insert>
+
+    <!-- 크루 max calert_num -->
+    <select id="maxCalertNum" resultType="int">
+        select nvl(max(calert_num),0) from crew_alert
+    </select>
+
+    <!-- 내알림 insert -->
+    <insert id="insertMyAlert" parameterType="com.cruise.project_cruise.dto.MyAlertDTO">
+        insert into my_alert (myalert_num,myalert_assort,myalert_content,myalert_adate,email,crew_num)
+        values (#{myalert_num},#{myalert_assort},#{myalert_content},#{myalert_adate},#{email},#{crew_num})
+    </insert>
+
+    <!-- 내 알림 max myalert_num -->
+    <select id="maxMyalertNum" resultType="int">
+        select nvl(max(myalert_num),0) from my_alert
+    </select>
+
+
+
 </mapper>

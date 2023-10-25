@@ -38,4 +38,14 @@ public interface MypageService {
     public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception; //일정 하루 조회
     public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
     public void deleteUser(String email) throws Exception; //회원 탈퇴
+
+    //알림 관련
+    public void insertCrewAlert(@Param("calert_num")int calertNum, @Param("crew_num")int crewNum,
+                                @Param("calert_assort")String calertAssort,@Param("calert_content")String calertContent,
+                                @Param("calert_alertdate")String calertAlertdate) throws Exception; //크루 알림 insert
+    public int maxCalertNum() throws Exception; //크루 알림 maxNum
+    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("myalert_assort")String myalertAssort,
+                              @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
+                              @Param("email")String email,@Param("crew_num")int crewNum) throws Exception; //내 알림 insert
+    public int maxMyalertNum() throws Exception; //내 알림 maxNum
 }
