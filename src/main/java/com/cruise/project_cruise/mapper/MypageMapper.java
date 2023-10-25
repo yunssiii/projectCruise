@@ -40,4 +40,5 @@ public interface MypageMapper {
     public List<ScheduleDTO> getSchedule(String email) throws Exception;
     public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception;
     public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
+    public void deleteUser(String email) throws Exception;
 }

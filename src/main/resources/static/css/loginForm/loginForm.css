@@ -1,3 +1,9 @@
+    body{
+        background-image: url(/images/pexels-pixabay-327337.jpg);
+        background-size: cover;
+        background-position: center;
+    }
+
     div.mainPassword {
           position: relative;
       }
@@ -49,10 +55,10 @@
         }
 
        main {
-    background-image: url('/images/pexels-pixabay-327337.jpg');
+   /* background-image: url('/images/pexels-pixabay-327337.jpg');
     background-size: cover;
     background-position: center;
-
+*/
 
     display: flex;
   justify-content: center;
