@@ -2,7 +2,6 @@ package com.cruise.project_cruise.controller.board;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
-import com.cruise.project_cruise.dto.MyAlertDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewCommentService;
 import com.cruise.project_cruise.service.CrewSettingService;
@@ -41,7 +40,7 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("created")
-	public ModelAndView created_ok(CrewBoardDTO dto, MyAlertDTO myAlertDTO,
+	public ModelAndView created_ok(CrewBoardDTO dto,
 					   @RequestParam(value = "files", required = false) MultipartFile files,
 								   HttpServletRequest request) throws Exception {
 
@@ -58,7 +57,12 @@ public class CrewBoardController {
 
 		if (!files.isEmpty()) {
 			// 이미지 저장 경로
+
 			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+
+	
+			System.out.println("upload_path: " + upload_path);
+
 			String originalName = files.getOriginalFilename();
 
 			try {
@@ -107,7 +111,7 @@ public class CrewBoardController {
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertMaxNum = mypageService.maxMyalertNum();
                 mypageService.insertMyAlert(alertMaxNum + 1, "공지",
-                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"), dto.getCrew_num());
+                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"));
             }
 
 			// crew_alert 테이블에 insert
@@ -354,6 +358,15 @@ public class CrewBoardController {
 	public String deleted_ok(HttpServletRequest request) throws Exception {
 
 		int num = Integer.parseInt(request.getParameter("board_num"));
+
+		String fileName = crewBoardService.getFileName(num);
+		// 파일명이 있는 경우 파일 삭제
+		if (fileName != null && !fileName.isEmpty()) {
+			String upload_path = request.getServletContext().getRealPath("/images");
+			File file = new File(upload_path + "\\" + fileName);
+			System.out.println("삭제된 파일: " + file);
+			file.delete();	// 파일 삭제
+		}
 
 		crewBoardService.deleteData(num);
 

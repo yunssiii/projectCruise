@@ -9,6 +9,8 @@ import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +33,10 @@ public class CrewSettingController {
     private CrewDetailService crewDetailService;
     @Autowired
     private CrewSettingService crewSettingService;
+    @Autowired
+    private MypageService mypageService;
+
+    final Logger logger = LoggerFactory.getLogger(CrewSettingController.class); // 로그
 
 
 // red 풀캘린더 데이터 전달 URL
@@ -104,18 +110,18 @@ public class CrewSettingController {
 
         // 로그인 / 로그아웃 여부 걸러내기
         if(userEmail==null||userEmail.isEmpty()) {
-            System.out.println("[CrewController] 로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+            logger.info("로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
             mav.addObject("status","logout");
             mav.setViewName("crew/wrongAccess");
 
             return mav;
         }
 
-        System.out.println("[CrewController] " + userEmail + "이 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+        logger.info(userEmail + "이 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
 
         // 선장이 아닌 사용자를 걸러내기
         if(!crewDetailService.isCaptain(crewNum,userEmail)) {
-            System.out.println("[CrewController] " + userEmail + "은 선장이 아님");
+            logger.info(userEmail + "은 선장이 아님");
             mav.addObject("status","notCaptain");
             mav.setViewName("crew/wrongAccess");
 
@@ -196,7 +202,7 @@ public class CrewSettingController {
 
         HashMap<String, Object> hash = new HashMap<>();
         CrewDTO newCrewDTO = crewDetailService.getCrewData(crewNum);
-        System.out.println("[CrewController - Setting : crewInfo] " + crewNum + " 크루 정보 수정완료");
+        logger.info(crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 정보 수정완료");
 
         hash.put("newCrewInfo",newCrewDTO.getCrew_info());
         hash.put("newPayDate",newCrewDTO.getCrew_paydate());
@@ -224,6 +230,7 @@ public class CrewSettingController {
             ) throws Exception {
 
         String scheAssortCode = "";
+        CrewDTO crewDTO = crewDetailService.getCrewData(crewNum);
 
         switch (scheAssort) {
             default:
@@ -259,13 +266,13 @@ public class CrewSettingController {
         dto.setSche_end(scheEnd);
 
         crewSettingService.insertCrewSche(dto);
-        System.out.println("===================================================");
-        System.out.println("[CrewController - Setting : Calendar] 일정 추가완료");
-        System.out.println("---------------------------------------------------");
-        System.out.println("[" + crewNum + "번 크루 / " + scheNum + "] scheTitle: " + scheTitle);
-        System.out.println("startDate: " + scheStart);
-        System.out.println("endDate: " + scheEnd);
-        System.out.println("===================================================");
+        logger.info("===================================================");
+        logger.info("[" + crewNum + "/" + crewDTO.getCrew_name() + " Calendar] 크루 일정 추가완료");
+        logger.info("---------------------------------------------------");
+        logger.info("[" + scheNum + "] scheTitle: " + scheTitle);
+        logger.info("startDate: " + scheStart);
+        logger.info("endDate: " + scheEnd);
+        logger.info("===================================================");
 
     }
 
@@ -317,13 +324,14 @@ public class CrewSettingController {
         dto.setSche_end(scheEnd);
 
         crewSettingService.updateCrewSche(dto);
-        System.out.println("===================================================");
-        System.out.println("[CrewController - Setting : Calendar] 일정 수정완료");
-        System.out.println("---------------------------------------------------");
-        System.out.println("[" + scheNum + "] scheTitle: " + scheTitle);
-        System.out.println("startDate: " + scheStart);
-        System.out.println("endDate: " + scheEnd);
-        System.out.println("===================================================");
+
+        logger.info("===================================================");
+        logger.info("[CrewController - Setting : Calendar] 일정 수정완료");
+        logger.info("---------------------------------------------------");
+        logger.info("[" + scheNum + "] scheTitle: " + scheTitle);
+        logger.info("startDate: " + scheStart);
+        logger.info("endDate: " + scheEnd);
+        logger.info("===================================================");
 
     }
 
@@ -333,11 +341,11 @@ public class CrewSettingController {
     public void deleteCrewSche(@RequestParam("scheNum") int scheNum) throws Exception {
         crewSettingService.deleteCrewSche(scheNum);
 
-        System.out.println("===================================================");
-        System.out.println("[CrewController - Setting : Calendar] 일정 삭제완료");
-        System.out.println("---------------------------------------------------");
-        System.out.println("scheNum: " + scheNum);
-        System.out.println("===================================================");
+        logger.info("===================================================");
+        logger.info("[CrewController - Setting : Calendar] 일정 삭제완료");
+        logger.info("---------------------------------------------------");
+        logger.info("scheNum: " + scheNum);
+        logger.info("===================================================");
 
     }
 
@@ -349,8 +357,8 @@ public class CrewSettingController {
         crewSettingService.stopSailing(crewNum); // 업데이트 한 후에
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        System.out.println("[CrewSettingController] " + dto.getCrew_name() + " 크루 항해 중단...");
-        System.out.println("[CrewSettingController] " + dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
+        logger.info(dto.getCrew_name() + " 크루 항해 중단...");
+        logger.info(dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
 
         mav.setViewName("redirect:/crew/setting/sailingStopCrew?crewNum=" + crewNum);
         return mav;
@@ -363,7 +371,7 @@ public class CrewSettingController {
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보 불러와서
 
         if(dto.getCrew_deldate()==null || dto.getCrew_deldate().equals("")) {
-            System.out.println("[CrewController] " + crewNum + " - " + dto.getCrew_name() + "으로 이동...");
+            logger.info(crewNum + " - " + dto.getCrew_name() + "으로 이동...");
             mav.setViewName("redirect:/crew?crewNum=" + crewNum);
             return mav;
         }
@@ -389,8 +397,8 @@ public class CrewSettingController {
         crewSettingService.cancelStopSailing(crewNum);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        System.out.println("[CrewSettingController] " + dto.getCrew_name() + " 크루 항해 중단 취소...");
-        System.out.println("[CrewSettingController] " + dto.getCrew_name() + " 크루 페이지로 리디렉트...");
+        logger.info(dto.getCrew_name() + " 크루 항해 중단 취소...");
+        logger.info(dto.getCrew_name() + " 크루 페이지로 리디렉트...");
 
         mav.setViewName("redirect:/crew?crewNum="+crewNum);
         return mav;
@@ -399,14 +407,43 @@ public class CrewSettingController {
 
 
 // red 선원관리
+    // green 월별 회비조회 - 회비 독촉 알림보내기
+    @RequestMapping(value="/alertFee")
+    public void alertFee(@RequestParam("crewNum") int crewNum,
+                          @RequestParam("email") String email,
+                          @RequestParam("sendMsg") String sendMsg) throws Exception {
+
+        int alertNum = mypageService.maxMyalertNum() + 1;
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+        String userName = crewSettingService.getUser(email).getUser_name();
+        String assort = "회비요청";
+        String crewName = dto.getCrew_name();
+        String content = "[" + crewName + "] " + sendMsg;
+
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String todayStr = dateFormat.format(today);
+
+        mypageService.insertMyAlert(alertNum,assort,content,todayStr,email);
+
+    }
+
+
+
     // green 선원 강퇴하기 submit
     @RequestMapping(value="/memberBan")
     public void memberBan(@RequestParam("crewNum") int crewNum,
                           @RequestParam("email") String email) throws Exception {
+        if(crewDetailService.isCaptain(crewNum,email)) {
+            logger.info("선장은 강퇴할 수 없습니다.");
+            return;
+        }
+
         crewSettingService.deleteMember(email, crewNum);
-        System.out.println(
-                "[CrewController - Setting : memberBan] " + crewNum + "번 크루에서 "
-                        + email + " 강퇴 완료");
+        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
+        logger.info(crewNum + "/" + dto.getCrew_name() + " 크루에서 " + email + " 강퇴 완료");
     }
+
 
 }
