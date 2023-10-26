@@ -55,7 +55,14 @@
 						</div>
 
 						<div th:if="${account == 0}">
-							<span style="color: blue;">등록된 계좌가 없습니다.</span>
+							<label> <input type="checkbox" name="account_choice"
+										   onclick="myAccount(this);"  disabled/>기존 계좌 선택
+							</label>
+							<div style="margin-top:5px;">
+								<select  disabled>
+									<option value="등록된 계좌가 없습니다.">등록된 계좌가 없습니다.</option>
+								</select>
+							</div>
 						</div>
 						<br>
 
@@ -66,6 +73,7 @@
 						<span>새로운 계좌 선택</span>
 						<button type="button" id="new_account_button" class="add-accountBtn" disabled>등록</button>
 						<p id="myNewAcc" style="font-size: 13px; color: blue;"></p>
+
 
 					</div>
 
