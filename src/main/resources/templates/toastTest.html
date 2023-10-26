@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<style>
+
+    .buttons {
+  min-height: 200px;
+}
+
+#toast {
+  position: fixed;
+  min-width: 150px;
+  bottom: 50px;
+  right: 10px;
+  text-align: right;
+}
+
+#toast .alertWrap {
+  margin: 6px 0 0;
+  padding-bottom: 10px;
+  display: none;
+}
+
+#toast b {
+  display: block;
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  width: 12px;
+  height: 12px;
+  font: normal 12px/1 Arial, sans-serif;
+  text-align: right;
+  cursor: pointer;
+  text-shadow: #FFF 0 1px 0;
+}
+
+#toast b:before {
+  content: "\2716";
+}
+
+.toastDiv{
+    color: #000;
+    background: #bcdef7;
+    box-shadow: 0 2px 3px #999;
+    font-family: 'NanumSquare', 'sans-serif';
+    padding: 30px 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    width: 240px;
+}
+
+.toastContent{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+</style>
+
+
+
+<body>
+
+<div class="buttons">
+    <button onclick="toast()">토스트 1</button>
+    <button onclick="toast(1000)">토스트 2</button>
+    <button onclick="toast('고정')">토스트 3</button>
+</div>
+<div id="toast"></div>
+
+
+<!--<div class='alertWrap'>-->
+<!--    <div class='toastDiv'>-->
+<!--        <div class="toastContent">-->
+<!--            <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bell.png" alt="Bell" width="35" height="35" />-->
+<!--            새로운 알림이 도착했습니다!-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+</body>
+
+</html>
+
+<script>
+
+function fillWidth(elem, timer, limit) {
+    if (!timer) { timer = 3000; }
+    if (!limit) { limit = 100; }
+    var width = 1;
+    var id = setInterval(frame, timer / 100);
+        function frame() {
+        if (width >= limit) {
+            clearInterval(id);
+        } else {
+            width++;
+            elem.style.width = width + '%';
+        }
+    }
+};
+
+function toast(timer) {
+	if (!timer) { timer = 3000; }
+	var $elem = $("<div class='alertWrap'><div class='toastDiv'><div class='toastContent'><img src='https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bell.png' alt='Bell' width='35' height='35' />+ newMsg +</div></div></div>");
+	$("#toast").append($elem); //top = prepend, bottom = append
+	$elem.slideToggle(100, function() {
+		$('.timerWrap', this).first().outerWidth($elem.find('.toast').first().outerWidth() - 10);
+		if (!isNaN(timer)) {
+			fillWidth($elem.find('.timer').first()[0], timer);
+			setTimeout(function() {
+				$elem.fadeOut(function() {
+					$(this).remove();
+				});
+			}, timer);
+		}
+	});
+}
+
+$("#toast").on("click", "b", function() {
+	$(this).closest('.alertWrap').remove();
+})
+
+//<div class='toastWrap'><span class='toast'>" + msg + "<b></b></span></div>
+</script>
