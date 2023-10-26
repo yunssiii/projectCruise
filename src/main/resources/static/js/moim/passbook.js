@@ -187,8 +187,6 @@ function newAccount(checkbox) {
         myAccountCheckbox.checked = false;
         // 기존계좌 입력 필드도 비활성화
         document.getElementById('my_account').disabled = true;
-        // 새로운 계좌 선택 시 값 설정
-        checkedBox = 'checkedNew';
     }
 }
 

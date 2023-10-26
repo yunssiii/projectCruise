@@ -18,9 +18,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
 	insert into crew_member (crew_num, cmem_email, captain_YN,
-	join_date, total_pay, must_paycount, real_paycount)
+	join_date, total_pay, must_paycount, real_paycount, cmem_num)
 	values (#{crew_num}, #{cmem_email}, 'Y',
-	sysdate, 0, 0, 0)
+	sysdate, 0, 0, 0, 1)
 </insert>
 
 <select id="getMyAccount" parameterType="String"

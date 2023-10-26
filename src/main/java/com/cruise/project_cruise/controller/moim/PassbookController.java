@@ -94,7 +94,6 @@ public class PassbookController {
             crewDTO.setCrew_goal(crewDTO.getCrew_goal());
         }
 
-
         int maxCrewNum = moimPassbookService.maxCrewNum() + 1;
 
         crewDTO.setCrew_num(maxCrewNum);
@@ -130,12 +129,6 @@ public class PassbookController {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
         response.getWriter().flush();
-
-
-
-
-
-
 
     }
 
