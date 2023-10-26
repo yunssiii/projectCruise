@@ -165,30 +165,35 @@
             </div>
             `;
 
-        // "글올리기" 버튼을 찾아 클릭 이벤트 리스너 추가
-        var openFormButton = document.getElementById("openFormButton");
+		var openFormButton = document.getElementById("openFormButton"); // 글올리기 버튼
+		var noticeBtn = document.getElementById("noticeBtn"); // 공지 버튼
+
+        // 글올리기 버튼 이벤트 리스너 추가
         openFormButton.addEventListener("click", function () {
             // 게시물 등록 폼으로 밑의 부분을 변경
             document.getElementById("bbsList_list").innerHTML = postFormHTML;
             openFormButton.style.display = "none";
-            noticeBtn.style.display = "none";
+            if (noticeBtn) {
+            	noticeBtn.style.display = "none";
+			}
         });
 
-        // "공지" 버튼을 찾아 클릭 이벤트 리스너 추가
-        var noticeBtn = document.getElementById("noticeBtn");
-        noticeBtn.addEventListener("click", function () {
-            // 게시물 등록 폼으로 밑의 부분을 변경
-            document.getElementById("bbsList_list").innerHTML = postFormHTML;
-            noticeInput.value = 1;
-            noticeBtn.style.display = "none";
-            openFormButton.style.display = "none";
+        // 공지 버튼 이벤트 리스너 추가
+        if (noticeBtn) {
+			noticeBtn.addEventListener("click", function () {
+				// 게시물 등록 폼으로 밑의 부분을 변경
+				document.getElementById("bbsList_list").innerHTML = postFormHTML;
+				noticeInput.value = 1;
+				noticeBtn.style.display = "none";
+				openFormButton.style.display = "none";
 
-            // 제목 필드에 "[공지]" 자동 입력
-            var subjectField = document.querySelector("input[name=board_subject]");
-            if (subjectField) {
-                subjectField.value = "[공지] ";
-            }
-        });
+				// 제목 필드에 "[공지]" 자동 입력
+				var subjectField = document.querySelector("input[name=board_subject]");
+				if (subjectField) {
+					subjectField.value = "[공지] ";
+				}
+			});
+		}
 
 		// 업로드할 파일 정보 불러오기
 		let fileElement;
