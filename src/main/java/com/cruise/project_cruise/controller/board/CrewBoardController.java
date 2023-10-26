@@ -102,21 +102,24 @@ public class CrewBoardController {
 
 			// 공지 알림
 			String crewName = crewBoardService.getCrewName(dto.getCrew_num());
-			String alertContent = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+			String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+			// 알림 날짜 설정
 			Date today = new Date();
-			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String todayStr = dateFormat.format(today);
+
 			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
 			// 크루 멤버수만큼 my_alert 테이블에 insert
             for (Map<String, String> stringStringMap : crewMember) {
-                int alertMaxNum = mypageService.maxMyalertNum();
-                mypageService.insertMyAlert(alertMaxNum + 1, "공지",
-                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"));
+				int alertNum = mypageService.maxMyalertNum() + 1;
+                mypageService.insertMyAlert(alertNum, "공지글 등록",
+						content, todayStr, stringStringMap.get("MEM_EMAIL"));
             }
 
 			// crew_alert 테이블에 insert
 			mypageService.insertCrewAlert(mypageService.maxCalertNum() + 1, dto.getCrew_num(),
-					"공지", alertContent, date.format(today));
+					"공지글 등록", content, todayStr);
 
 		} else {	// 일반 게시글일 때
 			dto.setNotice(0);
