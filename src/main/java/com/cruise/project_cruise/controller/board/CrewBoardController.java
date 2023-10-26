@@ -363,12 +363,22 @@ public class CrewBoardController {
 		// 파일명이 있는 경우 파일 삭제
 		if (fileName != null && !fileName.isEmpty()) {
 			String upload_path = request.getServletContext().getRealPath("/images");
-			File file = new File(upload_path + "\\" + fileName);
-			System.out.println("삭제된 파일: " + file);
-			file.delete();	// 파일 삭제
+			File file = new File(upload_path + File.separator + fileName);
+
+			// 파일이 존재하는지 확인
+			if (file.exists()) {
+				boolean deleted = file.delete();
+				if (deleted) {
+					System.out.println("파일 삭제 성공: " + file);
+				} else {
+					System.out.println("파일 삭제 실패: " + file);
+				}
+			} else {
+				System.out.println("존재하지 않는 파일: " + file);
+			}
 		}
 
-		crewBoardService.deleteData(num);
+		crewBoardService.deleteData(num);	// crew_board 테이블에서 게시글 삭제
 
 		return "DeleteSuccess";
 	}
