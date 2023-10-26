@@ -298,6 +298,7 @@ public class CrewBoardController {
 		}
 
 		CrewBoardDTO dto = crewBoardService.getReadData(num);
+		String crewName = crewBoardService.getCrewName(dto.getCrew_num());
 
 		if(dto == null) {
 			mav.setViewName("redirect:/");
@@ -317,6 +318,7 @@ public class CrewBoardController {
 		mav.addObject("params", param);
 		mav.addObject("searchKey", searchKey);
 		mav.addObject("searchValue", searchValue);
+		mav.addObject("crewName", crewName);
 
 		return mav;
 	}
