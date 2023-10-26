@@ -165,6 +165,13 @@
         .crewCalendarContainer {
             position: relative;
         }
+
+        .fc-event, .fc-event-title-container {
+            height: 25px;
+            padding-top: 2px;
+            align-items: center;
+            font-size: 10pt;
+        }
     </style>
 </head>
 <body>
@@ -360,10 +367,27 @@
         </div>
         <div class="cal_receipt">
             <div class="detail_href"><a id="detail_href">자세히보기 ▶</a></div>
-            <div class="title">크루 일정</div>
+            <div class="title">오늘의 일정</div>
             <div class="line1"></div>
             <div class="content">
-                여기 달력 넣지말고 하루 일정만 넣자
+                <div th:if="${crewScheTodayList!=null}" th:each="sche, scheStat : ${crewScheTodayList}">
+                    <div class="sche_content">
+                        <div th:style="'background-color: ' + ${sche.sche_assort} + ';'" class="sche_color"></div>
+                        <div class="today_title">[[${sche.sche_title}]]</div>
+                    </div>
+                    <div th:if="${sche.sche_start} == ${sche.sche_end}" class="sche-date">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="30" height="30" />
+                        [[${sche.sche_start}]]
+                    </div>
+                    <div th:if="${sche.sche_start} != ${sche.sche_end}" class="sche-date">
+                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="30" height="30" />
+                        [[${sche.sche_start}]] ~ [[${sche.sche_end}]]
+                    </div>
+                </div>
+                <div th:if="${crewScheTodayList==null}" class="dont_have_schedule">
+                    <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Dotted%20Line%20Face.png" alt="Dotted Line Face" width="100" height="100" />
+                    <div style="text-align: center; font-weight: bold; margin-top: 20px"> 오늘의 일정이 없습니다. </div>
+                </div>
             </div>
             <div class="line2"></div>
             <div class="paper"></div>
