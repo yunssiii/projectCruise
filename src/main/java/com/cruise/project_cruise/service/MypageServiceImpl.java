@@ -170,8 +170,8 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void insertMyAlert(int myalertNum, String myalertAssort, String myalertContent, String myalertAdate, String email, int crewNum) throws Exception {
-        mypageMapper.insertMyAlert(myalertNum, myalertAssort, myalertContent, myalertAdate, email, crewNum);
+    public void insertMyAlert(int myalertNum, String myalertAssort, String myalertContent, String myalertAdate, String email) throws Exception {
+        mypageMapper.insertMyAlert(myalertNum, myalertAssort, myalertContent, myalertAdate, email);
     }
 
     @Override

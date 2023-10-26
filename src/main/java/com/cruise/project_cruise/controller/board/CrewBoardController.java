@@ -2,7 +2,6 @@ package com.cruise.project_cruise.controller.board;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
-import com.cruise.project_cruise.dto.MyAlertDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewCommentService;
 import com.cruise.project_cruise.service.CrewSettingService;
@@ -41,7 +40,7 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("created")
-	public ModelAndView created_ok(CrewBoardDTO dto, MyAlertDTO myAlertDTO,
+	public ModelAndView created_ok(CrewBoardDTO dto,
 					   @RequestParam(value = "files", required = false) MultipartFile files,
 								   HttpServletRequest request) throws Exception {
 
@@ -58,7 +57,12 @@ public class CrewBoardController {
 
 		if (!files.isEmpty()) {
 			// 이미지 저장 경로
-			String upload_path = "C:\\projectCruise\\src\\main\\resources\\static\\images\\board\\";
+
+			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+
+	
+			System.out.println("upload_path: " + upload_path);
+
 			String originalName = files.getOriginalFilename();
 
 			try {
@@ -84,7 +88,6 @@ public class CrewBoardController {
 		} else {
 			dto.setSavedFile("");
 		}
-
 		String userName = crewBoardService.getUserName(userEmail);
 		int notice = Integer.parseInt(request.getParameter("notice"));
 		int maxNum = crewBoardService.maxNum();
@@ -99,21 +102,24 @@ public class CrewBoardController {
 
 			// 공지 알림
 			String crewName = crewBoardService.getCrewName(dto.getCrew_num());
-			String alertContent = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+			String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+			// 알림 날짜 설정
 			Date today = new Date();
-			SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String todayStr = dateFormat.format(today);
+
 			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
 			// 크루 멤버수만큼 my_alert 테이블에 insert
             for (Map<String, String> stringStringMap : crewMember) {
-                int alertMaxNum = mypageService.maxMyalertNum();
-                mypageService.insertMyAlert(alertMaxNum + 1, "공지",
-                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"), dto.getCrew_num());
+				int alertNum = mypageService.maxMyalertNum() + 1;
+                mypageService.insertMyAlert(alertNum, "공지글 등록",
+						content, todayStr, stringStringMap.get("MEM_EMAIL"));
             }
 
 			// crew_alert 테이블에 insert
 			mypageService.insertCrewAlert(mypageService.maxCalertNum() + 1, dto.getCrew_num(),
-					"공지", alertContent, date.format(today));
+					"공지글 등록", content, todayStr);
 
 		} else {	// 일반 게시글일 때
 			dto.setNotice(0);
@@ -161,6 +167,7 @@ public class CrewBoardController {
 
 		int dataCount = crewBoardService.getDataCount(searchKey, searchValue, crewNum);
 
+
 		int numPerPage = 10;	// 한 페이지당 10개의 게시글
 		int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 
@@ -172,6 +179,7 @@ public class CrewBoardController {
 
 		List<CrewBoardDTO> lists = crewBoardService.getLists(start, end,
 				searchKey, searchValue, crewNum,currentPage,totalPage);
+		System.out.println(lists);
 
 		String param = "";
 		if(searchValue != null && !searchValue.isEmpty()) {
@@ -293,6 +301,7 @@ public class CrewBoardController {
 		}
 
 		CrewBoardDTO dto = crewBoardService.getReadData(num);
+		String crewName = crewBoardService.getCrewName(dto.getCrew_num());
 
 		if(dto == null) {
 			mav.setViewName("redirect:/");
@@ -312,6 +321,7 @@ public class CrewBoardController {
 		mav.addObject("params", param);
 		mav.addObject("searchKey", searchKey);
 		mav.addObject("searchValue", searchValue);
+		mav.addObject("crewName", crewName);
 
 		return mav;
 	}
@@ -354,7 +364,26 @@ public class CrewBoardController {
 
 		int num = Integer.parseInt(request.getParameter("board_num"));
 
-		crewBoardService.deleteData(num);
+		String fileName = crewBoardService.getFileName(num);
+		// 파일명이 있는 경우 파일 삭제
+		if (fileName != null && !fileName.isEmpty()) {
+			String upload_path = request.getServletContext().getRealPath("/images");
+			File file = new File(upload_path + File.separator + fileName);
+
+			// 파일이 존재하는지 확인
+			if (file.exists()) {
+				boolean deleted = file.delete();
+				if (deleted) {
+					System.out.println("파일 삭제 성공: " + file);
+				} else {
+					System.out.println("파일 삭제 실패: " + file);
+				}
+			} else {
+				System.out.println("존재하지 않는 파일: " + file);
+			}
+		}
+
+		crewBoardService.deleteData(num);	// crew_board 테이블에서 게시글 삭제
 
 		return "DeleteSuccess";
 	}

@@ -70,8 +70,8 @@ body {
 	color: #FFD966;
 }
 .logout-icon{
-	
-	
+
+
 }
 footer{
 	width: 100%;
@@ -81,7 +81,7 @@ footer{
 	justify-content: center;
 	background-color: black;
 	color: white;
-	
+
 }
 
 .footer_container {
@@ -111,9 +111,9 @@ footer{
 	border-radius: 10px;
 	border: 2px solid #FFD966;
 	z-index: 3;
-	font-size: 15px; 
+	font-size: 15px;
 	width: 64px;
-	
+
 }
 .menu-content2{
 	text-align: center;
@@ -138,14 +138,14 @@ footer{
 	display: block;
 	font-size: 15px;
 	color: inherit;
-	 
+
 }
 
 .menu-content a:hover {
 	background-color: #FFF4A8;
 	font-size: 16px;
 	font-weight: 800;
-	
+
 }
 
 .navButtonClick {

@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>모임 전환 페이지</title>
+<title>크루즈 :: 항해 시작</title>
 
 <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script th:src="@{/js/kakaoLink/kakaoLink2.js}"></script>
 <script th:inline="javascript">
 	/*<![CDATA[*/
 		var openAccPwd = /*[[${openAccPwd}]]*/;
@@ -53,7 +55,14 @@
 						</div>
 
 						<div th:if="${account == 0}">
-							<span style="color: blue;">등록된 계좌가 없습니다.</span>
+							<label> <input type="checkbox" name="account_choice"
+										   onclick="myAccount(this);"  disabled/>기존 계좌 선택
+							</label>
+							<div style="margin-top:5px;">
+								<select  disabled>
+									<option value="등록된 계좌가 없습니다.">등록된 계좌가 없습니다.</option>
+								</select>
+							</div>
 						</div>
 						<br>
 
@@ -64,6 +73,7 @@
 						<span>새로운 계좌 선택</span>
 						<button type="button" id="new_account_button" class="add-accountBtn" disabled>등록</button>
 						<p id="myNewAcc" style="font-size: 13px; color: blue;"></p>
+
 
 					</div>
 
@@ -183,7 +193,7 @@
 							</div>
 
 							<div class="container">
-								<button type="button" class="btn" onClick="">친구 초대하기</button>
+								<button type="button" class="btn" onClick="javascript:sendLink()">친구 초대하기</button>
 							</div>
 
 						</div>
@@ -349,11 +359,17 @@
 		</div>
 	</form>
 
+
+<p id="sessionGroup" style="display:none;"></p>
+<p id="sessionNum" style="display:none;"></p>
+
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
 <script th:inline="javascript" th:src="@{/js/mypage/mypage_account.js}"></script>
 <script type="text/javascript" src="/js/moim/passbook.js"></script>
+
+
 
 </body>
 </html>

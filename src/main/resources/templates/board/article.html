@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게 시 판</title>
+<title>크루즈 :: [[${param.crewName}]] 게시판</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +54,9 @@
 			<table>
 				<tr>
 					<td valign="top" height="200">
-					<img th:src="@{'/images/board/' + ${filepath}}" width="200" height="300" onerror="this.style.display = 'none'">
+
+					<img th:src="@{'/images/' + ${filepath}}" width="400" height="500" onerror="this.style.display = 'none'">
+
 					<textarea rows="12" cols="82"
 							  name="content"
 							  class="content-box" th:text="${dto.board_content}"

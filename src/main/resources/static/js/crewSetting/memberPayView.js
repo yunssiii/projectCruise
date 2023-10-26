@@ -1,7 +1,6 @@
-
+Kakao.init('9862f7eff0dc73e6f37d21910ffc74b0'); // 카카오톡 공유하기 Key
 
 var memberPayViewBoxDiv = document.getElementById("memberPayViewBox");
-var payViewMonthSelector = document.querySelector('select[name="payViewMonth"]');
 var payTotalDiv = document.querySelector('.payTotal');
 
     // 월별회비조회 - 카카오톡/알림보내기 기능 부분
@@ -9,30 +8,35 @@ var defaultViewContainer = document.getElementById('defaultViewContainer');
 var kakaoTalkContainer = document.getElementById('kakaoTalkContainer');
 var alertContainer = document.getElementById('alertContainer');
 
-var msgReceiverDiv = document.getElementById('msgReceiver');
+var msgReceiverNameDiv = document.getElementById('msgReceiverName');
+var msgReceiverEmailDiv = document.getElementById('msgReceiverEmail');
     // 월별회비조회 - 미납자의 이름을 클릭했을 때 아래에 나타나는 이름
+
 var talkReceiverNameDiv = document.getElementById('talkReceiverName');
 var alertReceiverNameDiv = document.getElementById('alertReceiverName');
-    // 월별회비조회 - 오른쪽에 카카오톡을 받을 자
+    // 월별회비조회 - 오른쪽에 카카오톡or 알림을 받을 자의 이름이 담기는 Div
 
-var crewNum = $('#crewNumHidden').val();
-var crewAccount = $('#crewAccountHidden').val();
+var alertReciverEmailDiv = document.getElementById('alertReceiverEmail');
+
+var crewNum = document.getElementById('crewNumHidden').value;
+var crewAccount = document.getElementById('crewAccountHidden').value;
+
+    // 멤버 데이터
 
 
-// 임시 데이터
+    // 멤버 이름 배열
     var memNames = [];
 
     //멤버 이름 데이터 구하기 function
     var forEachState = 0;
     function setMemNames(memberList) {
-        // memberList = memberList.json();
         memberList.forEach(function (member) {
             memNames.push(member.MEM_NAME)
         })
     }
 
-    var transferContents = [];
-    var memberPayMoney = [];
+    var transferContents = []; // 각 멤버별로 검색 시 사용할 거래내용(입금자명) 세팅
+    var memberPayMoney = []; // 각 멤버별 입금내역
 
     function setMemPayMoney(memberList, fullDates) {
 
@@ -44,12 +48,14 @@ var crewAccount = $('#crewAccountHidden').val();
             transferContents.push(crewNum+memberNum+"_"+memberName);
         })
 
-        console.log(transferContents);
-
+        // 멤버별 입금내역 세팅
+        // 한 달간 모든 멤버의 입금액수가 한 객체에 담긴다.
+        // memberPayMoney 에는 각 월별 내역이 담긴 5개의 객체가 담긴다
         for(var i=0;i<fullDates.length;i++) {
 
             memberPayMoney[i] = [];
 
+            // 검색 시 사용할 날짜 세팅
             var startDate
                 = new Date(fullDates[i].getFullYear(),fullDates[i].getMonth(), 1);
             var endDate
@@ -69,13 +75,12 @@ var crewAccount = $('#crewAccountHidden').val();
             var endDateStr
                 = endDate.getFullYear() + "-" + endMonth  + "-" + endDate.getDate() + " 23:59:59" ;
 
-            console.log(startDateStr);
-            console.log(endDateStr);
-
+            // 멤버별로 입금액을 검색해, memName과 payMoney를 한 객체안에 담는다.
             for(var j=0;j<memberList.length;j++) {
 
                 let thisMemName = memberList[j].MEM_NAME;
                 let thisMemEmail = memberList[j].MEM_EMAIL.split("@")[0];
+                let thisMemFullEmail = memberList[j].MEM_EMAIL;
                 let transferContent = transferContents[j];
                 console.log(thisMemName + " / " + transferContent);
                 console.log(crewAccount);
@@ -97,13 +102,15 @@ var crewAccount = $('#crewAccountHidden').val();
                 inquieyReq.done(function(result){
                      payData.memName = thisMemName;
                      payData.memEmail = thisMemEmail;
+                     payData.memFullEmail = thisMemFullEmail;
                      payData.payMoney = result[0].inMoney;
                 })
 
+                // 멤버 한 명의 객체를 memberPayMoney의 i번째에 담는걸 반복한다.
+                // i번째에는 멤버 별 입금액이 담겨있다.
                 memberPayMoney[i].push(payData);
             }
         }
-        console.log(memberPayMoney);
     }
 
     // up 버튼을 눌렀을 때 월별회비조회 부분 초기화하기
@@ -148,6 +155,7 @@ var crewAccount = $('#crewAccountHidden').val();
         var payTotal = 0;
 
 
+        var selectedMemStat = 0;
 
         for(var i=0;i<selectedMonthList.length;i++) {
 
@@ -157,9 +165,13 @@ var crewAccount = $('#crewAccountHidden').val();
                     "<div class='payMemName'>"
                             + selectedMonthList[i].memName
                             + " (" + selectedMonthList[i].memEmail + ") </div>" +
-                    "<div id='payMemName' style='display: none;'>" +selectedMonthList[i].memName + "</div>" +
+                    "<div id='payMemName" + i + "' style='display: none;'>" +selectedMonthList[i].memName + "</div>" +
+                    "<div id='payMemEmail" + i + "' style='display: none;'>" +selectedMonthList[i].memFullEmail + "</div>" +
                     "<div class='payMoney'> 0원 </div>" +
                     "</div></div>";
+
+                selectedMemStat++;
+
             } else {
                 html +=
                     "<div class='oneLineContainer'>" +
@@ -189,7 +201,9 @@ var crewAccount = $('#crewAccountHidden').val();
         // 달이 바뀌었을 때 해당하는 달의 highlighter div로 초기화가 된다.
 
         // 납부하지 않은 멤버의 div에 클릭이벤트리스너 추가
-        notPayMember.forEach(function(member) {
+
+        notPayMember.forEach(function(member,index) {
+
             member.addEventListener('click', function(event) {
 
                 // 미납자를 클릭하면 숨겨져있던 sendMsgContainer를 드러내기
@@ -197,13 +211,15 @@ var crewAccount = $('#crewAccountHidden').val();
                 document.getElementById('nonSelected').classList.add('hiddenContainer');
                 document.getElementById('nonSelected').classList.remove('nonSelected');
 
-                var notPayName = member.querySelector('#payMemName').textContent;
-                msgReceiverDiv.textContent = notPayName;
+                var notPayName = document.getElementById('payMemName' + index).textContent;
+                var notPayEmail = document.getElementById('payMemEmail' + index).textContent;
+                msgReceiverNameDiv.textContent = notPayName;
+                msgReceiverEmailDiv.textContent = notPayEmail;
                 // 미납자의 이름을 가져와서 msgReceiver에 기입한다.
 
             });
-        });
 
+        });
 
     }
 
@@ -212,9 +228,9 @@ var crewAccount = $('#crewAccountHidden').val();
      // --> crewSetting.js에서 crewMemberSetting을 눌렀을 때의 이벤트 함수에 monthSelectorChange(0); 을 추가해주었다!
 
 
-    //selector의 change를 감지하는 이벤트리스너
-    $('#payViewMonth').on('change',function() {
-        var selectedOption = $(this).val();
+    var payViewMonthSelector = document.getElementById('payViewMonth');
+    payViewMonthSelector.addEventListener('change',function() {
+        var selectedOption = this.value;
         console.log(selectedOption)
         monthSelectorChange(selectedOption);
         settingDefaultDiv();
@@ -235,17 +251,48 @@ var crewAccount = $('#crewAccountHidden').val();
             kakaoTalkContainer.classList.add('hiddenBox');
         }
 
-        talkReceiverNameDiv.textContent = msgReceiverDiv.textContent;
-        alertReceiverNameDiv.textContent = msgReceiverDiv.textContent;
+        talkReceiverNameDiv.textContent = msgReceiverNameDiv.textContent;
+        alertReceiverNameDiv.textContent = msgReceiverNameDiv.textContent;
+        alertReciverEmailDiv.textContent = msgReceiverEmailDiv.textContent;
 
     }
-
 
 // TODO 카카오톡 보내기
 var kakaoTalkSendBtn = document.getElementById('kakaoTalkSend');
 
     kakaoTalkSendBtn.addEventListener('click',function () {
-        alert('카카오톡보내기 API를 실행합니다.')
+    var talkReceiverName = document.getElementById('talkReceiverName').textContent;
+    var sendMsg = document.getElementById('kakaoTalkMsg').value;
+    var webUrl = 'http://localhost:8082/crew?crewNum=' + crewNum;
+
+        Kakao.Link.sendDefault({
+            objectType: 'feed',
+            itemContent: {
+                profileImageUrl: 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Speedboat.png',
+                profileText: '편리한 모임통장 관리 서비스, 크루즈'
+            },
+            content: {
+                title: talkReceiverName + ' 선원님, 회비가 밀린 것 같아요!',
+                description: sendMsg,
+                imageUrl:
+                    'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Money-Mouth%20Face.png',
+                link: {
+                    mobileWebUrl: webUrl,
+                    webUrl: webUrl,
+                },
+            },
+            buttons: [
+                {
+                    title: '회비 내러 이동하기...💸',
+                    link: {
+                        mobileWebUrl: webUrl,
+                        webUrl: webUrl,
+                    },
+                },
+            ],
+        })
+
+
     })
 
 
@@ -253,7 +300,24 @@ var kakaoTalkSendBtn = document.getElementById('kakaoTalkSend');
 var alertSendBtn = document.getElementById('alertSend');
 
     alertSendBtn.addEventListener('click',function () {
-        alert('알림 보내기 백엔드단으로 보냅니다.')
+
+        var alertReceiverName = document.getElementById('alertReceiverName').textContent;
+        var alertReceiverEmail = document.getElementById('alertReceiverEmail').textContent;
+        var sendMsg = document.getElementById('alertMsg').value;
+
+        var alertSendReq = $.ajax({
+            url: "/crew/setting/alertFee",
+            method: "POST",
+            data: {
+                crewNum:crewNum,
+                email:alertReceiverEmail,
+                sendMsg:sendMsg
+            }
+        })
+
+        alertSendReq.done(function() {
+            alert("알림을 성공적으로 보냈어요!");
+        })
     })
 
 

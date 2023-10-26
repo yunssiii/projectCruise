@@ -318,11 +318,13 @@
             // 3. feeHistoryDiv 이 보이지 않고
             // 4. accountHistory 가 보여야 한다.
 
+
             toggleButton.textContent = "회비내역 조회";
             crewNameDiv.textContent = crewname + " 거래내역 조회"
             feeHistoryDiv.style.display = 'none';
             feeHistoryDiv.style.height = 0;
             accountHistoryDiv.style.display = 'block';
+
 
         } else {
             // 1. 눌렀을 때 버튼은 거래내역 조회로 바뀌고
@@ -330,6 +332,7 @@
             // 3. feeHistoryDiv 이 보이고
             // 4. accountHistory 가 보여지 않아야 한다.
 
+            monthSelectorChange(0);
             toggleButton.textContent = "거래내역 조회";
             crewNameDiv.textContent = crewname + " 회비내역 조회"
             feeHistoryDiv.style.display = '';

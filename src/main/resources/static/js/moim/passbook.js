@@ -91,6 +91,16 @@ function sendIt(){
     xhr.open('POST', '/moim/passbook');
     xhr.onload = function() {
       if (xhr.status === 200) {
+      var response = xhr.responseText;
+      var responseData = JSON.parse(response);
+
+      var group = responseData.group;
+      var num = responseData.num;
+
+    document.getElementById("sessionGroup").innerText = group;
+    document.getElementById("sessionNum").innerText = num;
+    console.log(group);
+    console.log(num);
         showModal();
       } else {
         console.log("passbook 전환 완료 실패");
@@ -177,8 +187,6 @@ function newAccount(checkbox) {
         myAccountCheckbox.checked = false;
         // 기존계좌 입력 필드도 비활성화
         document.getElementById('my_account').disabled = true;
-        // 새로운 계좌 선택 시 값 설정
-        checkedBox = 'checkedNew';
     }
 }
 

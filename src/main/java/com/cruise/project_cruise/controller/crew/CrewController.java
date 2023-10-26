@@ -1,13 +1,7 @@
 package com.cruise.project_cruise.controller.crew;
-
-import com.cruise.project_cruise.controller.HomeController;
 import com.cruise.project_cruise.dto.*;
-import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
-import com.cruise.project_cruise.service.MypageService;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -107,11 +102,9 @@ public class CrewController {
 
             return mav;
         }
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // bold 0. 항해 중단 크루일 시 항해중단 크루페이지로 이동하기
         if(dto.getCrew_deldate()!=null && !dto.getCrew_deldate().equals("")) {
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             String delDecideDateStr = dto.getCrew_deldate(); // 항해 중단 결정일자 불러오고
             Date delDecideDate = dateFormat.parse(delDecideDateStr);
@@ -176,9 +169,6 @@ public class CrewController {
         // int 는 정수이기 때문에 나눗셈의 소숫점 결과값을 얻으려면 double로 형변환 해주어야 함.
         String crewGoal = decimalFormat.format(dto.getCrew_goal());
 
-        // TODO 거래내역 조회
-
-        // TODO 회비내역 조회
 
         // bold 납입기능 양식 출력 - 완료
         // 접속한 유저의 선원 정보 가지고오기
@@ -195,6 +185,29 @@ public class CrewController {
 
         // TODO 일정 간편조회
 
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        List<ScheduleDTO> crewScheTodayList = new ArrayList<>();
+
+        List<ScheduleDTO> crewScheList = crewSettingService.getCrewScheList(crewNum);
+        for(int i=0;i<crewScheList.size();i++) {
+
+
+            LocalDate scheStartObj = LocalDate.parse(crewScheList.get(i).getSche_start(),formatter);
+            LocalDate scheEndObj = LocalDate.parse(crewScheList.get(i).getSche_end(),formatter);
+
+                // 음수이면 이전, 양수이면 이후, 0이면 같음
+            int startComparison = today.compareTo(scheStartObj);
+            int endComparison = today.compareTo(scheEndObj);
+
+            if(startComparison>=0 && endComparison<=0) { // 시작날짜 이후거나 같으면
+                    ScheduleDTO todayScheDTO = crewScheList.get(i);
+                    System.out.println(crewScheList.get(i).getSche_start());
+                    crewScheTodayList.add(todayScheDTO);
+            }
+        }
+
         // 데이터 넘겨주기
         // 크루 기본정보 관련
         mav.addObject("dto", dto);
@@ -204,6 +217,12 @@ public class CrewController {
         mav.addObject("crewAccountBalance", crewAccountBalanceStr);
         mav.addObject("achievePer", achievePer);
         mav.addObject("crewGoal", crewGoal);
+
+        // 크루 유저 리스트
+        mav.addObject("memberList",crewSettingService.getCrewMemberList(crewNum));
+
+        // 크루 오늘의 일정
+        mav.addObject("crewScheTodayList",crewScheTodayList);
 
         // 납입기능 폼 데이터
         mav.addObject("crewUserInfo", crewUserInfo);
