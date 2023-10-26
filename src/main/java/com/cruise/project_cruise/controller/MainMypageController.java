@@ -12,22 +12,27 @@ import com.cruise.project_cruise.token.JwtTokenizer;
 import com.cruise.project_cruise.util.CrewBoardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@ServerEndpoint("/testWebSocket")
 public class MainMypageController {
 
     @Autowired
@@ -38,6 +43,8 @@ public class MainMypageController {
 
     @Autowired
     CrewBoardUtil myUtil;
+
+    private static final List<Session> session = new ArrayList<Session>();
 
     /*
         로그인 후 바로 연결되는 마이페이지 메인창 메소드
@@ -161,5 +168,92 @@ public class MainMypageController {
 
         return mav; //프론트에서 요청했을때는 이 리턴이 프론트로 가는듯 그래서 화면이 안나오는것 같음
     }
-}
+
+    @GetMapping("/test")
+    public ModelAndView test() {
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("/sse");
+
+        return mav;
+    }
+
+    @GetMapping("/test2")
+    public ModelAndView test2() {
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("/sseTest");
+
+        return mav;
+    }
+
+    @GetMapping("/test3")
+    public ModelAndView test3() {
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("/toastTest");
+
+        return mav;
+    }
+
+    @GetMapping("/test5")
+    public ModelAndView test5() {
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("/nextSseTest");
+
+        return mav;
+    }
+
+    @PostMapping("/test")
+    public ModelAndView testInsert(@RequestParam("nums") int num,@RequestParam("assorts") String assort,
+                           @RequestParam("contents")String content,@RequestParam("dates")String date,
+                           @RequestParam("emails")String email,@RequestParam("crewNums")int crewNum) throws Exception{
+
+        System.out.println("왔다 >>>>>>>>");
+
+        mypageService.insertMyAlert(num,assort,content,date,email,crewNum);
+
+        ModelAndView mav = new ModelAndView();
+
+        mav.setViewName("redirect:/test");
+
+        return mav;
+
+    }
+
+    @OnOpen
+    public void open(Session newUser){
+        System.out.println("웹소켓 연결");
+        session.add(newUser);
+        System.out.println("세션에 올라간 user >>>>>>>"+newUser.getId());
+    }
+
+    @OnMessage
+    public void getMsg(Session recieveSession,String msg) {
+
+        for (int i = 0; i < session.size(); i++) {
+            if (!recieveSession.getId().equals(session.get(i).getId())) {
+                try {
+                    session.get(i).getBasicRemote().sendText("상대 : "+msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    session.get(i).getBasicRemote().sendText("나(안나와도 됨) : "+msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    }
+
+
+
 

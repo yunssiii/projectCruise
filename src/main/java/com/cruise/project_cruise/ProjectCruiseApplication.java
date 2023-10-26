@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.sql.DataSource;
 
@@ -40,6 +41,12 @@ public class ProjectCruiseApplication {
 
 		return sessionFactoryBean.getObject(); // 객체화 시켜서 내보내기
 
+	}
+
+	//웹소켓관련 객체
+	@Bean
+	public ServerEndpointExporter serverEndpointExporter() {
+		return new ServerEndpointExporter();
 	}
 
 }
