@@ -91,6 +91,16 @@ function sendIt(){
     xhr.open('POST', '/moim/passbook');
     xhr.onload = function() {
       if (xhr.status === 200) {
+      var response = xhr.responseText;
+      var responseData = JSON.parse(response);
+
+      var group = responseData.group;
+      var num = responseData.num;
+
+    document.getElementById("sessionGroup").innerText = group;
+    document.getElementById("sessionNum").innerText = num;
+    console.log(group);
+    console.log(num);
         showModal();
       } else {
         console.log("passbook 전환 완료 실패");

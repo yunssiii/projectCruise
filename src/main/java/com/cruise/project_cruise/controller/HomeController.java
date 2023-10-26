@@ -170,13 +170,5 @@ public class HomeController {
 
         }
 
-        @GetMapping("/index")
-        public String index(Model model){
 
-        model.addAttribute("group","앙큼불여우");
-        model.addAttribute("num",1);
-
-
-            return "index";
-        }
     }

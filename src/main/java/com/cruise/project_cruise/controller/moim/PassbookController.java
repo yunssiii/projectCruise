@@ -7,11 +7,14 @@ import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.MoimPassbookService;
 import com.cruise.project_cruise.service.MypageService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 @RequestMapping("/moim/passbook")
@@ -57,10 +60,10 @@ public class PassbookController {
     }
 
     @PostMapping(value = "")
-    public ModelAndView passbook_ok(@RequestParam("checkedBox") String checkedBox,
+    public void passbook_ok(@RequestParam("checkedBox") String checkedBox,
                                     @RequestParam(value = "selectedBank", required = false) String selectedBank,
-                                    CrewDTO crewDTO, CrewMemberDTO crewMemberDTO,
-                                      HttpServletRequest request) throws Exception {
+                                    CrewDTO crewDTO, CrewMemberDTO crewMemberDTO, Model model,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         HttpSession session = request.getSession();
         String userEmail = (String)session.getAttribute("email");
@@ -115,9 +118,25 @@ public class PassbookController {
         moimPassbookService.insertCrewMember(crewMemberDTO);
 
 
-        mav.setViewName("redirect:/mypage/mypage_all");
+        model.addAttribute("group",crewDTO.getCrew_name());
+        model.addAttribute("num",maxCrewNum);
 
-        return mav;
+        JSONObject jsonResponse =  new JSONObject();
+        jsonResponse.put("group",crewDTO.getCrew_name());
+        jsonResponse.put("num",maxCrewNum);
+
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse.toString());
+        response.getWriter().flush();
+
+
+
+
+
+
+
     }
 
     @PostMapping("/new")
