@@ -161,6 +161,7 @@ public class CrewBoardController {
 
 		int dataCount = crewBoardService.getDataCount(searchKey, searchValue, crewNum);
 
+
 		int numPerPage = 10;	// 한 페이지당 10개의 게시글
 		int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 
@@ -172,6 +173,7 @@ public class CrewBoardController {
 
 		List<CrewBoardDTO> lists = crewBoardService.getLists(start, end,
 				searchKey, searchValue, crewNum,currentPage,totalPage);
+		System.out.println(lists);
 
 		String param = "";
 		if(searchValue != null && !searchValue.isEmpty()) {
