@@ -165,23 +165,6 @@
         .crewCalendarContainer {
             position: relative;
         }
-
-        /*#addScheBtn { 일정 관리 창에서만 쓸 버튼! */
-        /*    position: absolute;*/
-        /*    top: 1px;*/
-        /*    left: 115px;*/
-        /*    background-color: #2e3f51;*/
-        /*    border-radius: 5px;*/
-        /*    height: 34px;*/
-        /*    width: 50px;*/
-        /*    color: white;*/
-        /*    cursor: pointer;*/
-        /*}*/
-
-        /*#addScheBtn:active {*/
-        /*    background-color: #1c2731;*/
-        /*}*/
-
     </style>
 </head>
 <body>
@@ -360,86 +343,18 @@
             <!-- 거래내역 조회 DIV -->
             <div id="account_history">
                 <table>
-                    <tr>
-                        <th>거래일자</th>
-                        <th>구분</th>
-                        <th>내용</th>
-                        <th>입금액</th>
-                        <th>출금액</th>
-                        <th>잔액</th>
-                    </tr>
-                    <tr>
-                        <td>23.09.25</td>
-                        <td>OP이체</td>
-                        <td>토스 김은지</td>
-                        <td></td>
-                        <td>57,530</td>
-                        <td>218</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.25</td>
-                        <td>타행FB</td>
-                        <td>김은지</td>
-                        <td>2,000</td>
-                        <td></td>
-                        <td>57,748</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.25</td>
-                        <td>타행MB</td>
-                        <td>김은지</td>
-                        <td>5,248</td>
-                        <td></td>
-                        <td>55,748</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.24</td>
-                        <td>타행PC</td>
-                        <td>쿠팡</td>
-                        <td>60,500</td>
-                        <td></td>
-                        <td>60,500</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.22</td>
-                        <td>OP이체</td>
-                        <td>토뱅 김은지</td>
-                        <td></td>
-                        <td>5941</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.21</td>
-                        <td>FB이체</td>
-                        <td>쿠팡</td>
-                        <td></td>
-                        <td>100,000</td>
-                        <td>5,941</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.21</td>
-                        <td>타행FB</td>
-                        <td>김은지</td>
-                        <td>100,000</td>
-                        <td></td>
-                        <td>105,941</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.21</td>
-                        <td>FB통신</td>
-                        <td>KT2242531409</td>
-                        <td></td>
-                        <td>9,900</td>
-                        <td>5,941</td>
-                    </tr>
-                    <tr>
-                        <td>23.09.21</td>
-                        <td>OP이체</td>
-                        <td>토스 김은지</td>
-                        <td></td>
-                        <td>12,000</td>
-                        <td>15,841</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>거래일자</th>
+                            <th>구분</th>
+                            <th>내용</th>
+                            <th>입금액</th>
+                            <th>출금액</th>
+                            <th>잔액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountHistoryTbody">
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -559,6 +474,7 @@
 <script th:src="@{/js/kakaoLink/kakaoLink.js}"></script>
 <script type="text/javascript" src="/js/kakaoLink/kakaoLink.js"></script>
 <script type="text/javascript" src="/js/crewDetail/memberPayView.js"></script>
+<script type="text/javascript" src="/js/crewDetail/TransactionDetailView.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.

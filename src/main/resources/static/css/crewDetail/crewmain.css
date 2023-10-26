@@ -593,7 +593,7 @@ nav {
     border-bottom: 1px dashed #8d7e79;
 }
 
-.bankbook_bottom table tr:nth-child(2) td{
+.bankbook_bottom table tr:nth-child(1) td{
     padding: 15px 5px 5px 5px;
 }
 
