@@ -58,7 +58,7 @@ public class CrewBoardController {
 
 		if (!files.isEmpty()) {
 			// 이미지 저장 경로
-			String upload_path = "C:\\projectCruise\\src\\main\\resources\\static\\images\\board\\";
+			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
 			String originalName = files.getOriginalFilename();
 
 			try {
@@ -84,7 +84,6 @@ public class CrewBoardController {
 		} else {
 			dto.setSavedFile("");
 		}
-
 		String userName = crewBoardService.getUserName(userEmail);
 		int notice = Integer.parseInt(request.getParameter("notice"));
 		int maxNum = crewBoardService.maxNum();
