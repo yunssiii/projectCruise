@@ -57,8 +57,12 @@ public class CrewBoardController {
 
 		if (!files.isEmpty()) {
 			// 이미지 저장 경로
-			String upload_path = request.getServletContext().getRealPath("/images");
+
+			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+
+	
 			System.out.println("upload_path: " + upload_path);
+
 			String originalName = files.getOriginalFilename();
 
 			try {
@@ -84,7 +88,6 @@ public class CrewBoardController {
 		} else {
 			dto.setSavedFile("");
 		}
-
 		String userName = crewBoardService.getUserName(userEmail);
 		int notice = Integer.parseInt(request.getParameter("notice"));
 		int maxNum = crewBoardService.maxNum();
