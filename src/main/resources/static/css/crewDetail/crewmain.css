@@ -811,8 +811,7 @@ nav {
     font-family: 'Cafe24Supermagic-Bold-v1.0', 'NanumSquare', 'sans-serif';
     font-size: 25pt;
     margin: auto;
-    margin-top: 20px;
-    margin-bottom: 0;
+    padding-top: 20px;
 
 }
 
@@ -837,6 +836,35 @@ nav {
 .cal_receipt .content {
     grid-area: content;
     margin: 10px 30px 10px 30px;
+}
+
+.cal_receipt .content .dont_have_schedule{
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.cal_receipt .content .sche_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cal_receipt .content .sche_content .sche_color {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border-radius: 100%;
+}
+
+.cal_receipt .content .sche-date {
+    display: flex;
+    column-gap: 5px;
+}
+
+.cal_receipt .content .sche_content .today_title {
+    font-size: 15pt;
+    font-family: 'NanumSquareExtraBold', 'sans-serif';
 }
 
 
