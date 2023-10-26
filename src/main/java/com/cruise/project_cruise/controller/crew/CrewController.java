@@ -203,7 +203,8 @@ public class CrewController {
 
             if(startComparison>=0 && endComparison<=0) { // 시작날짜 이후거나 같으면
                     ScheduleDTO todayScheDTO = crewScheList.get(i);
-                    System.out.println(crewScheList.get(i).getSche_start());
+                    todayScheDTO.setSche_start(crewScheList.get(i).getSche_start().split("\\s+")[0]);
+                    todayScheDTO.setSche_end(crewScheList.get(i).getSche_end().split("\\s+")[0]);
                     crewScheTodayList.add(todayScheDTO);
             }
         }
