@@ -15,10 +15,10 @@
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
     <!-- 제이쿼리 cdn-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <!-- 카카오톡 CDN -->
+    <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 
 
@@ -373,7 +373,8 @@
                         </div>
                         <div class="sendMsgContainer hiddenContainer">
                             <div class="msgReceiverContainer">
-                                <div id="msgReceiver">수신자이름</div>님 에게,
+                                <div id="msgReceiverName">수신자이름</div>님 에게,
+                                <div id="msgReceiverEmail" style="display: none;"></div>
                             </div>
                             <button id="sendKaKao" onclick="sendSettingBtnClick('kakao')">카카오톡 보내기</button>
                             <button id="sendAlert" onclick="sendSettingBtnClick('alert')">알림으로 보내기</button>
@@ -395,13 +396,11 @@
                                      alt="Speech Balloon" width="150" height="150" />
                                 <div class="receiverContainer">
                                     <div id="talkReceiverName" class="receiverName">이름</div>님 에게 카카오톡 보내기
-                                    <input type="hidden" name="name">
-                                    <!-- FIXME 데이터 컬럼명에 맞게 고치기 -->
                                 </div>
                             </div>
                             <div class="writeMsgContainer">
                                 <b>카카오톡 메시지 입력하기</b>
-                                <textarea name="kakaoTalkMsg" placeholder="메시지를 입력하세요."></textarea>
+                                <textarea id="kakaoTalkMsg" placeholder="메시지를 입력하세요."></textarea>
                             </div>
                             <button id="kakaoTalkSend">메시지 공유하기</button>
                         </div>
@@ -411,13 +410,13 @@
                                      alt="Bell" width="150" height="150" />
                                 <div class="receiverContainer">
                                     <div id="alertReceiverName" class="receiverName">이름</div>님 에게 알림 보내기
-                                    <input type="hidden" name="name">
+                                    <div id="alertReceiverEmail" style="display: none;"></div>
                                     <!-- FIXME 데이터 컬럼명에 맞게 고치기 -->
                                 </div>
                             </div>
                             <div class="writeMsgContainer">
                                 <b>알림 메시지 입력하기</b>
-                                <textarea name="alertMsg" placeholder="메시지를 입력하세요."></textarea>
+                                <textarea id="alertMsg" placeholder="메시지를 입력하세요."></textarea>
                             </div>
                             <button id="alertSend">알림 보내기</button>
                         </div>

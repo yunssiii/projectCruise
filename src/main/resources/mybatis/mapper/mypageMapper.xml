@@ -187,8 +187,8 @@
 
     <!-- 내알림 insert -->
     <insert id="insertMyAlert" parameterType="com.cruise.project_cruise.dto.MyAlertDTO">
-        insert into my_alert (myalert_num,myalert_assort,myalert_content,myalert_adate,email,crew_num)
-        values (#{myalert_num},#{myalert_assort},#{myalert_content},#{myalert_adate},#{email},#{crew_num})
+        insert into my_alert (myalert_num,myalert_assort,myalert_content,myalert_adate,email)
+        values (#{myalert_num},#{myalert_assort},#{myalert_content},#{myalert_adate},#{email})
     </insert>
 
     <!-- 내 알림 max myalert_num -->
@@ -200,7 +200,7 @@
     <select id="getMyalert" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
         <![CDATA[
         select myalert_num,myalert_content,myalert_assort,to_char(myalert_adate,'yyyy.mm.dd') from my_alert
-        where email=#{email} and myalert_adate<=sysdate order by myalert_adate desc
+        where email=#{email} and myalert_adate<=sysdate order by myalert_num desc
         ]]>
     </select>
 

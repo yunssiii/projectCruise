@@ -108,7 +108,7 @@ public class CrewBoardController {
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertMaxNum = mypageService.maxMyalertNum();
                 mypageService.insertMyAlert(alertMaxNum + 1, "공지",
-                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"), dto.getCrew_num());
+                        alertContent, date.format(today), stringStringMap.get("MEM_EMAIL"));
             }
 
 			// crew_alert 테이블에 insert
