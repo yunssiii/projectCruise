@@ -205,6 +205,9 @@ public class CrewController {
         mav.addObject("achievePer", achievePer);
         mav.addObject("crewGoal", crewGoal);
 
+        // 크루 유저 리스트
+        mav.addObject("memberList",crewSettingService.getCrewMemberList(crewNum));
+
         // 납입기능 폼 데이터
         mav.addObject("crewUserInfo", crewUserInfo);
         mav.addObject("userMustPayCount", userMustPayCount);

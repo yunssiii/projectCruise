@@ -189,6 +189,7 @@
     <input type="hidden" id="crewAccount" th:value="${dto.crew_accountid}">
     <input type="hidden" id="crewNameStr" th:value="${dto.crew_name}">
     <input type="hidden" id="crewNum" th:value="${dto.crew_num}">
+    <input type="hidden" id="userIsCaptain" th:value="${isCaptain}">
     <input type="hidden" id="userName" th:value="${crewUserInfo.USER_NAME}">
     <input type="hidden" id="userEmail" th:value="${crewUserInfo.USER_EMAIL}">
     <input type="hidden" id="userNum" th:value="${crewUserInfo.MEM_NUM}">
@@ -287,46 +288,71 @@
             <div id="fee_history" style="display: none">
                 <div class="line0"></div>
                 <div class="title">
-                    <select>
-                        <option value="9">9</option>
-                        <option value="8">8</option>
-                        <option value="7">7</option>
+                    <select class="month" id="payViewMonth">
+                        <!-- FIXME 월수만큼 불러오기 -->
+                        <script th:inline="javascript">
+                            /*<![CDATA[*/
+                            /* 크루 월별회비조회 select부분 월 불러오기*/
+
+                            // 최근 5개월 회비내역 까지만 불러오기
+                            var nowFullDate = new Date();
+                            var nowFullYear = nowFullDate.getFullYear();
+                            var nowMonth = nowFullDate.getMonth() + 1;
+                            var fullDates = [];
+
+                            var crewCreated = [[${dto.crew_created}]]
+                            var crewCreatedYear = crewCreated.substring(0,5);
+                            crewCreatedYear = parseInt(crewCreatedYear);
+                            var crewCreatedMonth = crewCreated.substring(5,7);
+                            crewCreatedMonth = parseInt(crewCreatedMonth);
+
+                            if(nowFullYear-crewCreatedYear===0 && nowMonth-crewCreatedMonth<5) {
+                                // 만약 만들어진지 5개월 미만의 크루이면
+                                for(var i=0; i<nowMonth-crewCreatedMonth; i++) {
+                                    var cloneDate = new Date(nowFullDate);
+                                    cloneDate.setMonth(cloneDate.getMonth()-i);
+
+                                    if(cloneDate.getMonth()===-1) {
+                                        cloneDate.setFullYear(cloneDate.getFullYear()-1);
+                                        cloneDate.setMonth(11);
+                                    }
+                                    fullDates.push(cloneDate);
+                                }
+                            } else {
+                                // 5개월 이상의 크루이면
+                                for(var i=0; i<5; i++) {
+                                    var cloneDate = new Date(nowFullDate);
+                                    cloneDate.setMonth(cloneDate.getMonth()-i);
+
+                                    if(cloneDate.getMonth()===-1) {
+                                        cloneDate.setFullYear(cloneDate.getFullYear()-1);
+                                        cloneDate.setMonth(11);
+                                    }
+                                    fullDates.push(cloneDate);
+                                }
+                            }
+
+                            var forStat = 0;
+
+                            fullDates.forEach(function(Date) {
+                                document.write('<option value="' + forStat + '">' + (Date.getMonth() +1) + '</option>');
+                                forStat++;
+                            })
+
+                            /*]]>*/
+                        </script>
                     </select>
                     월의 회비 내역
                 </div>
                 <div class="line1"></div>
-                <div class="history">
-<!--            만약 관리자라면, 회비 독촉링크로 이동        -->
-                    <a href="">
-                        <div class="unpaid_record">
-                            <div class="name">김은지</div>
-                            <div class="money">0원</div>
-                        </div>
-                    </a>
-                    <div class="record">
-                        <div class="name">황윤하</div>
-                        <div class="money">20,000원</div>
-                    </div>
-                    <div class="record">
-                        <div class="name">한두혁</div>
-                        <div class="money">20,000원</div>
-                    </div>
-                    <div class="record">
-                        <div class="name">서미진</div>
-                        <div class="money">20,000원</div>
-                    </div>
-                    <div class="record">
-                        <div class="name">이미연</div>
-                        <div class="money">20,000원</div>
-                    </div>
-                </div>
+                <div class="history" id="memberPayViewBox"> 여기 내역이 작성됩니다. </div>
                 <div class="line2"></div>
                 <div class="summary">
                     <div class="sum_people">
-                        5명 중 <b>4명</b>이 납부하였습니다.
+                        5명 중 <b id="payTotalCount">4명</b>이 납부하였습니다.
                     </div>
                     <div class="sum_money">
-                        총 <b>80,000원</b> 납부되었습니다.
+                        총 <b id="payTotalSum">80,000원</b> 납부되었습니다.
                     </div>
                 </div>
                 <div class="line3"></div>
@@ -532,12 +558,16 @@
 <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script th:src="@{/js/kakaoLink/kakaoLink.js}"></script>
 <script type="text/javascript" src="/js/kakaoLink/kakaoLink.js"></script>
+<script type="text/javascript" src="/js/crewDetail/memberPayView.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.
      * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
      * 이 HTML이 처음로딩 되었을 때 payMoney에 불러오는 용도 */
     payMoney.textContent = String(([[${dto.crew_paymoney}]] * num.value).toLocaleString("ko-KR"));
+
+    setMemNames([[${memberList}]])
+    setMemPayMoney([[${memberList}]],fullDates);
     /*]]>*/
 </script>
 </html>

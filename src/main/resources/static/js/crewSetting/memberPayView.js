@@ -1,7 +1,6 @@
 Kakao.init('9862f7eff0dc73e6f37d21910ffc74b0'); // 카카오톡 공유하기 Key
 
 var memberPayViewBoxDiv = document.getElementById("memberPayViewBox");
-var payViewMonthSelector = document.querySelector('select[name="payViewMonth"]');
 var payTotalDiv = document.querySelector('.payTotal');
 
     // 월별회비조회 - 카카오톡/알림보내기 기능 부분
