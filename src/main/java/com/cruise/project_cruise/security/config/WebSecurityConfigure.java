@@ -8,6 +8,7 @@ import com.cruise.project_cruise.service.UserService;
 import com.cruise.project_cruise.token.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +22,32 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.SessionTrackingMode;
+import java.util.Collections;
 
 @EnableWebSecurity  //Spring Security 설정 활성화
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true) //secured 어노테이션 활성화 이걸로 권한있는사람만 들어가게 할수있음
-public class WebSecurityConfigure {
+public class WebSecurityConfigure implements WebMvcConfigurer {
+
+
+    @Bean
+    public ServletContextInitializer clearJsession(){ //해당 세션 쿠키가 Http통해서만 접근가능하도록함 보안강화(javascript등 클라이언트 측의 접근 방지)
+        return new ServletContextInitializer() {
+            @Override
+            public void onStartup(ServletContext servletContext) throws ServletException {
+                servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
+                SessionCookieConfig sessionCookieConfig=servletContext.getSessionCookieConfig();
+                sessionCookieConfig.setHttpOnly(true);
+            }
+        };
+    }
+
 
     public WebSecurityConfigure(PrincipalDetailsService principalDetailsService) {
         this.principalDetailsService = principalDetailsService;

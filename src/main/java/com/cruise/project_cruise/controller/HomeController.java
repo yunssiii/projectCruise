@@ -103,8 +103,8 @@ public class HomeController {
         }
 
     @GetMapping("/accept2") //로그인시 초대
-    @ResponseBody
-    public void accept2(HttpSession session) throws Exception {
+
+    public String accept2(HttpSession session) throws Exception {
 
         CrewMemberDTO dto = new CrewMemberDTO();
 
@@ -121,7 +121,7 @@ public class HomeController {
         session.removeAttribute("num");
 
 
-
+        return "redirect:/mypage/mypage_all";
     }
 
         @GetMapping("/reject")

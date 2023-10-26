@@ -90,7 +90,7 @@ var randomImagePath = getRandomImagePath(imagePaths);
                           } else {
 
                                      const rejectXhr = new XMLHttpRequest();
-                                            rejectXhr.open("GET", "/accept2", true);
+                                            rejectXhr.open("GET", "/accept", true);
                                             rejectXhr.send();
                                             rejectXhr.onload = function() {
 
