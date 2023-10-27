@@ -15,7 +15,7 @@
 
     <!-- crew_member 테이블의 cmem_num maxnum 가져오기-->
     <select id="getCmemNumMaxNum" resultType="int">
-        select nvl(max(CMEM_NUM),0) from CREW_MEMBER;
+        select nvl(max(CMEM_NUM),0) from CREW_MEMBER
     </select>
 
 </mapper>

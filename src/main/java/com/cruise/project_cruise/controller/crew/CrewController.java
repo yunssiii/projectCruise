@@ -152,6 +152,13 @@ public class CrewController {
 
 
         // TODO 1. 크루 소식조회
+            // 1-1. 크루 멤버 가입 소식 가지고 오기
+        List<CrewAlertDTO> crewNewMemAlertList = crewAlertService.getNewMemberNewsList(crewNum);
+            // 1-2. 크루 소식 가지고오기
+        List<CrewAlertDTO> crewNewsAlertList = crewAlertService.getNewCrewNewsList(crewNum);
+            // 1-3. 크루 모든 소식 가지고오기
+        List<CrewAlertDTO> crewAllNewsList = crewAlertService.getAllNewsList(crewNum);
+
 
         // bold 2. 크루 기본정보 데이터 - 완료
         String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
@@ -239,7 +246,12 @@ public class CrewController {
         mav.addObject("crewAccountBalance", crewAccountBalanceStr);
         mav.addObject("achievePer", achievePer);
         mav.addObject("crewGoal", crewGoal);
-        mav.addObject("restDay", restDay);
+        mav.addObject("restDay", restDay); // 납입일까지 남은 일자
+
+        // 크루 소식
+        mav.addObject("crewNewMemAlertList",crewNewMemAlertList);
+        mav.addObject("crewNewsAlertList",crewNewsAlertList);
+        mav.addObject("crewAllNewsList",crewAllNewsList);
 
         // 크루 유저 리스트
         mav.addObject("memberList",crewSettingService.getCrewMemberList(crewNum));
@@ -289,21 +301,10 @@ public class CrewController {
             return exitSuccess;
         }
 
-        Map<String,Object> crewMemberMap = crewDetailService.getCrewUserInfo(crewNum,userEmail);
-        String exitUserEmailSplit = userEmail.split("@")[0];
-        String exitUserName = (String)crewMemberMap.get("USER_NAME");
-
-        // 강퇴 처리
+        // 탈퇴 처리
         crewDetailService.deleteCrewMember(userEmail, crewNum);
         exitSuccess = 1;
         logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + " 크루 탈퇴 완료");
-
-        // 크루 알림 추가
-        String crewAlertContent = " 선원 " + exitUserName + "(" + exitUserEmailSplit +")님이 강퇴되었습니다.";
-//        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-//                "공지", crewAlertContent, todayStr);
-
-        // 내 알림 추가
 
 
         return exitSuccess;

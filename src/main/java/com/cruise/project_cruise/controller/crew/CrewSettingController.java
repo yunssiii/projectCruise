@@ -4,6 +4,7 @@ import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.dto.UserDTO;
+import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
@@ -35,6 +36,8 @@ public class CrewSettingController {
     private CrewSettingService crewSettingService;
     @Autowired
     private MypageService mypageService;
+    @Autowired
+    private CrewAlertService crewAlertService;
 
     final Logger logger = LoggerFactory.getLogger(CrewSettingController.class); // 로그
 
@@ -274,6 +277,26 @@ public class CrewSettingController {
         logger.info("endDate: " + scheEnd);
         logger.info("===================================================");
 
+        // 크루 알림 추가
+            // 날짜 설정
+        LocalDate today = LocalDate.now();
+        String todayMonth = Integer.toString(today.getMonthValue());
+        String todayDate = Integer.toString(today.getDayOfMonth());
+
+        if(today.getMonthValue()<10) {
+            todayMonth = '0' + todayMonth;
+        }
+        if(today.getDayOfMonth()<10) {
+            todayDate = '0' + todayDate;
+        }
+
+        String scheTitleSub = scheTitle.substring(0,4) + "...";
+        String crewAlertContent = "[일정추가] \""+ scheTitleSub +"\" 일정이 추가되었습니다.";
+
+        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                "일정", crewAlertContent, todayStr);
+
     }
 
     // bold 일정 수정
@@ -440,12 +463,43 @@ public class CrewSettingController {
         }
 
         Map<String,Object> crewMemberMap = crewDetailService.getCrewUserInfo(crewNum,email);
-        String exitUserEmail = (String)crewMemberMap.get("USER_NAME");
+        String exitUserEmailSplit = email.split("@")[0];
+        String exitUserName = (String)crewMemberMap.get("USER_NAME");
 
         crewSettingService.deleteMember(email, crewNum);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
         logger.info(crewNum + "/" + dto.getCrew_name() + " 크루에서 " + email + " 강퇴 완료");
+
+        // 크루 알림 추가
+        String crewAlertContent = "선원 " + exitUserName + "(" + exitUserEmailSplit +")님이 강퇴되었습니다.";
+        LocalDate today = LocalDate.now();
+        String todayMonth = Integer.toString(today.getMonthValue());
+        String todayDate = Integer.toString(today.getDayOfMonth());
+
+        if(today.getMonthValue()<10) {
+            todayMonth = '0' + todayMonth;
+        }
+        if(today.getDayOfMonth()<10) {
+            todayDate = '0' + todayDate;
+        }
+
+        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                "강퇴", crewAlertContent, todayStr);
+
+        // 내 알림 추가
+        String myAlertContent
+                = "[" + dto.getCrew_name() + "]" + exitUserName + "(" + exitUserEmailSplit +") 선원이 강퇴되었습니다.";
+
+        List<Map<String,String>> crewMemberList = crewSettingService.getCrewMemberList(crewNum);
+
+        for(int i=0;i<crewMemberList.size();i++) {
+            mypageService.insertMyAlert(mypageService.maxMyalertNum()+1,"멤버 강퇴",
+                    myAlertContent, todayStr, crewMemberList.get(i).get("MEM_EMAIL"));
+        }
+
+
     }
 
 
