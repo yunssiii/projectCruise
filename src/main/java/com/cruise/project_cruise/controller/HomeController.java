@@ -3,6 +3,8 @@ package com.cruise.project_cruise.controller;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.oauth.config.PrincipalDetails;
 import com.cruise.project_cruise.oauth.provider.KakaoUserInfo;
+import com.cruise.project_cruise.service.CrewAlertService;
+import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewMemberInviteService;
 import com.cruise.project_cruise.service.UserService;
 import com.cruise.project_cruise.token.JwtTokenizer;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.io.Console;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,7 +40,10 @@ public class HomeController {
     UserService userService;
     @Autowired
     CrewMemberInviteService crewMemberInviteService;
-
+    @Autowired
+    CrewAlertService crewAlertService;
+    @Autowired
+    CrewDetailService crewDetailService;
 
 
 
@@ -99,6 +105,27 @@ public class HomeController {
 
             crewMemberInviteService.insertCrewMember(dto);
 
+            // 은지 - 새 멤버 가입 시 crewAlert 추가
+            LocalDate today = LocalDate.now();
+            String todayMonth = Integer.toString(today.getMonthValue());
+            String todayDate = Integer.toString(today.getDayOfMonth());
+
+            if(today.getMonthValue()<10) {
+                todayMonth = '0' + todayMonth;
+            }
+            if(today.getDayOfMonth()<10) {
+                todayDate = '0' + todayDate;
+            }
+
+            String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+            Map<String,Object> userMap = crewDetailService.getCrewUserInfo(crew_num,email);
+            String userEmailSplit = email.split("@")[0];
+            String crewAlertContent
+                    = (String)userMap.get("USER_NAME") + "(" + userEmailSplit + ") 님이 가입하셨습니다.";
+
+            crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                    "가입", crewAlertContent, todayStr);
+
             session.removeAttribute("group");
             session.removeAttribute("num");
 
@@ -116,10 +143,34 @@ public class HomeController {
         String crew_numStr = (String) session.getAttribute("num");
         int crew_num = Integer.parseInt(crew_numStr);
 
+        // 은지 - dto에 cmem_num 세팅하는 부분 추가
+        int maxNum = crewMemberInviteService.getCmemNumMaxNum();
+        dto.setCmem_num(maxNum+1);
         dto.setCrew_num(crew_num);
         dto.setCmem_email(email);
 
         crewMemberInviteService.insertCrewMember(dto);
+
+        // 은지 - 새 멤버 가입 시 crewAlert 추가
+        LocalDate today = LocalDate.now();
+        String todayMonth = Integer.toString(today.getMonthValue());
+        String todayDate = Integer.toString(today.getDayOfMonth());
+
+        if(today.getMonthValue()<10) {
+            todayMonth = '0' + todayMonth;
+        }
+        if(today.getDayOfMonth()<10) {
+            todayDate = '0' + todayDate;
+        }
+
+        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+        Map<String,Object> userMap = crewDetailService.getCrewUserInfo(crew_num,email);
+        String userEmailSplit = email.split("@")[0];
+        String crewAlertContent
+                = (String)userMap.get("USER_NAME") + "(" + userEmailSplit + ") 님이 가입하셨습니다.";
+
+        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                "가입", crewAlertContent, todayStr);
 
         session.removeAttribute("group");
         session.removeAttribute("num");

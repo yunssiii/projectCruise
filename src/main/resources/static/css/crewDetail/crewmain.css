@@ -152,6 +152,24 @@ nav {
     overflow: hidden;
 }
 
+.alert_bar_con .alert_bar #animated_msg .line{
+    display: flex;
+    column-gap: 50px;
+    width: 930px;
+    text-align: center;
+    font-size: 12pt;
+    line-height: 25px;
+}
+
+.alert_bar_con .alert_bar #animated_msg .line .one_alert {
+    white-space: nowrap;
+    /*animation: anim 10s linear infinite;*/
+}
+
+.one_alert_container {
+    display: flex;
+}
+
 .alert_bar_con .alert_bar #msg {
     color: #fff;
 }
@@ -163,7 +181,7 @@ nav {
 
 .visible_bar {
     display: flex;
-    flex-direction: column;
+    column-gap: 10px;
     height: 100%;
 }
 
@@ -214,42 +232,6 @@ nav {
 }
 
 
-
-.alert_bar_con .alert_bar #animated_msg .line{
-    text-transform: uppercase;
-    width: 700px;
-    text-align: center;
-    font-size: 12pt;
-    line-height: 25px;
-}
-
-.alert_bar_con .alert_bar #animated_msg .line:first-child{
-    animation: anim 12s infinite;
-}
-
-@keyframes anim {
-    0%{
-        margin-top : 0;
-    }
-    10%{
-        margin-top : 0;
-    }
-    33% {
-        margin-top: -25px;
-    }
-    45% {
-        margin-top: -25px;
-    }
-    68% {
-        margin-top: -50px;
-    }
-    75% {
-        margin-top: -50px;
-    }
-    100%{
-        margin-top : 0;
-    }
-}
 
 
 

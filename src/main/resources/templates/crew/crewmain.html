@@ -174,6 +174,7 @@
             font-size: 10pt;
         }
     </style>
+    <style id="alertAnimationStyle"></style>
 </head>
 <body>
     <!-- 필요한 데이터 -->
@@ -196,25 +197,60 @@
                 <div class="bar_title">
                     <div id="todayDiv">현재 날짜</div>&nbsp;소식
                 </div>
-                <div> 납입일까지 <b>[[${restDay}]]일</b> 남았습니다. </div>
+                <div th:if="${restDay==0}"><b> 오늘은 납입일 입니다. </b></div>
+                <div th:if="${restDay!=0}"> 납입일까지 <b>[[${restDay}]]일</b> 남았습니다. </div>
             </div>
             <div class="alert_bar" onmouseover="alertBarHover()" onmouseout="alertBarUnhover()">
-                <div id="animated_msg" class="visible">
-                    <div class="line"><b>[납입일]</b> 오늘은 납입일 입니다. </div>
-                    <div class="line"><b>[새 멤버 가입]</b> 3건 </div>
-                    <div class="line"><b>[크루 일정 알림]</b> 1건 </div>
+                <div th:if="${crewAllNewsList==null}"> 크루 소식이 없습니다. </div>
+                <div th:if="${crewAllNewsList!=null}" id="animated_msg" class="visible_bar">
+                    <div class="line">
+                        <div class="one_alert" th:each="al, alStat : ${crewAllNewsList}">
+                            <b>[ [[${al.calert_assort}]] ]</b> [[${al.calert_content}]] - [[${#strings.setSplit(al.calert_alertdate,' ')[0]}]]
+                        </div>
+                    </div>
                 </div>
+                <script>
+                    const one_alerts = document.querySelectorAll(".one_alert");
+                    var one_alert = document.querySelector('.one_alert');
+                    var oneAlertLength = document.querySelectorAll('.one_alert').length;
+                    var oneAlertWidth = one_alert.offsetWidth;
+
+                    if((oneAlertLength * oneAlertWidth)<=930) {
+                        oneAlertWidth = 930;
+                    }
+                    var px = (oneAlertLength * oneAlertWidth) + 100;
+
+                    var alertAnimationStyle = document.getElementById('alertAnimationStyle');
+
+                    var keyframes =
+                        `@keyframes anim {
+                            0%{
+                                transform:translateX(`+ 1030 +`px);
+
+                            }
+                            100%{
+                                transform:translateX(-`+ px +`px);
+                            }
+                        }`
+                    alertAnimationStyle.innerHTML = keyframes;
+
+                    one_alerts.forEach((one_alert) => {
+                        one_alert.style.animation = `anim `+(9*oneAlertLength)+`s linear infinite`;
+                    });
+                </script>
                 <!-- 마우스 가져대대면 보이는 알림창 부분-->
                 <div id="msg" class="hidden">
                     <div class="new_memAlert">
                         <div class="ma_title"> 새 멤버 가입 </div>
-                        <div> <b>김은지</b>님이 9월 20일에 가입하셨습니다.</div>
-                        <div> <b>서미진</b>님이 9월 19일에 가입하셨습니다.</div>
-                        <div> <b>한두혁</b>님이 9월 17일에 가입하셨습니다.</div>
+                        <div th:if="${crewNewMemAlertList!=null}" th:each="mem, memStat : ${crewNewMemAlertList}">
+                            [[${mem.calert_content}]] ( [[${#strings.setSplit(mem.calert_alertdate,' ')[0]}]] )
+                        </div>
                     </div>
                     <div class="crew_scheAlert">
-                        <div class="cs_title"> 크루 일정 알림</div>
-                        <div> 일정 <b>[윤하 생일..]</b> 이 6일 남았습니다. </div>
+                        <div class="cs_title"> 크루 소식</div>
+                        <div th:if="${crewNewsAlertList!=null}" th:each="news, newsStat : ${crewNewsAlertList}">
+                            <b>[ [[${news.calert_assort}]] ]</b> [[${news.calert_content}]] ( [[${#strings.setSplit(news.calert_alertdate,' ')[0]}]] )
+                        </div>
                     </div>
                 </div>
             </div>

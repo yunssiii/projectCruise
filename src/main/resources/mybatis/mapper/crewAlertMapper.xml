@@ -14,4 +14,31 @@
     <select id="cAlertMaxNum" resultType="int">
         select nvl(max(calert_num),0) from crew_alert
     </select>
+
+    <!-- 크루 모든 소식을 select 하는 메소드 -->
+    <select id="getAllNewsList" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewAlertDTO">
+        select calert_num, crew_num, calert_assort, calert_content, calert_alertdate
+        from CREW_ALERT
+        where CREW_NUM = #{crewNum}
+        order by calert_num desc
+    </select>
+
+    <!-- 크루 새 멤버 가입을 select 하는 메소드 -->
+    <select id="getNewMemberNewsList" parameterType="int" resultType="com.cruise.project_cruise.dto.CrewAlertDTO">
+        select calert_num, crew_num, calert_assort, calert_content, calert_alertdate
+        from CREW_ALERT
+        where CREW_NUM = #{crewNum} and CALERT_ASSORT ='가입'
+        <![CDATA[ and ROWNUM <= 8]]>
+        order by calert_num desc
+    </select>
+
+    <!-- 크루 소식을 select 하는 메소드 -->
+    <select id="getNewCrewNewsList" parameterType="map" resultType="com.cruise.project_cruise.dto.CrewAlertDTO">
+        select calert_num, crew_num, calert_assort, calert_content, calert_alertdate
+        from CREW_ALERT
+        where CREW_NUM = #{crewNum} and
+              <![CDATA[ CALERT_ASSORT <> '가입'
+                and ROWNUM <= 8]]>
+        order by calert_num desc
+    </select>
 </mapper>

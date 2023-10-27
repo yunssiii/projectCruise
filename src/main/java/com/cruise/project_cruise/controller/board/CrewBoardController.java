@@ -119,7 +119,7 @@ public class CrewBoardController {
 			// crew_alert 테이블에 insert
 			// 은지 : 공지 알림 형식 수정할게요~!
 			String articleSubjectSub = dto.getBoard_subject().substring(0,4) + "...";
-			String crewAlertContent = " 새 공지 [" + articleSubjectSub + "] 가 등록되었습니다.";
+			String crewAlertContent = "\"" + articleSubjectSub + "\" 가 등록되었습니다.";
 			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
 					"공지", crewAlertContent, todayStr);
 
