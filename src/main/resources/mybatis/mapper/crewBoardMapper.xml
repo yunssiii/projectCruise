@@ -47,22 +47,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="getReadData" parameterType="int" 
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
-	select board_num,crew_num,name,email,board_subject,board_content,
-	hitCount,board_created from crew_board where board_num=#{board_num}
+	select board_num, crew_num, name, email, board_subject, board_content,
+	hitCount, board_created from crew_board where board_num = #{board_num}
 </select>
 
 <update id="updateHitCount" parameterType="int">
-	update crew_board set hitCount=hitCount+1 where board_num=#{board_num}
+	update crew_board set hitCount = hitCount + 1 where board_num = #{board_num}
 </update>
 
 <update id="updateData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	update crew_board set
-	board_subject=#{board_subject},board_content=#{board_content}
-	where board_num=#{board_num}
+	board_subject = #{board_subject}, board_content = #{board_content}, savedFile = #{savedFile}
+	where board_num = #{board_num}
 </update>
 
 <delete id="deleteData" parameterType="int">
-	delete crew_board where board_num=#{board_num}
+	delete crew_board where board_num = #{board_num}
 </delete>
 
 <select id="boardTitle" parameterType="int" resultType="hashmap">
