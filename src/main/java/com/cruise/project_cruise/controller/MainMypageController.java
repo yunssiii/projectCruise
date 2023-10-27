@@ -252,6 +252,7 @@ public class MainMypageController {
         }
     }
 
+
     @OnClose
     public void close(Session session) {}
 
