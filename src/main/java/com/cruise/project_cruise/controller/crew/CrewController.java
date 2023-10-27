@@ -1,10 +1,12 @@
 package com.cruise.project_cruise.controller.crew;
 import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,6 +16,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RequestMapping(value="/crew")
@@ -30,6 +33,8 @@ public class CrewController {
     private CrewDetailService crewDetailService;
     @Autowired
     private CrewSettingService crewSettingService;
+    @Autowired
+    private CrewAlertService crewAlertService;
 
     final Logger logger = LoggerFactory.getLogger(CrewController.class); // 로그
 
@@ -151,7 +156,7 @@ public class CrewController {
         // bold 2. 크루 기본정보 데이터 - 완료
         String captainName = crewDetailService.getCaptainName(dto.getCaptain_email());
 
-        // 3. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
+        // 2-1. 날짜 데이터 ~년, ~월 ~일 형태로 바꾸어주기
         String fullCreatedDate = dto.getCrew_created();
         String[] createdDate = new String[3];
 
@@ -159,15 +164,30 @@ public class CrewController {
         createdDate[1] = fullCreatedDate.substring(5, 7);
         createdDate[2] = fullCreatedDate.substring(8, 10);
 
-        // 4-1. 오픈뱅킹 대용 테이블에서 계좌 잔액 가지고오기
+        // 2-2-1. 오픈뱅킹 대용 테이블에서 계좌 잔액 가지고오기
         int crewAccountBalance = crewDetailService.getAccountBalance(dto.getCrew_accountid());
         DecimalFormat decimalFormat = new DecimalFormat("###,###");
         String crewAccountBalanceStr = decimalFormat.format(crewAccountBalance);
 
-        // 4-2. 목표금액, 달성율
+        // 2-2-2. 목표금액, 달성율
         int achievePer = (int) (((double) crewAccountBalance / (double) dto.getCrew_goal()) * 100);
         // int 는 정수이기 때문에 나눗셈의 소숫점 결과값을 얻으려면 double로 형변환 해주어야 함.
         String crewGoal = decimalFormat.format(dto.getCrew_goal());
+
+        // 2-3. 납입일까지 남은 일수
+        LocalDate today = LocalDate.now();
+        int paymentDate = dto.getCrew_paydate();
+        LocalDate paymentFullDate = LocalDate.of(today.getYear(),today.getMonth(),paymentDate);
+
+        int compareDate = today.compareTo(paymentFullDate);
+            // 0보다 작으면 today가 더 이전
+            // 0이랑 같으면 둘은 같은 날, 0보다 크면 today가 더 이후
+        if(compareDate>0) {
+            paymentFullDate = LocalDate.of(today.getYear(),today.getMonth().plus(1),paymentDate);
+        }
+
+        long restDay = ChronoUnit.DAYS.between(today,paymentFullDate);
+
 
 
         // bold 납입기능 양식 출력 - 완료
@@ -185,14 +205,13 @@ public class CrewController {
 
         // TODO 일정 간편조회
 
-        LocalDate today = LocalDate.now();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        List<ScheduleDTO> crewScheTodayList = new ArrayList<>();
+        List<ScheduleDTO> crewScheTodayList = null;
 
         List<ScheduleDTO> crewScheList = crewSettingService.getCrewScheList(crewNum);
         for(int i=0;i<crewScheList.size();i++) {
-
 
             LocalDate scheStartObj = LocalDate.parse(crewScheList.get(i).getSche_start(),formatter);
             LocalDate scheEndObj = LocalDate.parse(crewScheList.get(i).getSche_end(),formatter);
@@ -202,6 +221,8 @@ public class CrewController {
             int endComparison = today.compareTo(scheEndObj);
 
             if(startComparison>=0 && endComparison<=0) { // 시작날짜 이후거나 같으면
+                    crewScheTodayList = new ArrayList<>();
+
                     ScheduleDTO todayScheDTO = crewScheList.get(i);
                     todayScheDTO.setSche_start(crewScheList.get(i).getSche_start().split("\\s+")[0]);
                     todayScheDTO.setSche_end(crewScheList.get(i).getSche_end().split("\\s+")[0]);
@@ -218,6 +239,7 @@ public class CrewController {
         mav.addObject("crewAccountBalance", crewAccountBalanceStr);
         mav.addObject("achievePer", achievePer);
         mav.addObject("crewGoal", crewGoal);
+        mav.addObject("restDay", restDay);
 
         // 크루 유저 리스트
         mav.addObject("memberList",crewSettingService.getCrewMemberList(crewNum));
@@ -257,6 +279,7 @@ public class CrewController {
         int exitSuccess = 0;
 
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
         logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "의 크루 탈퇴 시도");
         // 선장인지 선원인지 먼저 확인
         boolean isCaptain = crewDetailService.isCaptain(crewNum,userEmail);
@@ -266,9 +289,22 @@ public class CrewController {
             return exitSuccess;
         }
 
+        Map<String,Object> crewMemberMap = crewDetailService.getCrewUserInfo(crewNum,userEmail);
+        String exitUserEmailSplit = userEmail.split("@")[0];
+        String exitUserName = (String)crewMemberMap.get("USER_NAME");
+
+        // 강퇴 처리
         crewDetailService.deleteCrewMember(userEmail, crewNum);
         exitSuccess = 1;
         logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + " 크루 탈퇴 완료");
+
+        // 크루 알림 추가
+        String crewAlertContent = " 선원 " + exitUserName + "(" + exitUserEmailSplit +")님이 강퇴되었습니다.";
+//        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+//                "공지", crewAlertContent, todayStr);
+
+        // 내 알림 추가
+
 
         return exitSuccess;
     }
