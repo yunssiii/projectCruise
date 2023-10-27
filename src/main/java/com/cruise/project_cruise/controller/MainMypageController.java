@@ -217,7 +217,7 @@ public class MainMypageController {
 
         System.out.println("왔다 >>>>>>>>");
 
-        mypageService.insertMyAlert(num,assort,content,date,email,crewNum);
+        mypageService.insertMyAlert(num,assort,content,date,email);
 
         ModelAndView mav = new ModelAndView();
 
@@ -252,7 +252,6 @@ public class MainMypageController {
                 }
             }
         }
-    }
     }
 
 
