@@ -54,7 +54,7 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
 		document.addEventListener("click", function(event) {
 			if (event.target !== menuButton && event.target !== menu) {
 				menu.style.display = "none";
-				
+
 			}
 		});
 
@@ -73,8 +73,54 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
 		document.addEventListener("click", function(event) {
 			if (event.target !== second_menuButton && event.target !== second_menu) {
 				second_menu.style.display = "none";
-				
-				
+
+
 			}
 		});
 		})();
+
+
+////-- 웹소켓 연결 ---------------------------------------------------------------------------------
+let socket = new WebSocket("ws://localhost:8082/testSocket");
+
+function openWebSocket() {
+
+    socket.onclose = () => {
+        // 웹소켓 세션이 닫히면 다시 연결 시도
+        console.log('연결 끊김');
+
+        socket = null;
+
+        setTimeout(() => {
+            openWebSocket();
+        }, 100); // 0.1초 후에 다시 연결 시도
+    };
+
+    socket.onopen = function (e) {
+        console.log('open server!')
+    };
+
+    socket.onerror = function (e){
+        console.log(e);
+    }
+
+    socket.onmessage = function (e) {
+        console.log(e.data);
+
+        var data = e.data; //웹소켓 메세지 내용
+
+        $('#first_menuButton').css('color','#FFD966');
+
+       $('#first_menuButton').click(function() {
+            $('#first_menuButton').css('color', 'blue');
+       });
+    }
+}
+
+window.onload = function() {
+    openWebSocket();
+};
+
+
+
+

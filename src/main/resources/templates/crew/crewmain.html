@@ -10,14 +10,6 @@
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
     <!-- 제이쿼리 cdn-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- 네비게이터 바 CSS -->
-    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
-    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <!-- ----------------- -->
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
@@ -521,12 +513,12 @@
         </div>
     </div>
     </div>
-    <nav th:replace="navbar :: footerFragmant"></nav>
+
+    <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
+    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
 </body>
 
-<!-- 네비게이터 바 스크립트 -->
-<script type="text/javascript" src="/js/nav.js"></script>
 
 <script type="text/javascript" src="/js/crewDetail/crewmain.js"></script>
 <script type="text/javascript" src="/js/crewDetail/crewCalendar.js"></script>

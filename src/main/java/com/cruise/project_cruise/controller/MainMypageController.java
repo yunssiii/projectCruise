@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@ServerEndpoint("/testWebSocket")
 public class MainMypageController {
 
     @Autowired
@@ -42,7 +41,7 @@ public class MainMypageController {
     @Autowired
     CrewBoardUtil myUtil;
 
-    private static final List<Session> session = new ArrayList<Session>();
+
 
     /*
         로그인 후 바로 연결되는 마이페이지 메인창 메소드
@@ -224,40 +223,6 @@ public class MainMypageController {
         return mav;
 
     }
-
-    @OnOpen
-    public void open(Session newUser){
-        System.out.println("웹소켓 연결");
-        session.add(newUser);
-        System.out.println("세션에 올라간 user >>>>>>>"+newUser.getId());
-    }
-
-    @OnMessage
-    public void getMsg(Session recieveSession,String msg) {
-
-        for (int i = 0; i < session.size(); i++) {
-            if (!recieveSession.getId().equals(session.get(i).getId())) {
-                try {
-                    session.get(i).getBasicRemote().sendText("상대 : "+msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                try {
-                    session.get(i).getBasicRemote().sendText("나 : "+msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-
-    @OnClose
-    public void close(Session session) {}
-
-    @OnError
-    public void onError(Session session, Throwable thr) {}
 
 
 

@@ -87,7 +87,7 @@
 <script>
 
 
-    let socket = new WebSocket("ws://localhost:8082/testWebSocket");
+    let socket = new WebSocket("ws://localhost:8082/testSocket");
 
     function openWebSocket() {
 
@@ -149,7 +149,6 @@
         var contents = $('#content').val();
         var dates = $('#date').val();
         var emails = $('#email').val();
-        var crewNums = $('#crewNum').val();
 
 
         $.ajax({
@@ -161,7 +160,6 @@
                 contents : contents,
                 dates : dates,
                 emails : emails,
-                crewNums : crewNums
             },
             success : function(result){
                 console.log("test insert 성공..!");
@@ -169,7 +167,6 @@
                 var message = '새로운 알림이 왔습니다!'
 
                 socket.send(message);
-
 
             },
             error:function(xhr,status,error) {

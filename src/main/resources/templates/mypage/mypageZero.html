@@ -50,12 +50,11 @@
     </div>
 
 
-<th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
-
 <p id="sessionGroup" th:if="${session.group != null}" th:text="${session.group}" style="display:none"></p>
 <p id="sessionEmail" th:if="${session.email != null}" th:text="${session.email}" style="display:none"></p>
 <p id="sessionNum" th:if="${session.num != null}" th:text="${session.num}" style="display:none"></p>
 
+<th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
    

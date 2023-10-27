@@ -179,5 +179,10 @@ public class MypageServiceImpl implements MypageService {
         mypageMapper.deleteMyalert(myalertNum);
     }
 
+    @Override
+    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception {
+        return mypageMapper.getAlertEmail(crewNum);
+    }
+
 
 }

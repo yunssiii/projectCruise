@@ -3,21 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 네비게이터 바 CSS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/f350c9c720.js" crossorigin="anonymous"></script>
-    <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
-
-    <link rel="stylesheet" type="text/css" href="/css/nav_footer.css"/>
     <!-- ----------------- -->
     <link rel="stylesheet" href="/css/mypage/mypage_userOut.css"/>
     <link rel="stylesheet" href="/css/mypage/mypage_userTab.css"/>
     <link rel="stylesheet" href="/css/mypage/mypage_alert.css"/>
     <!-- 폰트 -->
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
-
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>크루즈 :: 내 알림</title>
@@ -82,15 +73,14 @@
 
 
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
+<th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
-
-
-
-<script type="text/javascript" src="/js/nav.js"></script>
     <script src="/js/mypage/mypage_userOut.js"></script>
     <script src="/js/mypage/mypage_alert.js"></script>
 
 </body>
+
+
 
 <script>
 
