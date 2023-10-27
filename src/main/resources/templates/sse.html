@@ -77,7 +77,6 @@
 <input type="text" id="content" placeholder="내용">
 <input type="text" id="date" placeholder="날짜">
 <input type="text" id="email" placeholder="이메일">
-<input type="text" id="crewNum" placeholder="크루번호">
 <button type="button" onclick="sendMsg()">전송</button>
 
 <a href="http://localhost:8082/test5">넘어가자</a>
@@ -118,7 +117,7 @@
             var timer = 1000; //토스트 메세지 떠있을 시간
 
             //토스트 메세지
-            var $elem = $("<div class='alertWrap'><div class='toastDiv'><div class='toastContent'><img src='https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bell.png' alt='Bell' width='35' height='35' />+ newMsg +</div></div></div>");
+            var $elem = $("<div class='alertWrap'><div class='toastDiv'><div class='toastContent'><img src='https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bell.png' alt='Bell' width='35' height='35' />"+ data +"</div></div></div>");
 
             //토스트 띄우기
             $("#toast").append($elem);
@@ -168,6 +167,7 @@
                 var message = '새로운 알림이 왔습니다!'
 
                 socket.send(message);
+
 
             },
             error:function(xhr,status,error) {

@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.security.Principal;
@@ -213,7 +211,7 @@ public class MainMypageController {
     @PostMapping("/test")
     public ModelAndView testInsert(@RequestParam("nums") int num,@RequestParam("assorts") String assort,
                            @RequestParam("contents")String content,@RequestParam("dates")String date,
-                           @RequestParam("emails")String email,@RequestParam("crewNums")int crewNum) throws Exception{
+                           @RequestParam("emails")String email) throws Exception{
 
         System.out.println("왔다 >>>>>>>>");
 
@@ -246,13 +244,21 @@ public class MainMypageController {
                 }
             }else{
                 try {
-                    session.get(i).getBasicRemote().sendText("나(안나와도 됨) : "+msg);
+                    session.get(i).getBasicRemote().sendText("나 : "+msg);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+
+    @OnClose
+    public void close(Session session) {}
+
+    @OnError
+    public void onError(Session session, Throwable thr) {}
+
 
 
     @ExceptionHandler(Exception.class)
