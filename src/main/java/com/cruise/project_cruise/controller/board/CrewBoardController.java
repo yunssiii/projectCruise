@@ -330,7 +330,9 @@ public class CrewBoardController {
 
 	@RequestMapping(value = "updated_ok",
 			method = RequestMethod.POST)
-	public ModelAndView updated_ok(CrewBoardDTO dto, HttpServletRequest request) throws Exception {
+	public ModelAndView updated_ok(CrewBoardDTO dto,
+								   @RequestParam(value = "files", required = false) MultipartFile files,
+								   HttpServletRequest request) throws Exception {
 
 		HttpSession session = request.getSession();
 		String userEmail = (String)session.getAttribute("email");
@@ -341,6 +343,84 @@ public class CrewBoardController {
 			mav.setViewName("redirect:/");
 			return mav;
 		}
+
+		String fileName = crewBoardService.getFileName(dto.getBoard_num());
+
+		// 이미지 없는 글에서 이미지 추가 (created와 동일)
+		if (fileName == null || fileName.isEmpty()) {
+			if (!files.isEmpty()) {
+				// 이미지 저장 경로
+				String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+				System.out.println("upload_path: " + upload_path);
+
+				String originalName = files.getOriginalFilename();
+
+				try {
+					// 파일 저장 디렉토리 생성
+					File uploadDir = new File(upload_path);
+					if (!uploadDir.exists()) {
+						uploadDir.mkdirs();
+					}
+
+					// 파일명 설정
+					String saveFileName = System.currentTimeMillis() + "_" + originalName;
+					File saveFile = new File(uploadDir, saveFileName);
+
+					// 파일 저장
+					files.transferTo(saveFile);
+
+					dto.setSavedFile(saveFileName);
+
+				} catch (IOException e) {
+					System.out.println("파일 업로드 실패: " + e.getMessage());
+				}
+			} else {	// 이미지 없는 글에서 글만 수정
+				dto.setSavedFile("");
+			}
+		}
+
+		// 이미지 있는 글에서 이미지 변경: 기존 파일 삭제 후 새 파일 추가
+		if (fileName != null && !files.isEmpty()) {
+			// 이미지 저장 경로
+			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+			String originalName = files.getOriginalFilename();
+
+			try {
+				// 파일 풀네임 불러오기
+				File file = new File(upload_path + File.separator + fileName);
+				// 파일이 존재하는지 확인 (기존 파일 삭제)
+				if (file.exists()) {
+					boolean deleted = file.delete();
+					if (deleted) {
+						System.out.println("파일 삭제 성공: " + file);
+					} else {
+						System.out.println("파일 삭제 실패: " + file);
+					}
+				} else {
+					System.out.println("존재하지 않는 파일: " + file);
+				}
+
+				// 파일 저장 디렉토리 생성
+				File uploadDir = new File(upload_path);
+
+				// 파일명 설정
+				String saveFileName = System.currentTimeMillis() + "_" + originalName;
+				File saveFile = new File(uploadDir, saveFileName);
+
+				// 파일 저장
+				files.transferTo(saveFile);
+
+				dto.setSavedFile(saveFileName);
+
+			} catch (IOException e) {
+				System.out.println("파일 업로드 실패: " + e.getMessage());
+			}
+
+			// 이미지 있는 글에서 글만 수정
+		} else if (fileName != null && files.isEmpty()) {
+			dto.setSavedFile(fileName);
+		}
+
 
 		String pageNum = request.getParameter("pageNum");
 		String searchKey = request.getParameter("searchKey");
@@ -359,6 +439,7 @@ public class CrewBoardController {
 
 		return mav;
 	}
+
 
 	@RequestMapping(value = "deleted_ok",
 			method = {RequestMethod.POST, RequestMethod.GET})
