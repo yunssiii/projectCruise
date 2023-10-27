@@ -54,5 +54,6 @@ public interface MypageMapper {
     public int maxMyalertNum() throws Exception;
     public List<MyAlertDTO> getMyalert(String email) throws Exception;
     public void deleteMyalert(int myalertNum) throws Exception;
+    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception;
 
 }

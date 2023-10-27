@@ -50,4 +50,5 @@ public interface MypageService {
     public int maxMyalertNum() throws Exception; //내 알림 maxNum
     public List<MyAlertDTO> getMyalert(String email) throws Exception; //내 알림 조회
     public void deleteMyalert(int myalertNum) throws Exception; //내 알림 삭제
+    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception; //소켓에서 비교할 이메일
 }
