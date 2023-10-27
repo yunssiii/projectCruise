@@ -19,7 +19,8 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticaionSuccessHandler implements AuthenticationSuccessHandler {
 
-
+    @Autowired
+    UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -32,8 +33,15 @@ public class CustomAuthenticaionSuccessHandler implements AuthenticationSuccessH
             UserDTO userDTO = principalDetails.getUserDTO();
             System.out.println("CustomSuccessHandler: " + userDTO);
             boolean isNewUser = principalDetails.isNewUser();
+            String tel = null;
 
-            if (isNewUser || userDTO.getTel() == null) {
+            try {
+                tel = userService.selectTel(userDTO.getEmail());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            if (isNewUser || tel == null) {
                 response.sendRedirect("/nextSocialSignUpForm");
             } else {
 

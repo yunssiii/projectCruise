@@ -23,6 +23,5 @@ public interface UserMapper {
 
    public String selectRefreshToken(String refreshToken) throws Exception;
 
-
-
+    public String selectTel(String email) throws Exception;
 }
