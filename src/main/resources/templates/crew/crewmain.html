@@ -46,7 +46,7 @@
                                 center: 'title',
                                 right: 'prev,next today'
                             },
-                            height: 490,
+                            height: 525,
                             // 한글달력 일자에 '일' 부분 빼기
                             dayCellContent: function (info) {
                                 var number = document.createElement("a");
@@ -75,6 +75,7 @@
                             editable: false, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
                             selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
                             locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                            dayMaxEvents: true, // 칸보다 더 많은 이벤트가 있을시 more 버튼 제공
                             events: data // 이 부분에 데이터가 들어옴.
                         });
 
@@ -148,11 +149,11 @@
         #crewCalendar {
             background-color: white;
             border-radius: 10px;
-            margin: 20px;
+            margin: 10px 20px;
             padding: 20px 0 0 0;
             font-family: 'NanumSquare', Helvetica Neue, Helvetica, sans-serif;
             font-size: 14px;
-            height: 510px;
+            height: 540px;
         }
 
         #calendar {
@@ -167,8 +168,8 @@
         }
 
         .fc-event, .fc-event-title-container {
-            height: 25px;
-            padding-top: 2px;
+            height: 20px;
+            padding-top: 1px;
             align-items: center;
             font-size: 10pt;
         }
@@ -370,18 +371,19 @@
             <div class="title">오늘의 일정</div>
             <div class="line1"></div>
             <div class="content">
-                <div th:if="${crewScheTodayList!=null}" th:each="sche, scheStat : ${crewScheTodayList}">
+                <div th:if="${crewScheTodayList!=null}" th:each="sche, scheStat : ${crewScheTodayList}" class="one_sche">
                     <div class="sche_content">
                         <div th:style="'background-color: ' + ${sche.sche_assort} + ';'" class="sche_color"></div>
                         <div class="today_title">[[${sche.sche_title}]]</div>
                     </div>
                     <div th:if="${sche.sche_start} == ${sche.sche_end}" class="sche-date">
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="30" height="30" />
                         [[${sche.sche_start}]]
                     </div>
                     <div th:if="${sche.sche_start} != ${sche.sche_end}" class="sche-date">
-                        <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" alt="Calendar" width="30" height="30" />
-                        [[${sche.sche_start}]] ~ [[${sche.sche_end}]]
+                        <div>
+                            <div>[[${sche.sche_start}]]</div>
+                            <div>~ [[${sche.sche_end}]] </div>
+                        </div>
                     </div>
                 </div>
                 <div th:if="${crewScheTodayList==null}" class="dont_have_schedule">

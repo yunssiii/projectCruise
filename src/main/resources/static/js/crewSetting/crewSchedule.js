@@ -54,6 +54,7 @@ function calendarLoad(crewNum) {
                 editable: true, // 드래그해서 수정이 가능한지에 대한 여부. 길게 확장도 가능하다.
                 selectable: true, // more 표시 전 최대 이밴트 갯수. true는 셀 높이에 의해 결정된다.
                 locale: "ko", // 이 설정을 추가하면 한글로 출력이 된다.
+                dayMaxEvents: true, // 칸 보다 이벤트가 많으면 more 제공
                 events: data // 이 부분에 데이터가 들어옴.
             });
 
