@@ -44,9 +44,9 @@ public class ProjectCruiseApplication {
 	}
 
 	//웹소켓관련 객체
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-		return new ServerEndpointExporter();
-	}
+//	@Bean
+//	public ServerEndpointExporter serverEndpointExporter() {
+//		return new ServerEndpointExporter();
+//	}
 
 }
