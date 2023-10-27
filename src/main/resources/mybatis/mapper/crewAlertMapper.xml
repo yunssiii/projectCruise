@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cruise.project_cruise.mapper.CrewAlertMapper">
+    <!-- 크루알림 insert -->
+    <insert id="insertCrewAlert" parameterType="com.cruise.project_cruise.dto.CrewAlertDTO">
+        insert into crew_alert (calert_num,crew_num,calert_assort,calert_content,calert_alertdate)
+        values (#{cAlertNum},#{crewNum},#{cAlertAssort},#{cAlertContent},#{cAlertAlertDate})
+    </insert>
+
+    <!-- 크루 max calert_num -->
+    <select id="cAlertMaxNum" resultType="int">
+        select nvl(max(calert_num),0) from crew_alert
+    </select>
+</mapper>

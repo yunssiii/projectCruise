@@ -439,6 +439,9 @@ public class CrewSettingController {
             return;
         }
 
+        Map<String,Object> crewMemberMap = crewDetailService.getCrewUserInfo(crewNum,email);
+        String exitUserEmail = (String)crewMemberMap.get("USER_NAME");
+
         crewSettingService.deleteMember(email, crewNum);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 

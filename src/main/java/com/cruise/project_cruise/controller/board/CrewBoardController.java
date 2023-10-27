@@ -2,10 +2,7 @@ package com.cruise.project_cruise.controller.board;
 
 import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
-import com.cruise.project_cruise.service.CrewBoardService;
-import com.cruise.project_cruise.service.CrewCommentService;
-import com.cruise.project_cruise.service.CrewSettingService;
-import com.cruise.project_cruise.service.MypageService;
+import com.cruise.project_cruise.service.*;
 import com.cruise.project_cruise.util.CrewBoardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +24,8 @@ import java.util.Map;
 @RestController
 public class CrewBoardController {
 
+	@Autowired
+	private CrewAlertService crewAlertService;
 	@Autowired
 	private CrewBoardService crewBoardService;
 	@Autowired
@@ -118,8 +117,11 @@ public class CrewBoardController {
             }
 
 			// crew_alert 테이블에 insert
-			mypageService.insertCrewAlert(mypageService.maxCalertNum() + 1, dto.getCrew_num(),
-					"공지글 등록", content, todayStr);
+			// 은지 : 공지 알림 형식 수정할게요~!
+			String articleSubjectSub = dto.getBoard_subject().substring(0,4) + "...";
+			String crewAlertContent = " 새 공지 [" + articleSubjectSub + "] 가 등록되었습니다.";
+			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+					"공지", crewAlertContent, todayStr);
 
 		} else {	// 일반 게시글일 때
 			dto.setNotice(0);
