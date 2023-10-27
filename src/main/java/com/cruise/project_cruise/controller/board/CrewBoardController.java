@@ -109,12 +109,15 @@ public class CrewBoardController {
 
 			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
+			crewBoardService.insertData(dto);
+
+			// 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
 			// 크루 멤버수만큼 my_alert 테이블에 insert
-            for (Map<String, String> stringStringMap : crewMember) {
+			for (Map<String, String> stringStringMap : crewMember) {
 				int alertNum = mypageService.maxMyalertNum() + 1;
-                mypageService.insertMyAlert(alertNum, "공지글 등록",
+				mypageService.insertMyAlert(alertNum, "공지글 등록",
 						content, todayStr, stringStringMap.get("MEM_EMAIL"));
-            }
+			}
 
 			// crew_alert 테이블에 insert
 			// 은지 : 공지 알림 형식 수정할게요~!
@@ -123,13 +126,11 @@ public class CrewBoardController {
 			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
 					"공지", crewAlertContent, todayStr);
 
+			mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
+
 		} else {	// 일반 게시글일 때
 			dto.setNotice(0);
 		}
-
-		crewBoardService.insertData(dto);
-
-		mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
 
 		return mav;
 	}
