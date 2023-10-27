@@ -134,7 +134,7 @@ public class SignupController {
         System.out.println(session.getAttribute("lastLoginMethod"));
 
 
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 

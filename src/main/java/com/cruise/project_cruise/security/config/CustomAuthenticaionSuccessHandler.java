@@ -30,10 +30,10 @@ public class CustomAuthenticaionSuccessHandler implements AuthenticationSuccessH
 
             PrincipalDetails principalDetails = (PrincipalDetails) userDetails;
             UserDTO userDTO = principalDetails.getUserDTO();
-            System.out.println(userDTO);
+            System.out.println("CustomSuccessHandler: " + userDTO);
             boolean isNewUser = principalDetails.isNewUser();
 
-            if (isNewUser) {
+            if (isNewUser || userDTO.getTel() == null) {
                 response.sendRedirect("/nextSocialSignUpForm");
             } else {
 
