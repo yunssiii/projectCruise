@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public String selectTel(String email) throws Exception {
+        return userMapper.selectTel(email);
+    }
+
+    @Override
     public void insertNormalUser(UserDTO dto) throws Exception {
         userMapper.insertNormalUser(dto);
     }

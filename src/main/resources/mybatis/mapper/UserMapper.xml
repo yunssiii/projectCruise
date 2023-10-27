@@ -16,6 +16,10 @@
         select * from users where provider_id=#{provider_id}
     </select>
 
+    <select id="selectTel" parameterType="java.lang.String" resultType="java.lang.String">
+        select tel from users where email=#{email}
+    </select>
+
     <select id="selectPassWord" parameterType="java.lang.String" resultType="java.lang.String">
         select user_password from users where email=#{email}
     </select>

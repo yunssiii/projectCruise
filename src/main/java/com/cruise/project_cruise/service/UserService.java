@@ -10,6 +10,8 @@ public interface UserService {
     public String selectEmail(String email) throws  Exception;
 
     public String selectPassWord(String email) throws Exception;
+
+    public String selectTel(String email) throws Exception;
     public void insertNormalUser(UserDTO dto) throws Exception;
 
     public void insertSocialUser(UserDTO dto) throws Exception;

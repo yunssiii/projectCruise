@@ -33,31 +33,31 @@
 
                         <div class="form-group">
                             <label for="name">이름</label>
-                            <input class="form-control" type="text" id="name" name="name" maxlength="5">
+                            <input class="form-control" type="text" id="name" name="name" maxlength="5" required>
                         </div>
 
                         <div class="form-group">
                             <label for="phone-number-input">핸드폰 번호</label>
-                            <input class="form-control" id="phone-number-input" type="text" name="tel" maxlength="16" placeholder="숫자만 입력해주세요">
+                            <input class="form-control" id="phone-number-input" type="text" name="tel" maxlength="16" placeholder="숫자만 입력해주세요" required>
                             <div id="phone-number-error" class="error-message"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="addr1">우편번호</label>
                             <div class="zip-code">
-                            <input class="form-control" style="width: 40%;" placeholder="우편번호" id="addr1" type="text" readonly="readonly">
+                            <input class="form-control" style="width: 40%;" placeholder="우편번호" id="addr1" type="text" required>
                             <button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
                             </div>
                             </div>
 
                         <div class="form-group">
                             <label for="addr2">도로명 주소</label>
-                            <input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="address1" id="addr2" type="text" readonly="readonly">
+                            <input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="address1" id="addr2" type="text" required>
                         </div>
 
                         <div class="form-group">
                             <label for="addr3">상세주소</label>
-                            <input class="form-control" placeholder="상세주소" name="address2" id="addr3" type="text">
+                            <input class="form-control" placeholder="상세주소" name="address2" id="addr3" type="text" required>
                         </div>
 
                     </div>
