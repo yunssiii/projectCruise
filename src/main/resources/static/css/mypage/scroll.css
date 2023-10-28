@@ -46,6 +46,7 @@
     height: 100vh;
     margin-left: 10%;
     margin-right: 10%;
+    margin-top: 10%;
 }
 
 .mySchedule-box{
@@ -97,14 +98,11 @@
 .sche-title{
     font-weight: 600;
     margin-bottom: 10px;
+    font-size: 10pt;
 }
 
 .sche-crewName{
-    font-size: 11pt;
-}
-
-.sche-crewName{
-
+    font-size: 10pt;
 }
 
 .oneDay-div1{
@@ -117,10 +115,12 @@
     font-size: 11pt;
 }
 
-.sche-start{
-    margin-bottom: 10px;
+.sche-start,.sche-end{
+    margin-bottom: 15px;
+    font-size: 13px;
+    text-align: end;
 }
 
-.sche-end{
-
+.sche-start{
+    margin-bottom: 15px;
 }

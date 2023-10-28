@@ -4,12 +4,15 @@ import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
 import com.cruise.project_cruise.service.*;
 import com.cruise.project_cruise.util.CrewBoardUtil;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +44,8 @@ public class CrewBoardController {
 
 	@PostMapping("created")
 	public ModelAndView created_ok(CrewBoardDTO dto,
-					   @RequestParam(value = "files", required = false) MultipartFile files,
-								   HttpServletRequest request) throws Exception {
+								   @RequestParam(value = "files", required = false) MultipartFile files,
+								   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 세션에서 이메일 가져오기
 		HttpSession session = request.getSession();
@@ -113,11 +117,33 @@ public class CrewBoardController {
 
 			// 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
 			// 크루 멤버수만큼 my_alert 테이블에 insert
+			// 윤하 : 언니..! crewNum도 같이 insert해서 추가했어!!
+
+			JSONObject jsonResponse = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
+			HashMap<String,Object> hashMap = new HashMap<>();
+
 			for (Map<String, String> stringStringMap : crewMember) {
 				int alertNum = mypageService.maxMyalertNum() + 1;
-				mypageService.insertMyAlert(alertNum, "공지글 등록",
+				mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"공지",
 						content, todayStr, stringStringMap.get("MEM_EMAIL"));
+
+				hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
+
+				jsonResponse = new JSONObject(hashMap);
+				jsonArray.add(jsonResponse);
 			}
+
+			System.out.println("알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
+			System.out.println("알림보내야 할 이메일들222 >>>>>>>>> " + jsonArray.toString());
+			//제이슨 형태로 잘 담겼는데,..ㅜ 어캐 클라이언트로 보내는지 모르겠어우어ㅠㅠㅠ
+
+			//--------------------------------------------------------------------------
+
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(jsonArray.toString());
+			//response.getWriter().close();
 
 			// crew_alert 테이블에 insert
 			// 은지 : 공지 알림 형식 수정할게요~!
@@ -126,7 +152,9 @@ public class CrewBoardController {
 			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
 					"공지", crewAlertContent, todayStr);
 
-			mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
+			// 윤하 : 알림가야할 이메일들 클라이언트로 보내기
+
+			//mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
 
 		} else {	// 일반 게시글일 때
 			dto.setNotice(0);

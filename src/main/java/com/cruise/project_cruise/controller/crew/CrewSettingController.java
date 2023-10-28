@@ -447,7 +447,8 @@ public class CrewSettingController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayStr = dateFormat.format(today);
 
-        mypageService.insertMyAlert(alertNum,assort,content,todayStr,email);
+        // 윤하 crewNum 추가합니다..!
+        mypageService.insertMyAlert(alertNum,crewNum,assort,content,todayStr,email);
 
     }
 
@@ -494,8 +495,9 @@ public class CrewSettingController {
 
         List<Map<String,String>> crewMemberList = crewSettingService.getCrewMemberList(crewNum);
 
+        //윤하 크루넘 추가합니다..!
         for(int i=0;i<crewMemberList.size();i++) {
-            mypageService.insertMyAlert(mypageService.maxMyalertNum()+1,"멤버 강퇴",
+            mypageService.insertMyAlert(mypageService.maxMyalertNum()+1,crewNum,"멤버 강퇴",
                     myAlertContent, todayStr, crewMemberList.get(i).get("MEM_EMAIL"));
         }
 

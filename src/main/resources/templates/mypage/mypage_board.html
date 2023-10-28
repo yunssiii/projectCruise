@@ -72,7 +72,7 @@
                         </tbody>
 
                         <tbody>
-                            <tr th:each="dto:${myBoardLists}" >
+                            <tr th:each="dto:${myBoardLists}" style="border-bottom: 1px solid #afafaf;">
                                 <td class="td-article">
                                     <input type="checkbox" th:id="|chk-article-${dto.board_num}|" name="article-chk" th:value="${dto.board_num}"/>
                                     <label th:for="|chk-article-${dto.board_num}|"></label>
@@ -135,7 +135,7 @@
                             </tbody>
 
                             <tbody>
-                                <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}">
+                                <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}" style="border-bottom: 1px solid #afafaf;">
                                     <td colspan="3" class="td-comments">
                                         <div class="comment-box">
                                             <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>

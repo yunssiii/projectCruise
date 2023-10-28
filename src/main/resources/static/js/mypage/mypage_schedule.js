@@ -16,6 +16,7 @@ function myCalendarLoad(email){
             var calendarEl = document.getElementById('calendar');
             // 렌더링
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                aspectRatio: 1.35,
                 headerToolbar: { // 툴바 설정부분.
                     left: 'dayGridMonth,listMonth',
                     center: 'title',

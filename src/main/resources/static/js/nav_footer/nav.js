@@ -122,5 +122,51 @@ window.onload = function() {
 };
 
 
+//-- 알림 select ajax ------------------------------------------------------
+// 알림 뱃지 누를 때 실행
 
+const menuButton = document.getElementById("first_menuButton");
 
+menuButton.addEventListener('click', getNavAlert);
+
+function getNavAlert() {
+    $.ajax({
+        type:"POST",
+        url:"/nav/alert",
+        dataType:"json",
+        success: function(result){
+            console.log("nav alert 조회 성공..!");
+            console.log("조회된 데이터 >>>>" + result);
+
+            var str = '';
+
+            console.log("결과 길이 >>" + result.length);
+
+            if(result.length === 0){
+                str += '<p style="text-align: center;padding-top: 30px;">알림이 없습니다.</p>'
+
+                $('#alertDivId').children().remove(); //자식 요소 지웠다가
+                $('#alertDivId').append(str); //더하기
+
+            }else {
+
+                $.each(result, function(i) {
+
+                    str += '<div class="alertDiv">'
+                    str += '<a href="http://localhost:8082/crew?crewNum='+ result[i].crewNum +'">'
+                        str += '<span style="font-weight: 600;">'+ result[i].alertAssort +'</span><br/><br/>'
+                        str += '<span>'+ result[i].alertContent +'</span>'
+                    str += '</a></div>'
+
+                });
+
+                $('#alertDivId').children().remove(); //자식 요소 지웠다가
+                $('#alertDivId').append(str); //더하기
+
+            }
+        },
+        error:function(){
+            console.log("nav alert 조회 에러..!");
+        }
+    })
+}

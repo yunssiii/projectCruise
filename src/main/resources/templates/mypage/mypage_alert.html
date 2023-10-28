@@ -59,7 +59,7 @@
                                     <div class="alert-date" th:text="${dto.myalert_adate}">날짜</div>
                                 </div>
                             </div>
-                            <a href="#" class="alert-content" th:text="${dto.myalert_content}"></a>
+                            <a th:href="@{|http://localhost:8082/crew?crewNum=${dto.crew_num}|}" class="alert-content" th:text="${dto.myalert_content}"></a>
                         </div>
                     </div>
                 </div>

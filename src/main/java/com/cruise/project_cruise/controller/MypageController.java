@@ -88,8 +88,8 @@ public class MypageController {
         JSONArray jsonArray = new JSONArray();
         HashMap<String,Object> hashMap = new HashMap<>();
 
-        System.out.println("Month : " + months);
-        System.out.println("------계좌번호 : "+accountNum);
+        //System.out.println("Month : " + months);
+        //System.out.println("------계좌번호 : "+accountNum);
 
         if(months == 1){
             List<OpenBankUsingDTO> useAccounts1 = mypageService.getUseAccounts(accountNum,months);
@@ -595,6 +595,39 @@ public class MypageController {
     }
 
 
+    /*
+        nav 알림 데이터
+    */
+    @PostMapping("/nav/alert")
+    @ResponseBody
+    public List<Map<String,Object>> navAlertSelect(HttpSession session) throws Exception{
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        //세션에서 가져온 이메일
+        String email = (String) session.getAttribute("email");
+
+        //System.out.println(email);
+
+        List<MyAlertDTO> navAlertList = mypageService.getNavAlert(email);
+
+        for(int i=0;i<navAlertList.size();i++){
+            hashMap.put("alertContent", navAlertList.get(i).getMyalert_content());
+            hashMap.put("alertAssort", navAlertList.get(i).getMyalert_assort());
+            hashMap.put("alertDate", navAlertList.get(i).getMyalert_adate());
+            hashMap.put("crewNum", navAlertList.get(i).getCrew_num());
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+
+        }
+
+        System.out.println("조회될 네비바 알림 >>>>>>>>> " + jsonArray);
+
+        return jsonArray;
+    }
 
 
 }

@@ -45,12 +45,14 @@ public interface MypageMapper {
 
     //알림 관련
 
-    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("myalert_assort")String myalertAssort,
+    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("crew_num") int crewNum,@Param("myalert_assort")String myalertAssort,
                               @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
                               @Param("email")String email) throws Exception;
     public int maxMyalertNum() throws Exception;
     public List<MyAlertDTO> getMyalert(String email) throws Exception;
     public void deleteMyalert(int myalertNum) throws Exception;
-    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception;
+    public List<MyAlertDTO> getNavAlert(String email) throws Exception;
+
+    public String getCrewNameA(int crewNum) throws Exception;
 
 }

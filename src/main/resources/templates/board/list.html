@@ -239,13 +239,26 @@
             xhr.onload = function () {
                 if (xhr.status === 200) {
 
-					var alertUser = 'eunzzzzzi00@gmail.com'; //알림이 가야할 사람
-                	var message = '새로운 알림이 왔습니다!'
+					//-------------------------------------
+					//어캐 가져오는거야................ㅠ 눈물 좔좔
+					//var response = xhr.responseText;
+					//var responseData = JSON.parse(response);
+
+					//var emailList = responseData.alertEmailsList;
+
+					console.log("뭐죠?" + this.responseText);
 
 
-                	socket.send(message + ',' + alertUser); //,로 구분해서 메세지와 user를 보냄
 
-                	window.location.href = '/board/list?crewNum=[[${crew_num}]]';
+					//console.log("가야할 이메일들.." + emailList);
+
+					var alertUser = 'hchdbsgk@naver.com'; //알림이 가야할 사람
+					var message = '새로운 알림이 왔습니다!'
+
+
+					socket.send(message + ',' + alertUser); //,로 구분해서 메세지와 user를 보냄
+
+					window.location.href = '/board/list?crewNum=[[${crew_num}]]';
                 } else {
                     alert("Error: " + xhr.status);
                 }

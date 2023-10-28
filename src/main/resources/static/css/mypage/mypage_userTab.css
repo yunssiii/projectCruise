@@ -64,26 +64,26 @@ a {text-decoration: none;color: black;cursor: pointer;}
     /* background-color: rgb(233, 161, 255); */
     width: 30%;
     font-family: NanumSquare;
-    font-size: 15pt;
+    font-size: 17px;
     margin: 20px 0px 10px 10px;
 }
 
 .mypage-tab:hover, .mypage-tab3:hover {
     box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
-    width: 24%;
+    width: 30%;
 }
 
 .mypage-tab2:hover{
     box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
-    width: 19%;
+    width: 24%;
 }
 
 .mypage-tab3 {
-    width: 50%;
+    width: 60%;
 }
 
 .mypage-tab3:hover {
-    width: 48%;
+    width: 60%;
 }
 
 .logout-box {
