@@ -46,6 +46,10 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+	// 스케줄링 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.3.0.RELEASE'
+
+
 }
 
 tasks.named('test') {

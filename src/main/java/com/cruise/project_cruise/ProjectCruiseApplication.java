@@ -13,9 +13,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.sql.DataSource;
 
-
-
-
 @SpringBootApplication
 public class ProjectCruiseApplication {
 
