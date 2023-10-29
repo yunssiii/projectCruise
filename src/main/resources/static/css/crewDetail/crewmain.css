@@ -16,12 +16,12 @@
 }
 
 body {
+    position: relative;
     font-family: 'NanumSquare', 'sans-serif';
     font-size: 12pt;
     margin: 0;
     background-image: url(data:image/png;base64,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);
     background-color: #fff5ee;
-    overflow-x: hidden;
 
     /* 복사방지 */
     -webkit-user-select:none;
@@ -45,19 +45,27 @@ nav {
     box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 
+.background {
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
 .header {
     background-color: white;
     height: 80px;
 }
-/* ------------------------------------------ */
 
 .wave{
     z-index: -1;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='157'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='50%25' x2='50%25' y1='-10.959%25' y2='100%25'%3E%3Cstop stop-color='%230C0CCA' stop-opacity='1' offset='0%25'/%3E%3Cstop stop-color='%230C0CCA' offset='100%25'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23a)' fill-rule='evenodd' d='M.005 80C311 80 409.898-.25 811 0c400 0 500 80 789 80v77H0s.005-48 .005-77z' transform='matrix(-1 0 0 1 1600 0)'/%3E%3C/svg%3E") repeat-x;
     position: absolute;
-    bottom: -100px;
-    width: 6400px;
-    height: 157px;
+    bottom: 0;
+    width: 6000px;
+    height:130vh;
     animation: wave 3s cubic-bezier(0.36,0.45,0.63,0.53) infinite;
     transform: translate3d(0,0,0);
 }
@@ -65,20 +73,241 @@ nav {
 
 .blue {
     z-index: -1;
-    position: relative;
+    position: absolute;
     top: 100px;
     background-color: #0C0CCA;
     width: 100%;
-    height: 700px;
+    height: 130vh;
 }
 
+footer {
+    margin-top: 100px;
+}
+
+.footer_container {
+    max-width: unset;
+    width: 80% !important;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+/* ------------------------------------------ */
+
+@media (max-width: 1024px) { // 1024X768 비율 맞추기
+
+    body {
+        font-size: 10pt !important;
+    }
+
+    .all_container {
+        margin-left: 1vw;
+        grid-template-columns: 54px 415px 300px 54px !important;
+        grid-template-rows: 40px 400px 60px 50px 480px !important;
+        column-gap: 30px !important;
+    }
+
+    .alert_bar_con .alert_bar {
+        height: 40px !important;
+    }
+
+    .alert_bar_con .alert_bar:hover {
+        height: 300px !important;
+    }
+
+    .visible_detailBox .crew_scheAlert {
+        font-size: 10pt !important;
+        width: 360px !important;
+        margin: auto !important;
+    }
+
+    .alert_bar_con .alert_bar #animated_msg .line{
+        width: 628px !important;
+        font-size: 10pt;
+    }
+
+    .bankbook_top {
+        padding: 17px 17px 19px 17px !important;
+        font-size: 10pt !important;
+        grid-template-columns: 85px 50px 65px 65px 54px 54px !important;
+    }
+
+    .crewmanage, #crewinvite, #crewexit {
+        margin-top: 10px;
+        font-size: 8pt !important;
+        text-align: right;
+    }
+
+    .bankbook_top .crewname {
+        margin: 10px 5px 0 0 !important;
+        position: relative;
+        grid-area: crewname;
+        display: flex;
+        text-align: left;
+        font-family: 'NanumSquareExtraBold', 'sans-serif';
+        font-size: 13pt !important;
+    }
+
+    .bankbook_top .gotoBoardBtn {
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        width: 80px;
+        height: 30px !important;
+        margin: 0 0 0 5px !important;
+        padding: 2px 5px 0 5px !important;
+        font-size: 9pt;
+    }
+
+    .bankbook_top .mark, .mark .title, .mark .content {
+        width: 80px !important;
+        font-size: 9pt !important;
+    }
+
+    .accnum_sub, .account_num, .captain_sub, .captain,
+    .created_sub, .created, .info_sub, .info, .goal_sub{
+        margin: 5px !important;
+    }
+
+    .bankbook_top .mark {
+        margin: 0 0 0 15px !important;
+        height: 97px !important;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .mark .content {
+        height: 74px !important;
+    }
+
+    .bankbook_top .mark .content img {
+        margin: auto;
+        width: 76px !important;
+        height: 74px !important;
+    }
+
+    .bankbook_top .dotline1, .bankbook_top .dotline2 {
+        width: 370px !important;
+        margin: 10px 0 10px 0 !important;
+    }
+
+    .bankbook_top .achieve_money {
+        font-size: 20pt !important;
+    }
+
+    .bankbook_top .per {
+        margin: 0 0 0 5px !important;
+    }
+
+    .bankbook_top .percent {
+        font-size: 18pt !important;
+        align-self: baseline;
+        padding-top: 2px;
+    }
+
+    .bankbook_bottom {
+        padding: 17px 17px 17px 17px !important;
+        overflow: hidden;
+        height: auto;
+    }
+
+    .bankbook_bottom .dotline {
+        border: 1px dashed grey;
+        margin: 5px 0 5px 0;
+        width: 100%;
+    }
+
+    .bankbook_bottom table {
+        margin: 15px 5px 15px 5px !important;
+        width: 98%;
+        font-size: 10pt;
+    }
+
+    .bankbook_bottom .top #crewname {
+        font-size: 13pt !important;
+    }
+
+    .cal_receipt .title {
+        font-size: 20pt !important;
+        padding: 0 !important;
+        margin-top: 15px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .cal_receipt .content {
+        height: 160px !important;
+        overflow-y: auto;
+    }
+
+    .cal_receipt .content .dont_have_schedule {
+        display: block;
+        margin: 5px auto;
+        text-align: center;
+    }
+
+    .cal_receipt .content .dont_have_schedule img {
+        width: 70px;
+        height: 70px;
+    }
 
 
 
+    .money_receipt {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-areas:
+    " title   title "
+    " line1   line1  "
+    " content content  "
+    " line2    line2  " !important;
+    }
 
 
+    .money_receipt .title {
+        font-size: 20pt !important;
+    }
 
+    .money_receipt .content .out_money {
+        margin-top: 15px !important;
+    }
 
+    .money_receipt .content .wrap {
+        margin: 10px !important;
+    }
+
+    .money_receipt .content .wrap div {
+        display: flex;
+        font-size: 10pt;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #up, #down {
+        left: 90px !important;
+    }
+
+    .money_receipt .line1 {
+        margin-bottom: 5px !important;
+        width: 90%;
+    }
+
+    .money_receipt .content .select_wrap {
+        margin-top: 20px !important;
+    }
+
+    .money_receipt .content .thinDashline {
+        margin-top: 15px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .money_receipt .content .account_result {
+        margin-top: 10px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .money_receipt .content .select_wrap select option {
+        font-size: 9pt;
+    }
+
+}
 
 .all_container {
     margin-top: 50px;
