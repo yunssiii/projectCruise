@@ -20,6 +20,7 @@ public interface CrewSettingService {
     // 항해 중단하기
     public void stopSailing(@Param("crewNum") int crewNum) throws Exception;
     public void cancelStopSailing(@Param("crewNum") int crewNum) throws Exception;
+    public void deleteCrew(@Param("crewNum") int crewNum) throws Exception;
 
 
     // 크루 일정관리

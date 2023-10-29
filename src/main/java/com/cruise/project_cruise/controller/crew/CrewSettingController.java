@@ -4,6 +4,8 @@ import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.dto.UserDTO;
+import com.cruise.project_cruise.quartz.config.QuartzService;
+import com.cruise.project_cruise.quartz.jobs.CrewDeleteJob;
 import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
@@ -38,6 +40,8 @@ public class CrewSettingController {
     private MypageService mypageService;
     @Autowired
     private CrewAlertService crewAlertService;
+    @Autowired
+    private QuartzService quartzService;
 
     final Logger logger = LoggerFactory.getLogger(CrewSettingController.class); // 로그
 
@@ -377,8 +381,34 @@ public class CrewSettingController {
     public ModelAndView updateDelDate(@RequestParam("crewNum") int crewNum) throws Exception {
 
         ModelAndView mav = new ModelAndView();
-        crewSettingService.stopSailing(crewNum); // 업데이트 한 후에
-        CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
+        crewSettingService.stopSailing(crewNum); // 크루 항해 중단날짜 업데이트 한 후에
+        CrewDTO dto = crewDetailService.getCrewData(crewNum); // 업데이트 된 dto 들고와주고
+        logger.info(dto.getCrew_name() + " 크루 항해 중단 날짜 설정 완료...");
+
+        // TODO delete JOB 추가하기
+        // 1. paramsMap 설정
+        Map<String, Object> paramsMap = new HashMap<>();
+
+        paramsMap.put("executeCount",1); // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주기
+        paramsMap.put("crewNum",crewNum); // crewNum 담아주기
+
+        // 2. JOB의 Key 설정하기
+        String jobKey = "JOB_" + crewNum + "_CrewDeleteJob";
+        String jobDesc = crewNum + " / " + dto.getCrew_name() + "크루 삭제 Job 입니다.";
+
+        // 3. delDate + 3 해주기
+        String delDateComfirm = dto.getCrew_deldate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = sdf.parse(delDateComfirm);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 3); // 3일 추가
+        date = calendar.getTime();
+
+        // 3. job 추가하기
+        quartzService.addSimpleOnceJob(CrewDeleteJob.class,jobKey,jobDesc,paramsMap,date);
 
         logger.info(dto.getCrew_name() + " 크루 항해 중단...");
         logger.info(dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
