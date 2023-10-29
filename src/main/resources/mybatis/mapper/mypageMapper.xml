@@ -7,7 +7,7 @@
 
     <!-- 내 모임 전체 조회 -->
     <select id="getCrews" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.CrewDTO">
-        select crew_name, crew_accountid, crew_info, crew_num, captain_email from crew
+        select crew_name, crew_accountid,(SUBSTR(crew_accountid, 1, 3) || '*******' || SUBSTR(crew_accountid, -4)) as crew_accountid2, crew_info, crew_num, captain_email from crew
         where crew_num in (select crew_num from crew_member where cmem_email=#{cmem_email})
     </select>
 

@@ -128,7 +128,7 @@
                             <div class="crew-box">
                                 <div class="crew-detail-box">
                                     <p class="crew-name" th:text="${crewdto.crew_name}"></p>
-                                    <p class="crew-account" th:text="${crewdto.crew_accountid}"></p>
+                                    <p class="crew-account" th:text="${crewdto.crew_accountid2}"></p>
                                 </div>
                                 <div class="crew-content" th:text="${crewdto.crew_info}"></div>
                                 <div class="crewBtn-box">
@@ -553,7 +553,7 @@
                 </div>
                 <div class="accountPwd-box">
                     <div class="account-text">계좌 비밀번호</div>
-                    <input type="password" class="accountPwd-input" placeholder="계좌 비밀번호 4자리를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    <input type="password" class="accountPwd-input" name="aPwd" placeholder="계좌 비밀번호 4자리를 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                     <button type="button" class="account-authBtn">인증</button>
                     <div class="resultDiv" id="resultPwd"></div>
                 </div>
@@ -748,7 +748,8 @@
     <script src="/js/mypage/mypage_crew.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
-            var openAccPwd = /*[[${openAccPwd}]]*/;
+            var openAccPwd = /*[[${openAccPwd}]]*/; //가상계좌 비밀번호
+            var myaccountList = /*[[${myaccountList}]]*/; //등록된 계좌정보
         /*]]*/
     </script>
     <script th:inline="javascript" th:src="@{/js/mypage/mypage_account.js}"></script>

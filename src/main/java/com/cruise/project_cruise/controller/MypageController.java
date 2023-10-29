@@ -289,7 +289,7 @@ public class MypageController {
     @ResponseBody
     public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
 
-        List<ScheduleDTO> myScheLists = mypageService.getSchedule("hchdbsgk@naver.com"); //로그인한 사용자의 일정들
+        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
 
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -405,7 +405,7 @@ public class MypageController {
         내 정보 수정 페이지 - post방식, 비밀번호만 수정
      */
     @PostMapping("mypage/mypage_myInfo_pwd")
-    public ModelAndView myPWd(HttpServletResponse response,HttpSession session,@RequestParam("newPwd") String newPwd,@RequestParam("chk-newPwd") String chkNewPwd) throws Exception {
+    public ModelAndView myPWd(HttpServletResponse response,HttpSession session,@RequestParam("newPwd") String newPwd,@RequestParam("chkNewPwd") String chkNewPwd) throws Exception {
 
         //세션에서 가져온 이메일
         String email = (String) session.getAttribute("email");
@@ -419,7 +419,7 @@ public class MypageController {
         String encPassword = bCryptPasswordEncoder.encode(rawPassword); //해싱한 비밀번호
 
         //같으면 수정
-        if(newPwd.equals(chkNewPwd)){
+        if(newPwd != null && chkNewPwd != null && newPwd.equals(chkNewPwd)){
             mypageService.updateUserPwd(encPassword,email);
             System.out.println(">>>>>> 사용자 비밀번호 수정 완료");
         }
