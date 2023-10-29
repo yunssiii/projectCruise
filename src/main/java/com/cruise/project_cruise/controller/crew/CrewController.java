@@ -1,8 +1,11 @@
 package com.cruise.project_cruise.controller.crew;
 import com.cruise.project_cruise.dto.*;
+import com.cruise.project_cruise.quartz.config.QuartzService;
+import com.cruise.project_cruise.quartz.jobs.QuartzJob;
 import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,12 @@ import javax.servlet.http.HttpSession;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+@Slf4j
 @RequestMapping(value="/crew")
 @RestController
 public class CrewController {
@@ -35,8 +40,8 @@ public class CrewController {
     private CrewSettingService crewSettingService;
     @Autowired
     private CrewAlertService crewAlertService;
-
-    final Logger logger = LoggerFactory.getLogger(CrewController.class); // 로그
+    @Autowired
+    private QuartzService quartzService;
 
 // red 오류페이지
     @RequestMapping("/wrongAccess")
@@ -62,6 +67,22 @@ public class CrewController {
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
+        // red Quartz 테스트
+        /*
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("executeCount",1);
+        // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주고,
+        paramsMap.put("crewNum",crewNum); // 일단 임의로 넣기. 1번 크루 알림에 넣어보자
+        paramsMap.put("cAlertContent","Quartz 테스트 : crewNum - " + crewNum);
+        paramsMap.put("cAlertAssort","테스트");
+
+        // 그리고 date 를 로그에 출력하도록 해주었으니까 그것도 넣어주자!
+        LocalDateTime now = LocalDateTime.now();
+        paramsMap.put("date",now);
+
+        //Job을 생성해 Scheduler에 등록하자
+        quartzService.addCronJob(QuartzJob.class, "QuartzJob", "TestJobs","Quartz Job 입니다", paramsMap, "0/5 * * * * ?"); // 5초간격으로 실행한다는 뜻
+        */
 
         /**
          * TODO
@@ -76,13 +97,13 @@ public class CrewController {
 
         // 세션에서 접속한 유저의 이메일 받기
         String userEmail = (String) session.getAttribute("email");
-        logger.info(userEmail + " 크루 상세페이지 접속");
+        log.info(userEmail + " 크루 상세페이지 접속");
 
 
         // bold 0. 잘못된 crewNum으로 들어갔을 때
         if (dto == null) {
 
-            logger.info( userEmail + " 잘못된 크루 경로에 접근");
+            log.info( userEmail + " 잘못된 크루 경로에 접근");
             mav.addObject("status", "wrongCrewAccess");
             mav.setViewName("crew/wrongAccess");
 
@@ -93,7 +114,7 @@ public class CrewController {
 
         // 2. 선원 테이블에서 이메일이 해당 이메일이고 crewnum이 해당 num인 데이터 찾기
         if (userEmail == null || userEmail.isEmpty()) {
-            logger.info( "로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 에 접근");
+            log.info( "로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 에 접근");
             mav.addObject("status", "logout");
             mav.setViewName("crew/wrongAccess");
 
@@ -101,7 +122,7 @@ public class CrewController {
         }
 
         if (!crewDetailService.isMember(crewNum, userEmail)) {
-            logger.info(crewNum + " - " + dto.getCrew_name() + "에 " + userEmail + " 접근 실패");
+            log.info(crewNum + " - " + dto.getCrew_name() + "에 " + userEmail + " 접근 실패");
             mav.addObject("status", "notMember");
             mav.setViewName("crew/wrongAccess");
 
@@ -127,13 +148,13 @@ public class CrewController {
                 // 결과가 양수면 today가 더 이전 (삭제 전)
 
             if(dateCompare<=0) {
-                logger.info(userEmail + " 삭제된 크루 경로에 접근");
+                log.info(userEmail + " 삭제된 크루 경로에 접근");
                 mav.addObject("status", "wrongCrewAccess");
                 mav.setViewName("crew/wrongAccess");
                 return mav;
             }
 
-            logger.info(crewNum + " - " + dto.getCrew_name() + "은 항해중단 유예 중...");
+            log.info(crewNum + " - " + dto.getCrew_name() + "은 항해중단 유예 중...");
 
             mav.setViewName("redirect:/crew/setting/sailingStopCrew?crewNum=" + crewNum);
             return mav;
@@ -141,10 +162,10 @@ public class CrewController {
 
         // bold 0. 크루 캡틴에게만 크루관리 뜨게 하기 - 완료
         if (crewDetailService.isCaptain(crewNum, userEmail)) {
-            logger.info(crewNum + " - " + dto.getCrew_name() + "에 선장 " + userEmail + " 접속");
+            log.info(crewNum + " - " + dto.getCrew_name() + "에 선장 " + userEmail + " 접속");
             mav.addObject("isCaptain", "true");
         } else {
-            logger.info(crewNum + " - " + dto.getCrew_name() + "에 선원 " + userEmail + " 접속");
+            log.info(crewNum + " - " + dto.getCrew_name() + "에 선원 " + userEmail + " 접속");
             mav.addObject("isCaptain", "false");
         }
 
@@ -281,7 +302,7 @@ public class CrewController {
         // 그 행에 해당하는 실제납입횟수에 +n 합시다
         crewDetailService.updateCrewMemberPayment(crewNum, userEmail, payment, payCount);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
-        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
+        log.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "이 " + payCount + "회 (" + payment + "원) 납입");
     }
 
 
@@ -292,19 +313,19 @@ public class CrewController {
 
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "의 크루 탈퇴 시도");
+        log.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + "의 크루 탈퇴 시도");
         // 선장인지 선원인지 먼저 확인
         boolean isCaptain = crewDetailService.isCaptain(crewNum,userEmail);
 
         if(isCaptain) {
-            logger.info("크루의 선장은 탈퇴할 수 없음.");
+            log.info("크루의 선장은 탈퇴할 수 없음.");
             return exitSuccess;
         }
 
         // 탈퇴 처리
         crewDetailService.deleteCrewMember(userEmail, crewNum);
         exitSuccess = 1;
-        logger.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + " 크루 탈퇴 완료");
+        log.info("[" + crewNum + " - " + dto.getCrew_name() + "] " + userEmail + " 크루 탈퇴 완료");
 
 
         return exitSuccess;
