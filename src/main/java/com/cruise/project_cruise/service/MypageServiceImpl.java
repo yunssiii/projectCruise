@@ -160,8 +160,8 @@ public class MypageServiceImpl implements MypageService {
 
     //알림 관련
     @Override
-    public void insertMyAlert(int myalertNum, String myalertAssort, String myalertContent, String myalertAdate, String email) throws Exception {
-        mypageMapper.insertMyAlert(myalertNum, myalertAssort, myalertContent, myalertAdate, email);
+    public void insertMyAlert(int myalertNum, int crewNum, String myalertAssort, String myalertContent, String myalertAdate, String email) throws Exception {
+        mypageMapper.insertMyAlert(myalertNum, crewNum, myalertAssort, myalertContent, myalertAdate, email);
     }
 
     @Override
@@ -180,8 +180,18 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception {
-        return mypageMapper.getAlertEmail(crewNum);
+    public List<MyAlertDTO> getNavAlert(String email) throws Exception {
+        return mypageMapper.getNavAlert(email);
+    }
+
+    @Override
+    public String getCrewNameA(int crewNum) throws Exception {
+        return mypageMapper.getCrewNameA(crewNum);
+    }
+
+    @Override
+    public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception {
+        return mypageMapper.getMyboardLink(emil);
     }
 
 

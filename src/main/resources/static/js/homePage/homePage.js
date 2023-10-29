@@ -147,3 +147,17 @@ var randomImagePath = getRandomImagePath(imagePaths);
         }
 
         window.onload = showModalWithAjax;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

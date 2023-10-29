@@ -40,11 +40,15 @@ public interface MypageService {
     public void deleteUser(String email) throws Exception; //회원 탈퇴
 
     //알림 관련
-    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("myalert_assort")String myalertAssort,
+    public void insertMyAlert(@Param("myalert_num")int myalertNum,@Param("crew_num") int crewNum,@Param("myalert_assort")String myalertAssort,
                               @Param("myalert_content")String myalertContent,@Param("myalert_adate")String myalertAdate,
                               @Param("email")String email) throws Exception; //내 알림 insert
     public int maxMyalertNum() throws Exception; //내 알림 maxNum
     public List<MyAlertDTO> getMyalert(String email) throws Exception; //내 알림 조회
     public void deleteMyalert(int myalertNum) throws Exception; //내 알림 삭제
-    public List<MyAlertDTO> getAlertEmail(int crewNum) throws Exception; //소켓에서 비교할 이메일
+    public List<MyAlertDTO> getNavAlert(String email) throws Exception; //네비바 알림 조회
+
+    public String getCrewNameA(int crewNum) throws Exception; //크루이름 조회
+
+    public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception; //링크용 게시글 조회
 }

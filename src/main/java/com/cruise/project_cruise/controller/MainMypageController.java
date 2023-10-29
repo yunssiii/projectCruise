@@ -167,6 +167,7 @@ public class MainMypageController {
     }
 
 
+    /*
     @GetMapping("/test")
     public ModelAndView test() {
 
@@ -223,7 +224,7 @@ public class MainMypageController {
         return mav;
 
     }
-
+*/
 
 
     @ExceptionHandler(Exception.class)

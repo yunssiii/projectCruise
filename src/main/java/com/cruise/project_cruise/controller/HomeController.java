@@ -1,12 +1,10 @@
 package com.cruise.project_cruise.controller;
 
+import com.cruise.project_cruise.dto.CrewAlertDTO;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.oauth.config.PrincipalDetails;
 import com.cruise.project_cruise.oauth.provider.KakaoUserInfo;
-import com.cruise.project_cruise.service.CrewAlertService;
-import com.cruise.project_cruise.service.CrewDetailService;
-import com.cruise.project_cruise.service.CrewMemberInviteService;
-import com.cruise.project_cruise.service.UserService;
+import com.cruise.project_cruise.service.*;
 import com.cruise.project_cruise.token.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Console;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -44,6 +43,10 @@ public class HomeController {
     CrewAlertService crewAlertService;
     @Autowired
     CrewDetailService crewDetailService;
+    @Autowired
+    private MypageService mypageService;
+    @Autowired
+    private CrewSettingService crewSettingService;
 
 
 
@@ -125,6 +128,25 @@ public class HomeController {
 
             crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
                     "가입", crewAlertContent, todayStr);
+
+            // 윤하 - 새 맴버 가입 시 my_alert에 추가
+
+            CrewAlertDTO alertDTO = new CrewAlertDTO();
+            List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(alertDTO.getCrew_num());
+
+            String crewName = mypageService.getCrewName(alertDTO.getCrew_num());
+
+            String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
+
+            //크루 맴버 수 만큼 my_alert에 insert
+            for (Map<String, String> stringStringMap : crewMember) {
+                int alertNum = mypageService.maxMyalertNum() + 1;
+
+                mypageService.insertMyAlert(alertNum, alertDTO.getCrew_num(),"가입",
+                        content, alertDTO.getCalert_alertdate(), stringStringMap.get("MEM_EMAIL"));
+            }
+
+
 
             session.removeAttribute("group");
             session.removeAttribute("num");

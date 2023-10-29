@@ -4,12 +4,15 @@ import com.cruise.project_cruise.dto.CrewBoardDTO;
 import com.cruise.project_cruise.dto.CrewCommentDTO;
 import com.cruise.project_cruise.service.*;
 import com.cruise.project_cruise.util.CrewBoardUtil;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,101 +43,119 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("created")
-	public ModelAndView created_ok(CrewBoardDTO dto,
-					   @RequestParam(value = "files", required = false) MultipartFile files,
-								   HttpServletRequest request) throws Exception {
+	public JSONArray created_ok(CrewBoardDTO dto,
+								   @RequestParam(value = "files", required = false) MultipartFile files,
+								   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// 세션에서 이메일 가져오기
-		HttpSession session = request.getSession();
-		String userEmail = (String)session.getAttribute("email");
+        // 세션에서 이메일 가져오기
+        HttpSession session = request.getSession();
+        String userEmail = (String) session.getAttribute("email");
 
-		ModelAndView mav = new ModelAndView();
+        //ModelAndView mav = new ModelAndView();
 
-		if(userEmail == null) {
-			mav.setViewName("redirect:/");
-			return mav;
-		}
+        if (userEmail == null) {
+            //mav.setViewName("redirect:/");
+            return null;
+        }
 
-		if (!files.isEmpty()) {
-			// 이미지 저장 경로
+        if (!files.isEmpty()) {
+            // 이미지 저장 경로
 
-			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+            String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
 
-	
-			System.out.println("upload_path: " + upload_path);
 
-			String originalName = files.getOriginalFilename();
+            System.out.println("upload_path: " + upload_path);
 
-			try {
-				// 파일 저장 디렉토리 생성
-				File uploadDir = new File(upload_path);
-				if (!uploadDir.exists()) {
-					uploadDir.mkdirs();
-				}
+            String originalName = files.getOriginalFilename();
 
-				// 파일명 설정
-				String saveFileName = System.currentTimeMillis() + "-" + originalName;
-				File saveFile = new File(uploadDir, saveFileName);
+            try {
+                // 파일 저장 디렉토리 생성
+                File uploadDir = new File(upload_path);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
 
-				// 파일 저장
-				files.transferTo(saveFile);
+                // 파일명 설정
+                String saveFileName = System.currentTimeMillis() + "-" + originalName;
+                File saveFile = new File(uploadDir, saveFileName);
 
-				// 파일 업로드 성공 메시지 또는 데이터베이스에 파일 정보 저장 등의 추가 작업 수행
-				dto.setSavedFile(saveFileName);
+                // 파일 저장
+                files.transferTo(saveFile);
 
-			} catch (IOException e) {
-				System.out.println("파일 업로드 실패: " + e.getMessage());
-			}
-		} else {
-			dto.setSavedFile("");
-		}
-		String userName = crewBoardService.getUserName(userEmail);
-		int notice = Integer.parseInt(request.getParameter("notice"));
-		int maxNum = crewBoardService.maxNum();
+                // 파일 업로드 성공 메시지 또는 데이터베이스에 파일 정보 저장 등의 추가 작업 수행
+                dto.setSavedFile(saveFileName);
 
-		dto.setBoard_num(maxNum + 1);
-		dto.setCrew_num(dto.getCrew_num());
-		dto.setEmail(userEmail);
-		dto.setName(userName);
+            } catch (IOException e) {
+                System.out.println("파일 업로드 실패: " + e.getMessage());
+            }
+        } else {
+            dto.setSavedFile("");
+        }
+        String userName = crewBoardService.getUserName(userEmail);
+        int notice = Integer.parseInt(request.getParameter("notice"));
+        int maxNum = crewBoardService.maxNum();
 
-		if (notice == 1) {	// 공지글일 때
-			dto.setNotice(1);
+        dto.setBoard_num(maxNum + 1);
+        dto.setCrew_num(dto.getCrew_num());
+        dto.setEmail(userEmail);
+        dto.setName(userName);
 
-			// 공지 알림
-			String crewName = crewBoardService.getCrewName(dto.getCrew_num());
-			String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
-			// 알림 날짜 설정
-			Date today = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String todayStr = dateFormat.format(today);
+        JSONArray jsonArray = null;
 
-			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
+        if (notice == 1) {    // 공지글일 때
+            dto.setNotice(1);
 
-			crewBoardService.insertData(dto);
+            // 공지 알림
+            String crewName = crewBoardService.getCrewName(dto.getCrew_num());
+            String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+            // 알림 날짜 설정
+            Date today = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String todayStr = dateFormat.format(today);
 
-			// 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
-			// 크루 멤버수만큼 my_alert 테이블에 insert
-			for (Map<String, String> stringStringMap : crewMember) {
-				int alertNum = mypageService.maxMyalertNum() + 1;
-				mypageService.insertMyAlert(alertNum, "공지글 등록",
-						content, todayStr, stringStringMap.get("MEM_EMAIL"));
-			}
+            List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
-			// crew_alert 테이블에 insert
-			// 은지 : 공지 알림 형식 수정할게요~!
-			String articleSubjectSub = dto.getBoard_subject().substring(0,4) + "...";
-			String crewAlertContent = "\"" + articleSubjectSub + "\" 가 등록되었습니다.";
-			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-					"공지", crewAlertContent, todayStr);
+            crewBoardService.insertData(dto);
 
-			mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
+            // 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
+            // 크루 멤버수만큼 my_alert 테이블에 insert
+            // 윤하 : 언니..! crewNum도 같이 insert해서 추가했어!!
 
-		} else {	// 일반 게시글일 때
-			dto.setNotice(0);
-		}
+            JSONObject jsonResponse = new JSONObject();
+            jsonArray = new JSONArray();
+            HashMap<String, Object> hashMap = new HashMap<>();
 
-		return mav;
-	}
+            for (Map<String, String> stringStringMap : crewMember) {
+                int alertNum = mypageService.maxMyalertNum() + 1;
+                mypageService.insertMyAlert(alertNum, dto.getCrew_num(), "공지",
+                        content, todayStr, stringStringMap.get("MEM_EMAIL"));
+
+                hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
+
+                jsonResponse = new JSONObject(hashMap);
+                jsonArray.add(jsonResponse);
+            }
+
+            System.out.println("알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
+            System.out.println("알림보내야 할 이메일들222 >>>>>>>>> " + jsonArray.toString());
+
+            // crew_alert 테이블에 insert
+            // 은지 : 공지 알림 형식 수정할게요~!
+            String articleSubjectSub = dto.getBoard_subject().substring(0, 4) + "...";
+            String crewAlertContent = "\"" + articleSubjectSub + "\" 가 등록되었습니다.";
+            crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                    "공지", crewAlertContent, todayStr);
+
+            // 윤하 : 알림가야할 이메일들 클라이언트로 보내기
+
+            //mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
+
+        } else {    // 일반 게시글일 때
+            dto.setNotice(0);
+        }
+
+        return jsonArray;
+    }
 
 	@RequestMapping(value = "list", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {

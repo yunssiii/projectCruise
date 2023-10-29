@@ -178,8 +178,8 @@
 
     <!-- 내알림 insert -->
     <insert id="insertMyAlert" parameterType="com.cruise.project_cruise.dto.MyAlertDTO">
-        insert into my_alert (myalert_num,myalert_assort,myalert_content,myalert_adate,email)
-        values (#{myalert_num},#{myalert_assort},#{myalert_content},#{myalert_adate},#{email})
+        insert into my_alert (myalert_num,crew_num,myalert_assort,myalert_content,myalert_adate,email)
+        values (#{myalert_num},#{crew_num},#{myalert_assort},#{myalert_content},#{myalert_adate},#{email})
     </insert>
 
     <!-- 내 알림 max myalert_num -->
@@ -190,7 +190,7 @@
     <!-- 내 알림 조회 -->
     <select id="getMyalert" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
         <![CDATA[
-        select myalert_num,myalert_content,myalert_assort,to_char(myalert_adate,'yyyy.mm.dd') myalert_adate from my_alert
+        select myalert_num,crew_num,myalert_content,myalert_assort,to_char(myalert_adate,'yyyy.mm.dd') myalert_adate from my_alert
         where email=#{email} and myalert_adate<=sysdate order by myalert_num desc
         ]]>
     </select>
@@ -200,12 +200,27 @@
         delete from my_alert where myalert_num = #{myalert_num}
     </delete>
 
-    <!-- 소켓에서 비교할 이메일 조회 -->
-    <select id="getAlertEmail" parameterType="int" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
-        select email from my_alert where crew_num=#{crew_num}
+    <!-- nav 알림 조회 3개 까지 -->
+    <select id="getNavAlert" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
+        <![CDATA[
+        select rownum,crew_num,myalert_num, myalert_content, myalert_assort, to_char(myalert_adate, 'yyyy.mm.dd') myalert_adate
+        from (select * from my_alert
+        where email = #{email} and myalert_adate <= sysdate
+        order by myalert_num desc)
+        where rownum <= 3
+        ]]>
     </select>
 
+    <!-- 초대 승락 시 my_alert에 사용할 crewName select -->
+    <select id="getCrewNameA" parameterType="int" resultType="java.lang.String">
+        select crew_name from crew where crew_num = #{crew_num}
+    </select>
 
+    <!-- 내 게시글 조회인데 링크 연결에만 사용 -->
+    <select id="getMyboardLink" parameterType="map" resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+        select crew_num,board_num,board_subject,to_char(board_created, 'YYYY-MM-DD') board_created_tochar,hitcount from crew_board
+        where email=#{email} order by board_created desc
+    </select>
 
 
 </mapper>
