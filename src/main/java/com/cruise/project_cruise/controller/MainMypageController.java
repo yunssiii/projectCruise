@@ -52,6 +52,7 @@ public class MainMypageController {
      */
     @RequestMapping(value = "/mypage/mypage_all",method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView all(HttpSession session, HttpServletRequest request, @RequestParam(required = false) String anum,
+                            @RequestParam(required = false) String aPwd,
                             @RequestHeader(value = "Authorization", required = false) String accessToken ,
                             @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
 
@@ -127,6 +128,7 @@ public class MainMypageController {
         List<MyAccountDTO> accountLists = mypageService.getAccountList(email); //등록된 계좌정보
         List<OpenBankDTO> accountBalLists = mypageService.getAccountBals(email); //가상 계좌의 잔액만
         UserDTO userInfo = mypageService.getUserInfo(email); // 로그인한 사용자 정보.이름
+        List<MyAccountDTO> myaccountList = mypageService.getAccountList(email); //등록된 계좌 정보 조회
 
         ModelAndView mav = new ModelAndView();
 
@@ -136,8 +138,9 @@ public class MainMypageController {
 
             mav.addObject("crewLists",crewLists);
             mav.addObject("userInfo",userInfo);
+            mav.addObject("myaccountList",myaccountList);
 
-            //계좌 비밀번호가 있으면
+            //계좌 비밀번호가 있으면 계좌 비밀번호 넘기기
             if(openAccPwd != null){
                 mav.addObject("openAccPwd",openAccPwd);
             }
@@ -154,13 +157,18 @@ public class MainMypageController {
             mav.setViewName("mypage/mypageZero");
         }
 
-        //계좌번호 있으면 계좌 등록
-        if(anum !=null){
+        //계좌번호 있으면서 오픈뱅킹의 비밀번호와 입력값이 같으면 계좌 등록
+        for(int i=0;i<openAccPwd.size();i++){
 
-            mypageService.insertAccount(email,anum);
-            mav.setViewName("redirect:/mypage/mypage_all");
-            return mav;
+            if(anum !=null && openAccPwd.get(i).getOpen_password().equals(aPwd)){
+                mypageService.insertAccount(email,anum);
+                mav.setViewName("redirect:/mypage/mypage_all");
+                return mav;
+            }
+
         }
+
+
 
 
         return mav; //프론트에서 요청했을때는 이 리턴이 프론트로 가는듯 그래서 화면이 안나오는것 같음

@@ -46,7 +46,8 @@
     height: 100vh;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 10%;
+    margin-top: 1%;
+    margin-bottom: 10%;
 }
 
 .mySchedule-box{
@@ -117,6 +118,7 @@
 
 .sche-start,.sche-end{
     margin-bottom: 15px;
+    margin-top: 10px;
     font-size: 13px;
     text-align: end;
 }

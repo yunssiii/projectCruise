@@ -61,7 +61,7 @@ insertWebBtn[0].onclick = function() {
 
     if(webPwdInput[0].value === webChkPwdInput[0].value && reg.test(webPwdInput[0].value)){
 
-        alert("등록되었습니다.");
+        alert("정상적으로 처리되었습니다.");
         updateSubmit();
 
     }else {

@@ -92,17 +92,17 @@
                     </form>
                 </div>
                 <!-- 기본 hide -->
-                <form action="/mypage/mypage_myInfo_pwd" method="post">
+                <form name="newChkForm" action="/mypage/mypage_myInfo_pwd" method="post">
                     <div class="user-cover4" style="display: none;">
                         <div class="newPwd-box1">
                             새 비밀번호
                             <input type="password" class="newPwd" name="newPwd" placeholder="새 비밀번호"/>
                             <div class="resultDiv" id="resultNewPwd"></div>
                             새 비밀번호 확인
-                            <input type="password" class="chk-newPwd" name="chk-newPwd" placeholder="새 비밀번호 확인"/>
+                            <input type="password" class="chk-newPwd" name="chkNewPwd" placeholder="새 비밀번호 확인"/>
                             <div class="resultDiv" id="resultNewPwd-chk"></div>
                             <div style="display: flex; justify-content: center;">
-                                <button type="submit" class="pwdBtn" id="pwdBtnId" onclick="updatePwdBtn()">비밀번호 변경</button>
+                                <button type="button" class="pwdBtn" id="pwdBtnId" onclick="updatePwdBtn();newChkPwdForm();">비밀번호 변경</button>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
         xhr.onload = function () {
             if (xhr.status === 200) {
 
-                alert("인증성공");
+                //alert("인증성공");
 
                 $('#resultUserPwd').text('');
                 $('.password').css("border", "1px solid #8b8b8b");

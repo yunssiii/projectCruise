@@ -31,4 +31,6 @@ public class CrewDTO {
     private Integer crew_goal; // 크루 목표금액 - 없으면 0으로 설정되게
     private String crew_deldate; // 크루 항해중단일자
 
+    private String crew_accountid2; //대표 계좌번호 가려진 거
+
 }

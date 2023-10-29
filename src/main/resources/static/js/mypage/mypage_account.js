@@ -61,6 +61,20 @@ function AddModal(num) {
             modalDiv1[num].style.display = "none";
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
+
+            $('#agree-all').prop('checked', false); //동의 지우기
+            $("input[name=agreeChk]").prop("checked",false);
+
+            nextBtn1[num].style.backgroundColor = "#bebebe"; //버튼 회색 유지
+            nextBtn1[num].style.cursor = "default";
+            nextBtn2[num].style.backgroundColor = "#bebebe";
+            nextBtn2[num].style.cursor = "default";
+            addBtn[num].style.backgroundColor = "#bebebe";
+            addBtn[num].style.cursor = "default";
+
+            bankBtns.forEach((e) => { //은행 클릭 지우기
+                e.classList.remove("click");
+            });
         }
 
         //-- 모달2 -> 모달3, 계좌 선택했는지도 확인----------
@@ -82,12 +96,44 @@ function AddModal(num) {
             modalDiv2[num].style.display = "none";
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
+
+            $('#agree-all').prop('checked', false); //동의 지우기
+            $("input[name=agreeChk]").prop("checked",false);
+
+            nextBtn1[num].style.backgroundColor = "#bebebe"; //버튼 회색 유지
+            nextBtn1[num].style.cursor = "default";
+            nextBtn2[num].style.backgroundColor = "#bebebe";
+            nextBtn2[num].style.cursor = "default";
+            addBtn[num].style.backgroundColor = "#bebebe";
+            addBtn[num].style.cursor = "default";
+
+            bankBtns.forEach((e) => { //은행 클릭 지우기
+                e.classList.remove("click");
+            });
+
         }
 
         xButton3[num].onclick = function() {
             modalDiv3[num].style.display = "none";
             document.body.style.overflow = "auto";
             document.body.style.overflowX = "hidden";
+
+            $('#agree-all').prop('checked', false);
+            $("input[name=agreeChk]").prop("checked",false);
+
+            nextBtn1[num].style.backgroundColor = "#bebebe"; //버튼 회색 유지
+            nextBtn1[num].style.cursor = "default";
+            nextBtn2[num].style.backgroundColor = "#bebebe";
+            nextBtn2[num].style.cursor = "default";
+            addBtn[num].style.backgroundColor = "#bebebe";
+            addBtn[num].style.cursor = "default";
+
+            bankBtns.forEach((e) => { //은행 클릭 지우기
+                e.classList.remove("click");
+            });
+
+            accounNums[1].value = ''; //계좌, 비밀번호 값 지우기
+            accounPwds[0].value = '';
         }
     };
 }
@@ -208,7 +254,7 @@ bankBtns.forEach((e) => {
     input 박스가 변할 때랑 등록 버튼이 눌릴 때 둘 다 나와야함
 */
 
-var text = "정확히!";
+var text = "정확히 입력해주세요.";
 
 function chkAccountNum(event) {
 
@@ -284,53 +330,71 @@ accounPwds[0].addEventListener("change",chkAccountPwd);
 
 function accountAuth (event) {
 
+    //인증 실패 시 insert도 안되고, 모달도 유지해야 함
+
     //서버에서 넘긴 비밀번호,계좌번호는 html에서 받음
     var accountPwdsValue =  accounPwds[0].value;
     var accountNumsValue =  accounNums[1].value;
 
     console.log("인증전-번호"+accountNumsValue);
 
-    for(var i=0;i<openAccPwd.length;i++){
+    for(var i=0;i<myaccountList.length;i++){
+        //등록된 계좌와 일치하면 alert
+        if(accountNumsValue == myaccountList[i].myaccount_anum){
 
-    if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
-            console.log("인증성공");
+            alert("이미 등록된 계좌입니다.");
 
-            console.log("인증성공-번호"+accounNums[1].value);
+            addBtn[num].style.backgroundColor = "#bebebe"; //버튼 회색
+            addBtn[num].style.cursor = "default";
+            modalDiv3[0].style.display = "block"; //모달 유지
 
-            addBtn[0].style.backgroundColor = "#0c0ccad0";
-            addBtn[0].style.cursor = "pointer";
+            accounNums[1].value = ''; //값 지우기
+            accounPwds[0].value = '';
 
-            accounNums[1].value = accountNumsValue;
-            accounPwds[0].value = accountPwdsValue;
+        }else {
 
-            addBtn[0].onclick = function() {
+            for(var i=0;i<openAccPwd.length;i++){
 
-                modalDiv3[0].style.display = "none";
-                document.body.style.overflow = "auto";
-                document.body.style.overflowX = "hidden";
+                if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
+                    console.log("인증성공");
+
+                    console.log("인증성공-번호"+accounNums[1].value);
+
+                    addBtn[0].style.backgroundColor = "#0c0ccad0"; //버튼 파란색으로 변화
+                    addBtn[0].style.cursor = "pointer";
+
+                    accounNums[1].value = accountNumsValue; //값 남기기
+                    accounPwds[0].value = accountPwdsValue;
+
+                    addBtn[0].onclick = function() { //버튼 클릭하면 창 닫기
+
+                        modalDiv3[0].style.display = "none";
+                        document.body.style.overflow = "auto";
+                        document.body.style.overflowX = "hidden";
+
+                    }
+                } else {
+                    console.log('인증실패')
+                    //alert('인증 실패하였습니다.');
+
+                    document.getElementById("resultNum").innerText = ""; //경고문구 지우기
+                    document.getElementById("resultPwd").innerText = "";
+
+                    accounNums[1].style.border = "1px solid black";
+                    accounNums[1].style.outline = "1px solid black";
+                    accounPwds[0].style.border = "none";
+                    accounPwds[0].style.outline = "1px solid black";
+
+                    accounNums[1].value = accountNumsValue; //값 남기기
+                    accounPwds[0].value = accountPwdsValue;
+
+                    //modalDiv3[0].style.display = "block";
+
+                }
 
             }
-        } else {
-            console.log('인증실패')
-
-            document.getElementById("resultNum").innerText = "";
-            document.getElementById("resultPwd").innerText = "";
-
-            accounNums[1].style.border = "1px solid black";
-            accounNums[1].style.outline = "1px solid black";
-            accounPwds[0].style.border = "none";
-            accounPwds[0].style.outline = "1px solid black";
-
-            accounNums[1].value = accountNumsValue;
-            accounPwds[0].value = accountPwdsValue;
-
-
         }
-
     }
-
-
-
 }
 
 authBtns[0].addEventListener("click",accountAuth);
