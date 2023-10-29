@@ -238,28 +238,30 @@
             xhr.open('POST', '/board/created', true);
             xhr.onload = function (result) {
                 if (xhr.status === 200) {
+					if(noticeInput.value === 1) {
+						var response = JSON.parse(xhr.responseText); // JSON 문자열을 파싱하여 객체로 변환
 
-					var response = JSON.parse(xhr.responseText); // JSON 문자열을 파싱하여 객체로 변환
+						console.log("서버에서 받은 JSON 데이터: " + JSON.stringify(response));
 
-					console.log("서버에서 받은 JSON 데이터: " + JSON.stringify(response));
+						if (response) {
 
-					if (response) {
+							var emailList = [];
 
-						var emailList = [];
+							 for (var i = 0; i < response.length; i++) {
+								emailList.push(response[i].alertEmailsList);
+							}
 
-						 for (var i = 0; i < response.length; i++) {
-							emailList.push(response[i].alertEmailsList);
+							console.log("알림이 가야할 이메일들: " + emailList);
+
+							// 각 이메일 주소에 대해 알림 보내기
+							for (var i = 0; i < emailList.length; i++) {
+								var alertUser = emailList[i]; // 개별 이메일 주소
+								var message = '새로운 알림이 왔습니다!';
+								socket.send(message + ',' + alertUser);
+							}
+						} else {
+							window.location.href = '/board/list?crewNum=[[${crew_num}]]';
 						}
-
-						console.log("알림이 가야할 이메일들: " + emailList);
-
-						// 각 이메일 주소에 대해 알림 보내기
-						for (var i = 0; i < emailList.length; i++) {
-							var alertUser = emailList[i]; // 개별 이메일 주소
-							var message = '새로운 알림이 왔습니다!';
-							socket.send(message + ',' + alertUser);
-						}
-
 					} else {
 						console.log("서버에서 반환된 데이터가 없습니다.");
 					}
