@@ -194,3 +194,10 @@ main {
                      color: #ff3f3f;
                      margin: 10px 4px 10px;
                  }
+
+                 #phone-number-error {
+                     /* 변경: 오류 메시지 스타일을 지정 */
+                     font-size: 11px;
+                     color: #ff3f3f;
+                     margin: 10px 4px 5px;
+                 }

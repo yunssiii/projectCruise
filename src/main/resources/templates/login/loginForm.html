@@ -104,13 +104,14 @@
                    window.location.href = "/mypage/mypage_all";
             };
             } else {
-                const form = document.getElementById('signupForm');
-        const errorDiv = document.createElement('div');
-        errorDiv.innerText = "비밀번호가 틀립니다.";
-        errorDiv.classList.add("error-message"); // 클래스를 추가합니다.
-
-        const submitButton = form.querySelector('.submit-button');
-        form.insertBefore(errorDiv, submitButton); // submitButton 이전에 오류 메시지를 추가합니다..appendChild(errorDiv); // 오류 메시지를 추가합니다.
+        const errorDiv = form.querySelector('.error-message');
+                if (!errorDiv) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.innerText = "비밀번호가 틀립니다.";
+                    errorDiv.classList.add("error-message"); // 클래스를 추가합니다.
+                    const submitButton = form.querySelector('.submit-button');
+                    form.insertBefore(errorDiv, submitButton); // submitButton 이전에 오류 메시지를 추가합니다.
+                }
             }
         };
 
