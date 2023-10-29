@@ -69,6 +69,9 @@ body {
    padding: 20px;
 }
 
+
+/* ------------------------- */
+
 .hidden {
     display: none;
     height: 0;
@@ -98,7 +101,7 @@ body {
 
 .minSizeContainer {
 /*    상단 최소크기 고정용 컨테이너 */
-    min-width: 1536px;
+/*    min-width: 1536px;*/
     /*min-height: 400px;*/
 }
 

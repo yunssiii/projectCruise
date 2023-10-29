@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>크루즈 :: [[${dto.getCrew_name}]] 크루</title>
+    <meta name="viewport" http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width, initial-scale=1">
     <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewmain.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/crewExit.css"/>
     <link rel="stylesheet" type="text/css" href="/css/crewDetail/calendarModal.css"/>
+<!--    <link rel="stylesheet" type="text/css" href="./crewmain.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="./crewExit.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="./calendarModal.css"/>-->
     <script src="https://kit.fontawesome.com/ccb8b5d85b.js" crossorigin="anonymous"></script>
     <!-- 제이쿼리 cdn-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -167,6 +170,7 @@
         }
     </style>
     <style id="alertAnimationStyle"></style>
+    <title></title>
 </head>
 <body>
     <!-- 필요한 데이터 -->
@@ -179,9 +183,7 @@
     <input type="hidden" id="userNum" th:value="${crewUserInfo.MEM_NUM}">
 
     <div class="header"><nav th:replace="nav_footer/nav_footer :: header"></nav></div>
-    <div class="background">
-        <div class="wave"><div class="blue"></div></div>
-    </div>
+
 
     <div class="all_container">
         <div class="alert_bar_con">
@@ -251,7 +253,7 @@
 
         <div class="bankbook_top">
             <div class="crewname">
-                <div th:text="${dto.crew_name}"></div>
+                <div th:text="${dto.crew_name}">크루이름입니다</div>
                 <button class="gotoBoardBtn" type="button"
                     th:onclick="|location='http://localhost:8082/board/list?crewNum=${dto.crew_num}'|">소통게시판</button>
             </div>
@@ -265,7 +267,7 @@
             <div id="crewexit"><a th:onclick="crewExitClick([[${isCaptain}]])">크루 탈퇴</a></div>
             <div class="dotline1"></div>
             <div class="accnum_sub">계좌번호</div>
-            <div class="account_num" th:text="|${dto.crew_bank} ${dto.crew_accountid}|"></div>
+            <div class="account_num" th:text="|${dto.crew_bank} ${dto.crew_accountid}|">신한 110 511 000000</div>
             <div class="mark">
                 <div class="title">도장 또는 서명</div>
                 <div class="content">
@@ -514,6 +516,10 @@
     </div>
     </div>
 
+    <div class="background">
+        <div class="wave"><div class="blue"></div></div>
+    </div>
+
     <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
     <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
@@ -521,23 +527,26 @@
 
 
 <script type="text/javascript" src="/js/crewDetail/crewmain.js"></script>
+<!--<script type="text/javascript" src="./crewmain.js"></script>-->
 <script type="text/javascript" src="/js/crewDetail/crewCalendar.js"></script>
+<!--<script type="text/javascript" src="./crewCalendar.js"></script>-->
+<script type="text/javascript" src="/js/crewDetail/memberPayView.js"></script>
+<!--<script type="text/javascript" src="./memberPayView.js"></script>-->
+<script type="text/javascript" src="/js/crewDetail/TransactionDetailView.js"></script>
+<!--<script type="text/javascript" src="./TransactionDetailView.js"></script>-->
 
 <!-- 카톡 크루 초대하기 -->
 <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script th:src="@{/js/kakaoLink/kakaoLink.js}"></script>
 <script type="text/javascript" src="/js/kakaoLink/kakaoLink.js"></script>
-<script type="text/javascript" src="/js/crewDetail/memberPayView.js"></script>
-<script type="text/javascript" src="/js/crewDetail/TransactionDetailView.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.
      * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
      * 이 HTML이 처음로딩 되었을 때 payMoney에 불러오는 용도 */
-    payMoney.textContent = String(([[${dto.crew_paymoney}]] * num.value).toLocaleString("ko-KR"));
-
-    setMemNames([[${memberList}]])
-    setMemPayMoney([[${memberList}]],fullDates);
+    payMoney.textContent = String((/*[[${dto.crew_paymoney}]]*/ * num.value).toLocaleString("ko-KR"));
+    setMemNames(/*[[${memberList}]]*/)
+    setMemPayMoney(/*[[${memberList}]]*/,fullDates);
     /*]]>*/
 </script>
 </html>
