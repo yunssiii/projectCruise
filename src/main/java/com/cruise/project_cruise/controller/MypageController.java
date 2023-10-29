@@ -612,12 +612,21 @@ public class MypageController {
         //System.out.println(email);
 
         List<MyAlertDTO> navAlertList = mypageService.getNavAlert(email);
+        List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
+
+        //게시글 크루명 조회 후 myBoardLists 넣기
+        for (CrewBoardDTO dto : myBoardLists){
+            String boardStr = mypageService.getCrewName(dto.getCrew_num());
+            dto.setCrew_name(boardStr);
+        }
 
         for(int i=0;i<navAlertList.size();i++){
             hashMap.put("alertContent", navAlertList.get(i).getMyalert_content());
             hashMap.put("alertAssort", navAlertList.get(i).getMyalert_assort());
             hashMap.put("alertDate", navAlertList.get(i).getMyalert_adate());
             hashMap.put("crewNum", navAlertList.get(i).getCrew_num());
+            hashMap.put("boardNum", myBoardLists.get(i).getBoard_num());
+            hashMap.put("crewName", myBoardLists.get(i).getCrew_name());
 
             jsonObject = new JSONObject(hashMap);
             jsonArray.add(jsonObject);

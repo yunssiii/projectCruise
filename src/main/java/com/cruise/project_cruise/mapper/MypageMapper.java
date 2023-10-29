@@ -55,4 +55,6 @@ public interface MypageMapper {
 
     public String getCrewNameA(int crewNum) throws Exception;
 
+    public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception;
+
 }

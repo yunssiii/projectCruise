@@ -43,125 +43,119 @@ public class CrewBoardController {
 	CrewBoardUtil myUtil;
 
 	@PostMapping("created")
-	public ModelAndView created_ok(CrewBoardDTO dto,
+	public JSONArray created_ok(CrewBoardDTO dto,
 								   @RequestParam(value = "files", required = false) MultipartFile files,
 								   HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		// 세션에서 이메일 가져오기
-		HttpSession session = request.getSession();
-		String userEmail = (String)session.getAttribute("email");
+        // 세션에서 이메일 가져오기
+        HttpSession session = request.getSession();
+        String userEmail = (String) session.getAttribute("email");
 
-		ModelAndView mav = new ModelAndView();
+        //ModelAndView mav = new ModelAndView();
 
-		if(userEmail == null) {
-			mav.setViewName("redirect:/");
-			return mav;
-		}
+        if (userEmail == null) {
+            //mav.setViewName("redirect:/");
+            return null;
+        }
 
-		if (!files.isEmpty()) {
-			// 이미지 저장 경로
+        if (!files.isEmpty()) {
+            // 이미지 저장 경로
 
-			String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
+            String upload_path = request.getServletContext().getRealPath("/images").replace("\\", "/");
 
-	
-			System.out.println("upload_path: " + upload_path);
 
-			String originalName = files.getOriginalFilename();
+            System.out.println("upload_path: " + upload_path);
 
-			try {
-				// 파일 저장 디렉토리 생성
-				File uploadDir = new File(upload_path);
-				if (!uploadDir.exists()) {
-					uploadDir.mkdirs();
-				}
+            String originalName = files.getOriginalFilename();
 
-				// 파일명 설정
-				String saveFileName = System.currentTimeMillis() + "-" + originalName;
-				File saveFile = new File(uploadDir, saveFileName);
+            try {
+                // 파일 저장 디렉토리 생성
+                File uploadDir = new File(upload_path);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
 
-				// 파일 저장
-				files.transferTo(saveFile);
+                // 파일명 설정
+                String saveFileName = System.currentTimeMillis() + "-" + originalName;
+                File saveFile = new File(uploadDir, saveFileName);
 
-				// 파일 업로드 성공 메시지 또는 데이터베이스에 파일 정보 저장 등의 추가 작업 수행
-				dto.setSavedFile(saveFileName);
+                // 파일 저장
+                files.transferTo(saveFile);
 
-			} catch (IOException e) {
-				System.out.println("파일 업로드 실패: " + e.getMessage());
-			}
-		} else {
-			dto.setSavedFile("");
-		}
-		String userName = crewBoardService.getUserName(userEmail);
-		int notice = Integer.parseInt(request.getParameter("notice"));
-		int maxNum = crewBoardService.maxNum();
+                // 파일 업로드 성공 메시지 또는 데이터베이스에 파일 정보 저장 등의 추가 작업 수행
+                dto.setSavedFile(saveFileName);
 
-		dto.setBoard_num(maxNum + 1);
-		dto.setCrew_num(dto.getCrew_num());
-		dto.setEmail(userEmail);
-		dto.setName(userName);
+            } catch (IOException e) {
+                System.out.println("파일 업로드 실패: " + e.getMessage());
+            }
+        } else {
+            dto.setSavedFile("");
+        }
+        String userName = crewBoardService.getUserName(userEmail);
+        int notice = Integer.parseInt(request.getParameter("notice"));
+        int maxNum = crewBoardService.maxNum();
 
-		if (notice == 1) {	// 공지글일 때
-			dto.setNotice(1);
+        dto.setBoard_num(maxNum + 1);
+        dto.setCrew_num(dto.getCrew_num());
+        dto.setEmail(userEmail);
+        dto.setName(userName);
 
-			// 공지 알림
-			String crewName = crewBoardService.getCrewName(dto.getCrew_num());
-			String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
-			// 알림 날짜 설정
-			Date today = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String todayStr = dateFormat.format(today);
+        JSONArray jsonArray = null;
 
-			List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
+        if (notice == 1) {    // 공지글일 때
+            dto.setNotice(1);
 
-			crewBoardService.insertData(dto);
+            // 공지 알림
+            String crewName = crewBoardService.getCrewName(dto.getCrew_num());
+            String content = "[" + crewName + "]" + " 새 공지가 등록되었습니다.";
+            // 알림 날짜 설정
+            Date today = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String todayStr = dateFormat.format(today);
 
-			// 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
-			// 크루 멤버수만큼 my_alert 테이블에 insert
-			// 윤하 : 언니..! crewNum도 같이 insert해서 추가했어!!
+            List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
-			JSONObject jsonResponse = new JSONObject();
-			JSONArray jsonArray = new JSONArray();
-			HashMap<String,Object> hashMap = new HashMap<>();
+            crewBoardService.insertData(dto);
 
-			for (Map<String, String> stringStringMap : crewMember) {
-				int alertNum = mypageService.maxMyalertNum() + 1;
-				mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"공지",
-						content, todayStr, stringStringMap.get("MEM_EMAIL"));
+            // 은지 : crewBoardService에 insert를 성공하면 alert 테이블에 insert 되도록 수정했어..!
+            // 크루 멤버수만큼 my_alert 테이블에 insert
+            // 윤하 : 언니..! crewNum도 같이 insert해서 추가했어!!
 
-				hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
+            JSONObject jsonResponse = new JSONObject();
+            jsonArray = new JSONArray();
+            HashMap<String, Object> hashMap = new HashMap<>();
 
-				jsonResponse = new JSONObject(hashMap);
-				jsonArray.add(jsonResponse);
-			}
+            for (Map<String, String> stringStringMap : crewMember) {
+                int alertNum = mypageService.maxMyalertNum() + 1;
+                mypageService.insertMyAlert(alertNum, dto.getCrew_num(), "공지",
+                        content, todayStr, stringStringMap.get("MEM_EMAIL"));
 
-			System.out.println("알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
-			System.out.println("알림보내야 할 이메일들222 >>>>>>>>> " + jsonArray.toString());
-			//제이슨 형태로 잘 담겼는데,..ㅜ 어캐 클라이언트로 보내는지 모르겠어우어ㅠㅠㅠ
+                hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
 
-			//--------------------------------------------------------------------------
+                jsonResponse = new JSONObject(hashMap);
+                jsonArray.add(jsonResponse);
+            }
 
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jsonArray.toString());
-			//response.getWriter().close();
+            System.out.println("알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
+            System.out.println("알림보내야 할 이메일들222 >>>>>>>>> " + jsonArray.toString());
 
-			// crew_alert 테이블에 insert
-			// 은지 : 공지 알림 형식 수정할게요~!
-			String articleSubjectSub = dto.getBoard_subject().substring(0,4) + "...";
-			String crewAlertContent = "\"" + articleSubjectSub + "\" 가 등록되었습니다.";
-			crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-					"공지", crewAlertContent, todayStr);
+            // crew_alert 테이블에 insert
+            // 은지 : 공지 알림 형식 수정할게요~!
+            String articleSubjectSub = dto.getBoard_subject().substring(0, 4) + "...";
+            String crewAlertContent = "\"" + articleSubjectSub + "\" 가 등록되었습니다.";
+            crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                    "공지", crewAlertContent, todayStr);
 
-			// 윤하 : 알림가야할 이메일들 클라이언트로 보내기
+            // 윤하 : 알림가야할 이메일들 클라이언트로 보내기
 
-			//mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
+            //mav.setViewName("redirect:/board/list?crewNum=" + dto.getCrew_num());
 
-		} else {	// 일반 게시글일 때
-			dto.setNotice(0);
-		}
+        } else {    // 일반 게시글일 때
+            dto.setNotice(0);
+        }
 
-		return mav;
-	}
+        return jsonArray;
+    }
 
 	@RequestMapping(value = "list", method = {RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView list(@RequestParam("crewNum") int crewNum, HttpServletRequest request) throws Exception {

@@ -216,5 +216,11 @@
         select crew_name from crew where crew_num = #{crew_num}
     </select>
 
+    <!-- 내 게시글 조회인데 링크 연결에만 사용 -->
+    <select id="getMyboardLink" parameterType="map" resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
+        select crew_num,board_num,board_subject,to_char(board_created, 'YYYY-MM-DD') board_created_tochar,hitcount from crew_board
+        where email=#{email} order by board_created desc
+    </select>
+
 
 </mapper>

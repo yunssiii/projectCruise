@@ -49,4 +49,6 @@ public interface MypageService {
     public List<MyAlertDTO> getNavAlert(String email) throws Exception; //네비바 알림 조회
 
     public String getCrewNameA(int crewNum) throws Exception; //크루이름 조회
+
+    public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception; //링크용 게시글 조회
 }

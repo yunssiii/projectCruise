@@ -189,5 +189,10 @@ public class MypageServiceImpl implements MypageService {
         return mypageMapper.getCrewNameA(crewNum);
     }
 
+    @Override
+    public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception {
+        return mypageMapper.getMyboardLink(emil);
+    }
+
 
 }
