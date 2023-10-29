@@ -71,7 +71,7 @@ public class SignupController {
         userService.insertNormalUser(user);
 
         System.out.println("회원가입성공");
-        return "login/loginForm";
+        return "redirect:/login";
    }
 
     @GetMapping("/nextSocialSignUpForm")
