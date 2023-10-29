@@ -329,7 +329,7 @@
 
                             if(nowFullYear-crewCreatedYear===0 && nowMonth-crewCreatedMonth<5) {
                                 // 만약 만들어진지 5개월 미만의 크루이면
-                                for(var i=0; i<nowMonth-crewCreatedMonth; i++) {
+                                for(var i=0; i<=nowMonth-crewCreatedMonth; i++) {
                                     var cloneDate = new Date(nowFullDate);
                                     cloneDate.setMonth(cloneDate.getMonth()-i);
 
