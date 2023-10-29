@@ -152,6 +152,7 @@ public class CrewBoardController {
 
         } else {    // 일반 게시글일 때
             dto.setNotice(0);
+			crewBoardService.insertData(dto);
         }
 
         return jsonArray;
