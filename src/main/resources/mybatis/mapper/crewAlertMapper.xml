@@ -38,7 +38,7 @@
         select ROWNUM, calert_num, crew_num, calert_assort, calert_content, calert_alertdate from (
         select ROWNUM, calert_num, crew_num, calert_assort, calert_content, calert_alertdate
         from CREW_ALERT
-        where CREW_NUM = 1 and
+        where CREW_NUM = #{crewNum} and
         <![CDATA[CALERT_ASSORT <> '가입'
             order by calert_num desc)
             where ROWNUM <= 8]]>
