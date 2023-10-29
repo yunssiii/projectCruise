@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class QuartzService {
         try {
             // 스케줄러를 초기화하기
             scheduler.clear(); // DB도 초기화된다. 모든 예약된 작업과 트리거가 삭제된다.
-            // 최종적으론 이거 빼주기!
+            // TODO 최종적으론 이거 빼주기!
 
             // 만들어뒀던 리스너들을 등록해준다.
             scheduler.getListenerManager().addJobListener(new QuartzJobListner());
@@ -47,31 +48,69 @@ public class QuartzService {
         }
     }
 
-    //Job 추가하는 메소드
-    public <T extends Job> void addCronJob(Class<? extends Job> job , String key, String group, String desc, Map<String,Object> paramsMap, String cron) throws SchedulerException, SchedulerException {
-        JobDetail jobDetail = buildJobDetail(job,group,key,desc,paramsMap);
+
+
+    //특정 일자에 실행되는 Job
+    public <T extends Job> void addCronJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, String cron) throws SchedulerException, SchedulerException {
+        JobDetail jobDetail = buildJobDetail(job,key,desc,paramsMap);
         Trigger trigger = buildCronTrigger(cron); // cron으로 트리거 생성하기
         if(scheduler.checkExists(jobDetail.getKey())) scheduler.deleteJob(jobDetail.getKey());
         scheduler.scheduleJob(jobDetail,trigger);
     }
 
+    // 한 번 실행되는 Job
+    public <T extends Job> void addSimpleOnceJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, Date date) throws SchedulerException, SchedulerException {
+        JobDetail jobDetail = buildJobDetail(job,key,desc,paramsMap);
+        Trigger trigger = buildOnceSimpleTrigger(date); // cron으로 트리거 생성하기
+        if(scheduler.checkExists(jobDetail.getKey())) scheduler.deleteJob(jobDetail.getKey());
+        scheduler.scheduleJob(jobDetail,trigger);
+    }
+
+    // 반복 실행되는 Job
+    public <T extends Job> void addSimpleRepeatJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, Date date,int intervalInMilliseconds, int repeatCount) throws SchedulerException, SchedulerException {
+        JobDetail jobDetail = buildJobDetail(job,key,desc,paramsMap);
+        Trigger trigger = buildRepeatSimpleTrigger(date, intervalInMilliseconds, repeatCount); // cron으로 트리거 생성하기
+        if(scheduler.checkExists(jobDetail.getKey())) scheduler.deleteJob(jobDetail.getKey());
+        scheduler.scheduleJob(jobDetail,trigger);
+    }
+
     //JobDetail 생성하는 메소드
-    public <T extends Job> JobDetail buildJobDetail(Class<? extends Job> job, String group, String key, String desc, Map<String,Object> paramsMap) {
+    public <T extends Job> JobDetail buildJobDetail(Class<? extends Job> job, String key, String desc, Map<String,Object> paramsMap) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.putAll(paramsMap);
 
         return JobBuilder
                 .newJob(job) // job 클래스를 넣어준다.
-                .withIdentity(key, group) // scheduler 내에 해당 Job을 구분할 고유 식별키와, group을 지정한다.
+                .withIdentity(key) // scheduler 내에 해당 Job을 구분할 고유 식별키와, group을 지정한다.
                 .withDescription(desc) // Job에 대한 설명(Description)을 설정하는 데 사용한다.
                 .usingJobData(jobDataMap) // JobDataMap에 구성해준 params 들을 넣어준다.
                 .build();
     }
 
-    //Trigger 생성
+    //Cron Trigger 생성
     private Trigger buildCronTrigger(String cronExp) {
         return TriggerBuilder.newTrigger()
                 .withSchedule(CronScheduleBuilder.cronSchedule(cronExp))
+                .build();
+    }
+
+    //Simple Trigger 생성
+    private Trigger buildOnceSimpleTrigger(Date jobStartDateObj) {
+
+        return TriggerBuilder.newTrigger()
+                .startAt(jobStartDateObj)
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withRepeatCount(0)) // 한 번 실행되고 종료된다.
+                .build();
+    }
+
+    private Trigger buildRepeatSimpleTrigger(Date jobStartDateObj,int intervalInMilliseconds, int repeatCount) {
+
+        return TriggerBuilder.newTrigger()
+                .startAt(jobStartDateObj)
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withIntervalInMilliseconds(intervalInMilliseconds)
+                        .withRepeatCount(repeatCount-1)) // 총 실행 횟수
                 .build();
     }
 
