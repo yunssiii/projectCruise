@@ -118,33 +118,29 @@ footer{
 	display: none;
 	position: absolute;
 	background-color: white;
-	min-width: 300px;
 	border-radius: 10px;
 	border: 2px solid #FFD966;
 	z-index: 2;
 	font-size: 15px;
-	right: 12.2%;
-	/* width: 64px; */
+     width: 300px;
 	
 }
 .menu-content2{
 	text-align: center;
-
 	display: none;
     position: absolute;
     background-color: white;
-    min-width: 160px;
     border-radius: 10px;
     border: 2px solid #FFD966;
     z-index: 2;
     font-size: 15px;
-    width: 64px;
+    width: 160px;
 }
 
 .menu-content:after {
   position: absolute;
   bottom: 100%;
-  left: 23%;
+  left: 12%;
   margin-left: -10px;
   border: solid transparent;
   border-color: transparent;
