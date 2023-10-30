@@ -141,7 +141,7 @@
         hiddenModalFunction(divideCompleteModal);
         hiddenModalFunction(divideModalBg);
 
-        window.location.href = 'http://localhost:8082/crew/setting?crewNum=' + crewNum;
+        window.location.href = '/crew/setting?crewNum=' + crewNum;
     })
 
 

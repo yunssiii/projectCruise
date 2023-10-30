@@ -64,7 +64,7 @@ var memTableHeadLastTh = memTableHead.querySelector('tr th:last-child');
 
         request.done(function () {
             banMemtr.remove(); // 겉에서 없애기
-            window.location.href = 'http://localhost:8082/crew/setting?crewNum=' + banCrewNum
+            window.location.href = '/crew/setting?crewNum=' + banCrewNum
         })
 
         memberBanYNModal.classList.remove('visibleModal');

@@ -75,7 +75,7 @@
     <h1> 잘못된 접근입니다! </h1>
     <div th:if="${status=='logout'}">
         <div>로그인을 해주세요.</div>
-        <button type="button" onclick="location.href='http://localhost:8082/login';">로그인 하러가기</button>
+        <button type="button" th:onclick="location='/login';">로그인 하러가기</button>
     </div>
     <div th:if="${status=='notMember'}">
         <div>해당 크루의 선원만 들어올 수 있어요.</div>
@@ -92,7 +92,7 @@
 </div>
 </body>
 
-<script type="text/javascript" src="/js/crewWrongAccess/stopSailingCrew.js"></script>
+<script type="text/javascript" src="/js/crewSetting/stopSailingCrew.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     // 유예기간 실시간으로 보여주기 위한 스크립트

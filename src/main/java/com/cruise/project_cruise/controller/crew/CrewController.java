@@ -48,10 +48,13 @@ public class CrewController {
     @Autowired
     private WebsocketTest2 websocketTest2;
 
+    private final String cruiseUrl = "http://192.168.16.27:8082/";
+
 // red 오류페이지
     @RequestMapping("/wrongAccess")
     public ModelAndView wrongAccess() throws Exception {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
         mav.setViewName("crew/wrongAccess");
 
         return mav;
@@ -67,6 +70,7 @@ public class CrewController {
 
         // 크루 상세페이지 메인화면
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
 
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
@@ -144,6 +148,7 @@ public class CrewController {
             }
 
             log.info(crewNum + " - " + dto.getCrew_name() + "은 항해중단 유예 중...");
+
 
             mav.setViewName("redirect:/crew/setting/sailingStopCrew?crewNum=" + crewNum);
             return mav;
