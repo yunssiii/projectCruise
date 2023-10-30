@@ -88,26 +88,57 @@ var randomImagePath = getRandomImagePath(imagePaths);
                           if (!accessToken) {
                               window.location.href = "/accept";
                           } else {
+                                    const rejectXhr = new XMLHttpRequest();
+                                    rejectXhr.open("GET", "/accept", true);
+                                    rejectXhr.send();
+                                    rejectXhr.onload = function() {
 
-                                     const rejectXhr = new XMLHttpRequest();
-                                            rejectXhr.open("GET", "/accept", true);
-                                            rejectXhr.send();
-                                            rejectXhr.onload = function() {
+                                    if (xhr.status === 200) {
 
+                                        window.location.href = "/mypage/mypage_all"; //리다이렉트
 
-                                                    const xhr2 = new XMLHttpRequest();
-                                                    xhr2.open("POST", "/mypage/mypage_all", true); // 루트 엔드포인트로 요청을 전송합니다.
-                                                    xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
-                                                    xhr2.send();
-                                                    xhr2.onload = function() {
-                                                        const responseText = xhr2.responseText;
-                                                        document.open();
-                                                        document.write(responseText);
-                                                        document.close();
-                                                    };
+                                        var response = JSON.parse(xhr.responseText); // JSON 문자열을 파싱하여 객체로 변환
 
-                                            };
+                                        console.log("초대서버에서 받은 JSON 데이터: " + JSON.stringify(response));
+
+                                        if (response) {
+
+                                            var emailList = [];
+
+                                             for (var i = 0; i < response.length; i++) {
+                                                emailList.push(response[i].alertEmailsList);
+                                            }
+
+                                            console.log("초대알림이 가야할 이메일들: " + emailList);
+
+                                            // 각 이메일 주소에 대해 알림 보내기
+                                            for (var i = 0; i < emailList.length; i++) {
+                                                var alertUser = emailList[i]; // 개별 이메일 주소
+                                                var message = '새로운 알림이 왔습니다!';
+                                                socket.send(message + ',' + alertUser);
+                                            }
+                                        }else {
+                                            console.log("서버에서 반환된 데이터가 없습니다.");
                                         }
+                                    } else {
+                                        alert("Error: " + xhr.status);
+                                    }
+
+
+
+                                            const xhr2 = new XMLHttpRequest();
+                                            xhr2.open("POST", "/mypage/mypage_all", true); // 루트 엔드포인트로 요청을 전송합니다.
+                                            xhr2.setRequestHeader('Authorization', accessToken); // 토큰을 헤더에 추가합니다.
+                                            xhr2.send();
+                                            xhr2.onload = function() {
+                                                const responseText = xhr2.responseText;
+                                                document.open();
+                                                document.write(responseText);
+                                                document.close();
+                                            };
+
+                                    };
+                                }
 
             closeModal(); // 모달 창 닫기
         }
