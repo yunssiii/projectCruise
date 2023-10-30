@@ -82,7 +82,7 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
 
 
 ////-- 웹소켓 연결 ---------------------------------------------------------------------------------
-let socket = new WebSocket("ws://192.168.16.27/:8082/testSocket");
+let socket = new WebSocket("ws://192.168.16.27:8082/testSocket");
 
 function openWebSocket() {
 
