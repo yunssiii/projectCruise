@@ -80,13 +80,14 @@ public class PassbookController {
         ModelAndView mav = new ModelAndView();
         // 새로운 계좌 추가한 경우---------------------------------------------
         System.out.println("checkedBox : " + checkedBox);
-        System.out.println("crewDTO.getCrew_accountid() : " + crewDTO.getCrew_accountid());
         if (checkedBox.equals("checkedNew")) {
+            System.out.println("새 계좌 getCrew_accountid() : " + crewDTO.getCrew_accountid());
             crewDTO.setCrew_bank(selectedBank); // 은행명
             crewDTO.setCrew_accountid(crewDTO.getCrew_accountid());   // 계좌번호
         } else {    // 기존 계좌 선택한 경우-----------------------------------
             String selectedAccount = request.getParameter("my_account");    // select box에서 선택한 '은행명 계좌번호'
             String[] parts = selectedAccount.split(" ");    // 띄어쓰기를 기준으로 나눠서 따로 insert
+            System.out.println("기존 계좌 getCrew_accountid() : " + selectedAccount);
             if (parts.length == 2) {
                 String bankName = parts[0]; // 은행명
                 String accountNumber = parts[1]; // 계좌번호
@@ -150,7 +151,7 @@ public class PassbookController {
 
         mypageService.insertAccount(userEmail,myAccountDTO.getMyaccount_anum());
         System.out.println("userEmail: " + userEmail);
-        System.out.println("myAccountDTO.getMyaccount_anum(): " + myAccountDTO.getMyaccount_anum());
+        System.out.println("추가된 계좌번호: " + myAccountDTO.getMyaccount_anum());
         return "insertNewAccount";
     }
 }
