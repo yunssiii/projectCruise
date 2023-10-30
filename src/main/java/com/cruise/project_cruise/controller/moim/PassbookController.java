@@ -5,6 +5,7 @@ import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.service.CrewBoardService;
+import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.MoimPassbookService;
 import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONObject;
@@ -27,6 +28,8 @@ public class PassbookController {
     private CrewBoardService crewBoardService;
     @Autowired
     private MypageService mypageService;
+    @Autowired
+    private CrewDetailService crewDetailService;
 
     @GetMapping(value = "")
     public ModelAndView passbook(HttpServletRequest request) throws Exception {
@@ -43,7 +46,7 @@ public class PassbookController {
 
         String userName = crewBoardService.getUserName(userEmail);
 
-        List<MyAccountDTO> myAccount = moimPassbookService.getMyAccount(userEmail); // 기존 계좌 불러오기
+        List<MyAccountDTO> myAccount =crewDetailService.getUserAccountList(userEmail); // 기존 계좌 불러오기
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(userEmail); // 가상계좌 비밀번호
         List<MyAccountDTO> myaccountList = mypageService.getAccountList(userEmail); //등록된 계좌 정보 조회
 
@@ -57,8 +60,6 @@ public class PassbookController {
             mav.addObject("openAccPwd",openAccPwd);
             mav.addObject("myaccountList",myaccountList);
         }
-
-
 
         mav.addObject("myAccount", myAccount);
         mav.addObject("userName", userName);    // 모달3에 '이름' 전달
