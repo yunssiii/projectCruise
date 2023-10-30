@@ -12,6 +12,8 @@ import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class CrewSettingController {
     private CrewAlertService crewAlertService;
     @Autowired
     private QuartzService quartzService;
+    @Autowired
+    private Scheduler scheduler;
 
     final Logger logger = LoggerFactory.getLogger(CrewSettingController.class); // 로그
 
@@ -447,8 +451,18 @@ public class CrewSettingController {
     public ModelAndView cancelSailingStop(@RequestParam("crewNum") int crewNum) throws Exception {
         ModelAndView mav = new ModelAndView();
 
+        // bold DB관련
+        // 0. deldate를 null로 바꾸는 작업하기
         crewSettingService.cancelStopSailing(crewNum);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
+
+        // bold job 관련
+        // 1. 취소할 job의 key 가져오기 (crewdeletejob)
+        String jobKey = "JOB_" + crewNum + "_CrewDeleteJob";
+        // 2. 등록된 job을 scheduler에서 취소하기
+        scheduler.deleteJob(JobKey.jobKey(jobKey));
+
+        // TODO 중단되었던 일정관련 job들 다시 실행하기
 
         logger.info(dto.getCrew_name() + " 크루 항해 중단 취소...");
         logger.info(dto.getCrew_name() + " 크루 페이지로 리디렉트...");

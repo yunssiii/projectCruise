@@ -21,4 +21,5 @@ public interface CrewDetailMapper {
     public Map<String,Object> getCrewUserInfo(@Param("crewNum")int crewNum, @Param("userEmail") String userEmail) throws Exception;
     public void updateCrewMemberPayment(@Param("crewNum")int crewNum, @Param("userEmail") String userEmail,
                                         @Param("payment") int payment, @Param("payCount") int payCount) throws Exception;
+    public void updateCrewMustPayCount(@Param("crewNum")int crewNum) throws Exception;
 }
