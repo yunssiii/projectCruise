@@ -1,6 +1,8 @@
 body {
     font-family: 'NanumSquare', 'sans-serif';
-    color:#333;
+    height:100vh;
+     background-image: url(/images/pexels-pixabay-327337.jpg);
+              background-size: cover;
 }
 #form-container {
     max-width: 800px;
@@ -20,13 +22,13 @@ h2 {
 }
 
 main {
-    background-image: url('/images/pexels-pixabay-327337.jpg');
+    /*background-image: url('/images/pexels-pixabay-327337.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center; */
     display: flex;
       justify-content: center;
       align-items: center;
-      height: 740px;
+      height:100vh;
     }
 
 
