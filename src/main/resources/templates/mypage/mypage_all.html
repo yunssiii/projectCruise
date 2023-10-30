@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="crew-content" th:text="${crewdto.crew_info}"></div>
                                 <div class="crewBtn-box">
-                                    <button class="crewBtn" type="button" th:onclick="|location='http://localhost:8082/crew?crewNum=${crewdto.crew_num}'|">크루 보기</button>
+                                    <button class="crewBtn" type="button" th:onclick="|location='http://192.168.16.27:8082/crew?crewNum=${crewdto.crew_num}'|">크루 보기</button>
                                 </div>
 
                                 <button th:id="${crewdto.crew_num}" class="user-out" type="button" th:onclick="showDelInfo([[${crewdto.crew_num}]])">탈퇴하기</button>
@@ -395,8 +395,8 @@
         <div class="password-box">
             <button class="passwordBtn">
                 <b>크루즈웹</b> 이체 비밀번호 
-                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">등록 </a> |
-                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">변경 </a>
+                <a th:href="@{http://192.168.16.27:8082/mypage/mypage_webPassword}">등록 </a> |
+                <a th:href="@{http://192.168.16.27:8082/mypage/mypage_webPassword}">변경 </a>
             </button>
         </div>
 
