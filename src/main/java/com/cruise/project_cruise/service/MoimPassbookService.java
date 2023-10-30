@@ -14,5 +14,6 @@ public interface MoimPassbookService {
     public void insertCrewMember(CrewMemberDTO dto) throws Exception;
     public List<MyAccountDTO> getMyAccount(String email) throws Exception;
     public String getBankName(String myaccount_anum) throws Exception;
+    public int maxCmemNum() throws Exception;
 
 }

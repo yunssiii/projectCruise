@@ -39,4 +39,9 @@ public class MoimPassbookServiceImpl implements MoimPassbookService {
     public String getBankName(String myaccount_anum) throws Exception {
         return mapper.getBankName(myaccount_anum);
     }
+
+    @Override
+    public int maxCmemNum() throws Exception {
+        return mapper.maxCmemNum();
+    }
 }
