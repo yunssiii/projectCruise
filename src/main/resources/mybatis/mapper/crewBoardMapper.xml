@@ -5,14 +5,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewBoardMapper">
 
+<!-- 전체 게시글의 maxNum -->
 <select id="maxNum" resultType="int" parameterType="String">
 	select nvl(max(board_num),0) from crew_board
 </select>
 
-	<select id="crewMaxNum" resultType="int" parameterType="Integer">
-		SELECT COUNT(board_num) from crew_board WHERE crew_num = #{crew_num}
-	</select>
+<!-- 해당 모임 게시글의 maxNum -->
+<select id="crewMaxNum" resultType="int" parameterType="Integer">
+	SELECT COUNT(board_num) from crew_board WHERE crew_num = #{crew_num}
+</select>
 
+<!-- 게시글 등록 -->
 <insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	insert into crew_board (crew_num, board_num, email, name, board_subject,
 	board_content, board_created, hitcount, notice, savedFile)
@@ -20,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{board_content}, sysdate, 0, #{notice}, #{savedFile})
 </insert>
 
+<!-- 게시판 리스트 불러오기 -->
 <select id="getLists" parameterType="hashMap" 	
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	SELECT * FROM (
@@ -39,32 +43,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	ORDER BY CASE WHEN notice = 1 THEN 0 ELSE rnum END, board_num Desc
 </select>
 
+<!-- 해당 모임의 전체 게시글 개수 구하기 -->
 <select id="getDataCount" parameterType="map" resultType="int">
 	select nvl(count(*),0) from crew_board
 	where crew_num = #{crew_num} and
 	${searchKey} like '%' || #{searchValue} || '%'
 </select>
 
+<!-- 게시글(article) 불러오기 -->
 <select id="getReadData" parameterType="int" 
 	resultType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	select board_num, crew_num, name, email, board_subject, board_content,
 	hitCount, board_created from crew_board where board_num = #{board_num}
 </select>
 
+<!-- 조회수 증가 -->
 <update id="updateHitCount" parameterType="int">
 	update crew_board set hitCount = hitCount + 1 where board_num = #{board_num}
 </update>
 
+<!-- 게시글 수정 -->
 <update id="updateData" parameterType="com.cruise.project_cruise.dto.CrewBoardDTO">
 	update crew_board set
 	board_subject = #{board_subject}, board_content = #{board_content}, savedFile = #{savedFile}
 	where board_num = #{board_num}
 </update>
 
+<!-- 게시글 삭제 -->
 <delete id="deleteData" parameterType="int">
 	delete crew_board where board_num = #{board_num}
 </delete>
 
+<!-- 게시판 리스트 상단: 모임 요약 -->
 <select id="boardTitle" parameterType="int" resultType="hashmap">
 	SELECT * FROM (
 	SELECT c.crew_name, c.crew_info, cb.user_name AS captain_name,
@@ -74,19 +84,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	WHERE c.crew_num = #{crew_num})
 </select>
 
+<!-- 모임장 or 일반 멤버 체크 -->
 <select id="checkCaptain" resultType="String" parameterType="hashmap">
 	select captain_yn from crew_member
 	where cmem_email = #{email} and crew_num = #{crew_num}
 </select>
 
+<!-- 작성자 구하기 -->
 <select id="getUserName" resultType="String" parameterType="String">
 	select user_name from users where email = #{email}
 </select>
 
+<!-- 파일명 구하기(이미지 불러올 때 필요)-->
 <select id="getFileName" resultType="String" parameterType="int">
 	select savedFile from crew_board where board_num = #{board_num}
 </select>
 
+<!-- 크루명 구하기 -->
 <select id="getCrewName" resultType="String" parameterType="int">
 	select crew_name from crew where crew_num = #{crew_num}
 </select>
