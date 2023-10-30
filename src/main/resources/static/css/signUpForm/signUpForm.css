@@ -1,5 +1,8 @@
      body{
           font-family: 'NanumSquare', 'sans-serif';
+          height:100vh;
+          background-image: url(/images/pexels-pixabay-327337.jpg);
+          background-size: cover;
       }
 
 
@@ -31,13 +34,13 @@
 }
 
 main {
-    background-image: url('/images/pexels-pixabay-327337.jpg');
+   /* background-image: url('/images/pexels-pixabay-327337.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center; */
     display: flex;
       justify-content: center;
       align-items: center;
-      height: 850px;
+      height: 100vh;
     }
 
            .registration-container {
