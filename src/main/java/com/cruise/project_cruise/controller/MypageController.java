@@ -565,7 +565,7 @@ public class MypageController {
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
         mav.addObject("myAlertList",myAlertList);
 
-        System.out.println("보드넘 >>>>" + myAlertList.get(0).getBoard_num());
+        //System.out.println("보드넘 >>>>" + myAlertList.get(0).getBoard_num());
 
         mav.setViewName("mypage/mypage_alert");
 
