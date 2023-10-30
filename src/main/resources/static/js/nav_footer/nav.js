@@ -165,6 +165,9 @@ function getNavAlert() {
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
 
+
+
+
                     }else {
 
                         str += '<div class="alertDiv">'
