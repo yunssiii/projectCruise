@@ -70,12 +70,12 @@ a {text-decoration: none;color: black;cursor: pointer;}
 
 .mypage-tab:hover, .mypage-tab3:hover {
     box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
-    width: 30%;
+    width: 26%;
 }
 
 .mypage-tab2:hover{
     box-shadow: inset 0 -14px 0 rgba(250, 211, 96, 0.726);
-    width: 24%;
+    width: 20%;
 }
 
 .mypage-tab3 {
@@ -83,7 +83,7 @@ a {text-decoration: none;color: black;cursor: pointer;}
 }
 
 .mypage-tab3:hover {
-    width: 60%;
+    width: 50%;
 }
 
 .logout-box {
