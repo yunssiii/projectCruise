@@ -7,8 +7,8 @@ Kakao.init('9862f7eff0dc73e6f37d21910ffc74b0');
 
 
 
-     var mobileWebUrl = 'http://localhost:8082/?group=' + group + '&num=' + num;
-     var webUrl = 'http://localhost:8082/?group=' + group + '&num=' + num;
+     var mobileWebUrl = 'http://192.168.16.27:8082/?group=' + group + '&num=' + num;
+     var webUrl = 'http://192.168.16.27:8082/?group=' + group + '&num=' + num;
 
        Kakao.Link.sendDefault({
          objectType: 'feed',
