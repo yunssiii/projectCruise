@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,10 +51,18 @@ public class QuartzService {
 
 
 
-    //특정 일자에 실행되는 Job
+    //cron식 Job
     public <T extends Job> void addCronJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, String cron) throws SchedulerException, SchedulerException {
         JobDetail jobDetail = buildJobDetail(job,key,desc,paramsMap);
         Trigger trigger = buildCronTrigger(cron); // cron으로 트리거 생성하기
+        if(scheduler.checkExists(jobDetail.getKey())) scheduler.deleteJob(jobDetail.getKey());
+        scheduler.scheduleJob(jobDetail,trigger);
+    }
+
+    //매달 특정일자에 실행되는 Job
+    public <T extends Job> void addMonthlyJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, int monthlyDate) throws SchedulerException, SchedulerException {
+        JobDetail jobDetail = buildJobDetail(job,key,desc,paramsMap);
+        Trigger trigger = buildMonthlyTrigger(monthlyDate);
         if(scheduler.checkExists(jobDetail.getKey())) scheduler.deleteJob(jobDetail.getKey());
         scheduler.scheduleJob(jobDetail,trigger);
     }
@@ -94,6 +103,13 @@ public class QuartzService {
                 .build();
     }
 
+    // 매달 실행되는 Trigger 생성
+    private Trigger buildMonthlyTrigger(int monthlyDate) {
+        return TriggerBuilder.newTrigger()
+                .withSchedule(CronScheduleBuilder.cronSchedule(makeMonthlyCronExpression(monthlyDate)))
+                .build();
+    }
+
     //Simple Trigger 생성
     private Trigger buildOnceSimpleTrigger(Date jobStartDateObj) {
 
@@ -112,6 +128,21 @@ public class QuartzService {
                         .withIntervalInMilliseconds(intervalInMilliseconds)
                         .withRepeatCount(repeatCount-1)) // 총 실행 횟수
                 .build();
+    }
+
+    private String makeMonthlyCronExpression(int monthlyDate) {
+        String cronStr = "0 0 12 "+ monthlyDate +" 1/1 ? *";
+
+        Date todayDateObj = new Date();
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(todayDateObj);
+        int lastDate = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        if(lastDate<monthlyDate) { // 만약 monthlyDate 보다 lastdate가 작다면 (31일로 설정되어있는데 마지막 날짜가 30일, 29일이거나..)
+            monthlyDate = lastDate; // paydate를 납입날짜 대신 그 달의 마지막 날짜로 대신해서 설정
+        }
+
+        return cronStr;
     }
 
 

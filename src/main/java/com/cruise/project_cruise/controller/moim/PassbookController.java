@@ -4,6 +4,8 @@ import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.CrewMemberDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
+import com.cruise.project_cruise.quartz.config.QuartzService;
+import com.cruise.project_cruise.quartz.jobs.CrewPaydateJob;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.MoimPassbookService;
@@ -17,7 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
+
 @RequestMapping("/moim/passbook")
 @RestController
 public class PassbookController {
@@ -28,6 +31,8 @@ public class PassbookController {
     private CrewBoardService crewBoardService;
     @Autowired
     private MypageService mypageService;
+    @Autowired
+    private QuartzService quartzService;
     @Autowired
     private CrewDetailService crewDetailService;
 
@@ -129,6 +134,25 @@ public class PassbookController {
 
         moimPassbookService.insertCrewMember(crewMemberDTO);
 
+        // 은지 - 납입일 스케줄링 JOB 추가
+        Map<String, Object> paramsMap = new HashMap<>();
+
+        int crewNum = crewDTO.getCrew_num();
+        paramsMap.put("executeCount",1); // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주기
+        paramsMap.put("crewNum",crewNum); // crewNum 담아주기
+
+        // 2. JOB의 Key 설정하기
+        String jobKey = "JOB_" + crewNum + "_CrewPaydateJob";
+        String jobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 Job 입니다.";
+
+        // 3. cron식 적기
+        int payDate = crewDTO.getCrew_paydate(); // 기본적으로는 paydate로
+            // 만약 30, 31일이 납입일이라면...
+            // 2월 같은 경우는 실행이 되지 않거나 오류가 뜰 거고, 31일이 없는 달에도 마찬가지가 될 것
+            // makeCrewPaydateCronExpression() 라는 메소드를 만들어, 크론식 대신에 makeCrewPaydateCronExpression 넣어주려고 함...
+
+        // 3. job 추가하기
+        quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
 
         model.addAttribute("group",crewDTO.getCrew_name());
         model.addAttribute("num",maxCrewNum);
