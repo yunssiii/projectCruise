@@ -34,22 +34,31 @@ public class PassbookController {
         HttpSession session = request.getSession();
         String userEmail = (String)session.getAttribute("email");
 
-        String userName = crewBoardService.getUserName(userEmail);
-
         ModelAndView mav = new ModelAndView();
+
+        if(userEmail == null) {
+            mav.setViewName("redirect:/");
+            return mav;
+        }
+
+        String userName = crewBoardService.getUserName(userEmail);
 
         List<MyAccountDTO> myAccount = moimPassbookService.getMyAccount(userEmail); // 기존 계좌 불러오기
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(userEmail); // 가상계좌 비밀번호
+        List<MyAccountDTO> myaccountList = mypageService.getAccountList(userEmail); //등록된 계좌 정보 조회
 
         // 등록된 계좌가 없는 경우 th:if로 '기존 계좌 선택' 영역 안 보이게 하기
         if(myAccount.isEmpty()) {
             mav.addObject("account", 0);
         }
 
-        //계좌 비밀번호가 있으면
+        // 계좌 비밀번호가 있으면
         if(openAccPwd != null){
             mav.addObject("openAccPwd",openAccPwd);
+            mav.addObject("myaccountList",myaccountList);
         }
+
+
 
         mav.addObject("myAccount", myAccount);
         mav.addObject("userName", userName);    // 모달3에 '이름' 전달
@@ -95,6 +104,7 @@ public class PassbookController {
         }
 
         int maxCrewNum = moimPassbookService.maxCrewNum() + 1;
+        int maxCmemNum = moimPassbookService.maxCmemNum() + 1;
 
         crewDTO.setCrew_num(maxCrewNum);
         crewDTO.setCrew_name(crewDTO.getCrew_name());
@@ -113,6 +123,7 @@ public class PassbookController {
 
         crewMemberDTO.setCrew_num(maxCrewNum);
         crewMemberDTO.setCmem_email(userEmail);
+        crewMemberDTO.setCmem_num(maxCmemNum);
 
         moimPassbookService.insertCrewMember(crewMemberDTO);
 
