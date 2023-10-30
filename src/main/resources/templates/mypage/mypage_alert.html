@@ -59,7 +59,8 @@
                                     <div class="alert-date" th:text="${dto.myalert_adate}">날짜</div>
                                 </div>
                             </div>
-                            <a th:href="@{|http://localhost:8082/crew?crewNum=${dto.crew_num}|}" class="alert-content" th:text="${dto.myalert_content}"></a>
+                            <a th:if="${#strings.equals(dto.myalert_assort, '공지')}" th:href="@{|http://localhost:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" class="alert-content" th:text="${dto.myalert_content}"></a>
+                            <a th:unless="${#strings.equals(dto.myalert_assort, '공지')}" th:href="@{|http://localhost:8082/crew?crewNum=${dto.crew_num}|}" class="alert-content" th:text="${dto.myalert_content}"></a>
                         </div>
                     </div>
                 </div>

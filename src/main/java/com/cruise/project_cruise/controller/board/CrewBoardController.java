@@ -128,7 +128,7 @@ public class CrewBoardController {
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertNum = mypageService.maxMyalertNum() + 1;
                 mypageService.insertMyAlert(alertNum, dto.getCrew_num(), "공지",
-                        content, todayStr, stringStringMap.get("MEM_EMAIL"));
+                        content, todayStr, stringStringMap.get("MEM_EMAIL"),dto.getBoard_num());
 
                 hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
 

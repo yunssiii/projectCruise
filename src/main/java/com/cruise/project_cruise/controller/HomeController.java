@@ -139,13 +139,14 @@ public class HomeController {
             String crewName = mypageService.getCrewName(dto.getCrew_num());
 
             String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
+            int boardNum =0;
 
             //크루 맴버 수 만큼 my_alert에 insert
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertNum = mypageService.maxMyalertNum() + 1;
 
                 mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
-                        content, todayStr, stringStringMap.get("MEM_EMAIL"));
+                        content, todayStr, stringStringMap.get("MEM_EMAIL"),boardNum);
             }
 
             session.removeAttribute("group");
@@ -201,13 +202,14 @@ public class HomeController {
         String crewName = mypageService.getCrewName(dto.getCrew_num());
 
         String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
+        int boardNum =0;
 
         //크루 맴버 수 만큼 my_alert에 insert
         for (Map<String, String> stringStringMap : crewMember) {
             int alertNum = mypageService.maxMyalertNum() + 1;
 
             mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
-                    content, todayStr, stringStringMap.get("MEM_EMAIL"));
+                    content, todayStr, stringStringMap.get("MEM_EMAIL"),boardNum);
         }
 
         session.removeAttribute("group");

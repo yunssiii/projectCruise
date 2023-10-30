@@ -63,10 +63,11 @@ public class CrewPaydateJob implements Job {
             calendar.setTime(today);
             int todayMonth = calendar.get(Calendar.MONTH) +1;
             String alertContent = todayMonth + "월 납입일 입니다.";
+            int boardNum =0;
 
             // insert 하기
             for(String userEmail : memberEmailList) {
-                mypageService.insertMyAlert(alertNum,crewNum,"납입일",alertContent,todayStr,userEmail);
+                mypageService.insertMyAlert(alertNum,crewNum,"납입일",alertContent,todayStr,userEmail,boardNum);
             }
             log.info(crewNum + " / " +crewName + " Crew 납입일 JOB - MY_ALERT.MUST_PAYCOUNT 업데이트 완료...");
             log.info(crewNum + " / " +crewName + " Crew 납입일 JOB 완료...");
