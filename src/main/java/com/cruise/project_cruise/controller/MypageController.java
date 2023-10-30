@@ -550,7 +550,7 @@ public class MypageController {
 
         UserDTO userInfo = mypageService.getUserInfo(email);
         List<MyAlertDTO> myAlertList = mypageService.getMyalert(email);
-        List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
+        //List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
 
         //보드넘, 크루이름 피료..
 
@@ -623,12 +623,17 @@ public class MypageController {
         //System.out.println(email);
 
         List<MyAlertDTO> navAlertList = mypageService.getNavAlert(email);
-        List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
+        //List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
 
-        //게시글 크루명 조회 후 myBoardLists 넣기
-        for (CrewBoardDTO dto : myBoardLists){
-            String boardStr = mypageService.getCrewName(dto.getCrew_num());
-            dto.setCrew_name(boardStr);
+//        //게시글 크루명 조회 후 myBoardLists 넣기
+//        for (CrewBoardDTO dto : myBoardLists){
+//            String boardStr = mypageService.getCrewName(dto.getCrew_num());
+//            dto.setCrew_name(boardStr);
+//        }
+
+        for (int i=0;i<navAlertList.size();i++) {
+            String crewName = mypageService.getCrewName(navAlertList.get(i).getCrew_num());
+            navAlertList.get(i).setCrew_name(crewName);
         }
 
         for(int i=0;i<navAlertList.size();i++){
@@ -636,8 +641,10 @@ public class MypageController {
             hashMap.put("alertAssort", navAlertList.get(i).getMyalert_assort());
             hashMap.put("alertDate", navAlertList.get(i).getMyalert_adate());
             hashMap.put("crewNum", navAlertList.get(i).getCrew_num());
-            hashMap.put("boardNum", myBoardLists.get(i).getBoard_num());
-            hashMap.put("crewName", myBoardLists.get(i).getCrew_name());
+            hashMap.put("boardNum", navAlertList.get(i).getBoard_num());
+            hashMap.put("crewName", navAlertList.get(i).getCrew_name());
+//            hashMap.put("boardNum", myBoardLists.get(i).getBoard_num());
+//            hashMap.put("crewName", myBoardLists.get(i).getCrew_name());
 
             jsonObject = new JSONObject(hashMap);
             jsonArray.add(jsonObject);
