@@ -86,7 +86,7 @@ var modalBack = document.getElementById('modalBackground');
             return;
         }
 
-        window.location.href='http://localhost:8082/crew/setting/updateDelDate?crewNum=' + crewNum;
+        window.location.href='/crew/setting/updateDelDate?crewNum=' + crewNum;
 
     }
 

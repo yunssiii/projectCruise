@@ -94,7 +94,7 @@ function turnBackBtnClick() {
 
     modalWindowClose(); // 모달 끄고
 
-    window.location.href = 'http://localhost:8082/crew/setting/cancelSailingStop?crewNum=' + crewNum;
+    window.location.href = '/crew/setting/cancelSailingStop?crewNum=' + crewNum;
 
 
 }
