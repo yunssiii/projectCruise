@@ -66,4 +66,9 @@ public class CrewDetailServiceImpl implements CrewDetailService {
         crewDetailMapper.updateCrewMemberPayment(crewNum,userEmail,payment,payCount);
     }
 
+    @Override
+    public void updateCrewMustPayCount(int crewNum) throws Exception {
+        crewDetailMapper.updateCrewMustPayCount(crewNum);
+    }
+
 }

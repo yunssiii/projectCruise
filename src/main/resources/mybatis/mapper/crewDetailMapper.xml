@@ -89,4 +89,12 @@
             REAL_PAYCOUNT=REAL_PAYCOUNT + #{payCount}
         where CREW_NUM=#{crewNum} and CMEM_EMAIL=#{userEmail}
     </update>
+
+    <!-- 납입일이 되면 의무 납입횟수에 +1 하는 쿼리 -->
+    <update id="updateCrewMustPayCount" parameterType="int">
+        update CREW_MEMBER
+        set
+            MUST_PAYCOUNT = MUST_PAYCOUNT + 1
+        where CREW_NUM = #{crewNum}
+    </update>
 </mapper>

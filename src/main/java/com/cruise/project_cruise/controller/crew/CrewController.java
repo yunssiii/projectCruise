@@ -5,6 +5,7 @@ import com.cruise.project_cruise.quartz.jobs.QuartzJob;
 import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
+import com.cruise.project_cruise.webSocketConfig.WebsocketTest2;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,6 +45,8 @@ public class CrewController {
     private CrewAlertService crewAlertService;
     @Autowired
     private QuartzService quartzService;
+    @Autowired
+    private WebsocketTest2 websocketTest2;
 
 // red 오류페이지
     @RequestMapping("/wrongAccess")
@@ -57,8 +62,7 @@ public class CrewController {
 
     // green 크루 상세페이지 출력
     @RequestMapping(value = "")
-    public ModelAndView crewMain(HttpSession session, HttpServletRequest request) throws Exception {
-
+    public ModelAndView crewMain(HttpSession session, WebSocketSession webSession, HttpServletRequest request) throws Exception {
 
 
         // 크루 상세페이지 메인화면
@@ -68,21 +72,6 @@ public class CrewController {
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
         // red Quartz 테스트
-        /*
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("executeCount",1);
-        // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주고,
-        paramsMap.put("crewNum",crewNum); // 일단 임의로 넣기. 1번 크루 알림에 넣어보자
-        paramsMap.put("cAlertContent","Quartz 테스트 : crewNum - " + crewNum);
-        paramsMap.put("cAlertAssort","테스트");
-
-        // 그리고 date 를 로그에 출력하도록 해주었으니까 그것도 넣어주자!
-        LocalDateTime now = LocalDateTime.now();
-        paramsMap.put("date",now);
-
-        //Job을 생성해 Scheduler에 등록하자
-        quartzService.addCronJob(QuartzJob.class, "QuartzJob", "TestJobs","Quartz Job 입니다", paramsMap, "0/5 * * * * ?"); // 5초간격으로 실행한다는 뜻
-        */
 
         /**
          * TODO
