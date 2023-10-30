@@ -231,7 +231,9 @@ function insertNewAccount() {
         success: function(data) {
             if(data === "insertNewAccount") {
                 alert("새로운 계좌가 추가되었습니다.");
-                modalDiv3[0].style.display = "none"; //모달 닫기
+                modalDiv3[0].style.display = "none"; //모달3 닫기
+                document.body.style.overflow = "auto";
+                document.body.style.overflowX = "hidden";
                 myNewAccElement.innerText = selectedBank + " " + accountNumber;   // 추가한 계좌번호 띄우기
             }else{
                 alert("Error: 새로운 계좌 추가 에러");
