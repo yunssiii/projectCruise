@@ -79,7 +79,7 @@
                                     <div class="board-num" th:text="${dto.board_num}">게시글 번호</div>
                                     <div>
                                         <span th:text="|[${dto.crew_name}] |">크루명</span>
-                                        <a th:href="@{|http://localhost:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.board_subject}">게시글 제목</a>
+                                        <a th:href="@{|http://192.168.16.27:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.board_subject}">게시글 제목</a>
                                     </div>
                                 </td>
                                 <td class="td-date" th:text="${dto.board_created_tochar}">생성일</td>
@@ -141,7 +141,7 @@
                                             <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
                                             <label th:for="|chk-comment-${dto.comment_num}|"></label>
                                             <div class="comment-content">
-                                                <a th:href="@{|http://localhost:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.comment_content}">댓글 내용</a>
+                                                <a th:href="@{|http://192.168.16.27:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.comment_content}">댓글 내용</a>
                                             </div>
                                         </div>
                                         <div class="comment-subject">

@@ -157,7 +157,7 @@ function getNavAlert() {
                     if(result[i].alertAssort === '공지'){
 
                         str += '<div class="alertDiv">'
-                            str += '<a href="http://localhost:8082/board/article?num='+ result[i].boardNum +'&crewName='+result[i].crewName +'">'
+                            str += '<a href="http://192.168.16.27:8082/board/article?num='+ result[i].boardNum +'&crewName='+result[i].crewName +'">'
                                 str += '<span style="font-weight: 600;">'+ result[i].alertAssort +'</span><br/><br/>'
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
@@ -165,7 +165,7 @@ function getNavAlert() {
                     }else {
 
                         str += '<div class="alertDiv">'
-                            str += '<a href="http://localhost:8082/crew?crewNum='+ result[i].crewNum +'">'
+                            str += '<a href="http://192.168.16.27:8082/crew?crewNum='+ result[i].crewNum +'">'
                                 str += '<span style="font-weight: 600;">'+ result[i].alertAssort +'</span><br/><br/>'
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
