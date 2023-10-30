@@ -370,11 +370,20 @@ function accountAuth (event) {
 
 
     console.log("인증전-번호"+accountNumsValue);
+    console.log("인증전-비밀번호"+accountPwdsValue);
+    console.log("openAccPwd.length >>" + openAccPwd.length);
+
+
+
 
     for(var i=0;i<openAccPwd.length;i++){
 
+    console.log("인증할-번호"+openAccPwd[i].open_account);
+        console.log("인증할-비밀번호"+openAccPwd[i].open_password);
+
         //입력된 비밀번호와 가상 비밀번호가 같고, 계좌번호,비밀번호가 값이 있고, 계좌번호와 가상 계좌가 같으면 인증 성공
-        if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountPwdsValue != "" && accountNumsValue == openAccPwd[i].open_account){
+        //if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountPwdsValue != "" && accountNumsValue == openAccPwd[i].open_account){
+        if(accountPwdsValue == openAccPwd[i].open_password){
             console.log("인증성공");
 
             console.log("인증성공-번호"+accounNums[1].value);
@@ -436,11 +445,6 @@ function accountAuth (event) {
                 addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
                 addBtn[0].style.cursor = "default";
             }
-
-            authFlag = false;
-
-            return authFlag;
-
         }
     }
 }
@@ -463,6 +467,32 @@ function insertAccSubmit() {
     accForm = document.accForm;
     accountNumsValue = accForm.anum.value;
     accountPwdsValue = accForm.aPwd.value;
+
+    if(!accountNumsValue){
+        alert("다시 확인해주시기 바랍니다.");
+
+        accounNums[1].value = ""; //값 지우기
+        accounPwds[0].value = "";
+
+        addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+        addBtn[0].style.cursor = "default";
+
+        return;
+
+    }
+
+    if(!accountPwdsValue){
+        alert("다시 확인해주시기 바랍니다.");
+
+        accounNums[1].value = ""; //값 지우기
+        accounPwds[0].value = "";
+
+        addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+        addBtn[0].style.cursor = "default";
+
+        return;
+
+    }
 
     if(authFlag == false){
         alert("다시 확인해주시기 바랍니다.");
