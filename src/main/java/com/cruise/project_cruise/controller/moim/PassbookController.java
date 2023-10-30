@@ -7,6 +7,7 @@ import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.quartz.config.QuartzService;
 import com.cruise.project_cruise.quartz.jobs.CrewPaydateJob;
 import com.cruise.project_cruise.service.CrewBoardService;
+import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.MoimPassbookService;
 import com.cruise.project_cruise.service.MypageService;
 import org.json.simple.JSONObject;
@@ -32,6 +33,8 @@ public class PassbookController {
     private MypageService mypageService;
     @Autowired
     private QuartzService quartzService;
+    @Autowired
+    private CrewDetailService crewDetailService;
 
     @GetMapping(value = "")
     public ModelAndView passbook(HttpServletRequest request) throws Exception {
@@ -48,7 +51,7 @@ public class PassbookController {
 
         String userName = crewBoardService.getUserName(userEmail);
 
-        List<MyAccountDTO> myAccount = moimPassbookService.getMyAccount(userEmail); // 기존 계좌 불러오기
+        List<MyAccountDTO> myAccount =crewDetailService.getUserAccountList(userEmail); // 기존 계좌 불러오기
         List<OpenBankDTO> openAccPwd = mypageService.getOpenAccPWd(userEmail); // 가상계좌 비밀번호
         List<MyAccountDTO> myaccountList = mypageService.getAccountList(userEmail); //등록된 계좌 정보 조회
 
@@ -62,8 +65,6 @@ public class PassbookController {
             mav.addObject("openAccPwd",openAccPwd);
             mav.addObject("myaccountList",myaccountList);
         }
-
-
 
         mav.addObject("myAccount", myAccount);
         mav.addObject("userName", userName);    // 모달3에 '이름' 전달
@@ -85,13 +86,14 @@ public class PassbookController {
         ModelAndView mav = new ModelAndView();
         // 새로운 계좌 추가한 경우---------------------------------------------
         System.out.println("checkedBox : " + checkedBox);
-        System.out.println("crewDTO.getCrew_accountid() : " + crewDTO.getCrew_accountid());
         if (checkedBox.equals("checkedNew")) {
+            System.out.println("새 계좌 getCrew_accountid() : " + crewDTO.getCrew_accountid());
             crewDTO.setCrew_bank(selectedBank); // 은행명
             crewDTO.setCrew_accountid(crewDTO.getCrew_accountid());   // 계좌번호
         } else {    // 기존 계좌 선택한 경우-----------------------------------
             String selectedAccount = request.getParameter("my_account");    // select box에서 선택한 '은행명 계좌번호'
             String[] parts = selectedAccount.split(" ");    // 띄어쓰기를 기준으로 나눠서 따로 insert
+            System.out.println("기존 계좌 getCrew_accountid() : " + selectedAccount);
             if (parts.length == 2) {
                 String bankName = parts[0]; // 은행명
                 String accountNumber = parts[1]; // 계좌번호
@@ -174,7 +176,7 @@ public class PassbookController {
 
         mypageService.insertAccount(userEmail,myAccountDTO.getMyaccount_anum());
         System.out.println("userEmail: " + userEmail);
-        System.out.println("myAccountDTO.getMyaccount_anum(): " + myAccountDTO.getMyaccount_anum());
+        System.out.println("추가된 계좌번호: " + myAccountDTO.getMyaccount_anum());
         return "insertNewAccount";
     }
 }

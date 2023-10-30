@@ -93,7 +93,7 @@ public class HomeController {
 
 
         @GetMapping("/accept")
-        public JSONArray accept(HttpSession session) throws Exception {
+        public String accept(HttpSession session) throws Exception {
 
             CrewMemberDTO dto = new CrewMemberDTO();
 
@@ -140,34 +140,22 @@ public class HomeController {
 
             String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
 
-            JSONObject jsonResponse = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
-            HashMap<String, Object> hashMap = new HashMap<>();
-
             //크루 맴버 수 만큼 my_alert에 insert
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertNum = mypageService.maxMyalertNum() + 1;
 
                 mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
                         content, todayStr, stringStringMap.get("MEM_EMAIL"));
-
-                hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
-
-                jsonResponse = new JSONObject(hashMap);
-                jsonArray.add(jsonResponse);
             }
-
-            System.out.println("초대알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
 
             session.removeAttribute("group");
             session.removeAttribute("num");
 
 
-            return jsonArray;
+            return "redirect:/mypage/mypage_all";
         }
 
     @GetMapping("/accept2") //로그인시 초대
-
     public String accept2(HttpSession session) throws Exception {
 
         CrewMemberDTO dto = new CrewMemberDTO();

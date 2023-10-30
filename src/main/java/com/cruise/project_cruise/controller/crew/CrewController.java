@@ -62,7 +62,7 @@ public class CrewController {
 
     // green 크루 상세페이지 출력
     @RequestMapping(value = "")
-    public ModelAndView crewMain(HttpSession session, WebSocketSession webSession, HttpServletRequest request) throws Exception {
+    public ModelAndView crewMain(HttpSession session, HttpServletRequest request) throws Exception {
 
 
         // 크루 상세페이지 메인화면
