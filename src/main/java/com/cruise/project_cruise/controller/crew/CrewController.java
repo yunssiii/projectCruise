@@ -265,6 +265,7 @@ public class CrewController {
 
         // 크루 유저 리스트
         mav.addObject("memberList",crewSettingService.getCrewMemberList(crewNum));
+        mav.addObject("memberCount",crewSettingService.getCrewMemberList(crewNum).size());
 
         // 크루 오늘의 일정
         mav.addObject("crewScheTodayList",crewScheTodayList);

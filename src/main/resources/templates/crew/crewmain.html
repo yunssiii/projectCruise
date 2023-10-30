@@ -285,17 +285,18 @@
                 </div>
             </div>
             <div class="dotline2"></div>
-            <div class="goal_sub">목표금액</div>
+            <div class="goal_sub">모인금액</div>
             <div class="achieve">
                 <div class="achieve_money" th:text="${crewAccountBalance}">900,000</div>
-                <div class="goal_money">원 / [[${crewGoal}]] 원</div>
+                <div th:if="${crewGoal=='0'}" class="goal_money">원</div>
+                <div th:if="${crewGoal!='0'}" class="goal_money">원 / [[${crewGoal}]] 원</div>
             </div>
-            <div class="per">
+            <div th:if="${crewGoal!='0'}" class="per">
                 <div class="achieve_per" th:style="'width: ' + ${achievePer} + '%'">
                     <div class="ani"></div>
                 </div>
             </div>
-            <div class="percent">
+            <div th:if="${crewGoal!='0'}" class="percent">
                 [[${achievePer}]]<div>%</div>
             </div>
         </div>
@@ -370,7 +371,7 @@
                 <div class="line2"></div>
                 <div class="summary">
                     <div class="sum_people">
-                        5명 중 <b id="payTotalCount">4명</b>이 납부하였습니다.
+                        [[${memberCount}]]명 중 <b id="payTotalCount">4명</b>이 납부하였습니다.
                     </div>
                     <div class="sum_money">
                         총 <b id="payTotalSum">80,000원</b> 납부되었습니다.

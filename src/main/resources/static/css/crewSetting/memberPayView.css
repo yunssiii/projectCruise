@@ -1,3 +1,10 @@
+@media (max-width: 1024px) {
+
+    #memberPayView {
+        min-width: unset !important;
+        grid-template-columns: minmax(27px,0vw) minmax(430px,25vw) minmax(27px,2vw) minmax(300px,38vw) minmax(27px,0vw) !important;
+    }
+}
 
 
 #memberPayView {

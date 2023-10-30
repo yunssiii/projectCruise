@@ -1,3 +1,17 @@
+@media (max-width: 1024px) {
+
+    #memberBan {
+         min-width: unset !important;
+        grid-template-columns: minmax(37px,1fr) minmax(900px,10fr) minmax(37px,1fr) !important;
+    }
+
+    #memberBan .memTableContainer table {
+        font-size: 11pt !important;
+    }
+}
+
+
+
 #memberBan {
     min-width: 1080px;
     justify-content: center;
