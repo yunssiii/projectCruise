@@ -25,7 +25,7 @@
  <th:block th:fragment="header">
 	<nav class="navigator">
 		<div>
-			<a href="http://localhost:8082/" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
+			<a href="http://192.168.16.27:8082/" class="logo_cruise"><i class="fa-brands fa-docker"></i> 크루즈
 			</a>
 		</div>
 
@@ -44,7 +44,7 @@
 					</div>
 
 					<div style="float: right;">
-						<a th:href="@{http://localhost:8082/mypage/mypage_myAlert}"><label class="userAlertGo">자세히보기 ></label></a>
+						<a th:href="@{http://192.168.16.27:8082/mypage/mypage_myAlert}"><label class="userAlertGo">자세히보기 ></label></a>
 					</div>
 				</div>
 			</div>
@@ -55,11 +55,11 @@
 				<div id="second_menu" class="menu-content2">
 				
 				
-					<a th:href="@{http://localhost:8082/mypage/mypage_myInfo}">내 프로필</a>
-					<a th:href="@{http://localhost:8082/mypage/mypage_board}">내 게시글</a>
-					<a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">이체 비밀번호 관리</a>
+					<a th:href="@{http://192.168.16.27:8082/mypage/mypage_myInfo}">내 프로필</a>
+					<a th:href="@{http://192.168.16.27:8082/mypage/mypage_board}">내 게시글</a>
+					<a th:href="@{http://192.168.16.27:8082/mypage/mypage_webPassword}">이체 비밀번호 관리</a>
 					<th:block th:unless="${#authorization.expression('isAuthenticated()')}">
-						<a href="http://localhost:8082/login">로그인</a>
+						<a href="http://192.168.16.27:8082/login">로그인</a>
 					</th:block>
 					<th:block th:if="${#authorization.expression('isAuthenticated()')}">
 					<a onclick="logout()" >로그아웃 <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<div>
-				<button class="voyage_button" type="button" onclick="location.href = 'http://localhost:8082/moim/passbook'">항해시작</button>
+				<button class="voyage_button" type="button" onclick="location.href = 'http://192.168.16.27:8082/moim/passbook'">항해시작</button>
 			</div>
 		</div>
 
