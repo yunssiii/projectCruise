@@ -6,10 +6,12 @@ import com.cruise.project_cruise.dto.ScheduleDTO;
 import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.quartz.config.QuartzService;
 import com.cruise.project_cruise.quartz.jobs.CrewDeleteJob;
+import com.cruise.project_cruise.quartz.jobs.CrewPaydateJob;
 import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.quartz.JobKey;
@@ -30,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+@Slf4j
 @RequestMapping(value="/crew/setting")
 @RestController
 public class CrewSettingController {
@@ -47,7 +50,6 @@ public class CrewSettingController {
     @Autowired
     private Scheduler scheduler;
 
-    final Logger logger = LoggerFactory.getLogger(CrewSettingController.class); // 로그
 
 
 // red 풀캘린더 데이터 전달 URL
@@ -121,18 +123,18 @@ public class CrewSettingController {
 
         // 로그인 / 로그아웃 여부 걸러내기
         if(userEmail==null||userEmail.isEmpty()) {
-            logger.info("로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+            log.info("로그인하지 않은 사용자가 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
             mav.addObject("status","logout");
             mav.setViewName("crew/wrongAccess");
 
             return mav;
         }
 
-        logger.info(userEmail + "이 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
+        log.info(userEmail + "이 [" + crewNum + " - " + dto.getCrew_name() + "] 관리에 접근");
 
         // 선장이 아닌 사용자를 걸러내기
         if(!crewDetailService.isCaptain(crewNum,userEmail)) {
-            logger.info(userEmail + "은 선장이 아님");
+            log.info(userEmail + "은 선장이 아님");
             mav.addObject("status","notCaptain");
             mav.setViewName("crew/wrongAccess");
 
@@ -213,7 +215,22 @@ public class CrewSettingController {
 
         HashMap<String, Object> hash = new HashMap<>();
         CrewDTO newCrewDTO = crewDetailService.getCrewData(crewNum);
-        logger.info(crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 정보 수정완료");
+        log.info("[DB] " + crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 정보 DB 수정완료");
+
+        // JOB 삭제, 수정하기
+        // 1. JOB KEY 불러오기
+        String jobKey = "JOB_" + crewNum + "_CrewPaydateJob";
+        // 2. 등록된 job을 scheduler에서 취소하기
+        scheduler.deleteJob(JobKey.jobKey(jobKey));
+        // 3. job 다시 등록하기
+
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("executeCount",1); // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주기
+        paramsMap.put("crewNum",crewNum); // crewNum 담아주기
+
+        String jobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 Job 입니다.";
+        quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
+        log.info("[Quartz] " + crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 납입일 JOB 수정완료");
 
         hash.put("newCrewInfo",newCrewDTO.getCrew_info());
         hash.put("newPayDate",newCrewDTO.getCrew_paydate());
@@ -277,13 +294,13 @@ public class CrewSettingController {
         dto.setSche_end(scheEnd);
 
         crewSettingService.insertCrewSche(dto);
-        logger.info("===================================================");
-        logger.info("[" + crewNum + "/" + crewDTO.getCrew_name() + " Calendar] 크루 일정 추가완료");
-        logger.info("---------------------------------------------------");
-        logger.info("[" + scheNum + "] scheTitle: " + scheTitle);
-        logger.info("startDate: " + scheStart);
-        logger.info("endDate: " + scheEnd);
-        logger.info("===================================================");
+        log.info("===================================================");
+        log.info("[" + crewNum + "/" + crewDTO.getCrew_name() + " Calendar] 크루 일정 추가완료");
+        log.info("---------------------------------------------------");
+        log.info("[" + scheNum + "] scheTitle: " + scheTitle);
+        log.info("startDate: " + scheStart);
+        log.info("endDate: " + scheEnd);
+        log.info("===================================================");
 
         // 크루 알림 추가
             // 날짜 설정
@@ -356,13 +373,13 @@ public class CrewSettingController {
 
         crewSettingService.updateCrewSche(dto);
 
-        logger.info("===================================================");
-        logger.info("[CrewController - Setting : Calendar] 일정 수정완료");
-        logger.info("---------------------------------------------------");
-        logger.info("[" + scheNum + "] scheTitle: " + scheTitle);
-        logger.info("startDate: " + scheStart);
-        logger.info("endDate: " + scheEnd);
-        logger.info("===================================================");
+        log.info("===================================================");
+        log.info("[CrewController - Setting : Calendar] 일정 수정완료");
+        log.info("---------------------------------------------------");
+        log.info("[" + scheNum + "] scheTitle: " + scheTitle);
+        log.info("startDate: " + scheStart);
+        log.info("endDate: " + scheEnd);
+        log.info("===================================================");
 
     }
 
@@ -372,11 +389,11 @@ public class CrewSettingController {
     public void deleteCrewSche(@RequestParam("scheNum") int scheNum) throws Exception {
         crewSettingService.deleteCrewSche(scheNum);
 
-        logger.info("===================================================");
-        logger.info("[CrewController - Setting : Calendar] 일정 삭제완료");
-        logger.info("---------------------------------------------------");
-        logger.info("scheNum: " + scheNum);
-        logger.info("===================================================");
+        log.info("===================================================");
+        log.info("[CrewController - Setting : Calendar] 일정 삭제완료");
+        log.info("---------------------------------------------------");
+        log.info("scheNum: " + scheNum);
+        log.info("===================================================");
 
     }
 
@@ -388,9 +405,9 @@ public class CrewSettingController {
 
         crewSettingService.stopSailing(crewNum); // 크루 항해 중단날짜 업데이트 한 후에
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 업데이트 된 dto 들고와주고
-        logger.info(dto.getCrew_name() + " 크루 항해 중단 날짜 설정 완료...");
+        log.info(dto.getCrew_name() + " 크루 항해 중단 날짜 설정 완료...");
 
-        // TODO delete JOB 추가하기
+        // bold delete JOB 3일뒤로 추가하기
         // 1. paramsMap 설정
         Map<String, Object> paramsMap = new HashMap<>();
 
@@ -414,8 +431,14 @@ public class CrewSettingController {
         // 3. job 추가하기
         quartzService.addSimpleOnceJob(CrewDeleteJob.class,jobKey,jobDesc,paramsMap,date);
 
-        logger.info(dto.getCrew_name() + " 크루 항해 중단...");
-        logger.info(dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
+        // bold 납입일 job 삭제하기
+        // 등록된 job을 scheduler에서 취소
+        String payJobKey = "JOB_" + crewNum + "_CrewPaydateJob";
+        scheduler.deleteJob(JobKey.jobKey(payJobKey));
+        log.info("[Quartz] " + crewNum + "/" + dto.getCrew_name() + " 크루 납입일 JOB 삭제 완료");
+
+        log.info(dto.getCrew_name() + " 크루 항해 중단...");
+        log.info(dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
 
         mav.setViewName("redirect:/crew/setting/sailingStopCrew?crewNum=" + crewNum);
         return mav;
@@ -428,7 +451,7 @@ public class CrewSettingController {
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보 불러와서
 
         if(dto.getCrew_deldate()==null || dto.getCrew_deldate().equals("")) {
-            logger.info(crewNum + " - " + dto.getCrew_name() + "으로 이동...");
+            log.info(crewNum + " - " + dto.getCrew_name() + "으로 이동...");
             mav.setViewName("redirect:/crew?crewNum=" + crewNum);
             return mav;
         }
@@ -462,10 +485,28 @@ public class CrewSettingController {
         // 2. 등록된 job을 scheduler에서 취소하기
         scheduler.deleteJob(JobKey.jobKey(jobKey));
 
-        // TODO 중단되었던 일정관련 job들 다시 실행하기
+        // bold 삭제되었던 일정관련 job들 다시 추가하기
+        Map<String, Object> paramsMap = new HashMap<>();
 
-        logger.info(dto.getCrew_name() + " 크루 항해 중단 취소...");
-        logger.info(dto.getCrew_name() + " 크루 페이지로 리디렉트...");
+        paramsMap.put("executeCount",1); // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주기
+        paramsMap.put("crewNum",crewNum); // crewNum 담아주기
+
+        // 1. JOB의 Key 설정하기
+        String payJobKey = "JOB_" + crewNum + "_CrewPaydateJob";
+        String jobDesc = crewNum + " / " + dto.getCrew_name() + "크루 납입일 Job 입니다.";
+
+        // 2. cron식 적기
+        int payDate = dto.getCrew_paydate(); // 기본적으로는 paydate로
+        // 만약 30, 31일이 납입일이라면...
+        // 2월 같은 경우는 실행이 되지 않거나 오류가 뜰 거고, 31일이 없는 달에도 마찬가지가 될 것
+        // makeCrewPaydateCronExpression() 라는 메소드를 만들어, 크론식 대신에 makeCrewPaydateCronExpression 넣어주려고 함...
+
+        // 3. job 추가하기
+        quartzService.addMonthlyJob(CrewPaydateJob.class,payJobKey,jobDesc,paramsMap,payDate);
+        log.info("[Quartz] " + crewNum + "/" + dto.getCrew_name() + " 크루 납입일 JOB 등록 완료");
+
+        log.info(dto.getCrew_name() + " 크루 항해 중단 취소...");
+        log.info(dto.getCrew_name() + " 크루 페이지로 리디렉트...");
 
         mav.setViewName("redirect:/crew?crewNum="+crewNum);
         return mav;
@@ -503,7 +544,7 @@ public class CrewSettingController {
     public void memberBan(@RequestParam("crewNum") int crewNum,
                           @RequestParam("email") String email) throws Exception {
         if(crewDetailService.isCaptain(crewNum,email)) {
-            logger.info("선장은 강퇴할 수 없습니다.");
+            log.info("선장은 강퇴할 수 없습니다.");
             return;
         }
 
@@ -514,7 +555,7 @@ public class CrewSettingController {
         crewSettingService.deleteMember(email, crewNum);
         CrewDTO dto = crewDetailService.getCrewData(crewNum);
 
-        logger.info(crewNum + "/" + dto.getCrew_name() + " 크루에서 " + email + " 강퇴 완료");
+        log.info(crewNum + "/" + dto.getCrew_name() + " 크루에서 " + email + " 강퇴 완료");
 
         // 크루 알림 추가
         String crewAlertContent = "선원 " + exitUserName + "(" + exitUserEmailSplit +")님이 강퇴되었습니다.";
