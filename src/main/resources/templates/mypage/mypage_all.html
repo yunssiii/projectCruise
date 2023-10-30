@@ -535,7 +535,7 @@
     <!-- 모달3 -->
     <!-- form 태그로 전체 insert, 모달1,2의 정보는 hidden으로 넘기기
     모달1은 db에 저장되지 않고 생색만 내기 -->
-    <form action="/mypage/mypage_all" method="post" name="accForm">
+    <form action="" method="post" name="accForm">
     <div class="modal-div3">
         <div class="content">
             <span class="closeBtn3">&times;</span>
@@ -558,7 +558,7 @@
                     <div class="resultDiv" id="resultPwd"></div>
                 </div>
                 <div>
-                    <button class="addBtn" type="submit">등록</button>
+                    <button class="addBtn" type="button" onclick="insertAccSubmit()">등록</button>
                 </div>
             </div>
         </div>

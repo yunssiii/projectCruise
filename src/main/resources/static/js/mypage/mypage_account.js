@@ -260,34 +260,51 @@ bankBtns.forEach((e) => {
     input 박스가 변할 때랑 등록 버튼이 눌릴 때 둘 다 나와야함
 */
 
+ /*
+    1. 계좌 빈칸 일 때
+    2. 계좌 길이가 맞지 않을 때
+    3. 계좌 비밀번호가 빈칸 일 때
+    4. 계좌 비밀번호 길이가 맞지 않을 때 - 인증 버튼 누르기 전
+
+    5. 계좌와 비밀번호가 가상과 맞지 않을 때 - 누른 후
+    6. 계좌가 등록된 계좌정보와 같을 때 (계좌 비밀번호가 빈칸이 아닐 때)
+*/
+
 var text = "정확히 입력해주세요.";
 
 function chkAccountNum(event) {
 
     var inputValue = event.target.value; //addEventListener 요소의 값
 
-    if (inputValue.length >= 10 && inputValue.length <= 14 ) {
+    // 1. 계좌 채워져 있고, 계좌 길이가 맞을 때
+    if (inputValue != "" && inputValue.length >= 10 && inputValue.length <= 14 ) {
 
-        document.getElementById("resultNum").innerText = "";
+        document.getElementById("resultNum").innerText = ""; //경고 지우기
 
-        accounNums[1].style.border = "1px solid black";
+        accounNums[1].style.border = "1px solid black"; //테두리 검정
         accounNums[1].style.outline = "1px solid black";
 
-    }else if(inputValue.length < 10) {
+    }else {
+        document.getElementById("resultNum").innerText = text; //경고 하고
 
-        document.getElementById("resultNum").innerText = text;
-
-        accounNums[1].style.border = "1px solid red";
+        accounNums[1].style.border = "1px solid red"; //테두리 빨강
         accounNums[1].style.outline = "1px solid red";
-
-    }else if(inputValue.length > 14) {
-
-        document.getElementById("resultNum").innerText = text;
-
-        accounNums[1].style.border = "1px solid red";
-        accounNums[1].style.outline = "1px solid red";
-
     }
+//    else if(inputValue.length < 10) {
+//
+//        document.getElementById("resultNum").innerText = text;
+//
+//        accounNums[1].style.border = "1px solid red";
+//        accounNums[1].style.outline = "1px solid red";
+//
+//    }else if(inputValue.length > 14) {
+//
+//        document.getElementById("resultNum").innerText = text;
+//
+//        accounNums[1].style.border = "1px solid red";
+//        accounNums[1].style.outline = "1px solid red";
+//
+//    }
 }
 
 //-- 계좌 비밀번호 검사 함수 -----------------------------------------
@@ -302,20 +319,27 @@ function chkAccountPwd(event) {
 
     var inputValue = event.target.value;
 
-    if (inputValue.length >= 4 && inputValue.length <= 6) {
+    // 1. 계좌 비밀번호가 채워져 있고, 계좌 비밀번호 길이가 맞을 때
+    if (inputValue != "" && inputValue.length >= 4 && inputValue.length <= 6) {
 
-        document.getElementById("resultPwd").innerText = "";
-        accounPwds[0].style.border = "1px solid black";
+        document.getElementById("resultPwd").innerText = ""; //경고 지우고
+        accounPwds[0].style.border = "1px solid black"; //테두리 검정
         accounPwds[0].style.outline = "1px solid black";
 
-    }else if(inputValue.length < 4) {
+    }else if(inputValue.length < 4) { //4보다 작을 때 경고
 
         document.getElementById("resultPwd").innerText = text;
 
         accounPwds[0].style.border = "1px solid red";
         accounPwds[0].style.outline = "1px solid red";
 
-    }else if(inputValue.length > 6) {
+    }else if(inputValue.length > 6) { //6보다 클 때 경고
+
+        document.getElementById("resultPwd").innerText = text;
+
+        accounPwds[0].style.border = "1px solid red";
+        accounPwds[0].style.outline = "1px solid red";
+    }else if(inputValue == ""){ //빈칸 일 때 경고
 
         document.getElementById("resultPwd").innerText = text;
 
@@ -333,6 +357,7 @@ accounPwds[0].addEventListener("change",chkAccountPwd);
     if(가상계좌 비밀번호=입력된 비밀번호 && 불러와진 이름의 가상계좌번호 = 입력된 계좌번호) ⇒ 인증 성공 / 등록 버튼 색변화/ 창 닫기/ insert
     if(번호!=비밀번호) ⇒인증 실패 / 인증 실패 알림/ 내용 지우고 cursor 계좌번호로
 */
+var authFlag = false;
 
 function accountAuth (event) {
 
@@ -342,69 +367,138 @@ function accountAuth (event) {
     var accountPwdsValue =  accounPwds[0].value;
     var accountNumsValue =  accounNums[1].value;
 
+
+
     console.log("인증전-번호"+accountNumsValue);
 
-    for(var i=0;i<myaccountList.length;i++){
-        //등록된 계좌와 일치하면 alert
-        if(accountNumsValue == myaccountList[i].myaccount_anum){
+    for(var i=0;i<openAccPwd.length;i++){
 
-            alert("이미 등록된 계좌입니다.");
+        //입력된 비밀번호와 가상 비밀번호가 같고, 계좌번호,비밀번호가 값이 있고, 계좌번호와 가상 계좌가 같으면 인증 성공
+        if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountPwdsValue != "" && accountNumsValue == openAccPwd[i].open_account){
+            console.log("인증성공");
 
-            //addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
-            //addBtn[0].style.cursor = "default";
-            //modalDiv3[0].style.display = "block"; //모달 유지
+            console.log("인증성공-번호"+accounNums[1].value);
 
-            accounNums[1].value = ''; //값 지우기
-            accounPwds[0].value = '';
-            return;
+            addBtn[0].style.backgroundColor = "#0c0ccad0"; //버튼 파란색으로 변화
+            addBtn[0].style.cursor = "pointer";
 
-        }else {
+            accounNums[1].value = accountNumsValue; //값 남기기
+            accounPwds[0].value = accountPwdsValue;
 
-            for(var i=0;i<openAccPwd.length;i++){
+            authFlag = true;
 
-                if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountNumsValue == openAccPwd[i].open_account){
-                    console.log("인증성공");
+            return authFlag;
 
-                    console.log("인증성공-번호"+accounNums[1].value);
+        } else {
+            console.log('인증실패')
+            //alert('인증 실패하였습니다.');
+            /*
+                1. 계좌번호, 비밀번호 둘 다 빈칸
+                2. 계좌번호 빈칸
+                3. 비밀번호 빈칸
+            */
 
-                    addBtn[0].style.backgroundColor = "#0c0ccad0"; //버튼 파란색으로 변화
-                    addBtn[0].style.cursor = "pointer";
+            if(accountNumsValue = ""){ //계좌번호 빈칸
+                document.getElementById("resultNum").innerText = text; //경고문구 쓰기
 
-                    accounNums[1].value = accountNumsValue; //값 남기기
-                    accounPwds[0].value = accountPwdsValue;
+                accounNums[1].style.border = "1px solid red";
+                accounNums[1].style.outline = "1px solid red";
 
-                    addBtn[0].onclick = function() { //버튼 클릭하면 창 닫기
+                accounNums[1].value = ""; //값 지우기
+                accounPwds[0].value = "";
 
-                        modalDiv3[0].style.display = "none";
-                        document.body.style.overflow = "auto";
-                        document.body.style.overflowX = "hidden";
+                addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+                addBtn[0].style.cursor = "default";
 
-                    }
-                } else {
-                    console.log('인증실패')
-                    //alert('인증 실패하였습니다.');
+            }else if(accountPwdsValue = ""){ //비밀번호 빈칸
+                document.getElementById("resultPwd").innerText = text;
 
-                    document.getElementById("resultNum").innerText = ""; //경고문구 지우기
-                    document.getElementById("resultPwd").innerText = "";
+                accounPwds[0].style.border = "1px solid red";
+                accounPwds[0].style.outline = "1px solid red";
 
-                    accounNums[1].style.border = "1px solid black";
-                    accounNums[1].style.outline = "1px solid black";
-                    accounPwds[0].style.border = "none";
-                    accounPwds[0].style.outline = "1px solid black";
+                accounPwds[0].value = "";
 
-                    accounNums[1].value = accountNumsValue; //값 남기기
-                    accounPwds[0].value = accountPwdsValue;
+                addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+                addBtn[0].style.cursor = "default";
 
-                    //modalDiv3[0].style.display = "block";
+            }else {//둘 다 빈칸
+                document.getElementById("resultNum").innerText = text;
+                document.getElementById("resultPwd").innerText = text;
 
-                }
+                accounNums[1].style.border = "1px solid red";
+                accounNums[1].style.outline = "1px solid red";
+                accounPwds[0].style.border = "1px solid red";
+                accounPwds[0].style.outline = "1px solid red";
 
+                accounNums[1].value = ""; //값 지우기
+                accounPwds[0].value = "";
+
+                addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+                addBtn[0].style.cursor = "default";
             }
+
+            authFlag = false;
+
+            return authFlag;
+
         }
     }
 }
 
 authBtns[0].addEventListener("click",accountAuth);
+
+
+// "등록 버튼" insert 검사 폼
+ /*
+    1. 계좌 빈칸 일 때
+    2. 계좌 길이가 맞지 않을 때
+    3. 계좌 비밀번호가 빈칸 일 때
+    4. 계좌 비밀번호 길이가 맞지 않을 때 - 인증 버튼 누르기 전
+
+    5. 계좌와 비밀번호가 가상과 맞지 않을 때 - 누른 후
+    6. 계좌가 등록된 계좌정보와 같을 때 (계좌 비밀번호가 빈칸이 아닐 때)
+*/
+function insertAccSubmit() {
+
+    accForm = document.accForm;
+    accountNumsValue = accForm.anum.value;
+    accountPwdsValue = accForm.aPwd.value;
+
+    if(authFlag == false){
+        alert("다시 확인해주시기 바랍니다.");
+
+        accounNums[1].value = ""; //값 지우기
+        accounPwds[0].value = "";
+
+        addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+        addBtn[0].style.cursor = "default";
+
+        return;
+    }
+
+    //4. 계좌가 등록된 계좌정보와 같을 때
+    for(var i=0;i<myaccountList.length;i++){
+        if(authFlag == true && accountNumsValue == myaccountList[i].myaccount_anum){
+            alert("이미 등록된 계좌번호입니다.");
+
+            accounNums[1].value = ""; //값 지우기
+            accounPwds[0].value = "";
+
+            addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+            addBtn[0].style.cursor = "default";
+
+            return;
+        }
+    }
+
+    accForm.action = "/mypage/mypage_all";
+    accForm.submit();
+
+    modalDiv3[0].style.display = "none"; //모달 닫기
+    document.body.style.overflow = "auto";
+    document.body.style.overflowX = "hidden";
+
+}
 
 
 // -- 계좌 상세 보기 ----------------------------------------------------------------------------
