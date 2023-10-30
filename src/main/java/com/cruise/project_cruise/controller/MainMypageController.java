@@ -51,6 +51,7 @@ public class MainMypageController {
         크루 조회, 계좌 조회, 계좌 등록, 초대 구분
      */
     @RequestMapping(value = "/mypage/mypage_all",method = {RequestMethod.GET, RequestMethod.POST})
+
     public ModelAndView all(HttpSession session, HttpServletRequest request, @RequestParam(required = false) String anum,
                             @RequestParam(required = false) String aPwd,
                             @RequestHeader(value = "Authorization", required = false) String accessToken ,
@@ -162,16 +163,13 @@ public class MainMypageController {
 
             if(anum !=null && aPwd != null && openAccPwd.get(i).getOpen_password().equals(aPwd)){
 
-                for(int j=0;j<myaccountList.size();j++){
+                mypageService.insertAccount(email,anum);
+                mav.setViewName("redirect:/mypage/mypage_all");
+                return mav;
 
-                    if (!anum.equals(myaccountList.get(j).getMyaccount_anum())){
-                        mypageService.insertAccount(email,anum);
-                        mav.setViewName("redirect:/mypage/mypage_all");
-                        return mav;
-                    }
-                }
             }
         }
+
 
 
 
