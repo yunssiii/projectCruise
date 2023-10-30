@@ -531,9 +531,10 @@ public class CrewSettingController {
         Date today = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayStr = dateFormat.format(today);
+        int boardNum =0;
 
         // 윤하 crewNum 추가합니다..!
-        mypageService.insertMyAlert(alertNum,crewNum,assort,content,todayStr,email);
+        mypageService.insertMyAlert(alertNum,crewNum,assort,content,todayStr,email,boardNum);
 
     }
 
@@ -579,11 +580,12 @@ public class CrewSettingController {
                 = "[" + dto.getCrew_name() + "]" + exitUserName + "(" + exitUserEmailSplit +") 선원이 강퇴되었습니다.";
 
         List<Map<String,String>> crewMemberList = crewSettingService.getCrewMemberList(crewNum);
+        int boardNum =0;
 
         //윤하 크루넘 추가합니다..!
         for(int i=0;i<crewMemberList.size();i++) {
             mypageService.insertMyAlert(mypageService.maxMyalertNum()+1,crewNum,"멤버 강퇴",
-                    myAlertContent, todayStr, crewMemberList.get(i).get("MEM_EMAIL"));
+                    myAlertContent, todayStr, crewMemberList.get(i).get("MEM_EMAIL"),boardNum);
         }
 
 

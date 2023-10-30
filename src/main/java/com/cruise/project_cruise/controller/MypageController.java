@@ -550,11 +550,22 @@ public class MypageController {
 
         UserDTO userInfo = mypageService.getUserInfo(email);
         List<MyAlertDTO> myAlertList = mypageService.getMyalert(email);
+        List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
+
+        //보드넘, 크루이름 피료..
+
+        //크루 넘으로 크루네임 가져와서 myAlertList에 넣기
+        for (int i=0;i<myAlertList.size();i++) {
+            String crewName = mypageService.getCrewName(myAlertList.get(i).getCrew_num());
+            myAlertList.get(i).setCrew_name(crewName);
+        }
 
         ModelAndView mav = new ModelAndView();
 
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
         mav.addObject("myAlertList",myAlertList);
+
+        System.out.println("보드넘 >>>>" + myAlertList.get(0).getBoard_num());
 
         mav.setViewName("mypage/mypage_alert");
 

@@ -12,4 +12,9 @@ public class MyAlertDTO {
     private String myalert_content; //알림 내용
     private String myalert_adate; //알림일
 
+    //-- 내 알림에서 링크 연결에 필요
+    private int board_num;
+    private String crew_name;
+
+
 }
