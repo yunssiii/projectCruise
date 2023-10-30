@@ -8,6 +8,7 @@ import com.cruise.project_cruise.service.*;
 import com.cruise.project_cruise.token.JwtTokenizer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Console;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -91,7 +93,7 @@ public class HomeController {
 
 
         @GetMapping("/accept")
-        public String accept(HttpSession session) throws Exception {
+        public JSONArray accept(HttpSession session) throws Exception {
 
             CrewMemberDTO dto = new CrewMemberDTO();
 
@@ -138,21 +140,30 @@ public class HomeController {
 
             String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
 
+            JSONObject jsonResponse = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            HashMap<String, Object> hashMap = new HashMap<>();
+
             //크루 맴버 수 만큼 my_alert에 insert
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertNum = mypageService.maxMyalertNum() + 1;
 
                 mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
                         content, todayStr, stringStringMap.get("MEM_EMAIL"));
+
+                hashMap.put("alertEmailsList", stringStringMap.get("MEM_EMAIL"));
+
+                jsonResponse = new JSONObject(hashMap);
+                jsonArray.add(jsonResponse);
             }
 
-
+            System.out.println("초대알림보내야 할 이메일들 >>>>>>>>> " + jsonArray);
 
             session.removeAttribute("group");
             session.removeAttribute("num");
 
 
-            return "redirect:/mypage/mypage_all";
+            return jsonArray;
         }
 
     @GetMapping("/accept2") //로그인시 초대
@@ -193,6 +204,23 @@ public class HomeController {
 
         crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
                 "가입", crewAlertContent, todayStr);
+
+        // 윤하 - 새 맴버 가입 시 my_alert에 추가
+
+        //CrewAlertDTO alertDTO = new CrewAlertDTO();
+        List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
+
+        String crewName = mypageService.getCrewName(dto.getCrew_num());
+
+        String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
+
+        //크루 맴버 수 만큼 my_alert에 insert
+        for (Map<String, String> stringStringMap : crewMember) {
+            int alertNum = mypageService.maxMyalertNum() + 1;
+
+            mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
+                    content, todayStr, stringStringMap.get("MEM_EMAIL"));
+        }
 
         session.removeAttribute("group");
         session.removeAttribute("num");
