@@ -5,10 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.cruise.project_cruise.mapper.MoimPassbookMapper">
 
+<!-- CREW 테이블의 maxNum -->
 <select id="maxCrewNum" resultType="int">
 	select nvl(max(crew_num),0) from crew
 </select>
 
+<!-- 모임 통장 전환 시 CREW 테이블에 insert -->
 <insert id="insertCrew" parameterType="com.cruise.project_cruise.dto.CrewDTO">
 	insert into crew (crew_num, crew_name, crew_info, captain_email,
 	crew_created, crew_paydate, crew_paymoney, crew_goal, crew_accountid, crew_bank)
@@ -16,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	sysdate, #{crew_paydate}, #{crew_paymoney}, #{crew_goal}, #{crew_accountid}, #{crew_bank})
 </insert>
 
+<!-- 모임 통장 전환 시 CREW_MEMBER 테이블에 insert -->
 <insert id="insertCrewMember" parameterType="com.cruise.project_cruise.dto.CrewMemberDTO">
 	insert into crew_member (crew_num, cmem_email, captain_YN,
 	join_date, total_pay, must_paycount, real_paycount, cmem_num)
@@ -30,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where email = #{email} order by myaccount_date
 </select>
 
+<!-- 일단 주석 처리 -->
 <!--<select id="getBankName" parameterType="String" resultType="String">-->
 <!--	select myaccount_bank from my_account where myaccount_anum = #{myaccount_anum}-->
 <!--</select>-->

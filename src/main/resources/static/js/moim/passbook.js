@@ -8,6 +8,20 @@ var accountNumber; // 모달3에서 입력한 계좌번호
 function sendIt(){
     f = document.myForm;
 
+    var accountChoiceElements = document.getElementsByName("account_choice");
+    var checked = false;
+
+        for (var i = 0; i < accountChoiceElements.length; i++) {
+            if (accountChoiceElements[i].checked) {
+                checked = true;
+                break;
+            }
+        }
+
+        if (!checked) {
+            alert("계좌를 선택하세요.");
+            return;
+        }
     str = f.crewName.value;
     str = str.trim();
     if(!str){

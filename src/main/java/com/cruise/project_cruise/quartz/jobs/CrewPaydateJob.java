@@ -2,6 +2,7 @@ package com.cruise.project_cruise.quartz.jobs;
 
 import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.service.CrewDetailService;
+import com.cruise.project_cruise.service.CrewSettingService;
 import com.cruise.project_cruise.service.MypageService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -22,6 +24,8 @@ public class CrewPaydateJob implements Job {
     private MypageService mypageService;
     @Autowired
     private CrewDetailService crewDetailService;
+    @Autowired
+    private CrewSettingService crewSettingService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -56,7 +60,7 @@ public class CrewPaydateJob implements Job {
             String todayStr = dateFormat.format(today);
 
             // 3. 알림 받을 이메일
-            List<String> memberEmailList = (List<String>) dataMap.get("memberEmailList");
+            List<Map<String,String>> memberList = crewSettingService.getCrewMemberList(crewNum);
 
             // 4. 알림 메시지
             Calendar calendar = Calendar.getInstance();
@@ -65,8 +69,10 @@ public class CrewPaydateJob implements Job {
             String alertContent = todayMonth + "월 납입일 입니다.";
             int boardNum =0;
 
-            // insert 하기
-            for(String userEmail : memberEmailList) {
+            // 5. insert 하기
+            for(Map<String,String> member : memberList) {
+                String userEmail = member.get("MEM_EMAIL");
+                log.info(userEmail + " 에게 납입일 알림 전송");
                 mypageService.insertMyAlert(alertNum,crewNum,"납입일",alertContent,todayStr,userEmail,boardNum);
             }
             log.info(crewNum + " / " +crewName + " Crew 납입일 JOB - MY_ALERT.MUST_PAYCOUNT 업데이트 완료...");
