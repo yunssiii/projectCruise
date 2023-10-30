@@ -1,3 +1,4 @@
+var cruiseUrl = 'http://localhost:8082/';
 
 (function(){
 let navButtonClick = document.getElementsByClassName("navButtonClick");
@@ -9,10 +10,10 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
      } else {
        for (let i = 0; i < navButtonClick.length; i++) {
          navButtonClick[i].classList.remove("clicked");
-       } 
+       }
 
        event.target.classList.add("clicked");
-       
+
      }
    }
    function resetButtonColors() {
@@ -20,7 +21,7 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
    	    navButtonClick[i].classList.remove("clicked");
    	  }
    	}
-   	
+
    function iconColor() {
        for (let i = 0; i < navButtonClick.length; i++) {
          navButtonClick[i].addEventListener("click", handleClick);
@@ -33,10 +34,10 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
    }
 
      iconColor();
-  
-     
-     
-	
+
+
+
+
 		//first_menuButton
 		const menuButton = document.getElementById("first_menuButton");
 		const menu = document.getElementById("first_menu");
@@ -157,7 +158,9 @@ function getNavAlert() {
                     if(result[i].alertAssort === '공지'){
 
                         str += '<div class="alertDiv">'
-                            str += '<a href="http://192.168.16.27:8082/board/article?num='+ result[i].boardNum +'&crewName='+result[i].crewName +'">'
+
+                            str += '<a href="' + cruiseUrl + 'board/article?num='+ result[i].boardNum +'&crewName='+result[i].crewName +'">'
+
                                 str += '<span style="font-weight: 600;">'+ result[i].alertAssort +'</span><br/><br/>'
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
@@ -165,7 +168,8 @@ function getNavAlert() {
                     }else {
 
                         str += '<div class="alertDiv">'
-                            str += '<a href="http://192.168.16.27:8082/crew?crewNum='+ result[i].crewNum +'">'
+
+                            str += '<a href="' + cruiseUrl + 'crew?crewNum='+ result[i].crewNum +'">'
                                 str += '<span style="font-weight: 600;">'+ result[i].alertAssort +'</span><br/><br/>'
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
