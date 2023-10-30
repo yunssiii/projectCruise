@@ -203,7 +203,7 @@
     <!-- nav 알림 조회 3개 까지 -->
     <select id="getNavAlert" parameterType="java.lang.String" resultType="com.cruise.project_cruise.dto.MyAlertDTO">
         <![CDATA[
-        select rownum,crew_num,myalert_num, myalert_content, myalert_assort, to_char(myalert_adate, 'yyyy.mm.dd') myalert_adate
+        select rownum,crew_num,myalert_num, myalert_content, myalert_assort, to_char(myalert_adate, 'yyyy.mm.dd') myalert_adate,board_num
         from (select * from my_alert
         where email = #{email} and myalert_adate <= sysdate
         order by myalert_num desc)
