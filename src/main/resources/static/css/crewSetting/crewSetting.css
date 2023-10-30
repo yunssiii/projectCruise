@@ -15,6 +15,33 @@ nav {
     height: 80px;
 }
 /* ------------------------------------------ */
+@media (max-width: 1024px) {
+    body {
+        min-width: 1024px !important;
+        width: 1024px !important;
+        font-size: 10pt !important;
+    }
+
+    #settingDetailContainer {
+        min-width: 1024px !important;
+    }
+
+    .visibleBox {
+        width: 950px !important;
+        min-width: unset !important;
+    }
+
+    .visibleSettings {
+        width: 950px !important;
+        min-width: unset !important;
+        min-height: 50vh !important;
+    }
+
+    .topContainer {
+        width: 950px !important;
+        min-width: unset !important;
+    }
+}
 
 body {
     font-family: 'NanumSquare', 'sans-serif';

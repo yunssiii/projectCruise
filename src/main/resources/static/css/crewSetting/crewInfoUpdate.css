@@ -1,3 +1,16 @@
+@media (max-width: 1024px) {
+
+    .crewInfoSummary .account, .crewInfoSummary .crewCreated, .crewInfoSummary .crewCreated {
+        font-size: 10pt !important;
+    }
+
+    #informationSet .content .info {
+        margin: 5px 0 5px 0!important;
+        font-size: 9pt !important;
+    }
+}
+
+
 
 
 #informationSet {
