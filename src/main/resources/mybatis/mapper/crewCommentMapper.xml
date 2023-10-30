@@ -5,10 +5,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.cruise.project_cruise.mapper.CrewCommentMapper">
 
+<!-- 댓글의 maxNum -->
 <select id="maxNum" resultType="int">
 	select nvl(max(comment_num),0) from crew_comment
 </select>
 
+<!-- 댓글 등록 -->
 <insert id="insertData" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
 	insert into crew_comment (comment_num, crew_num, board_num, email, name,
 	comment_content, comment_created, ref_no, ref_level)
@@ -16,11 +18,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	#{comment_content}, sysdate, 0, 0)
 </insert>
 
+<!-- 해당 게시글의 전체 댓글 개수 구하기 -->
 <select id="getDataCount" parameterType="int" resultType="int">
 	select nvl(count(*),0) from crew_comment
 	where board_num = #{board_num}
 </select>
 
+<!-- 댓글 리스트 불러오기 -->
 <select id="getLists" parameterType="int"
 	resultType="com.cruise.project_cruise.dto.CrewCommentDTO">
 	SELECT comment_num, name, email, comment_content,
@@ -32,16 +36,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	ORDER BY ref_no ASC, comment_created ASC
 </select>
 
+<!-- 댓글 수정 -->
 <update id="updateData" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
 	update crew_comment set
 	comment_content=#{comment_content}
 	where comment_num=#{comment_num}
 </update>
 
+<!-- 댓글 삭제 -->
 <delete id="deleteData" parameterType="int">
 	delete crew_comment where comment_num=#{comment_num}
 </delete>
 
+<!-- 답글(대댓글) 등록 -->
 <insert id="insertCommentReply" parameterType="com.cruise.project_cruise.dto.CrewCommentDTO">
 	insert into crew_comment (comment_num, crew_num, board_num, email, name,
 	comment_content, comment_created, ref_no, ref_level)
