@@ -4,6 +4,7 @@ var addBtn = document.getElementsByClassName("addBtn"); // 모달3 등록 버튼
 var bankButtons = document.querySelectorAll(".bankBtn"); // 모달2에서 선택한 은행
 var selectedBank; // 모달2에서 선택한 은행명
 var accountNumber; // 모달3에서 입력한 계좌번호
+var modalDiv3 = document.getElementsByClassName("modal-div3");
 
 function sendIt(){
     f = document.myForm;
@@ -230,6 +231,7 @@ function insertNewAccount() {
         success: function(data) {
             if(data === "insertNewAccount") {
                 alert("새로운 계좌가 추가되었습니다.");
+                modalDiv3[0].style.display = "none"; //모달 닫기
                 myNewAccElement.innerText = selectedBank + " " + accountNumber;   // 추가한 계좌번호 띄우기
             }else{
                 alert("Error: 새로운 계좌 추가 에러");
