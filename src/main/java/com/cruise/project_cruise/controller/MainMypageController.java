@@ -160,12 +160,17 @@ public class MainMypageController {
         //계좌번호 있으면서 오픈뱅킹의 비밀번호와 입력값이 같으면 계좌 등록
         for(int i=0;i<openAccPwd.size();i++){
 
-            if(anum !=null && openAccPwd.get(i).getOpen_password().equals(aPwd)){
-                mypageService.insertAccount(email,anum);
-                mav.setViewName("redirect:/mypage/mypage_all");
-                return mav;
-            }
+            if(anum !=null && aPwd != null && openAccPwd.get(i).getOpen_password().equals(aPwd)){
 
+                for(int j=0;j<myaccountList.size();j++){
+
+                    if (!anum.equals(myaccountList.get(j).getMyaccount_anum())){
+                        mypageService.insertAccount(email,anum);
+                        mav.setViewName("redirect:/mypage/mypage_all");
+                        return mav;
+                    }
+                }
+            }
         }
 
 

@@ -136,7 +136,7 @@ function updatePwdBtn(){
 }
 
 // x 버튼 누를 때 모달 닫기
-function closeModal() {
+function xcloseModal() {
 
     $('#userPwdmodalId').addClass('hidden');
     $('#userPwdmodalId').removeClass('visible');
@@ -146,6 +146,10 @@ function closeModal() {
     $('.chk-newPwd').val('');
 
     $('.user-cover4').css('display','none'); //새 비밀번호 창 닫기
+
+    document.getElementById("resultUserPwd").innerText = ""; //경고 지우기
+    pwdInput[0].style.border = "1px solid #8b8b8b"; //테두리 색 변화
+    pwdInput[0].style.outline = "1px solid #8b8b8b";
 
 }
 
@@ -248,6 +252,11 @@ function newChkPwdForm() {
 }
 
 
-
+//-- 비밀번호 엔터 시 submit 막기
+$('input[type="password"]').keydown(function() {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
+});
 
 

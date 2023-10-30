@@ -131,10 +131,10 @@ public class HomeController {
 
             // 윤하 - 새 맴버 가입 시 my_alert에 추가
 
-            CrewAlertDTO alertDTO = new CrewAlertDTO();
-            List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(alertDTO.getCrew_num());
+            //CrewAlertDTO alertDTO = new CrewAlertDTO();
+            List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
-            String crewName = mypageService.getCrewName(alertDTO.getCrew_num());
+            String crewName = mypageService.getCrewName(dto.getCrew_num());
 
             String content = "[" + crewName + "]" + " 새 맴버가 가입했습니다.";
 
@@ -142,8 +142,8 @@ public class HomeController {
             for (Map<String, String> stringStringMap : crewMember) {
                 int alertNum = mypageService.maxMyalertNum() + 1;
 
-                mypageService.insertMyAlert(alertNum, alertDTO.getCrew_num(),"가입",
-                        content, alertDTO.getCalert_alertdate(), stringStringMap.get("MEM_EMAIL"));
+                mypageService.insertMyAlert(alertNum, dto.getCrew_num(),"가입",
+                        content, todayStr, stringStringMap.get("MEM_EMAIL"));
             }
 
 

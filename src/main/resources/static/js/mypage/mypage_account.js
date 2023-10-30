@@ -134,6 +134,12 @@ function AddModal(num) {
 
             accounNums[1].value = ''; //계좌, 비밀번호 값 지우기
             accounPwds[0].value = '';
+            document.getElementById("resultNum").innerText = ""; //경고 문구 지우기
+            document.getElementById("resultPwd").innerText = "";
+            accounNums[1].style.border = "none"; //빨간 테두리 지우기
+            accounNums[1].style.outline = "1px solid black";
+            accounPwds[0].style.border = "none";
+            accounPwds[0].style.outline = "1px solid black";
         }
     };
 }
@@ -344,12 +350,13 @@ function accountAuth (event) {
 
             alert("이미 등록된 계좌입니다.");
 
-            addBtn[num].style.backgroundColor = "#bebebe"; //버튼 회색
-            addBtn[num].style.cursor = "default";
-            modalDiv3[0].style.display = "block"; //모달 유지
+            //addBtn[0].style.backgroundColor = "#bebebe"; //버튼 회색
+            //addBtn[0].style.cursor = "default";
+            //modalDiv3[0].style.display = "block"; //모달 유지
 
             accounNums[1].value = ''; //값 지우기
             accounPwds[0].value = '';
+            return;
 
         }else {
 
