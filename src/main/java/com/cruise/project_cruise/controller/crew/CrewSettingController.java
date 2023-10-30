@@ -50,9 +50,9 @@ public class CrewSettingController {
     @Autowired
     private Scheduler scheduler;
 
+    private final String cruiseUrl = "http://192.168.16.27:8082/";
 
-
-// red 풀캘린더 데이터 전달 URL
+    // red 풀캘린더 데이터 전달 URL
     // - main, setting, mypage에서 공동 사용
     @RequestMapping("/loadCrewSchedule")
     @ResponseBody
@@ -106,6 +106,7 @@ public class CrewSettingController {
     @RequestMapping(value="")
     public ModelAndView crewSetting(HttpSession session, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
 
         // 선언부
         int crewNum = Integer.parseInt(request.getParameter("crewNum"));
@@ -402,6 +403,7 @@ public class CrewSettingController {
     public ModelAndView updateDelDate(@RequestParam("crewNum") int crewNum) throws Exception {
 
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
 
         crewSettingService.stopSailing(crewNum); // 크루 항해 중단날짜 업데이트 한 후에
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 업데이트 된 dto 들고와주고
@@ -448,6 +450,7 @@ public class CrewSettingController {
     @RequestMapping(value="/sailingStopCrew")
     public ModelAndView sailingStopCrew(@RequestParam("crewNum") int crewNum) throws Exception {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
         CrewDTO dto = crewDetailService.getCrewData(crewNum); // 크루 정보 불러와서
 
         if(dto.getCrew_deldate()==null || dto.getCrew_deldate().equals("")) {
@@ -473,6 +476,7 @@ public class CrewSettingController {
     @RequestMapping(value="/cancelSailingStop")
     public ModelAndView cancelSailingStop(@RequestParam("crewNum") int crewNum) throws Exception {
         ModelAndView mav = new ModelAndView();
+        mav.addObject("cruiseUrl",cruiseUrl);
 
         // bold DB관련
         // 0. deldate를 null로 바꾸는 작업하기

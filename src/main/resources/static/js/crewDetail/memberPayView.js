@@ -177,7 +177,7 @@ payViewMonthSelector.addEventListener('change',function() {
 function highlighterClick(isCaptain) {
     if(isCaptain) {
         if(confirm("선장님, 선원 관리 탭에서 회비를 요청해보세요.")) {
-            window.location.href='http://localhost:8082/crew/setting?crewNum='+crewNum;
+            window.location.href='/crew/setting?crewNum='+crewNum;
         } else {
 
         }

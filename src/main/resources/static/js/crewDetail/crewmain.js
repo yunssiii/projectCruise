@@ -279,7 +279,7 @@
 
             paymentReq.done(function () {
                 alert("납입이 완료되었습니다.");
-                window.location.href = 'http://localhost:8082/crew?crewNum=' + crewNum;
+                window.location.href = '/crew?crewNum=' + crewNum;
             });
 
         })
@@ -469,7 +469,7 @@
         exitModalDiv.classList.remove("exitVisible");
         exitModalDiv.classList.add("exitHidden");
 
-        window.location.href = 'http://localhost:8082/'
+        window.location.href = '/'
     
     }
     

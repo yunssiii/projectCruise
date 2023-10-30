@@ -263,7 +263,7 @@ var kakaoTalkSendBtn = document.getElementById('kakaoTalkSend');
     kakaoTalkSendBtn.addEventListener('click',function () {
     var talkReceiverName = document.getElementById('talkReceiverName').textContent;
     var sendMsg = document.getElementById('kakaoTalkMsg').value;
-    var webUrl = 'http://localhost:8082/crew?crewNum=' + crewNum;
+    var webUrl = 'http://192.168.16.27:8082/crew?crewNum=' + crewNum;
 
         Kakao.Link.sendDefault({
             objectType: 'feed',
