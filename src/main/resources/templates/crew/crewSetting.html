@@ -313,6 +313,7 @@
                                         // 만약 만들어진지 5개월 미만의 크루이면
                                         for(var i=0; i<=nowMonth-crewCreatedMonth; i++) {
                                             var cloneDate = new Date(nowFullDate);
+                                            cloneDate.setDate(1);
                                             cloneDate.setMonth(cloneDate.getMonth()-i);
 
                                             if(cloneDate.getMonth()===-1) {
@@ -325,6 +326,7 @@
                                         // 5개월 이상의 크루이면
                                         for(var i=0; i<5; i++) {
                                             var cloneDate = new Date(nowFullDate);
+                                            cloneDate.setDate(1);
                                             cloneDate.setMonth(cloneDate.getMonth()-i);
 
                                             if(cloneDate.getMonth()===-1) {
