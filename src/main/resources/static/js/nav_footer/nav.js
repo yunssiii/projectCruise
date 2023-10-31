@@ -118,9 +118,9 @@ function openWebSocket() {
     }
 }
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
     openWebSocket();
-};
+});
 
 
 //-- 알림 select ajax ------------------------------------------------------
