@@ -86,7 +86,7 @@ public class CrewCommentController {
             dto.setEmail(userEmail);
             dto.setName(userName);
             dto.setComment_content(dto.getComment_content());
-            dto.setRef_no(dto.getComment_num());
+            dto.setRef_no(dto.getRef_no());
 
             crewCommentService.insertCommentReply(dto);
 

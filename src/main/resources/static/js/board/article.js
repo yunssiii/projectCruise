@@ -54,7 +54,7 @@ function commentList(num){
         success : function(data){
             var a = '';
         $.each(data, function (key, value) {
-            value.comment_content = $.trim(value.comment_content);  // 댓글 줄바꿈 제거
+            value.comment_content = $.trim(value.comment_content).replace(/\n/g, '<br>');  // 댓글 줄바꿈 처리
             if (value.ref_level == 0) {     // 원댓글인 경우
                 a += '<div id="commentArea'+value.comment_num+'" class="article_comment">';
             } else {    // 대댓글인 경우
@@ -209,7 +209,7 @@ function updateComment(commentNum) {
 // 답글 쓰기(입력 폼으로 변경)
 var activeReplyForm = null;
 function commentReply(comment_num) {
-    console.log(comment_num);
+    console.log("원댓글 comment_num: " + comment_num);
 
     $('.replyForm').hide(); // 모든 기존 답글 쓰기 폼을 숨김
 
@@ -252,7 +252,7 @@ function insertReply(commentNum) {
         type: 'post',
         data: {
             comment_content: replyContent,
-            comment_num: commentNum,
+            ref_no: commentNum,
             crew_num: crew_num,
             board_num: num
         },
