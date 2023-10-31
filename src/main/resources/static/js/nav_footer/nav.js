@@ -1,4 +1,4 @@
-var cruiseUrl = 'http://192.168.16.27/:8082/';
+var cruiseUrl = 'http://192.168.16.27:8082/';
 
 (function(){
 let navButtonClick = document.getElementsByClassName("navButtonClick");
