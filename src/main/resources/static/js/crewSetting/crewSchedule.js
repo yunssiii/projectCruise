@@ -19,7 +19,7 @@ function calendarLoad(crewNum) {
                     center: 'title',
                     right: 'prev,next today'
                 },
-                height: 460,
+                height: '100%',
                 // 한글달력 일자에 '일' 부분 빼기
                 dayCellContent: function (info) {
                     var number = document.createElement("a");

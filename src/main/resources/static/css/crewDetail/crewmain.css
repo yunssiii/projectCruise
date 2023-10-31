@@ -92,7 +92,22 @@ footer {
 }
 /* ------------------------------------------ */
 
+
 @media (max-width: 1024px) { /* 1024X768 비율 맞추기 */
+    .cal_receipt .content .sche_content .sche_color {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    .cal_receipt .content .sche_content .today_title {
+        font-size: 11pt !important;
+        width: max-content !important;
+    }
+
+    .cal_receipt .content .sche-date {
+        font-size: 10pt !important;
+    }
+
 
     body {
         font-size: 10pt !important;
