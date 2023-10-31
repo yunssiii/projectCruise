@@ -110,11 +110,17 @@ function openWebSocket() {
 
         var data = e.data; //웹소켓 메세지 내용
 
-        $('#first_menuButton').css('color','#FFD966');
+       // $('#first_menuButton').css('color','#FFD966');
+      var element = document.getElementById('first_menuButton');
+      element.classList.add('clicked');
 
-       $('#first_menuButton').click(function() {
-            $('#first_menuButton').css('color', 'blue');
-       });
+      element.addEventListener('click', function() {
+          element.classList.remove('clicked');
+      });
+
+//       $('#first_menuButton').click(function() {
+//            $('#first_menuButton').css('color', 'blue');
+//       });
     }
 }
 
