@@ -48,7 +48,7 @@ public class CustomAuthenticaionSuccessHandler implements AuthenticationSuccessH
 
 
                 Cookie cookie = new Cookie("lastLoginMethod",userDTO.getProvider());
-                cookie.setDomain("localhost");
+                cookie.setDomain("192.168.16.27");
                 cookie.setPath("/");
 
                 cookie.setMaxAge(60*60*60*24);
