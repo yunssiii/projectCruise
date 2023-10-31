@@ -236,7 +236,7 @@
                 <div id="msg" class="hidden">
                     <div class="new_memAlert">
                         <div class="ma_title"> 새 멤버 가입 </div>
-                        <div th:if="${crewNewMemAlertList!=null}" th:each="mem, memStat : ${crewNewMemAlertList}">
+                        <div class="new_mems" th:if="${crewNewMemAlertList!=null}" th:each="mem, memStat : ${crewNewMemAlertList}">
                             [[${mem.calert_content}]] ( [[${#strings.setSplit(mem.calert_alertdate,' ')[0]}]] )
                         </div>
                     </div>
@@ -528,14 +528,9 @@
 
 
 <script type="text/javascript" src="/js/crewDetail/crewmain.js"></script>
-<!--<script type="text/javascript" src="./crewmain.js"></script>-->
 <script type="text/javascript" src="/js/crewDetail/crewCalendar.js"></script>
-<!--<script type="text/javascript" src="./crewCalendar.js"></script>-->
 <script type="text/javascript" src="/js/crewDetail/memberPayView.js"></script>
-<!--<script type="text/javascript" src="./memberPayView.js"></script>-->
 <script type="text/javascript" src="/js/crewDetail/TransactionDetailView.js"></script>
-<!--<script type="text/javascript" src="./TransactionDetailView.js"></script>-->
-
 <!-- 카톡 크루 초대하기 -->
 <script id="javascript-sdk" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script th:src="@{/js/kakaoLink/kakaoLink.js}"></script>
@@ -545,7 +540,9 @@
     /* 여기 20000원을 DB에서 불러와서 바꿔줄 것.
      * 1회차 납입액 X 기본적으로 불러와지는 납입해야할 횟수를 곱해서
      * 이 HTML이 처음로딩 되었을 때 payMoney에 불러오는 용도 */
-    payMoney.textContent = String((/*[[${dto.crew_paymoney}]]*/ * num.value).toLocaleString("ko-KR"));
+    num = document.getElementById('num');
+    payMoneyInt = /*[[${dto.crew_paymoney}]]*/;
+    payMoney.textContent = String((payMoneyInt * num.value).toLocaleString("ko-KR"));
     setMemNames(/*[[${memberList}]]*/)
     setMemPayMoney(/*[[${memberList}]]*/,fullDates);
     /*]]>*/

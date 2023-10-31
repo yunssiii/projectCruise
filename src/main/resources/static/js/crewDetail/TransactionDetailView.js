@@ -19,18 +19,17 @@ inquiryReq.done(function(result) {
     var html = "";
     var stat = 0;
 
-    result.forEach(function (dto) {
-
+    for (let i=result.length-1; i>=0; i--) {
         console.log("stat : " + stat);
         if(stat>=9) {
             return;
         }
 
-        var transferDateStr = dto.date;
+        var transferDateStr = result[i].date;
         var transferDate = new Date(transferDateStr);
 
         var year = (transferDate.getFullYear()+'').slice(2,4);
-        var month = transferDate.getMonth()
+        var month = transferDate.getMonth()+1
         if(month<10) {
             month = '0' + month;
         }
@@ -40,34 +39,33 @@ inquiryReq.done(function(result) {
         }
 
         transferDateStr = year + '.' + month + '.' + date;
-        console.log("assort: " + dto.assort);
+        console.log("assort: " + result[i].assort);
         var assorts = "";
 
-        if((dto.assort).trim()==='I') {
+        if((result[i].assort).trim()==='I') {
             assorts = "입금";
         } else {
             assorts = "출금";
         }
 
-
         html += "<tr>" +
             "<td>" + transferDateStr + "</td>" +
             "<td>" + assorts +"</td>" +
-            "<td>" + dto.content + "</td>";
+            "<td>" + result[i].content + "</td>";
 
         if(assorts==="입금") {
-            html += "<td style='text-align: right'>" + dto.inMoney.toLocaleString('ko-KR') + "</td>" +
-                    "<td></td>"
+            html += "<td style='text-align: right'>" + result[i].inMoney.toLocaleString('ko-KR') + "</td>" +
+                "<td></td>"
         } else {
             html += "<td></td>" +
-                "<td style='text-align: right'>" + dto.outMoney.toLocaleString('ko-KR') + "</td>";
+                "<td style='text-align: right'>" + result[i].outMoney.toLocaleString('ko-KR') + "</td>";
         }
 
-        html += "<td style='text-align: right'>" + dto.balance.toLocaleString('ko-KR') + "</td>" +
+        html += "<td style='text-align: right'>" + result[i].balance.toLocaleString('ko-KR') + "</td>" +
             "</tr>";
 
         stat++;
-    })
+    }
 
     accountHistoryTbody.innerHTML = html;
 })

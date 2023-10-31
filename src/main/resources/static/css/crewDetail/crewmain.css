@@ -92,7 +92,7 @@ footer {
 }
 /* ------------------------------------------ */
 
-@media (max-width: 1024px) { // 1024X768 비율 맞추기
+@media (max-width: 1024px) { /* 1024X768 비율 맞추기 */
 
     body {
         font-size: 10pt !important;
@@ -121,7 +121,11 @@ footer {
 
     .alert_bar_con .alert_bar #animated_msg .line{
         width: 628px !important;
-        font-size: 10pt;
+        font-size: 10pt !important;
+    }
+
+    .new_memAlert .new_mems{
+        font-size: 10pt !important;
     }
 
     .bankbook_top {
@@ -305,6 +309,26 @@ footer {
 
     .money_receipt .content .select_wrap select option {
         font-size: 9pt;
+    }
+
+    .bankbook_bottom #fee_history .line0, .bankbook_bottom #fee_history .line1, .bankbook_bottom #fee_history .line2, .bankbook_bottom #fee_history .line3 {
+        margin: 15px auto !important;
+    }
+
+    .unpaid_record {
+        font-size: 10pt !important;
+    }
+
+    .bankbook_bottom #fee_history {
+        font-size: 10pt !important;
+    }
+
+    .bankbook_bottom #fee_history .history .record {
+        font-size: 10pt !important;
+    }
+
+    .bankbook_bottom #fee_history .history {
+        width: 70% !important;
     }
 
 }
