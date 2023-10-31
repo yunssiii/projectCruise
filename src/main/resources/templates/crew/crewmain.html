@@ -328,36 +328,41 @@
                             var crewCreatedMonth = crewCreated.substring(5,7);
                             crewCreatedMonth = parseInt(crewCreatedMonth);
 
-                            if(nowFullYear-crewCreatedYear===0 && nowMonth-crewCreatedMonth<5) {
+                            if(nowFullYear-crewCreatedYear===0 && nowMonth-crewCreatedMonth<4) {
                                 // 만약 만들어진지 5개월 미만의 크루이면
+
                                 for(var i=0; i<=nowMonth-crewCreatedMonth; i++) {
                                     var cloneDate = new Date(nowFullDate);
+                                    cloneDate.setDate(1); // 오늘 날짜가 31일이면 날짜 세팅에 있어서 오류가 뜬다.
                                     cloneDate.setMonth(cloneDate.getMonth()-i);
 
                                     if(cloneDate.getMonth()===-1) {
                                         cloneDate.setFullYear(cloneDate.getFullYear()-1);
                                         cloneDate.setMonth(11);
                                     }
+                                    console.log("5개월 미만 회비내역조회 : " + cloneDate)
                                     fullDates.push(cloneDate);
                                 }
                             } else {
                                 // 5개월 이상의 크루이면
                                 for(var i=0; i<5; i++) {
                                     var cloneDate = new Date(nowFullDate);
+                                    cloneDate.setDate(1);
                                     cloneDate.setMonth(cloneDate.getMonth()-i);
 
                                     if(cloneDate.getMonth()===-1) {
                                         cloneDate.setFullYear(cloneDate.getFullYear()-1);
                                         cloneDate.setMonth(11);
                                     }
+                                    console.log("5개월 이상 회비내역조회 : " + cloneDate)
                                     fullDates.push(cloneDate);
                                 }
                             }
 
                             var forStat = 0;
 
-                            fullDates.forEach(function(Date) {
-                                document.write('<option value="' + forStat + '">' + (Date.getMonth() +1) + '</option>');
+                            fullDates.forEach(function(dateForMonth) {
+                                document.write('<option value="' + forStat + '">' + (dateForMonth.getMonth() +1) + '</option>');
                                 forStat++;
                             })
 
