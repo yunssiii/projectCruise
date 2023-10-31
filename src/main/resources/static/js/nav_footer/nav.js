@@ -1,4 +1,4 @@
-var cruiseUrl = 'http://192.168.16.27/:8082/';
+var cruiseUrl = 'http://192.168.16.27:8082/';
 
 (function(){
 let navButtonClick = document.getElementsByClassName("navButtonClick");
@@ -106,21 +106,15 @@ function openWebSocket() {
     }
 
     socket.onmessage = function (e) {
-        console.log(e.data);
+        console.log('메인에까지 왔니?');
 
         var data = e.data; //웹소켓 메세지 내용
 
-       // $('#first_menuButton').css('color','#FFD966');
-      var element = document.getElementById('first_menuButton');
-      element.classList.add('clicked');
+        var menuButtons = document.getElementById('first_menuButton');
+        menuButtons.classList.add('clicked'); //아이콘 색 변화
 
-      element.addEventListener('click', function() {
-          element.classList.remove('clicked');
-      });
+        iconColor(); //색 변화 후 클릭 시 변화
 
-//       $('#first_menuButton').click(function() {
-//            $('#first_menuButton').css('color', 'blue');
-//       });
     }
 }
 
