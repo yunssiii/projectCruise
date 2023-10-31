@@ -1,9 +1,9 @@
-a {
+a:not(.logo_cruise, .fc-day-sat, .fc-day-sun) {
     text-decoration-line: none;
     color: gray;
 }
 
-a:hover {
+a:hover:not(.logo_cruise, .fc-day-sat, .fc-day-sun) {
     color: black;
 }
 
