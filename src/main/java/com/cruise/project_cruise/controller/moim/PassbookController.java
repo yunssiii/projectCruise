@@ -6,6 +6,7 @@ import com.cruise.project_cruise.dto.MyAccountDTO;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
 import com.cruise.project_cruise.quartz.config.QuartzService;
 import com.cruise.project_cruise.quartz.jobs.CrewPaydateJob;
+import com.cruise.project_cruise.quartz.jobs.CrewPaydateScheduleJob;
 import com.cruise.project_cruise.service.CrewBoardService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.MoimPassbookService;
@@ -153,6 +154,12 @@ public class PassbookController {
 
         // 3. job 추가하기
         quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
+
+
+        // 은지 - 납입일 일정 추가
+        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
+        String schejobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 일정 추가 Job 입니다.";
+        quartzService.addMonthlyJob(CrewPaydateScheduleJob.class,scheJobKey,schejobDesc,paramsMap,1);
 
         model.addAttribute("group",crewDTO.getCrew_name());
         model.addAttribute("num",maxCrewNum);

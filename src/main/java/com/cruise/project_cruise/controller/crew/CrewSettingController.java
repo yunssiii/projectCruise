@@ -7,6 +7,7 @@ import com.cruise.project_cruise.dto.UserDTO;
 import com.cruise.project_cruise.quartz.config.QuartzService;
 import com.cruise.project_cruise.quartz.jobs.CrewDeleteJob;
 import com.cruise.project_cruise.quartz.jobs.CrewPaydateJob;
+import com.cruise.project_cruise.quartz.jobs.CrewPaydateScheduleJob;
 import com.cruise.project_cruise.service.CrewAlertService;
 import com.cruise.project_cruise.service.CrewDetailService;
 import com.cruise.project_cruise.service.CrewSettingService;
@@ -224,13 +225,22 @@ public class CrewSettingController {
         // 2. 등록된 job을 scheduler에서 취소하기
         scheduler.deleteJob(JobKey.jobKey(jobKey));
         // 3. job 다시 등록하기
-
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("executeCount",1); // 앞서 실행횟수를 체크하는 변수로 설정해줬던 executeCount 를 1로 설정해 담아주기
         paramsMap.put("crewNum",crewNum); // crewNum 담아주기
 
         String jobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 Job 입니다.";
         quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
+
+
+        // 은지 - 납입일 일정 추가
+        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
+
+        scheduler.deleteJob(JobKey.jobKey(scheJobKey));
+        String schejobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 일정 추가 Job 입니다.";
+        quartzService.addMonthlyJob(CrewPaydateScheduleJob.class,scheJobKey,schejobDesc,paramsMap,1);
+
+
         log.info("[Quartz] " + crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 납입일 JOB 수정완료");
 
         hash.put("newCrewInfo",newCrewDTO.getCrew_info());

@@ -1,3 +1,19 @@
+@media (max-width: 1024px) {
+    #calendarModal {
+        width: 900px !important;
+        margin: 0 !important;
+    }
+
+    #calendarModal hr {
+         width: auto !important;
+    }
+
+    #calendar {
+        padding: 10px !important;
+    }
+}
+
+
 .calendarHidden {
     display: none;
     height: 0;
