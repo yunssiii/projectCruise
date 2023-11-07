@@ -1,4 +1,4 @@
-![1_개발동기3](https://github.com/eunzzzzz1/projectCruise/assets/139827141/4d3751cf-8283-4be2-b21e-67e20c2d3ad1)
+![title (3)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/3d0beff2-3f3f-4a85-8b62-fdc58167d7fc)
 <br>
 <br>
 <br>
