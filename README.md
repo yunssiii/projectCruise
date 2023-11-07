@@ -1,19 +1,25 @@
-![title (3)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/3d0beff2-3f3f-4a85-8b62-fdc58167d7fc)
-<br>
-<br>
+![title (3)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/97b8b2be-7608-44b7-b417-923cd6b0a765)
+
+
+<br><br>
+
+<br><br>
+
 
 # ✨개발동기
-![1_개발동기1](https://github.com/eunzzzzz1/projectCruise/assets/139827141/d2cc9b71-6fca-40bb-9337-8fe4269ed5f4)
-![1_개발동기2](https://github.com/eunzzzzz1/projectCruise/assets/139827141/d5b78b93-750f-461f-9f50-cd2ff7504e8e)
-![1_개발동기4](https://github.com/eunzzzzz1/projectCruise/assets/139827141/8ba94c46-50e7-414a-807b-7413d0b16169)
+![1_개발동기 (1)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/856d3d1e-7da9-4684-871e-b5de46053f61)
+![1_개발동기 (2)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/8a1c1ae2-f0b0-4b88-8c84-3776c828546c)
+![1_개발동기 (4)](https://github.com/eunzzzzz1/projectCruise/assets/139827141/767b162b-14fe-45d3-a428-7ed91b9c4fb6)
 
 
-<br>
-<br>
-<br>
+
+<br><br>
+
+<br><br>
 
 # 📅프로젝트 기간
-![2_일정](https://github.com/eunzzzzz1/projectCruise/assets/139827141/f5d3d098-98e8-4ccb-a175-5fa60b2d9842)
+![2_일정](https://github.com/eunzzzzz1/projectCruise/assets/139827141/a7bf19a0-3f65-4c1b-8d0b-a0fefaba4073)
+
 <br><br>
 
 <br><br>
@@ -21,21 +27,21 @@
 
 
 # 🔧개발환경
-![3_개발환경](https://github.com/eunzzzzz1/projectCruise/assets/139827141/e1734d64-a1d8-475f-9f40-dc17e492968f)
+![3_개발환경](https://github.com/eunzzzzz1/projectCruise/assets/139827141/ef300383-6c63-4c0f-9c2a-8f2c39abf3cd)
 <br><br>
 
 <br><br>
 
 
 # 📊DB 설계
-![image](https://github.com/eunzzzzz1/projectCruise/assets/139827141/0d892a72-d57d-46c5-928b-734bcad9cd9b)
+![4_DB설계](https://github.com/eunzzzzz1/projectCruise/assets/139827141/fde770a9-aeb7-4d60-a997-052845d1b199)
 <br><br>
 
 <br><br>
 
 
 # 🧑‍💻구현 기능
-![5_기능분담](https://github.com/eunzzzzz1/projectCruise/assets/139827141/bac107b6-6f44-4824-a940-7e78f646a2f7)
+![5_역할분담](https://github.com/eunzzzzz1/projectCruise/assets/139827141/7cb50ac0-6552-4861-8cbe-9f333e2f7a02)
 <br><br>
 
 <br><br>
