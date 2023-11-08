@@ -41,7 +41,7 @@
 
 
 # 🧑‍💻구현 기능
-![5_역할분담](https://github.com/eunzzzzz1/projectCruise/assets/139827141/7cb50ac0-6552-4861-8cbe-9f333e2f7a02)
+![5_역할분담](https://github.com/eunzzzzz1/projectCruise/assets/139827141/680947cb-3e40-4b2a-a803-cc4501eec20b)
 <br><br>
 
 <br><br>
