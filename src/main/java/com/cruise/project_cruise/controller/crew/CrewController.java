@@ -48,7 +48,7 @@ public class CrewController {
     @Autowired
     private WebsocketTest2 websocketTest2;
 
-    private final String cruiseUrl = "http://192.168.16.27:8082/";
+    private final String cruiseUrl = "http://localhost:8082/";
 
 // red 오류페이지
     @RequestMapping("/wrongAccess")

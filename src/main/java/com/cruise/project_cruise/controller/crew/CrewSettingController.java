@@ -51,7 +51,7 @@ public class CrewSettingController {
     @Autowired
     private Scheduler scheduler;
 
-    private final String cruiseUrl = "http://192.168.16.27:8082/";
+    private final String cruiseUrl = "http://localhost:8082/";
 
     // red 풀캘린더 데이터 전달 URL
     // - main, setting, mypage에서 공동 사용
