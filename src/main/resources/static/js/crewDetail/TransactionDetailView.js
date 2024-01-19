@@ -38,7 +38,7 @@ inquiryReq.done(function(result) {
         var transferDate = new Date(transferDateStr);
 
         var year = (transferDate.getFullYear()+'').slice(2,4);
-        var month = transferDate.getMonth()
+        var month = transferDate.getMonth()+1;
         if(month<10) {
             month = '0' + month;
         }
