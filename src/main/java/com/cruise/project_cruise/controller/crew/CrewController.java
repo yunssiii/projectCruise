@@ -230,7 +230,7 @@ public class CrewController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        List<ScheduleDTO> crewScheTodayList = null;
+        List<ScheduleDTO> crewScheTodayList = new ArrayList<>();
 
         List<ScheduleDTO> crewScheList = crewSettingService.getCrewScheList(crewNum);
         for(int i=0;i<crewScheList.size();i++) {
@@ -243,7 +243,6 @@ public class CrewController {
             int endComparison = today.compareTo(scheEndObj);
 
             if(startComparison>=0 && endComparison<=0) { // 시작날짜 이후거나 같으면
-                    crewScheTodayList = new ArrayList<>();
 
                     ScheduleDTO todayScheDTO = crewScheList.get(i);
                     todayScheDTO.setSche_start(crewScheList.get(i).getSche_start().split("\\s+")[0]);
@@ -251,6 +250,8 @@ public class CrewController {
                     crewScheTodayList.add(todayScheDTO);
             }
         }
+
+        if(crewScheTodayList.isEmpty()) crewScheTodayList = null;
 
         // 데이터 넘겨주기
         // 크루 기본정보 관련
