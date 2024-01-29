@@ -165,8 +165,8 @@ var crewAccount = document.getElementById('crewAccountHidden').value;
                     "<div class='payMemName'>"
                             + selectedMonthList[i].memName
                             + " (" + selectedMonthList[i].memEmail + ") </div>" +
-                    "<div id='payMemName" + i + "' style='display: none;'>" +selectedMonthList[i].memName + "</div>" +
-                    "<div id='payMemEmail" + i + "' style='display: none;'>" +selectedMonthList[i].memFullEmail + "</div>" +
+                    "<div id='payMemName" + selectedMemStat + "' style='display: none;'>" +selectedMonthList[i].memName + "</div>" +
+                    "<div id='payMemEmail" + selectedMemStat + "' style='display: none;'>" +selectedMonthList[i].memFullEmail + "</div>" +
                     "<div class='payMoney'> 0원 </div>" +
                     "</div></div>";
 
