@@ -36,6 +36,15 @@ public class OpenBankController {
     public ModelAndView bankAccountAdd(OpenBankDTO openBankDTO) throws Exception {
         ModelAndView mav = new ModelAndView();
 
+        String alertMsg = "";
+
+        if(developOpenBankingService.getAccountList().contains(openBankDTO)) {
+            alertMsg = "등록하려는 계좌가 이미 등록되어 있습니다.";
+            mav.addObject("alertMsg",alertMsg);
+            mav.setViewName("forDevelop/account");
+            return mav;
+        }
+
         developOpenBankingService.insertAccount(openBankDTO);
         System.out.println("[Develop] 오픈뱅킹 테스트 계좌 insert : " + openBankDTO.getOpen_bank()+ " " +openBankDTO.getOpen_account());
         mav.setViewName("redirect: ");
@@ -54,10 +63,9 @@ public class OpenBankController {
     @PostMapping(value="/deleteAccount")
     public ModelAndView bankAccountDelete(@RequestParam String account) throws Exception {
         ModelAndView mav = new ModelAndView();
-        String alertMsg = "";
 
         if(!developOpenBankUsingService.getUsingList(account).isEmpty()) {
-            alertMsg = "계좌내역이 존재하는 계좌는 삭제할 수 없습니다.";
+            String alertMsg = "계좌내역이 존재하는 계좌는 삭제할 수 없습니다.";
             mav.addObject("alertMsg",alertMsg);
             mav.setViewName("forDevelop/account");
             return mav;
@@ -66,7 +74,6 @@ public class OpenBankController {
         developOpenBankingService.deleteAccount(account);
         System.out.println("[Develop] 오픈뱅킹 테스트 계좌 Delete : " + account);
 
-        mav.addObject(alertMsg);
         mav.setViewName("redirect: ");
         return mav;
     }
