@@ -5,9 +5,6 @@ import com.cruise.project_cruise.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping(value="/develop/openbank")
