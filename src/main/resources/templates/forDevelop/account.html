@@ -1,8 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>계좌 CRUD 페이지</title>
+    <th:block th:if="${#strings.length(alertMsg) != 0}">
+        <script>
+            alert('[[${alertMsg}]]');
+            location.href = "/develop/openbank";
+        </script>
+    </th:block>
 </head>
 <style>
     h2 {text-align: center; margin: 100px 0 50px 0;}
@@ -26,6 +32,7 @@
 
 <body>
   <h2> 계좌 CRUD 페이지 </h2>
+
 
   <form name="myForm" method="post">
     <table id="accountTable">
