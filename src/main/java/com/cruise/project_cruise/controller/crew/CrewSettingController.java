@@ -51,7 +51,7 @@ public class CrewSettingController {
     @Autowired
     private Scheduler scheduler;
 
-    private final String cruiseUrl = "http://192.168.16.27:8082/";
+    private final String cruiseUrl = "http://localhost:8082/";
 
     // red 풀캘린더 데이터 전달 URL
     // - main, setting, mypage에서 공동 사용
@@ -231,14 +231,6 @@ public class CrewSettingController {
 
         String jobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 Job 입니다.";
         quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
-
-
-        // 은지 - 납입일 일정 추가
-        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
-
-        scheduler.deleteJob(JobKey.jobKey(scheJobKey));
-        String schejobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 일정 추가 Job 입니다.";
-        quartzService.addMonthlyJob(CrewPaydateScheduleJob.class,scheJobKey,schejobDesc,paramsMap,1);
 
 
         log.info("[Quartz] " + crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 납입일 JOB 수정완료");
@@ -449,6 +441,10 @@ public class CrewSettingController {
         scheduler.deleteJob(JobKey.jobKey(payJobKey));
         log.info("[Quartz] " + crewNum + "/" + dto.getCrew_name() + " 크루 납입일 JOB 삭제 완료");
 
+        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
+        scheduler.deleteJob(JobKey.jobKey(scheJobKey));
+        log.info("[Quartz] " + crewNum + "/" + dto.getCrew_name() + " 크루 납입일 일정 추가 JOB 삭제 완료");
+
         log.info(dto.getCrew_name() + " 크루 항해 중단...");
         log.info(dto.getCrew_name() + " 항해 중단 페이지로 리디렉트...");
 
@@ -518,6 +514,10 @@ public class CrewSettingController {
         // 3. job 추가하기
         quartzService.addMonthlyJob(CrewPaydateJob.class,payJobKey,jobDesc,paramsMap,payDate);
         log.info("[Quartz] " + crewNum + "/" + dto.getCrew_name() + " 크루 납입일 JOB 등록 완료");
+
+        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
+        String schejobDesc = crewNum + " / " + dto.getCrew_name() + "크루 납입일 일정 추가 Job 입니다.";
+        quartzService.addMonthlyJob(CrewPaydateScheduleJob.class,scheJobKey,schejobDesc,paramsMap,1);
 
         log.info(dto.getCrew_name() + " 크루 항해 중단 취소...");
         log.info(dto.getCrew_name() + " 크루 페이지로 리디렉트...");

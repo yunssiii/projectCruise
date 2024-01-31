@@ -180,7 +180,7 @@ public class DevelopOpenBankUsingServiceImpl implements DevelopOpenBankUsingServ
             throw noDataError;
         }
 
-        TransferMoneyZeroException moneyZeroException = new TransferMoneyZeroException();
+        TransferMoneyZeroException moneyZeroException = new TransferMoneyZeroException("TRANSFERMONEYZERO");
         if (transferMoney==0
                 || withdrawDTO.getOpenuse_outmoney()==0 || depositDTO.getOpenuse_inmoney()==0) {
             System.out.println("[OpenBanking] Rollback - 거래금액이 0임");
