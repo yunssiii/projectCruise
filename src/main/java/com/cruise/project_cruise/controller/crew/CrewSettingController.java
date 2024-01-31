@@ -233,14 +233,6 @@ public class CrewSettingController {
         quartzService.addMonthlyJob(CrewPaydateJob.class,jobKey,jobDesc,paramsMap,payDate);
 
 
-        // 은지 - 납입일 일정 추가
-        String scheJobKey = "JOB_" + crewNum + "_CrewPayDateScheduleJob";
-
-        scheduler.deleteJob(JobKey.jobKey(scheJobKey));
-        String schejobDesc = crewNum + " / " + crewDTO.getCrew_name() + "크루 납입일 일정 추가 Job 입니다.";
-        quartzService.addMonthlyJob(CrewPaydateScheduleJob.class,scheJobKey,schejobDesc,paramsMap,1);
-
-
         log.info("[Quartz] " + crewNum + "/" + newCrewDTO.getCrew_name() + " 크루 납입일 JOB 수정완료");
 
         hash.put("newCrewInfo",newCrewDTO.getCrew_info());
