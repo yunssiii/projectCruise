@@ -263,6 +263,9 @@
             } else if(result==="LACKOFBALANCE"){
                 alert("납입 실패 - 출금 계좌의 잔액이 부족합니다.");
                 return;
+            } else if(result=="TRANSFERMONEYZERO"){
+                alert("납입 실패 - 거래 금액이 0원입니다.");
+                return;
             }
 
             var payCount = $('#num').val();
