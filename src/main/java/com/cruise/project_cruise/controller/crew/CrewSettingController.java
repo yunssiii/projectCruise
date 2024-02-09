@@ -321,7 +321,7 @@ public class CrewSettingController {
         String scheTitleSub = scheTitle.substring(0,4) + "...";
         String crewAlertContent = "[일정추가] \""+ scheTitleSub +"\" 일정이 추가되었습니다.";
 
-        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+        String todayStr = crewAlertService.getDateString(today);
         crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
                 "일정", crewAlertContent, todayStr);
 
