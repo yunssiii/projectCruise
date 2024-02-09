@@ -13,5 +13,4 @@ public interface CrewAlertService {
     public List<CrewAlertDTO> getNewMemberNewsList(int crewNum) throws Exception;
     public List<CrewAlertDTO> getNewCrewNewsList(int crewNum) throws Exception;
     public List<CrewAlertDTO> getAllNewsList(int crewNum) throws Exception;
-    String getDateString(Date date);
 }

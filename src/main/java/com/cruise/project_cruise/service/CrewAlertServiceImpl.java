@@ -45,8 +45,7 @@ public class CrewAlertServiceImpl implements CrewAlertService{
         return crewAlertMapper.getAllNewsList(crewNum);
     }
 
-    @Override
-    public String getDateString(Date date) {
+    private String getDateString(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(date);
     }
