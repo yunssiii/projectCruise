@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,8 +20,9 @@ public class CrewAlertServiceImpl implements CrewAlertService{
     @Override
     public void insertCrewAlert(int cAlertNum, int crewNum,
                                 String cAlertAssort,String cAlertContent,
-                                String cAlertAlertDate) throws Exception {
-        crewAlertMapper.insertCrewAlert(cAlertNum,crewNum,cAlertAssort,cAlertContent,cAlertAlertDate);
+                                Date cAlertAlertDate) throws Exception {
+        String cAlertAlertDateStr = getDateString(cAlertAlertDate);
+        crewAlertMapper.insertCrewAlert(cAlertNum,crewNum,cAlertAssort,cAlertContent,cAlertAlertDateStr);
     }
 
     @Override
@@ -42,19 +45,10 @@ public class CrewAlertServiceImpl implements CrewAlertService{
         return crewAlertMapper.getAllNewsList(crewNum);
     }
 
-    public String getDateString(LocalDate localDate) {
-
-        String dateMonth = Integer.toString(localDate.getMonthValue());
-        String dateDate = Integer.toString(localDate.getDayOfMonth());
-
-        if(localDate.getMonthValue()<10) {
-            dateMonth = '0' + dateMonth;
-        }
-        if(localDate.getDayOfMonth()<10) {
-            dateDate = '0' + dateDate;
-        }
-
-        return localDate.getYear() + "-" + dateMonth + "-" +dateDate;
+    @Override
+    public String getDateString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
     }
 
 }
