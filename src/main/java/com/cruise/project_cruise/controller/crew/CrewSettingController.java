@@ -306,25 +306,11 @@ public class CrewSettingController {
         log.info("===================================================");
 
         // 크루 알림 추가
-            // 날짜 설정
-        LocalDate today = LocalDate.now();
-        String todayMonth = Integer.toString(today.getMonthValue());
-        String todayDate = Integer.toString(today.getDayOfMonth());
-
-        if(today.getMonthValue()<10) {
-            todayMonth = '0' + todayMonth;
-        }
-        if(today.getDayOfMonth()<10) {
-            todayDate = '0' + todayDate;
-        }
-
+        Date today = new Date();
         String scheTitleSub = scheTitle.substring(0,4) + "...";
         String crewAlertContent = "[일정추가] \""+ scheTitleSub +"\" 일정이 추가되었습니다.";
-
-        String todayStr = crewAlertService.getDateString(today);
         crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-                "일정", crewAlertContent, todayStr);
-
+                "일정", crewAlertContent, today);
     }
 
     // bold 일정 수정
@@ -574,22 +560,24 @@ public class CrewSettingController {
 
         // 크루 알림 추가
         String crewAlertContent = "선원 " + exitUserName + "(" + exitUserEmailSplit +")님이 강퇴되었습니다.";
-        LocalDate today = LocalDate.now();
-        String todayMonth = Integer.toString(today.getMonthValue());
-        String todayDate = Integer.toString(today.getDayOfMonth());
+        Date today = new Date();
+        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
+                "강퇴", crewAlertContent, today);
 
-        if(today.getMonthValue()<10) {
+        // 내 알림 추가
+        LocalDate todayLocalDate = LocalDate.now();
+        String todayMonth = Integer.toString(todayLocalDate.getMonthValue());
+        String todayDate = Integer.toString(todayLocalDate.getDayOfMonth());
+
+        if(todayLocalDate.getMonthValue()<10) {
             todayMonth = '0' + todayMonth;
         }
-        if(today.getDayOfMonth()<10) {
+        if(todayLocalDate.getDayOfMonth()<10) {
             todayDate = '0' + todayDate;
         }
 
-        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
-        crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-                "강퇴", crewAlertContent, todayStr);
+        String todayStr = todayLocalDate.getYear() + "-" + todayMonth + "-" +todayDate;
 
-        // 내 알림 추가
         String myAlertContent
                 = "[" + dto.getCrew_name() + "]" + exitUserName + "(" + exitUserEmailSplit +") 선원이 강퇴되었습니다.";
 
