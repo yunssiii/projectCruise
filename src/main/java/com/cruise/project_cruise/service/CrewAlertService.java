@@ -5,6 +5,7 @@ import com.cruise.project_cruise.dto.CrewDTO;
 import com.cruise.project_cruise.dto.MyAccountDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +17,5 @@ public interface CrewAlertService {
     public List<CrewAlertDTO> getNewMemberNewsList(int crewNum) throws Exception;
     public List<CrewAlertDTO> getNewCrewNewsList(int crewNum) throws Exception;
     public List<CrewAlertDTO> getAllNewsList(int crewNum) throws Exception;
+    String getDateString(LocalDate today);
 }

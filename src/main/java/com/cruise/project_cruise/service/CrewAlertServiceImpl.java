@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,4 +41,20 @@ public class CrewAlertServiceImpl implements CrewAlertService{
     public List<CrewAlertDTO> getAllNewsList(int crewNum) throws Exception {
         return crewAlertMapper.getAllNewsList(crewNum);
     }
+
+    public String getDateString(LocalDate localDate) {
+
+        String dateMonth = Integer.toString(localDate.getMonthValue());
+        String dateDate = Integer.toString(localDate.getDayOfMonth());
+
+        if(localDate.getMonthValue()<10) {
+            dateMonth = '0' + dateMonth;
+        }
+        if(localDate.getDayOfMonth()<10) {
+            dateDate = '0' + dateDate;
+        }
+
+        return localDate.getYear() + "-" + dateMonth + "-" +dateDate;
+    }
+
 }
