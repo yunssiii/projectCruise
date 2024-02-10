@@ -26,30 +26,16 @@ public class QuartzService {
     public void init() {
         try {
             // 스케줄러를 초기화하기
-            scheduler.clear(); // DB도 초기화된다. 모든 예약된 작업과 트리거가 삭제된다.
-            // TODO 최종적으론 이거 빼주기!
+            // scheduler.clear(); // DB도 초기화된다. 모든 예약된 작업과 트리거가 삭제된다.
 
             // 만들어뒀던 리스너들을 등록해준다.
             scheduler.getListenerManager().addJobListener(new QuartzJobListner());
             scheduler.getListenerManager().addTriggerListener(new QuartzTriggerListener());
 
-            // QuartzJob에서 설정해준 Parameter를 생성해주자.
-            /*
-            crewAlertService.insertCrewAlert(
-                    maxNum,
-                    (int)dataMap.get("crewNum"),
-                    (String)dataMap.get("cAlertAssort"),
-                    (String)dataMap.get("cAlertContent"),
-                    String.valueOf(LocalDateTime.now()));
-                    이렇게 해줬었음.
-             */
-
         }catch (Exception e) {
             log.error("addJob error : {}", e);
         }
     }
-
-
 
     //cron식 Job
     public <T extends Job> void addCronJob(Class<? extends Job> job , String key, String desc, Map<String,Object> paramsMap, String cron) throws SchedulerException, SchedulerException {

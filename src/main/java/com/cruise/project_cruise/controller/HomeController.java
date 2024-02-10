@@ -28,10 +28,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Console;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -111,28 +108,28 @@ public class HomeController {
             crewMemberInviteService.insertCrewMember(dto);
 
             // 은지 - 새 멤버 가입 시 crewAlert 추가
-            LocalDate today = LocalDate.now();
-            String todayMonth = Integer.toString(today.getMonthValue());
-            String todayDate = Integer.toString(today.getDayOfMonth());
-
-            if(today.getMonthValue()<10) {
-                todayMonth = '0' + todayMonth;
-            }
-            if(today.getDayOfMonth()<10) {
-                todayDate = '0' + todayDate;
-            }
-
-            String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+            Date today = new Date();
             Map<String,Object> userMap = crewDetailService.getCrewUserInfo(crew_num,email);
             String userEmailSplit = email.split("@")[0];
             String crewAlertContent
                     = (String)userMap.get("USER_NAME") + "(" + userEmailSplit + ") 님이 가입하셨습니다.";
 
             crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-                    "가입", crewAlertContent, todayStr);
+                    "가입", crewAlertContent, today);
 
             // 윤하 - 새 맴버 가입 시 my_alert에 추가
+            LocalDate todayLocalDate = LocalDate.now();
+            String todayMonth = Integer.toString(todayLocalDate.getMonthValue());
+            String todayDate = Integer.toString(todayLocalDate.getDayOfMonth());
 
+            if(todayLocalDate.getMonthValue()<10) {
+                todayMonth = '0' + todayMonth;
+            }
+            if(todayLocalDate.getDayOfMonth()<10) {
+                todayDate = '0' + todayDate;
+            }
+
+            String todayStr = todayLocalDate.getYear() + "-" + todayMonth + "-" +todayDate;
             //CrewAlertDTO alertDTO = new CrewAlertDTO();
             List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());
 
@@ -174,27 +171,28 @@ public class HomeController {
         crewMemberInviteService.insertCrewMember(dto);
 
         // 은지 - 새 멤버 가입 시 crewAlert 추가
-        LocalDate today = LocalDate.now();
-        String todayMonth = Integer.toString(today.getMonthValue());
-        String todayDate = Integer.toString(today.getDayOfMonth());
-
-        if(today.getMonthValue()<10) {
-            todayMonth = '0' + todayMonth;
-        }
-        if(today.getDayOfMonth()<10) {
-            todayDate = '0' + todayDate;
-        }
-
-        String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+        Date today = new Date();
         Map<String,Object> userMap = crewDetailService.getCrewUserInfo(crew_num,email);
         String userEmailSplit = email.split("@")[0];
         String crewAlertContent
                 = (String)userMap.get("USER_NAME") + "(" + userEmailSplit + ") 님이 가입하셨습니다.";
 
         crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
-                "가입", crewAlertContent, todayStr);
+                "가입", crewAlertContent, today);
 
         // 윤하 - 새 맴버 가입 시 my_alert에 추가
+        LocalDate todayLocalDate = LocalDate.now();
+        String todayMonth = Integer.toString(todayLocalDate.getMonthValue());
+        String todayDate = Integer.toString(todayLocalDate.getDayOfMonth());
+
+        if(todayLocalDate.getMonthValue()<10) {
+            todayMonth = '0' + todayMonth;
+        }
+        if(todayLocalDate.getDayOfMonth()<10) {
+            todayDate = '0' + todayDate;
+        }
+
+        String todayStr = todayLocalDate.getYear() + "-" + todayMonth + "-" +todayDate;
 
         //CrewAlertDTO alertDTO = new CrewAlertDTO();
         List<Map<String, String>> crewMember = crewSettingService.getCrewMemberList(dto.getCrew_num());

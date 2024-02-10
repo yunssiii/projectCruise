@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Component
 @PersistJobDataAfterExecution // Job이 시행중일 때 JobDataMap을 변경할 때 사용한다.
@@ -40,25 +38,14 @@ public class QuartzJob implements Job {
         try {
             int maxNum = crewAlertService.cAlertMaxNum() +1;
 
-            LocalDate today = LocalDate.now();
-            String todayMonth = Integer.toString(today.getMonthValue());
-            String todayDate = Integer.toString(today.getDayOfMonth());
-
-            if(today.getMonthValue()<10) {
-                todayMonth = '0' + todayMonth;
-            }
-            if(today.getDayOfMonth()<10) {
-                todayDate = '0' + todayDate;
-            }
-
-            String todayStr = today.getYear() + "-" + todayMonth + "-" +todayDate;
+            Date today = new Date();
 
             crewAlertService.insertCrewAlert(
                     maxNum,
                     (int)dataMap.get("crewNum"),
                     (String)dataMap.get("cAlertAssort"),
                     (String)dataMap.get("cAlertContent"),
-                    todayStr);
+                    today);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
