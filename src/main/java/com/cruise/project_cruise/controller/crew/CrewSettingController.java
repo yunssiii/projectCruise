@@ -307,7 +307,11 @@ public class CrewSettingController {
 
         // 크루 알림 추가
         Date today = new Date();
-        String scheTitleSub = scheTitle.substring(0,4) + "...";
+        String scheTitleSub = scheTitle;
+        if(scheTitleSub.length()>4) {
+            scheTitleSub = scheTitleSub.substring(0, 3) + "...";
+        }
+
         String crewAlertContent = "[일정추가] \""+ scheTitleSub +"\" 일정이 추가되었습니다.";
         crewAlertService.insertCrewAlert(crewAlertService.cAlertMaxNum() + 1, dto.getCrew_num(),
                 "일정", crewAlertContent, today);
