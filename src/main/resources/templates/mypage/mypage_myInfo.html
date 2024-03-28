@@ -37,7 +37,6 @@
         <th:block th:replace="mypage/mypage_userTab :: tab"></th:block>
 
         <!-- 정보수정 -->
-
         <div class="user-box">
             <div class="user-cover1">
                 <p class="title">
@@ -172,14 +171,9 @@
     }).open();
 }
 </script>
-
-
-
 </body>
 
 <script th:inline="javascript">
-
-
     //함수 안에 넣으니 안됨
     /*<![CDATA[*/
         var email = /*[[${userInfo.email}]]*/
@@ -223,7 +217,6 @@
 </script>
 
 <script>
-
     window.onload = function() {
 
         if(window.localStorage.getItem('accessToken') == null){
@@ -233,8 +226,5 @@
 
         }
     }
-
 </script>
-
-
 </html>

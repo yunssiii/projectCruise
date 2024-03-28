@@ -41,8 +41,6 @@ public class MainMypageController {
     @Autowired
     CrewBoardUtil myUtil;
 
-
-
     /*
         로그인 후 바로 연결되는 마이페이지 메인창 메소드
         크루와 계좌 0이면 zero페이지 보여지고
@@ -56,8 +54,6 @@ public class MainMypageController {
                             @RequestParam(required = false) String aPwd,
                             @RequestHeader(value = "Authorization", required = false) String accessToken ,
                             @AuthenticationPrincipal OAuth2User principal, Principal principal2) throws  Exception {
-
-
 
         String email = null;
         Optional<String> emailOptional = jwtTokenizer.extractEmail(accessToken);
@@ -170,73 +166,8 @@ public class MainMypageController {
             }
         }
 
-
-
-
-
         return mav; //프론트에서 요청했을때는 이 리턴이 프론트로 가는듯 그래서 화면이 안나오는것 같음
     }
-
-
-    /*
-    @GetMapping("/test")
-    public ModelAndView test() {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("/sse");
-
-        return mav;
-    }
-
-    @GetMapping("/test2")
-    public ModelAndView test2() {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("/sseTest");
-
-        return mav;
-    }
-
-    @GetMapping("/test3")
-    public ModelAndView test3() {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("/toastTest");
-
-        return mav;
-    }
-
-    @GetMapping("/test5")
-    public ModelAndView test5() {
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("/nextSseTest");
-
-        return mav;
-    }
-
-    @PostMapping("/test")
-    public ModelAndView testInsert(@RequestParam("nums") int num,@RequestParam("assorts") String assort,
-                           @RequestParam("contents")String content,@RequestParam("dates")String date,
-                           @RequestParam("emails")String email) throws Exception{
-
-        System.out.println("왔다 >>>>>>>>");
-
-        mypageService.insertMyAlert(num,assort,content,date,email);
-
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("redirect:/test");
-
-        return mav;
-
-    }
-*/
-
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleException(HttpServletRequest request, Exception ex) {
@@ -246,7 +177,6 @@ public class MainMypageController {
         mav.setViewName("error/myPageError"); // myPageError.html 뷰를 생성하여 원하는 에러 처리 화면을 구현할 수 있습니다.
         return mav;
     }
-
 
 }
 

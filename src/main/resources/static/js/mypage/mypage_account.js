@@ -29,7 +29,7 @@ var accounNums = document.getElementsByClassName("account-input");
 var accounPwds = document.getElementsByClassName("accountPwd-input");
 var authBtns = document.getElementsByClassName("account-authBtn");
 
-//-- 모달 이동 함수 ---------------------------------------------
+//-- 모달 이동 함수 ---------------------------------------------------------------------------------------
 //nextBtn1 -> 전체 동의했는지 확인
 //nextBtn2 -> 계좌 선택했는지 확인
 function AddModal(num) {
@@ -148,7 +148,7 @@ funs[0] = AddModal(0);
 
 funs[0]();
 
-//-- 모달1 약관 숨기기--------------------------------------------
+//-- 모달1 약관 숨기기--------------------------------------------------------------------------------------
 
 $("#agree-show").click(function() {
 
@@ -177,7 +177,7 @@ $("#agree-show3").click(function() {
     }
 });
 
-//-- 모달1 약관 동의 checkbox ------------------------------------------
+//-- 모달1 약관 동의 checkbox ------------------------------------------------------------------------------------
 /*
     전체 체크박스 체크시
         -> "확인" 버튼 색 변함
@@ -224,7 +224,7 @@ $(document).ready(function(){
 });
 
 
-//-- 모달2 계좌에 click 클래스를 더하는 함수------------------------------
+//-- 모달2 계좌에 click 클래스를 더하는 함수------------------------------------------------------------------------
 /*
     클릭한 div만 주황선 css 입히기
     "확인" 버튼 색 변화
@@ -252,7 +252,7 @@ bankBtns.forEach((e) => {
 });
 
 
-//-- 모달3 계좌번호 검사 함수 -----------------------------------------
+//-- 모달3 계좌번호 검사 함수 -----------------------------------------------------------------------------------
 /*
     테두리 빨강, 알림문구 띄우기
     숫자만 입력 가능, 14자리
@@ -265,7 +265,6 @@ bankBtns.forEach((e) => {
     2. 계좌 길이가 맞지 않을 때
     3. 계좌 비밀번호가 빈칸 일 때
     4. 계좌 비밀번호 길이가 맞지 않을 때 - 인증 버튼 누르기 전
-
     5. 계좌와 비밀번호가 가상과 맞지 않을 때 - 누른 후
     6. 계좌가 등록된 계좌정보와 같을 때 (계좌 비밀번호가 빈칸이 아닐 때)
 */
@@ -290,24 +289,9 @@ function chkAccountNum(event) {
         accounNums[1].style.border = "1px solid red"; //테두리 빨강
         accounNums[1].style.outline = "1px solid red";
     }
-//    else if(inputValue.length < 10) {
-//
-//        document.getElementById("resultNum").innerText = text;
-//
-//        accounNums[1].style.border = "1px solid red";
-//        accounNums[1].style.outline = "1px solid red";
-//
-//    }else if(inputValue.length > 14) {
-//
-//        document.getElementById("resultNum").innerText = text;
-//
-//        accounNums[1].style.border = "1px solid red";
-//        accounNums[1].style.outline = "1px solid red";
-//
-//    }
 }
 
-//-- 계좌 비밀번호 검사 함수 -----------------------------------------
+//-- 계좌 비밀번호 검사 함수 -----------------------------------------------------------------------------------
 /*
     테두리 빨강, 알림문구 띄우기
     숫자만 입력 가능, 4자리
@@ -351,7 +335,7 @@ function chkAccountPwd(event) {
 accounNums[1].addEventListener("change",chkAccountNum);
 accounPwds[0].addEventListener("change",chkAccountPwd);
 
-//-- 계좌번호 인증 함수 --------------------------------------------------
+//-- 계좌번호 인증 함수 --------------------------------------------------------------------------------------------
 /*
     인증 버튼 누르면 함수 실행
     if(가상계좌 비밀번호=입력된 비밀번호 && 불러와진 이름의 가상계좌번호 = 입력된 계좌번호) ⇒ 인증 성공 / 등록 버튼 색변화/ 창 닫기/ insert
@@ -367,26 +351,21 @@ function accountAuth (event) {
     var accountPwdsValue =  accounPwds[0].value;
     var accountNumsValue =  accounNums[1].value;
 
-
-
-    console.log("인증전-번호"+accountNumsValue);
-    console.log("인증전-비밀번호"+accountPwdsValue);
-    console.log("openAccPwd.length >>" + openAccPwd.length);
-
-
-
+    console.log("인증전-번호 test >>>>> "+accountNumsValue);
+    console.log("인증전-비밀번호 test >>>>> "+accountPwdsValue);
+    console.log("openAccPwd.length test >>>>> " + openAccPwd.length);
 
     for(var i=0;i<openAccPwd.length;i++){
 
-    console.log("인증할-번호"+openAccPwd[i].open_account);
-        console.log("인증할-비밀번호"+openAccPwd[i].open_password);
+    console.log("인증할-번호 test >>>>> "+openAccPwd[i].open_account);
+        console.log("인증할-비밀번호 test >>>>> "+openAccPwd[i].open_password);
 
         //입력된 비밀번호와 가상 비밀번호가 같고, 계좌번호,비밀번호가 값이 있고, 계좌번호와 가상 계좌가 같으면 인증 성공
         //if(accountPwdsValue == openAccPwd[i].open_password && accountNumsValue != "" && accountPwdsValue != "" && accountNumsValue == openAccPwd[i].open_account){
         if(accountPwdsValue == openAccPwd[i].open_password){
             console.log("인증성공");
 
-            console.log("인증성공-번호"+accounNums[1].value);
+            console.log("인증성공-번호 test >>>>> "+accounNums[1].value);
 
             addBtn[0].style.backgroundColor = "#0c0ccad0"; //버튼 파란색으로 변화
             addBtn[0].style.cursor = "pointer";
@@ -399,14 +378,13 @@ function accountAuth (event) {
             return authFlag;
 
         } else {
-            console.log('인증실패')
-            //alert('인증 실패하였습니다.');
+            console.log('인증실패');
+
             /*
                 1. 계좌번호, 비밀번호 둘 다 빈칸
                 2. 계좌번호 빈칸
                 3. 비밀번호 빈칸
             */
-
             if(accountNumsValue = ""){ //계좌번호 빈칸
                 document.getElementById("resultNum").innerText = text; //경고문구 쓰기
 
@@ -450,7 +428,6 @@ function accountAuth (event) {
 }
 
 authBtns[0].addEventListener("click",accountAuth);
-
 
 // "등록 버튼" insert 검사 폼
  /*
@@ -564,15 +541,6 @@ function closeAccount(myaccountNum) {
 
 }
 
-//// Modal 영역 밖을 클릭하면 Modal 닫음
-//window.onclick = function(event) {
-//    if (event.target.className == "account-modal") {
-//        event.target.style.display = "none";
-//        document.body.style.overflow = "auto";
-//        document.body.style.overflowX = "hidden";
-//    }
-//};
-
 // 계좌명 수정
 function updateBtn(myaccountNum){
 
@@ -584,11 +552,7 @@ function updateBtn(myaccountNum){
 
 }
 
-
-
-
-
-// -- 계좌 삭제 예/아니오---------------------------------------------------------------
+// -- 계좌 삭제 예/아니오------------------------------------------------------------------------------------
 var accountFunc = []; //함수 저장 변수
 
 //모달창 클릭, 모달창
@@ -606,12 +570,6 @@ function accountDelModal(num) {
             accountdelDiv[num].style.display = "block";
             document.body.style.overflow = "hidden";
         }
-
-//        yesBtns[num].onclick = function() {
-//            accountdelDiv[num].style.display = "none";
-//            document.body.style.overflow = "auto";
-//            document.body.style.overflowX = "hidden";
-//        }
 
         noBtns[num].onclick = function() {
             accountdelDiv[num].style.display = "none";

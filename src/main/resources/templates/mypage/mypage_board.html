@@ -15,8 +15,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- tab bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-    
     <style>
         .material-symbols-outlined {
           font-variation-settings:
@@ -32,10 +30,9 @@
 </head>
 <body>
 
-<div style="background-color:white;">
-    <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
-</div>
-
+    <div style="background-color:white;">
+        <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
+    </div>
 
     <div class="user-container">
         <!-- 메뉴 -->
@@ -79,7 +76,7 @@
                                     <div class="board-num" th:text="${dto.board_num}">게시글 번호</div>
                                     <div>
                                         <span th:text="|[${dto.crew_name}] |">크루명</span>
-                                        <a th:href="@{|http://192.168.16.27:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.board_subject}">게시글 제목</a>
+                                        <a th:href="@{|http://localhost:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.board_subject}">게시글 제목</a>
                                     </div>
                                 </td>
                                 <td class="td-date" th:text="${dto.board_created_tochar}">생성일</td>
@@ -94,14 +91,10 @@
                                 </td>
                             </tr>
                         </tbody>
-
-                        <!-- 반복 -->
                     </table>
 
                     <div class="bottom-bar">
-
                         <div class="bottom-btn1" th:if="${#lists.isEmpty(myBoardLists)}"></div>
-                        
                         <div th:if="${!#lists.isEmpty(myBoardLists)}">
                             <input type="checkbox" id="all-article-chk" name="all-article-chk" value=""/>
                             <label for="all-article-chk"></label>
@@ -115,10 +108,8 @@
             </div>
 
             <div id="tab-2" class="tab-content">
-                
                 <div class="board-div">
                     <table class="board-table">
-                        
                         <thead>
                             <tr>
                                 <th colspan="3">댓글</th>
@@ -127,13 +118,11 @@
                         </thead>
                         <!-- 반복 -->
                     </table>
-
                     <div class="comment-table-div">
                         <table class="board-table">
                             <tbody th:if="${#lists.isEmpty(myCommentLists)}">
                                 <td class="no-board" colspan="5">등록한 댓글이 없습니다.</td>
                             </tbody>
-
                             <tbody>
                                 <tr th:each="dto:${myCommentLists}" th:if="${!#lists.isEmpty(myCommentLists)}" style="border-bottom: 1px solid #afafaf;">
                                     <td colspan="3" class="td-comments">
@@ -141,7 +130,7 @@
                                             <input type="checkbox" th:id="|chk-comment-${dto.comment_num}|" name="commentChk" th:value="${dto.comment_num}"/>
                                             <label th:for="|chk-comment-${dto.comment_num}|"></label>
                                             <div class="comment-content">
-                                                <a th:href="@{|http://192.168.16.27:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.comment_content}">댓글 내용</a>
+                                                <a th:href="@{|http://localhost:8082/board/article?num=${dto.board_num}&crewName=${dto.crew_name}|}" th:text="${dto.comment_content}">댓글 내용</a>
                                             </div>
                                         </div>
                                         <div class="comment-subject">
@@ -151,14 +140,12 @@
                                     </td>
                                     <td class="td-date" th:text="${dto.comment_created_tochar}">생성일</td>
                                 </tr>
-
                             </tbody>
                         </table>
                     </div>
 
                     <div class="bottom-bar">
                         <!-- 댓글 없는 경우 - if -->
-                        
                         <div class="bottom-btn1" th:if="${#lists.isEmpty(myCommentLists)}"></div>
                         
                         <div th:if="${!#lists.isEmpty(myCommentLists)}">
@@ -180,81 +167,70 @@
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 
+<script src="/js/mypage/mypage_board.js"></script>
+<script src="/js/mypage/mypage_userOut.js"></script>
 
-    <script src="/js/mypage/mypage_board.js"></script>
-    <script src="/js/mypage/mypage_userOut.js"></script>
+<script>
 
-    <script>
+    //게시글 삭제
+    $(document).ready(function () {
 
-        //게시글 삭제
-        $(document).ready(function () {
+        $('#delBoardBtn').on('click', function () {
 
-            $('#delBoardBtn').on('click', function () {
+            var chkBoardLists = [];
 
-                var chkBoardLists = [];
+            $('input[name=article-chk]:checked').each(function () {
+                chkBoardLists.push($(this).val());
+            });
 
-                $('input[name=article-chk]:checked').each(function () {
+            console.log(chkBoardLists.join(',')); //배열을 문자열로 변경해서 출력
 
-                    chkBoardLists.push($(this).val());
-
-                });
-
-                console.log(chkBoardLists.join(',')); //배열을 문자열로 변경해서 출력
-
-                $.ajax({
-                    type : "POST",
-                    url : "/mypage/mypage_board_board",
-                    data : {
-                    chkBoardLists : chkBoardLists
-                    },
-                    success : function(result){
-                        console.log("성공..!" + result);
-                        $(location).attr('href','/mypage/mypage_board')
-                    },
-                    error:function(xhr,status,error) {
-                        console.log("에러..!" + error);
-                    }
-                });
+            $.ajax({
+                type : "POST",
+                url : "/mypage/mypage_board_board",
+                data : {
+                chkBoardLists : chkBoardLists
+                },
+                success : function(result){
+                    console.log("성공..!" + result);
+                    $(location).attr('href','/mypage/mypage_board')
+                },
+                error:function(xhr,status,error) {
+                    console.log("에러..!" + error);
+                }
             });
         });
+    });
 
-        //댓글 삭제
-        $(document).ready(function () {
+    //댓글 삭제
+    $(document).ready(function () {
+        $('#delCommentBtn').on('click', function () {
 
-            $('#delCommentBtn').on('click', function () {
+            var chkCommentLists = [];
 
-                var chkCommentLists = [];
+            $('input[name=commentChk]:checked').each(function () {
+                chkCommentLists.push($(this).val());
+            });
 
-                $('input[name=commentChk]:checked').each(function () {
+            console.log(chkCommentLists.join(',')); //배열을 문자열로 변경해서 출력
 
-                    chkCommentLists.push($(this).val());
-
-                });
-
-                console.log(chkCommentLists.join(',')); //배열을 문자열로 변경해서 출력
-
-                $.ajax({
-                    type : "POST",
-                    url : "/mypage/mypage_board_comment",
-                    data : {
-                    chkCommentLists : chkCommentLists
-                    },
-                    success : function(result){
-                        console.log("성공..!" + result);
-                        $(location).attr('href','/mypage/mypage_board')
-                    },
-                    error:function(xhr,status,error) {
-                        console.log("에러..!" + error);
-                    }
-                });
+            $.ajax({
+                type : "POST",
+                url : "/mypage/mypage_board_comment",
+                data : {
+                chkCommentLists : chkCommentLists
+                },
+                success : function(result){
+                    console.log("댓글 삭제 성공" + result);
+                    $(location).attr('href','/mypage/mypage_board')
+                },
+                error:function(xhr,status,error) {
+                    console.log("댓글 삭제 에러" + error);
+                }
             });
         });
+    });
 
-
-
-
-    </script>
-
-    
+</script>
 </body>
 </html>

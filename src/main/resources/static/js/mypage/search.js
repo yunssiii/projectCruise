@@ -8,7 +8,7 @@ function search(target) {
         dataType : 'json',
         url : 'search.json',
         error : function(err) {
-            console.log('에러 발생..!')
+            console.log('search 에러')
         },
         success : function(data) {
 

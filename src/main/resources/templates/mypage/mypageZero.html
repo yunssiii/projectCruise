@@ -25,11 +25,7 @@
 <body>
 <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
 
-
-
-
     <div class="container_zero">
-
         <div class="main_zero">
             <div class="column_zero">
                 <div class="start-message">
@@ -44,7 +40,7 @@
                     <p>믿을 수 없는 놀라움</p>
                 </div>
                 <div class="start-btn">
-                    <a th:href="@{http://192.168.16.27:8082/moim/passbook}" style="color:white;text-decoration:none;">항해 시작</a>
+                    <a th:href="@{http://localhost:8082/moim/passbook}" style="color:white;text-decoration:none;">항해 시작</a>
                 </div>
             </div>
         </div>
@@ -56,13 +52,8 @@
 <p id="sessionEmail" th:if="${session.email != null}" th:text="${session.email}" style="display:none"></p>
 <p id="sessionNum" th:if="${session.num != null}" th:text="${session.num}" style="display:none"></p>
 
-
-
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
 <script th:src="@{/js/homePage/homePage.js}"></script>
 
-
-
-    
 </body>
 </html>
