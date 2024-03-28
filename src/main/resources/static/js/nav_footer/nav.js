@@ -1,4 +1,4 @@
-var cruiseUrl = 'http://192.168.16.27:8082/';
+var cruiseUrl = 'http://localhost:8082/';
 
 (function(){
 let navButtonClick = document.getElementsByClassName("navButtonClick");
@@ -82,7 +82,7 @@ let navButtonClick = document.getElementsByClassName("navButtonClick");
 
 
 ////-- 웹소켓 연결 ---------------------------------------------------------------------------------
-let socket = new WebSocket("ws://192.168.16.27:8082/testSocket");
+let socket = new WebSocket("ws://localhost:8082/testSocket");
 
 function openWebSocket() {
 
@@ -106,7 +106,7 @@ function openWebSocket() {
     }
 
     socket.onmessage = function (e) {
-        console.log('메인에까지 왔니?');
+        console.log('main에 넘어왔는지 test');
 
         var data = e.data; //웹소켓 메세지 내용
 
@@ -136,7 +136,7 @@ function getNavAlert() {
         url:"/nav/alert",
         dataType:"json",
         success: function(result){
-            console.log("nav alert 조회 성공..!");
+            console.log("nav alert 조회 성공");
             console.log("조회된 데이터 >>>>" + result);
 
             var str = '';
@@ -165,9 +165,6 @@ function getNavAlert() {
                                 str += '<span>'+ result[i].alertContent +'</span>'
                             str += '</a></div>'
 
-
-
-
                     }else {
 
                         str += '<div class="alertDiv">'
@@ -185,7 +182,7 @@ function getNavAlert() {
             }
         },
         error:function(){
-            console.log("nav alert 조회 에러..!");
+            console.log("nav alert 조회 에러");
         }
     })
 }

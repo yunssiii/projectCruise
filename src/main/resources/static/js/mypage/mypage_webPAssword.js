@@ -6,7 +6,7 @@ var webChkPwdInput = document.getElementsByClassName("webPWd-chk-input");
 var insertWebBtn = document.getElementsByClassName("webPwdBtn");
 
 // ! 등록 & 변경 !
-// -- 비밀번호 정규화 검사 js ----------------------------------
+// -- 비밀번호 정규화 검사 js ----------------------------------------------------------------------------------------
 function webPwd(event) {
 
     var text = "비밀번호를 정확히 입력해주세요.";
@@ -31,7 +31,7 @@ function webPwd(event) {
 
 webPwdInput[0].addEventListener("change",webPwd);
 
-// -- 비밀번호 확인 정규화 검사 js ----------------------------------
+// -- 비밀번호 확인 정규화 검사 js ----------------------------------------------------------------------------------------
 function chkWebPwd(event) {
 
     var text = "비밀번호를 정확히 입력해주세요.";
@@ -69,7 +69,7 @@ insertWebBtn[0].onclick = function() {
     }
 }
 
-// -- 비밀번호 등록 시 서버로 보내는 데이터 -------
+// -- 비밀번호 등록 시 서버로 보내는 데이터 -------------------------------------------------------------
 function updateSubmit() {
 
     var PwdUpdateForm = document.updatePwdForm;

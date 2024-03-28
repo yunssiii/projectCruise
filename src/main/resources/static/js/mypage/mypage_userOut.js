@@ -10,7 +10,7 @@ var nDivs = document.getElementsByClassName("n-div");
 var okBtn1 = document.getElementsByClassName("yes");
 var okBtn2 = document.getElementsByClassName("no");
 
-// 회원 탈퇴 js
+// 회원 탈퇴 js ---------------------------------------------------------------------------------
 
 //'화원 탈퇴' 누르면 모달
 withdrawalBtns[0].onclick = function() {
@@ -30,7 +30,7 @@ function deleteUser(email){
         email : email, // 로그인한 이메일
         },
         success : function(result){
-            console.log("탈퇴성공..!");
+            console.log("탈퇴 성공");
 
             //모달 열기
             $('.userOutmodal-div').css('display','none');
@@ -39,7 +39,7 @@ function deleteUser(email){
         },
         error:function(xhr,status,error) {
             // 모임통장 계좌번호와 같으면 에러로 넘어옴
-            console.log("탈퇴에러..!" + error);
+            console.log("탈퇴 에러" + error);
 
             //모달 열기
             $('.userOutmodal-div').css('display','none');
@@ -66,8 +66,6 @@ function okMain() {
 
     $('body').css('overflow', 'auto');
     $('body').css('overflow-x', 'hidden');
-
-    //location.replace("/logout"); //전 페이지로 돌아갈 수 없음
 
     localStorage.removeItem('accessToken');
     window.location.href = '/logout';

@@ -32,15 +32,11 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-
     <style>
     /* 아이콘 */
     .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 380,'GRAD' 0,'opsz' 24;font-size:20px; }
     .material-symbols-sharp { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size: 60px;color: white;-webkit-text-stroke: 1px rgb(58, 58, 58); }
-
     </style>
-
     <!-- 풀캘린더 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
     <script th:inline="javascript">
@@ -53,7 +49,6 @@
     /*]]>*/
     </script>
     <style>
-
         #crewCalendar {
             background-color: white;
             border-radius: 10px;
@@ -81,16 +76,11 @@
         .fc .fc-scroller-harness-liquid {
             height: 500px;
         }
-
-
     </style>
-
-    
 </head>
 <body>
 
 <th:block th:replace="nav_footer/nav_footer :: header"></th:block>
-
 
 <!-- 모임 페이지 -->
     <div class="container_1">
@@ -121,9 +111,6 @@
             <section class="sectionbox" th:if="${!#lists.isEmpty(crewLists)}">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-
-                        <!-- 반복문으로 돌리기 -->
-
                         <div class="swiper-slide" th:each="crewdto:${crewLists}">
                             <div class="crew-box">
                                 <div class="crew-detail-box">
@@ -132,11 +119,9 @@
                                 </div>
                                 <div class="crew-content" th:text="${crewdto.crew_info}"></div>
                                 <div class="crewBtn-box">
-                                    <button class="crewBtn" type="button" th:onclick="|location='http://192.168.16.27:8082/crew?crewNum=${crewdto.crew_num}'|">크루 보기</button>
+                                    <button class="crewBtn" type="button" th:onclick="|location='http://localhost:8082/crew?crewNum=${crewdto.crew_num}'|">크루 보기</button>
                                 </div>
-
                                 <button th:id="${crewdto.crew_num}" class="user-out" type="button" th:onclick="showDelInfo([[${crewdto.crew_num}]])">탈퇴하기</button>
-
                             </div>
                         </div>
                     </div>
@@ -144,8 +129,7 @@
             </section>
         </form>
 
-
-        <!-- 크스롤 -->
+        <!-- 스크롤 -->
         <div class="crew-scroll-box">
             <div class="crew">
                 <button class="crew-scrollBtn" onclick="goToScroll('account-scroll')"> 
@@ -160,8 +144,6 @@
 
     <!-- 크루 탈퇴 안내 모달창 -->
     <!-- 크루 탈퇴 예, 아니오 모달 -->
-
-
     <div th:id="|crewDelmodal-div${crewdto.crew_num}|" class="crewDelmodal-div hidden" th:each="crewdto:${crewLists}">
         <div class="crewDel-content">
             <div class="crewDel-box" >
@@ -207,13 +189,11 @@
         </div>
     </div>
 
-
     <script th:inline="javascript">
-
 
         function delCrew (crewNum){
 
-            console.log("크루번호>>" + crewNum);
+            console.log("크루번호 >> " + crewNum);
 
             $.ajax({
                     type : "POST",
@@ -222,17 +202,12 @@
                         crewNum : crewNum
                     },
                     success : function(result){
-                    console.log("성공결과>>" + result)
-
-
-                            if(result == "OK"){
-
-                                closeOk(crewNum) //탈퇴됨 창 열림
-
-                            }else if(result == "none"){
-                                closeDelNone(crewNum) //선장 창 열림
-                            }
-
+                    console.log("성공결과>>" + result);
+                        if(result == "OK"){
+                            closeOk(crewNum) //탈퇴됨 창 열림
+                        }else if(result == "none"){
+                            closeDelNone(crewNum) //선장 창 열림
+                        }
                     },
                     error:function(xhr,status,error) {
                         console.log("탈퇴에러..!" + error);
@@ -248,7 +223,6 @@
     <div class="container_2">
         <!-- scroll 닻 -->
         <div class="account-scroll"></div>
-
         <div class="add-account-box">
             <div class="add-account-cover">
                 <p class="add-account-text">
@@ -360,11 +334,10 @@
             };
 
 
+            //계좌명 수정 ajax
             function updateAname(myaccountNum){
 
                 var myaccountName = $('#aname' + myaccountNum).val();
-
-                console.log('음..' + myaccountName)
 
                 $.ajax({
                     type : "POST",
@@ -374,33 +347,29 @@
                     myaccountName : myaccountName
                     },
                     success : function(result){
-                        console.log("수정성공..!" + result[0].selectAname);
+                        console.log("수정성공" + result[0].selectAname);
 
                         $('#account-alias' + myaccountNum).text(result[0].selectAname);
                         $('#accountDel-title' + myaccountNum).text('[' + result[0].selectAname+ ']' +'계좌를 정말 삭제하시겠습니까?');
 
                     },
                     error:function(xhr,status,error) {
-                        console.log("수정에러..!" + error);
+                        console.log("수정에러" + error);
                     }
-
                 });
-
             };
-
-
 
         </script>
 
         <div class="password-box">
             <button class="passwordBtn">
                 <b>크루즈웹</b> 이체 비밀번호 
-                <a th:href="@{http://192.168.16.27:8082/mypage/mypage_webPassword}">등록 </a> |
-                <a th:href="@{http://192.168.16.27:8082/mypage/mypage_webPassword}">변경 </a>
+                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">등록 </a> |
+                <a th:href="@{http://localhost:8082/mypage/mypage_webPassword}">변경 </a>
             </button>
         </div>
 
-        <!-- 크스롤 -->
+        <!-- 스크롤 -->
         <div class="account-scroll-box">
             <div class="account">
                 <button class="account-scrollBtn" onclick="goToScroll('mySchedule-wrap')">
@@ -413,9 +382,7 @@
     </div>
 
     <!-- 계좌 등록 모달 -->
-    
     <!-- 약관동의 -->
-
     <div class="modal-div1">
         <div class="content">
             <span class="closeBtn1">&times;</span>
@@ -454,7 +421,6 @@
                             <textarea readonly disabled>&#10;&#10;제1조 약관의 적용&#10;&#10;오픈뱅킹공동업무를 기반으로 이용기관이 개발한 핀테크 서비스를 통해 본인명의 계좌의 금융정보를 확인하고자 하는 개인(이하 “사용자”라 한다)과 크루즈(주)(이하 “회사”라 한다)에 대하여 이 약관을 적용합니다.&#10;&#10;제2조 용어의 정의&#10;&#10;1. “오픈뱅킹공동업무”란 이용기관이 핀테크 서비스를 용이하게 개발하고, 제공할 수 있도록 금융권에서 공동으로 구축하여 운영하는 표준화된 오픈 API 플랫폼에 대한 제반 업무를 말합니다.&#10;2. “이용기관”이란 금융결제원과 오픈뱅킹공동업무 이용계약을 체결하고 이용승인을 받은 기업 을 말합니다. 여기에는 회사를 제외한 금융기관도 포함됩니다.&#10;3. “금융정보조회”란 사용자가 핀테크 서비스를 통해 제5조에 명시하는 본인명의 계좌의 금융정보조회 요청시 회사가 금융정보를 제공하는 업무를 말합니다.&#10;4. “오픈뱅킹중계센터”란 오픈뱅킹공동업무 관련 시스템을 구축하고 운영하며, 회사와 이용기관을 서로 중계하는 곳으로 융결제원이 운영합니다.
                             </textarea>
                         </div>
-
                     </div>
                 </div>
                 <div>
@@ -595,10 +561,7 @@
 
 </script>
 
-
     <!-- 계좌 삭제 안내 모달창 -->
-        <!-- 반복문..! -->
-
     <div th:id="|accountDelM${dto.myaccount_anum}|" class="accountDelmodal-div" th:each="dto:${accountLists}">
         <div class="accountDel-content">
             <div class="accountDel-box">
@@ -638,14 +601,14 @@
                 myaccountNum : myaccountNum, // 등록된 계좌번호
                 },
                 success : function(result){
-                    console.log("삭제성공..!");
+                    console.log("삭제성공");
 
                     alert("정상적으로 삭제 완료되었습니다.");
                     location.reload();
                 },
                 error:function(xhr,status,error) {
                     // 모임통장 계좌번호와 같으면 에러로 넘어옴
-                    console.log("삭제에러..!" + error);
+                    console.log("삭제에러" + error);
 
                     alert("크루통장 사용 중으로 삭제가 불가능합니다.");
                     location.reload();
@@ -680,9 +643,6 @@
                         </ul>
                         <input type="hidden" th:id="|monthVal${dto.myaccount_anum}|" name="months" value="1">
                     </div>
-
-
-
                     <input type="text" class="openuse-input-search" th:id="|search${dto.myaccount_anum}|"/>
                     <button class="openuse-searchBtn" th:onclick="accountDivClick([[${dto.myaccount_anum}]])">
                         <span class="material-symbols-outlined" style="color: #0C0CCA;">
@@ -692,15 +652,11 @@
                 </div>
 
                 <div class="line"></div>
-
                 <div class="openuse-box" th:id="|openuseList${dto.myaccount_anum}|">
                     <!-- 계좌 내역 -->
                 </div>
-
                 <div class="line"></div>
-
             </div>
-            
         </div>
     </div>
 
@@ -733,18 +689,14 @@
 
         </div>
     </div>
-<!-- 두혁? -->
+
 <p id="sessionGroup" th:if="${session.group != null}" th:text="${session.group}" style="display:none"></p>
 <p id="sessionEmail" th:if="${session.email != null}" th:text="${session.email}" style="display:none"></p>
 <p id="sessionNum" th:if="${session.num != null}" th:text="${session.num}" style="display:none"></p>
 
-
 <th:block th:replace="nav_footer/nav_footer :: footer"></th:block>
 
-
-
     <!-- script -->
-
     <script src="/js/mypage/mypage_crew.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -759,106 +711,89 @@
     <script src="/js/mypage/selectbox.js"></script>
     <script src="/js/mypage/mypage_schedule.js"></script>
 
-
 <th:block th:replace="nav_footer/nav_footer :: head"></th:block>
-
-
-
-    
 </body>
 
 <script>
-
-
     //계좌 내역 조회
+    function accountDivClick(accountNum) {
 
-        function accountDivClick(accountNum) {
+        var months = $('#monthVal' + accountNum).val();
+        var search = $('#search' + accountNum).val();
 
-            var months = $('#monthVal' + accountNum).val();
-            var search = $('#search' + accountNum).val();
+        var word = search.toLowerCase(); //검색값 대소문자 구분 안하게 함
 
-            var word = search.toLowerCase(); //검색값 대소문자 구분 안하게 함
+        console.log("계좌번호 (클 -> 서) >>>>>> " + accountNum);
 
-            console.log("넘기는 계좌번호>>>>>>" + accountNum);
+        $.ajax({
+            type : "POST",
+            url : "/mypage/useAccount",
+            data : {
+            accountNum : accountNum,
+            months : months
+            },
+            success : function(result){
+                console.log("내역 조회 성공");
+                console.log("넘어온 계좌번호 >>>> " + accountNum);
 
-            $.ajax({
-                type : "POST",
-                url : "/mypage/useAccount",
-                data : {
-                accountNum : accountNum,
-                months : months
-                },
-                success : function(result){
-                    console.log("성공..!");
-                    console.log("넘어온 계좌번호" + accountNum);
+                var str = '';
 
-                    var str = '';
+                $.each(result, function(i) {
 
-                    $.each(result, function(i) {
+                    // 검색 시
+                    console.log("검색한 단어" + word);
 
-                        // 검색 시
+                    var searchContent = result[i].openUseContent.toLowerCase();
 
-                            console.log("검색한 단어" + word);
+                    if(searchContent.includes(word)){
 
-                            var searchContent = result[i].openUseContent.toLowerCase();
+                        if($.trim(result[i].openuseAssort) == 'I'){
 
-                            if(searchContent.includes(word)){
+                            str += '<div class="openuse-cover">'
+                                str += '<div class="dateDiv">'
+                                    str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                str += '</div>'
+                                str += '<div class="contentDiv">'
+                                    str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                str += '</div>'
+                                str += '<div class="moneyDiv">'
+                                    str += '<p class="openuse-money2">' + result[i].openUseIn + '</p>'
+                                str += '</div>'
+                            str += '</div>'
 
-                                if($.trim(result[i].openuseAssort) == 'I'){
+                        }else if($.trim(result[i].openuseAssort) == 'O'){
 
-                                    str += '<div class="openuse-cover">'
-                                        str += '<div class="dateDiv">'
-                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
-                                        str += '</div>'
-                                        str += '<div class="contentDiv">'
-                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
-                                        str += '</div>'
-                                        str += '<div class="moneyDiv">'
-                                            str += '<p class="openuse-money2">' + result[i].openUseIn + '</p>'
-                                        str += '</div>'
-                                    str += '</div>'
+                            str += '<div class="openuse-cover">'
+                                str += '<div class="dateDiv">'
+                                    str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
+                                str += '</div>'
+                                str += '<div class="contentDiv">'
+                                    str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
+                                str += '</div>'
+                                str += '<div class="moneyDiv">'
+                                    str += '<p class="openuse-money">' + result[i].openUseOut + '</p>'
+                                str += '</div>'
+                            str += '</div>'
 
-                                }else if($.trim(result[i].openuseAssort) == 'O'){
+                        }
+                    }
+                }); //반복문 끝
+                $('#openuseList' + accountNum).children().remove(); //자식 요소들을 지워줌
+                $('#openuseList' + accountNum).append(str); //그 담에 더함
 
-                                    str += '<div class="openuse-cover">'
-                                        str += '<div class="dateDiv">'
-                                            str += '<p class="openuse-date">' + result[i].openUseDate + '</p>'
-                                        str += '</div>'
-                                        str += '<div class="contentDiv">'
-                                            str += '<p class="openuse-content">' + result[i].openUseContent + '</p>'
-                                        str += '</div>'
-                                        str += '<div class="moneyDiv">'
-                                            str += '<p class="openuse-money">' + result[i].openUseOut + '</p>'
-                                        str += '</div>'
-                                    str += '</div>'
-
-                                }
-                            }
-
-
-                    }); //반복문 끝
-
-                    $('#openuseList' + accountNum).children().remove(); //자식 요소들을 지워줌
-                    $('#openuseList' + accountNum).append(str); //그 담에 더함
-
-
-                },
-                error:function(xhr,status,error) {
-                    console.log("에러..!" + error);
-                }
-            });
-        };
-
+            },
+            error:function(xhr,status,error) {
+                console.log("에러..!" + error);
+            }
+        });
+    };
 </script>
 
 <script>
-
+    //개월 선택 시
     function oneMonths(myaccountNum){
 
         $('#monthVal' + myaccountNum).val(1);
-
-        console.log('첫클릭>>>>>>' + myaccountNum);
-
         accountDivClick(myaccountNum);
 
     };
@@ -866,9 +801,6 @@
     function threeMonths(myaccountNum){
 
         $('#monthVal' + myaccountNum).val(3);
-
-        console.log('3클릭>>>>>>' + myaccountNum);
-
         accountDivClick(myaccountNum);
 
     };
@@ -876,13 +808,8 @@
      function sixMonths(myaccountNum){
 
         $('#monthVal' + myaccountNum).val(6);
-
-        console.log('6클릭>>>>>>' + myaccountNum);
-
         accountDivClick(myaccountNum);
-
     }
-
 
 </script>
 

@@ -5,8 +5,6 @@
     예/아니오 -> 모달
 */
 
-
-
 // '탈퇴하기' 버튼 누를 때 실행함수
 function showDelInfo(crewNum) {
 

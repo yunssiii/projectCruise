@@ -54,30 +54,10 @@ public class MypageController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
-    /*
-        계좌 등록 메소드
-
-    @PostMapping("/mypage/mypage_all")
-    public ModelAndView accountInsert(@RequestParam String anum) throws Exception{
-
-        String email = "hchdbsgk@naver.com";
-
-        System.out.println("번호 : "+ anum);
-
-        ModelAndView mav = new ModelAndView();
-
-        mypageService.insertAccount(email,anum);
-
-        mav.setViewName("redirect:/mypage/mypage_all");
-
-        return mav;
-    }
-     */
-
-
     /*
         계좌 내역 조회
+        ajax로 클라이언트 - 서버 통신
+        서버로 보낼 데이터 json 타입에 담기
      */
     @PostMapping("/mypage/useAccount")
     @ResponseBody
@@ -88,9 +68,10 @@ public class MypageController {
         JSONArray jsonArray = new JSONArray();
         HashMap<String,Object> hashMap = new HashMap<>();
 
-        //System.out.println("Month : " + months);
-        //System.out.println("------계좌번호 : "+accountNum);
+        System.out.println("몇 개월 선택(클->서) test >>>>> " + months);
+        System.out.println("계좌번호(클->서) test >>>>> "+accountNum);
 
+        //클라이언트에서 가져온 month로 1,3,6개월 조건 주기
         if(months == 1){
             List<OpenBankUsingDTO> useAccounts1 = mypageService.getUseAccounts(accountNum,months);
 
@@ -105,7 +86,7 @@ public class MypageController {
                 jsonArray.add(jsonObject);
             }
 
-            System.out.println("1달 계좌내역-> " + jsonArray);
+            System.out.println("1개월 거래내역(서->클) test >>>>> " + jsonArray);
 
             return jsonArray;
 
@@ -124,12 +105,11 @@ public class MypageController {
                 jsonArray.add(jsonObject);
             }
 
-            System.out.println("3달 계좌내역-> " + jsonArray);
+            System.out.println("3개월 거래내역(서->클) test >>>>>> " + jsonArray);
 
             return jsonArray;
 
         }else if(months == 6){
-
 
             List<OpenBankUsingDTO> useAccounts3 = mypageService.getUseAccounts(accountNum,months);
 
@@ -140,23 +120,22 @@ public class MypageController {
                 hashMap.put("openUseIn", useAccounts3.get(i).getOpenuse_inmoney());
                 hashMap.put("openUseOut", useAccounts3.get(i).getOpenuse_outmoney());
 
-
                 jsonObject = new JSONObject(hashMap);
                 jsonArray.add(jsonObject);
             }
 
-            System.out.println("6달 계좌내역-> " + jsonArray);
+            System.out.println("6개월 거래내역(서->클) test >>>>> " + jsonArray);
 
             return jsonArray;
         }
 
         return jsonArray;
-
     }
 
     /*
         계좌명 수정
-        수정 후 뿌려주기 위해 다시 조회
+        ajax로 클라이언트 - 서버 통신
+        수정 후 새로고침없이 변경된 값 조회
      */
     @PostMapping("/mypage/updateAname")
     @ResponseBody
@@ -170,8 +149,6 @@ public class MypageController {
         //세션에서 가져온 이메일
         String email = (String) session.getAttribute("email");
 
-        System.out.println(email);
-
         mypageService.updateAname(myaccountName,myaccountNum); //계좌명 수정
         List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //하나의 가상계좌정보
 
@@ -183,7 +160,7 @@ public class MypageController {
 
         }
 
-        System.out.println("변경된 계좌명-> " + jsonArray);
+        System.out.println("수정된 계좌명(서->클) test >>>>> " + jsonArray);
 
         return jsonArray;
     }
@@ -205,26 +182,28 @@ public class MypageController {
     @PostMapping("/mypage/mypage_all_ok")
     @ResponseBody
     public String delCrew(@RequestParam("crewNum") int crewNum,HttpServletRequest request) throws  Exception {
-        //ModelAndView mav = new ModelAndView();
+
         String Response = "";
 
         //crew삭제값
         int delcrews = 0;
 
-        System.out.println("crewNum-> " + crewNum);
+        System.out.println("크루 번호 (클->서) test >>>>> " + crewNum);
 
         //세션에서 가져온 이메일
         HttpSession session = request.getSession();
         String email = (String)session.getAttribute("email");
         String capEmail = mypageService.getOneCaptain(email,crewNum);
 
-        System.out.println("캡틴 이메일-> " + capEmail);
+        System.out.println("조회한 캡틴 이메일 test >>>>> " + capEmail);
 
+        //캡틴 이메일과 같은 면 삭제 불가능
         if(capEmail.equals(email)){
             Response = "none";
         }else {
             //삭제
             delcrews = mypageService.deleteCrew(email,crewNum);
+            //삭제가 정상적으로 처리되면
             if(delcrews == 1){
                 Response = "OK";
             }else{
@@ -236,7 +215,7 @@ public class MypageController {
     }
 
     /*
-        크루즈웹 비밀번호 페이지
+       웹 비밀번호 페이지
     */
     @GetMapping("mypage/mypage_webPassword")
     public ModelAndView webPassword(HttpServletRequest request) throws Exception {
@@ -284,6 +263,7 @@ public class MypageController {
 
     /*
         일정 조회
+        ajax로 클라이언트 - 서버 통신
      */
     @RequestMapping("/mypage/mypage_all_sche")
     @ResponseBody
@@ -313,6 +293,7 @@ public class MypageController {
 
     /*
         하루 선택 시 일정 조회
+        ajax로 클라이언트 - 서버 통신
     */
     @RequestMapping("/mypage/mypage_onedaySche")
     @ResponseBody
@@ -325,18 +306,14 @@ public class MypageController {
 
         List<ScheduleDTO> onedayScheLists = mypageService.getOneSchedule(email,clickDate);
 
-        System.out.println("하루 일정 조회>>>>>>>>>" + onedayScheLists);
+        System.out.println("하루 일정 조회 test >>>>> " + onedayScheLists);
 
         for(int i=0;i<onedayScheLists.size();i++){
             int getCrewName = onedayScheLists.get(i).getCrew_num();
 
-            System.out.println("하루 일정 크루번호 >>>>>>>>>" + getCrewName);
-
             String crewName = mypageService.getScheCrewName(email,getCrewName);
 
             onedayScheLists.get(i).setCrew_name(crewName);
-
-            System.out.println("하루 일정 조회2222 >>>>>>>>>" + onedayScheLists);
 
             hashMap.put("title", onedayScheLists.get(i).getSche_title());
             hashMap.put("start", onedayScheLists.get(i).getSche_start());
@@ -350,15 +327,14 @@ public class MypageController {
 
         }
 
-        System.out.println("JSON형태의 하루 일정 >>>>>>>>>" + jsonArray);
+        System.out.println("하루 일정 (서->클) test >>>>>>" + jsonArray);
 
         return jsonArray;
 
     }
 
-
     /*
-        내 정보 수정 페이지 - get방식, 보여주기
+        내 정보 수정 페이지 - get방식, 조회
      */
     @GetMapping("mypage/mypage_myInfo")
     public ModelAndView myInfo(HttpServletRequest request) throws Exception {
@@ -380,7 +356,7 @@ public class MypageController {
     }
 
     /*
-        내 정보 수정 페이지 - post방식, 찐 수정
+        내 정보 수정 페이지 - post방식, 진짜 정보 수정
      */
     @PostMapping("mypage/mypage_myInfo")
     public ModelAndView myInfo(HttpSession session,@RequestParam("tel") String tel,
@@ -405,15 +381,10 @@ public class MypageController {
         내 정보 수정 페이지 - post방식, 비밀번호만 수정
      */
     @PostMapping("mypage/mypage_myInfo_pwd")
-    public ModelAndView myPWd(HttpServletResponse response,HttpSession session,@RequestParam("newPwd") String newPwd,@RequestParam("chkNewPwd") String chkNewPwd) throws Exception {
+    public ModelAndView myPWd(HttpSession session,@RequestParam("newPwd") String newPwd,@RequestParam("chkNewPwd") String chkNewPwd) throws Exception {
 
         //세션에서 가져온 이메일
         String email = (String) session.getAttribute("email");
-
-        response.setContentType("text/html; charset=utf-8");
-        PrintWriter out = response.getWriter();
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         String rawPassword = newPwd; 
         String encPassword = bCryptPasswordEncoder.encode(rawPassword); //해싱한 비밀번호
@@ -433,7 +404,7 @@ public class MypageController {
     }
 
     /*
-        내 게시글 페이지
+        내 게시글 페이지 조회
      */
     @GetMapping("mypage/mypage_board")
     public ModelAndView myBoard(HttpServletRequest request) throws Exception {
@@ -508,13 +479,9 @@ public class MypageController {
     @PostMapping("mypage/mypage_board_board")
     public void myBoardDel(@RequestParam(value = "chkBoardLists[]") List<String> chkBoardLists) throws Exception {
 
-        //String email = "hchdbsgk@naver.com";
-
         //게시글 삭제
         for (String str : chkBoardLists){
             int chkBoards = Integer.parseInt(str);
-
-            System.out.println("------이거야2 : "+chkBoards);
 
             mypageService.deleteMyboard(chkBoards);
 
@@ -524,22 +491,17 @@ public class MypageController {
     @PostMapping("mypage/mypage_board_comment")
     public void myCommentDel(@RequestParam(value = "chkCommentLists[]") List<String> chkCommentLists) throws Exception {
 
-        //String email = "hchdbsgk@naver.com";
-
-        //게시글 삭제
+        //댓글 삭제
         for (String str : chkCommentLists){
             int chkComments = Integer.parseInt(str);
-
-            System.out.println("------이거야댓 : "+chkComments);
 
             mypageService.deleteMycomment(chkComments);
 
         }
     }
 
-
     /*
-        내 알림 페이지
+        내 알림 페이지 조회
      */
     @GetMapping("mypage/mypage_myAlert")
     public ModelAndView myAlert(HttpServletRequest request) throws Exception {
@@ -550,11 +512,8 @@ public class MypageController {
 
         UserDTO userInfo = mypageService.getUserInfo(email);
         List<MyAlertDTO> myAlertList = mypageService.getMyalert(email);
-        //List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
 
-        //보드넘, 크루이름 피료..
-
-        //크루 넘으로 크루네임 가져와서 myAlertList에 넣기
+        //crewNum으로 crewName 가져와서 myAlertList에 넣기
         for (int i=0;i<myAlertList.size();i++) {
             String crewName = mypageService.getCrewName(myAlertList.get(i).getCrew_num());
             myAlertList.get(i).setCrew_name(crewName);
@@ -564,8 +523,6 @@ public class MypageController {
 
         mav.addObject("userInfo",userInfo); //왼쪽 바에 이름/이메일
         mav.addObject("myAlertList",myAlertList);
-
-        //System.out.println("보드넘 >>>>" + myAlertList.get(0).getBoard_num());
 
         mav.setViewName("mypage/mypage_alert");
 
@@ -579,16 +536,11 @@ public class MypageController {
     @PostMapping("mypage/mypage_myAlert")
     public void delMyAlert(@RequestParam(value = "chkAlertLists[]") List<String> chkAlertLists) throws Exception {
 
-        //String email = "hchdbsgk@naver.com";
-
         //게시글 삭제
         for (String str : chkAlertLists){
             int chkMyalert = Integer.parseInt(str);
 
-            System.out.println("삭제할 게시글 >>>>>>>>"+chkMyalert);
-
             mypageService.deleteMyalert(chkMyalert);
-
         }
     }
 
@@ -605,7 +557,6 @@ public class MypageController {
 
     }
 
-
     /*
         nav 알림 데이터
     */
@@ -620,16 +571,7 @@ public class MypageController {
         //세션에서 가져온 이메일
         String email = (String) session.getAttribute("email");
 
-        //System.out.println(email);
-
         List<MyAlertDTO> navAlertList = mypageService.getNavAlert(email);
-        //List<CrewBoardDTO> myBoardLists = mypageService.getMyboardLink(email); //내 게시글 조회
-
-//        //게시글 크루명 조회 후 myBoardLists 넣기
-//        for (CrewBoardDTO dto : myBoardLists){
-//            String boardStr = mypageService.getCrewName(dto.getCrew_num());
-//            dto.setCrew_name(boardStr);
-//        }
 
         for (int i=0;i<navAlertList.size();i++) {
             String crewName = mypageService.getCrewName(navAlertList.get(i).getCrew_num());
@@ -643,18 +585,15 @@ public class MypageController {
             hashMap.put("crewNum", navAlertList.get(i).getCrew_num());
             hashMap.put("boardNum", navAlertList.get(i).getBoard_num());
             hashMap.put("crewName", navAlertList.get(i).getCrew_name());
-//            hashMap.put("boardNum", myBoardLists.get(i).getBoard_num());
-//            hashMap.put("crewName", myBoardLists.get(i).getCrew_name());
 
             jsonObject = new JSONObject(hashMap);
             jsonArray.add(jsonObject);
 
         }
 
-        System.out.println("조회될 네비바 알림 >>>>>>>>> " + jsonArray);
+        System.out.println("nav alert (서->클) test >>>>>> " + jsonArray);
 
         return jsonArray;
     }
-
 
 }
