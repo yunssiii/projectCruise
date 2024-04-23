@@ -10,8 +10,7 @@ import javax.annotation.Resource;
 @RestController
 public class TemplateController {
 
-    //안녕?
-    ////
+    //test 
     @Resource
     private TemplateService templateService;
 
