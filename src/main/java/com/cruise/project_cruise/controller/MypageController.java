@@ -60,8 +60,7 @@ public class MypageController {
         서버로 보낼 데이터 json 타입에 담기
      */
     @PostMapping("/mypage/useAccount")
-    @ResponseBody
-    public List<Map<String,Object>> useAccount(@RequestParam("accountNum") String accountNum,
+    public JSONArray useAccount(@RequestParam("accountNum") String accountNum,
                                    @RequestParam("months") int months) throws Exception{
 
         JSONObject jsonObject = new JSONObject();
@@ -71,65 +70,67 @@ public class MypageController {
         System.out.println("몇 개월 선택(클->서) test >>>>> " + months);
         System.out.println("계좌번호(클->서) test >>>>> "+accountNum);
 
-        //클라이언트에서 가져온 month로 1,3,6개월 조건 주기
-        if(months == 1){
-            List<OpenBankUsingDTO> useAccounts1 = mypageService.getUseAccounts(accountNum,months);
-
-            for(int i=0;i<useAccounts1.size();i++){
-                hashMap.put("openUseDate", useAccounts1.get(i).getOpenuse_date());
-                hashMap.put("openUseContent", useAccounts1.get(i).getOpenuse_content());
-                hashMap.put("openuseAssort", useAccounts1.get(i).getOpenuse_assort());
-                hashMap.put("openUseIn", useAccounts1.get(i).getOpenuse_inmoney());
-                hashMap.put("openUseOut", useAccounts1.get(i).getOpenuse_outmoney());
-
-                jsonObject = new JSONObject(hashMap);
-                jsonArray.add(jsonObject);
-            }
-
-            System.out.println("1개월 거래내역(서->클) test >>>>> " + jsonArray);
-
-            return jsonArray;
-
-        }else if(months == 3){
-
-            List<OpenBankUsingDTO> useAccounts2 = mypageService.getUseAccounts(accountNum,months);
-
-            for(int i=0;i<useAccounts2.size();i++){
-                hashMap.put("openUseDate", useAccounts2.get(i).getOpenuse_date());
-                hashMap.put("openUseContent", useAccounts2.get(i).getOpenuse_content());
-                hashMap.put("openuseAssort", useAccounts2.get(i).getOpenuse_assort());
-                hashMap.put("openUseIn", useAccounts2.get(i).getOpenuse_inmoney());
-                hashMap.put("openUseOut", useAccounts2.get(i).getOpenuse_outmoney());
-
-                jsonObject = new JSONObject(hashMap);
-                jsonArray.add(jsonObject);
-            }
-
-            System.out.println("3개월 거래내역(서->클) test >>>>>> " + jsonArray);
-
-            return jsonArray;
-
-        }else if(months == 6){
-
-            List<OpenBankUsingDTO> useAccounts3 = mypageService.getUseAccounts(accountNum,months);
-
-            for(int i=0;i<useAccounts3.size();i++){
-                hashMap.put("openUseDate", useAccounts3.get(i).getOpenuse_date());
-                hashMap.put("openUseContent", useAccounts3.get(i).getOpenuse_content());
-                hashMap.put("openuseAssort", useAccounts3.get(i).getOpenuse_assort());
-                hashMap.put("openUseIn", useAccounts3.get(i).getOpenuse_inmoney());
-                hashMap.put("openUseOut", useAccounts3.get(i).getOpenuse_outmoney());
-
-                jsonObject = new JSONObject(hashMap);
-                jsonArray.add(jsonObject);
-            }
-
-            System.out.println("6개월 거래내역(서->클) test >>>>> " + jsonArray);
-
-            return jsonArray;
-        }
+        jsonArray = mypageService.getUseAccounts(accountNum,months);
 
         return jsonArray;
+
+        //클라이언트에서 가져온 month로 1,3,6개월 조건 주기
+//        if(months == 1){
+//            List<OpenBankUsingDTO> useAccounts1 = mypageService.getUseAccounts(accountNum,months);
+//
+//            for(int i=0;i<useAccounts1.size();i++){
+//                hashMap.put("openUseDate", useAccounts1.get(i).getOpenuse_date());
+//                hashMap.put("openUseContent", useAccounts1.get(i).getOpenuse_content());
+//                hashMap.put("openuseAssort", useAccounts1.get(i).getOpenuse_assort());
+//                hashMap.put("openUseIn", useAccounts1.get(i).getOpenuse_inmoney());
+//                hashMap.put("openUseOut", useAccounts1.get(i).getOpenuse_outmoney());
+//
+//                jsonObject = new JSONObject(hashMap);
+//                jsonArray.add(jsonObject);
+//            }
+//
+//            System.out.println("1개월 거래내역(서->클) test >>>>> " + jsonArray);
+//
+//            return jsonArray;
+//
+//        }else if(months == 3){
+//
+//            List<OpenBankUsingDTO> useAccounts2 = mypageService.getUseAccounts(accountNum,months);
+//
+//            for(int i=0;i<useAccounts2.size();i++){
+//                hashMap.put("openUseDate", useAccounts2.get(i).getOpenuse_date());
+//                hashMap.put("openUseContent", useAccounts2.get(i).getOpenuse_content());
+//                hashMap.put("openuseAssort", useAccounts2.get(i).getOpenuse_assort());
+//                hashMap.put("openUseIn", useAccounts2.get(i).getOpenuse_inmoney());
+//                hashMap.put("openUseOut", useAccounts2.get(i).getOpenuse_outmoney());
+//
+//                jsonObject = new JSONObject(hashMap);
+//                jsonArray.add(jsonObject);
+//            }
+//
+//            System.out.println("3개월 거래내역(서->클) test >>>>>> " + jsonArray);
+//
+//            return jsonArray;
+//
+//        }else if(months == 6){
+//
+//            List<OpenBankUsingDTO> useAccounts3 = mypageService.getUseAccounts(accountNum,months);
+//
+//            for(int i=0;i<useAccounts3.size();i++){
+//                hashMap.put("openUseDate", useAccounts3.get(i).getOpenuse_date());
+//                hashMap.put("openUseContent", useAccounts3.get(i).getOpenuse_content());
+//                hashMap.put("openuseAssort", useAccounts3.get(i).getOpenuse_assort());
+//                hashMap.put("openUseIn", useAccounts3.get(i).getOpenuse_inmoney());
+//                hashMap.put("openUseOut", useAccounts3.get(i).getOpenuse_outmoney());
+//
+//                jsonObject = new JSONObject(hashMap);
+//                jsonArray.add(jsonObject);
+//            }
+//
+//            System.out.println("6개월 거래내역(서->클) test >>>>> " + jsonArray);
+//
+//            return jsonArray;
+//        }
     }
 
     /*
@@ -139,30 +140,32 @@ public class MypageController {
      */
     @PostMapping("/mypage/updateAname")
     @ResponseBody
-    public List<Map<String,Object>> updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,
+    public JSONArray updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,
                                                 @RequestParam("myaccountName") String myaccountName) throws Exception{
 
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        HashMap<String,Object> hashMap = new HashMap<>();
-
-        //세션에서 가져온 이메일
-        String email = (String) session.getAttribute("email");
+        String email = (String) session.getAttribute("email"); //세션에서 가져온 이메일
 
         mypageService.updateAname(myaccountName,myaccountNum); //계좌명 수정
-        List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //하나의 가상계좌정보
-
-        for(int i=0;i<accountLists.size();i++){
-            hashMap.put("selectAname", accountLists.get(i).getMyaccount_name());
-
-            jsonObject = new JSONObject(hashMap);
-            jsonArray.add(jsonObject);
-
-        }
-
-        System.out.println("수정된 계좌명(서->클) test >>>>> " + jsonArray);
+        JSONArray jsonArray = mypageService.updateAname(email,myaccountNum); //하나의 가상계좌정보
 
         return jsonArray;
+
+//        JSONObject jsonObject = new JSONObject();
+//        JSONArray jsonArray = new JSONArray();
+//        HashMap<String,Object> hashMap = new HashMap<>();
+
+//        List<MyAccountDTO> accountLists = mypageService.getOneAccount(email,myaccountNum); //하나의 가상계좌정보
+
+//        for(int i=0;i<accountLists.size();i++){
+//            hashMap.put("selectAname", accountLists.get(i).getMyaccount_name());
+//
+//            jsonObject = new JSONObject(hashMap);
+//            jsonArray.add(jsonObject);
+//
+//        }
+//
+//        System.out.println("수정된 계좌명(서->클) test >>>>> " + jsonArray);
+
     }
 
     /*
@@ -180,38 +183,37 @@ public class MypageController {
         크루 '탈퇴하기' 버튼 누를 때 get방식으로 삭제하는 메소드
      */
     @PostMapping("/mypage/mypage_all_ok")
-    @ResponseBody
     public String delCrew(@RequestParam("crewNum") int crewNum,HttpServletRequest request) throws  Exception {
-
-        String Response = "";
-
-        //crew삭제값
-        int delcrews = 0;
 
         System.out.println("크루 번호 (클->서) test >>>>> " + crewNum);
 
         //세션에서 가져온 이메일
         HttpSession session = request.getSession();
         String email = (String)session.getAttribute("email");
-        String capEmail = mypageService.getOneCaptain(email,crewNum);
 
-        System.out.println("조회한 캡틴 이메일 test >>>>> " + capEmail);
+        String Response = mypageService.getOneCaptain(email,crewNum);
 
-        //캡틴 이메일과 같은 면 삭제 불가능
-        if(capEmail.equals(email)){
-            Response = "none";
-        }else {
-            //삭제
-            delcrews = mypageService.deleteCrew(email,crewNum);
-            //삭제가 정상적으로 처리되면
-            if(delcrews == 1){
-                Response = "OK";
-            }else{
-                Response = "false";
-            }
-        }
         return Response;
 
+//        String Response = "";
+//        int delcrews = 0; //crew삭제값
+//        String capEmail = mypageService.getOneCaptain(email,crewNum);
+//
+//        System.out.println("조회한 캡틴 이메일 test >>>>> " + capEmail);
+//
+//        //캡틴 이메일과 같은 면 삭제 불가능
+//        if(capEmail.equals(email)){
+//            Response = "none";
+//        }else {
+//            //삭제
+//            delcrews = mypageService.deleteCrew(email,crewNum);
+//            //삭제가 정상적으로 처리되면
+//            if(delcrews == 1){
+//                Response = "OK";
+//            }else{
+//                Response = "false";
+//            }
+//        }
     }
 
     /*
@@ -254,7 +256,6 @@ public class MypageController {
 
         if(payPwd !=null){
             mypageService.updateWebpassword(payPwd,email);
-
             mav.setViewName("redirect:/mypage/mypage_all"); //등록/변경 후 마이페이지 메인으로 이동
         }
 
@@ -267,7 +268,7 @@ public class MypageController {
      */
     @RequestMapping("/mypage/mypage_all_sche")
     @ResponseBody
-    public List<Map<String,Object>> loadMySchedule (@RequestParam("email") String email) throws Exception {
+    public JSONArray loadMySchedule (@RequestParam("email") String email) throws Exception {
 
         List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
 
