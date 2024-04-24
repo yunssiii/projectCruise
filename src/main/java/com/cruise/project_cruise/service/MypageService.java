@@ -2,7 +2,6 @@ package com.cruise.project_cruise.service;
 
 import com.cruise.project_cruise.dto.*;
 import com.cruise.project_cruise.dto.develop.OpenBankDTO;
-import com.cruise.project_cruise.dto.develop.OpenBankUsingDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,8 +16,8 @@ public interface MypageService {
     public void insertAccount(@Param("email")String email,@Param("myaccount_anum") String myaccountAnum) throws Exception; //계좌 등록하기
     public  List<MyAccountDTO> getAccountList(String email) throws Exception; //계좌 전체 조회
     public List<OpenBankDTO> getAccountBals(String email) throws Exception; //계좌 전체 중 잔액만 조회
-    public  List<MyAccountDTO> getOneAccount(@Param("email")String email,@Param("myaccount_anum")String myaccountName) throws Exception; //계좌 하나 조회
-    public List<OpenBankUsingDTO> getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception; //계좌 내역 조회
+    public  JSONArray getOneAccount(@Param("email")String email,@Param("myaccount_anum")String myaccountName) throws Exception; //계좌 하나 조회
+    public JSONArray getUseAccounts(@Param("accountNum") String accountNum, @Param("monthNum") int monthNum) throws Exception; //계좌 내역 조회
     public void updateAname(@Param("myaccount_name") String myaccountName,@Param("myaccount_anum")String myaccountNum) throws Exception; //계좌명 수정
     public void deleteMyaccount(String myaccountNum) throws Exception; //등록된 계좌 삭제
     public String getWebpassword(String email) throws Exception; //이체 비밀번호 조회
@@ -34,7 +33,7 @@ public interface MypageService {
     public String getBoardSubject(int boardNum) throws Exception; //게시글 제목 조회
     public void deleteMycomment(int commentNum) throws Exception; //댓글 삭제
     public  int getBoardCount(String email) throws Exception; //게시글 전체 수
-    public List<ScheduleDTO> getSchedule(String email) throws Exception; //일정 조회
+    public JSONArray getSchedule(String email) throws Exception; //일정 조회
     public List<ScheduleDTO> getOneSchedule(@Param("email") String email,@Param("sche_start") String scheStart) throws Exception; //일정 하루 조회
     public String getScheCrewName(@Param("email") String email,@Param("crew_num")int crew_num) throws Exception;
     public void deleteUser(String email) throws Exception; //회원 탈퇴
