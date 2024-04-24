@@ -16,6 +16,9 @@ public class MypageServiceImpl implements MypageService {
     @Autowired
     private MypageMapper mypageMapper;
 
+    @Autowired
+    CrewBoardUtil myUtil;
+
 
     @Override
     public List<CrewDTO> getCrews(String email) throws Exception {
@@ -29,7 +32,7 @@ public class MypageServiceImpl implements MypageService {
         String Response = ""; //응답 변수
         int delcrews = 0; //삭제 여부
 
-        String capEmail = getOneCaptain(email,crewNum);
+        String capEmail = mypageMapper.getOneCaptain(email,crewNum);
 
         System.out.println("조회한 캡틴 이메일 test >>>>> " + capEmail);
 
@@ -38,7 +41,7 @@ public class MypageServiceImpl implements MypageService {
             Response = "none";
         }else {
             //삭제
-            delcrews = deleteCrew(email,crewNum);
+            delcrews = mypageMapper.deleteCrew(email,crewNum);
             //삭제가 정상적으로 처리되면
             if(delcrews == 1){
                 Response = "OK";
@@ -89,7 +92,7 @@ public class MypageServiceImpl implements MypageService {
         JSONArray jsonArray = new JSONArray();
         HashMap<String,Object> hashMap = new HashMap<>();
 
-        List<MyAccountDTO> accountLists = getOneAccount(email,myaccountName); //하나의 가상계좌정보
+        List<MyAccountDTO> accountLists = mypageMapper.getOneAccount(email,myaccountName); //하나의 가상계좌정보
 
         for(MyAccountDTO list : accountLists){
             hashMap.put("selectAname", list.getMyaccount_name());
@@ -112,7 +115,7 @@ public class MypageServiceImpl implements MypageService {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
-        List<OpenBankUsingDTO> useAccounts1 = getUseAccounts(accountNum,monthNum);
+        List<OpenBankUsingDTO> useAccounts1 = mypageMapper.getUseAccounts(accountNum,monthNum);
 
         //month 1,3,6
         for(OpenBankUsingDTO list1 : useAccounts1){
@@ -153,6 +156,7 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public UserDTO getUserInfo(String email) throws Exception {
+
         return mypageMapper.getUserInfo(email);
     }
 
@@ -173,7 +177,19 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<CrewBoardDTO> getMyboard(String email, int start, int end) throws Exception {
-        return mypageMapper.getMyboard(email,start,end);
+
+        //내 게시글 조회 후 조회된 게시글 중 게시글 번호를 꺼내 getCrewName에 사용
+        //게시글 크루명 조회 후 myBoardLists에 set
+
+        List<CrewBoardDTO> myBoardLists = mypageMapper.getMyboard(email,start,end); //내 게시글 조회
+
+        //게시글 크루명 조회 후 myBoardLists 넣기
+        for (CrewBoardDTO dto : myBoardLists) {
+            String boardStr = mypageMapper.getCrewName(dto.getCrew_num());
+            dto.setCrew_name(boardStr);
+        }
+
+        return myBoardLists;
     }
 
 
@@ -184,7 +200,18 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<CrewCommentDTO> getMyComment(String email) throws Exception {
-        return mypageMapper.getMyComment(email);
+
+        List<CrewCommentDTO> myCommentLists = mypageMapper.getMyComment(email); //내 댓글 조회
+
+        for (CrewCommentDTO dto : myCommentLists){
+            String commentStr = mypageService.getCrewName(dto.getCrew_num());
+            String commentSubject = mypageService.getBoardSubject(dto.getBoard_num());
+
+            dto.setCrew_name(commentStr);
+            dto.setBoard_subject(commentSubject);
+        }
+
+        return myCommentLists;
     }
 
 
@@ -200,7 +227,14 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public int getBoardCount(String email) throws Exception {
-        return mypageMapper.getBoardCount(email);
+
+        //totalpage를 반환
+
+        int numPerPage = 5; //한 페이지 표시될 게시글 수
+        int boardCount = mypageMapper.getBoardCount(email);
+        int totalPage = myUtil.getPageCount(numPerPage,boardCount);
+
+        return totalPage;
     }
 
     @Override
@@ -229,8 +263,37 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public List<ScheduleDTO> getOneSchedule(String email, String scheStart) throws Exception {
-        return mypageMapper.getOneSchedule(email,scheStart);
+    public JSONArray getOneSchedule(String email, String scheStart) throws Exception {
+
+        //jsonarray로 return하기
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        HashMap<String,Object> hashMap = new HashMap<>();
+
+        List<ScheduleDTO> onedayScheLists = getOneSchedule(email,clickDate);
+
+        System.out.println("하루 일정 조회 test >>>>> " + onedayScheLists);
+
+        for (ScheduleDTO dtoList : onedayScheLists){
+            int getCrewName = dtoList..getCrew_num();
+            String crewName = getScheCrewName(email,getCrewName);
+
+            dtoList.setCrew_name(crewName);
+
+            hashMap.put("title", dtoList.getSche_title());
+            hashMap.put("start", dtoList.getSche_start());
+            hashMap.put("end", dtoList.getSche_end());
+            hashMap.put("allDay", dtoList.getSche_alldayTF());
+            hashMap.put("color", dtoList.getSche_assort());
+            hashMap.put("crewName", dtoList.getCrew_name());
+
+            jsonObject = new JSONObject(hashMap);
+            jsonArray.add(jsonObject);
+        }
+
+        System.out.println("하루 일정 (서->클) test >>>>>>" + jsonArray);
+
+        return jsonArray;
     }
 
     @Override
@@ -257,7 +320,16 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<MyAlertDTO> getMyalert(String email) throws Exception {
-        return mypageMapper.getMyalert(email);
+
+        List<MyAlertDTO> myAlertList = mypageMapper.getMyalert(email);
+
+        //crewNum으로 crewName 가져와서 myAlertList에 넣기
+        for(MyAlertDTO dto : myAlertList){
+            String crewName = mypageMapper.getCrewName(dto.getCrew_num());
+            dto.setCrew_name(crewName);
+        }
+
+        return myAlertList;
     }
 
     @Override
@@ -267,6 +339,9 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<MyAlertDTO> getNavAlert(String email) throws Exception {
+
+
+
         return mypageMapper.getNavAlert(email);
     }
 
@@ -277,6 +352,7 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<CrewBoardDTO> getMyboardLink(String emil) throws Exception {
+
         return mypageMapper.getMyboardLink(emil);
     }
 
