@@ -139,7 +139,6 @@ public class MypageController {
         수정 후 새로고침없이 변경된 값 조회
      */
     @PostMapping("/mypage/updateAname")
-    @ResponseBody
     public JSONArray updateAname(HttpSession session,@RequestParam("myaccountNum") String myaccountNum,
                                                 @RequestParam("myaccountName") String myaccountName) throws Exception{
 
@@ -267,29 +266,30 @@ public class MypageController {
         ajax로 클라이언트 - 서버 통신
      */
     @RequestMapping("/mypage/mypage_all_sche")
-    @ResponseBody
     public JSONArray loadMySchedule (@RequestParam("email") String email) throws Exception {
 
-        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
-
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-
-        HashMap<String,Object> hashMap = new HashMap<>();
-
-        for (int i=0;i<myScheLists.size();i++) {
-            hashMap.put("title", myScheLists.get(i).getSche_title());
-            hashMap.put("start", myScheLists.get(i).getSche_start());
-            hashMap.put("end", myScheLists.get(i).getSche_end());
-            hashMap.put("allDay", myScheLists.get(i).getSche_alldayTF());
-            hashMap.put("color", myScheLists.get(i).getSche_assort());
-            hashMap.put("textColor", "#FFFFFF");
-
-            jsonObject = new JSONObject(hashMap);
-            jsonArray.add(jsonObject);
-        }
+        JSONArray jsonArray = mypageService.getSchedule(email);
 
         return jsonArray;
+
+//        List<ScheduleDTO> myScheLists = mypageService.getSchedule(email); //로그인한 사용자의 일정들
+//
+//        JSONObject jsonObject = new JSONObject();
+//        JSONArray jsonArray = new JSONArray();
+//
+//        HashMap<String,Object> hashMap = new HashMap<>();
+//
+//        for (int i=0;i<myScheLists.size();i++) {
+//            hashMap.put("title", myScheLists.get(i).getSche_title());
+//            hashMap.put("start", myScheLists.get(i).getSche_start());
+//            hashMap.put("end", myScheLists.get(i).getSche_end());
+//            hashMap.put("allDay", myScheLists.get(i).getSche_alldayTF());
+//            hashMap.put("color", myScheLists.get(i).getSche_assort());
+//            hashMap.put("textColor", "#FFFFFF");
+//
+//            jsonObject = new JSONObject(hashMap);
+//            jsonArray.add(jsonObject);
+//        }
     }
 
     /*
